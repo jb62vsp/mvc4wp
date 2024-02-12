@@ -1,0 +1,66 @@
+version: '2'
+
+services:
+  wordpress:
+    build: ./build
+    ports:
+    - 8085:80
+    networks:
+    - wp_mvc_internal
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ./utc.ini:/usr/local/etc/php/conf.d/utc.ini
+    - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    - ../:/var/www/html/wordpress/wp-content/themes/wp_mvc
+    depends_on:
+    - mysql
+    environment:
+    - WP_SUBDIR=wordpress
+    - WORDPRESS_DB_HOST=mysql
+    - WORDPRESS_DB_USER=wp
+    - WORDPRESS_DB_PASSWORD=wp
+    - WORDPRESS_DB_NAME=wp
+
+  mysql:
+    image: mysql:5.7
+    networks:
+    - wp_mvc_internal
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - wp_mvc_db:/var/lib/mysql
+    environment:
+    - MYSQL_DATABASE=wp
+    - MYSQL_USER=wp
+    - MYSQL_PASSWORD=wp
+    - MYSQL_RANDOM_ROOT_PASSWORD=1
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+    - mysql
+    networks:
+    - wp_mvc_internal
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    environment:
+    - PMA_ARBITARITY=1
+    - PMA_HOST=mysql
+    - PMA_USER=wp
+    - PMA_PASSWORD=wp
+    ports:
+    - 18085:80
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    networks:
+    - wp_mvc_internal
+    ports:
+    - 28085:8025
+
+networks:
+  wp_mvc_internal:
+    external: true
+volumes:
+  wp_mvc_db:
+    external: true
