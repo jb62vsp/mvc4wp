@@ -10,8 +10,15 @@ trait ApplicationTrait
 {
     public function execute(ConfigInterface $config, RouterInterface $router): void
     {
+        $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
+        if (isset($_POST['_method'])) {
+            $request_method = strtoupper($_POST['_method']);
+        } elseif (isset($_POST['_METHOD'])) {
+            $request_method = strtoupper($_POST['_METHOD']);
+        }
+
         /** @var RouteHandler $route */
-        $route = $router->dispatch($config, $_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $route = $router->dispatch($config, $request_method, $_SERVER['REQUEST_URI']);
 
         if ($route->status !== HttpStatus::OK) {
             return;

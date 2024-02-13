@@ -25,14 +25,14 @@ $app = new System\Application\Application();
  * --------------------------------------------------------------------
  */
 // sample
-// $app->get('/', 'HomeController::index');
-// $app->get('/home', 'HomeController::index');
-// $app->get('/home/index', 'HomeController::index');
-// $app->get('/home/other/{id:\d+}', 'HomeController::other');
-// $app->get('/home/redirect', 'HomeController::redirect');
-// $app->post('/home', 'HomeController::register');
-// $app->put('/home/{id:\d+}', 'HomeController::update');
-// $app->delete('/home/{id:\d+}', 'HomeController::delete');
+$app->get('/', 'HomeController::index');
+$app->get('/home', 'HomeController::index');
+$app->get('/home/index', 'HomeController::index');
+$app->get('/home/other/{id:\d+}', 'HomeController::other');
+$app->get('/home/redirect', 'HomeController::redirect');
+$app->post('/home', 'HomeController::register');
+$app->put('/home/{id:\d+}', 'HomeController::update');
+$app->delete('/home/{id:\d+}', 'HomeController::delete');
 
 
 /*
