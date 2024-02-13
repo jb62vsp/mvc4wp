@@ -12,13 +12,14 @@
     "extensions": [],
     "vscode": {
       "extensions": [
-        "ms-azuretools.vscode-docker",
         "bmewburn.vscode-intelephense-client",
         "DEVSENSE.composer-php-vscode",
         "DEVSENSE.phptools-vscode",
         "DEVSENSE.profiler-php-vscode",
+        "emallin.phpunit",
         "glenn2223.live-sass",
         "josee9988.minifyall",
+        "ms-azuretools.vscode-docker",
         "MS-CEINTL.vscode-language-pack-ja",
         "ms-vscode.makefile-tools",
         "naumstory.vscode-csscomb",
