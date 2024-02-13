@@ -2,12 +2,15 @@
 namespace System\Application;
 
 use System\Config\ConfigInterface;
+use System\Core\Cast;
 use System\Core\HttpStatus;
 use System\Route\RouteHandler;
 use System\Route\RouterInterface;
 
 trait ApplicationTrait
 {
+    use Cast;
+    
     public function execute(ConfigInterface $config, RouterInterface $router): void
     {
         $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
