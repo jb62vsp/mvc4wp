@@ -4,7 +4,7 @@ namespace System\Response;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 
-trait HtmlRenderTrait
+trait PlainPhpRenderTrait
 {
 
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self

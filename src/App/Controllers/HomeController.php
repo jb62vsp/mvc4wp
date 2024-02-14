@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace App\Controllers;
 
-use System\Controllers\HtmlController;
+use System\Controllers\PlainPhpController;
 use System\Core\Cast;
 
-class HomeController extends HtmlController
+class HomeController extends PlainPhpController
 {
     use Cast;
 
