@@ -2,5 +2,5 @@
 .phpunit.cache/
 /.tmp/
 /vendor/
-public/coverage.txt
-public/coverage/
+coverage.txt
+coverage/
