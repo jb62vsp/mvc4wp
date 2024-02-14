@@ -18,6 +18,6 @@ abstract class Controller implements RenderInterface, ResponderInterface
 
     public function view(string $view_name, array $data = []): self
     {
-        return $this->render($this->config, $view_name, $data);
+        return $this->render($this->config, $this->responder(), $view_name, $data);
     }
 }

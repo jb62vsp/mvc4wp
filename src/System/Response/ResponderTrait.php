@@ -5,8 +5,6 @@ use System\Core\HttpStatus;
 
 trait ResponderTrait
 {
-    use RenderTrait;
-
     /*
      * --------------------------------------------------------------------
      * HTTP response section
@@ -81,6 +79,11 @@ trait ResponderTrait
         599 => 'Network Connect Timeout Error',
     ];
 
+    public function responder(): self
+    {
+        return $this;
+    }
+
     public function done(): never
     {
         exit();
@@ -106,11 +109,17 @@ trait ResponderTrait
         return $this->Response(HttpStatus::NOT_FOUND);
     }
 
+    public function header(string $message): self
+    {
+        header($message, false);
+        return $this;
+    }
+
     public function response(HttpStatus $status_code = HttpStatus::OK, bool $replace = true, string $addition = ""): self
     {
         header($this->createResponse($status_code), $replace, $status_code->value);
         if (!empty($addition)) {
-            header($addition);
+            $this->header($addition);
         }
         return $this;
     }

@@ -33,6 +33,7 @@ $app->get('/home/redirect', 'HomeController::redirect');
 $app->post('/home', 'HomeController::register');
 $app->put('/home/{id:\d+}', 'HomeController::update');
 $app->delete('/home/{id:\d+}', 'HomeController::delete');
+$app->get('/ajax', 'AjaxController::index');
 
 
 /*

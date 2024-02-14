@@ -1,11 +1,13 @@
-<?php
-
+<?php declare(strict_types=1);
 namespace App\Controllers;
 
-use System\Controllers\Controller;
+use System\Controllers\HtmlController;
+use System\Core\Cast;
 
-class HomeController extends Controller
+class HomeController extends HtmlController
 {
+    use Cast;
+
     private string $name;
 
     public function init(): void
@@ -15,14 +17,16 @@ class HomeController extends Controller
 
     public function index(): void
     {
+        $data = [
+            'this' => $this,
+            'title' => $this->name,
+            'test' => 'world',
+        ];
+
         $this->ok();
         $this
-            ->view('header', [
-                'title' => $this->name,
-            ])
-            ->view('body', [
-                'test' => 'world',
-            ])
+            ->view('header', $data)
+            ->view('body', $data)
             ->view('footer')
             ->done();
     }
@@ -30,20 +34,21 @@ class HomeController extends Controller
     public function other(array $args): void
     {
         $id = intval($args['id']);
-
         if ($id === 0) {
             $this->notFound()
                 ->done();
         }
 
+        $data = [
+            'this' => $this,
+            'title' => $this->name,
+            'test' => 'world',
+        ];
+
         $this->ok();
         $this
-            ->view('header', [
-                'title' => $this->name,
-            ])
-            ->view('body', [
-                'test' => $id,
-            ])
+            ->view('header', $data)
+            ->view('body', $data)
             ->view('footer')
             ->done();
     }
