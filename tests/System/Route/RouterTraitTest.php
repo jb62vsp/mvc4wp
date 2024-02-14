@@ -1,11 +1,15 @@
 <?php declare(strict_types=1);
 namespace System\Route;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Config\ConfigTrait;
 
+#[CoversClass(ConfigTrait::class)]
+#[CoversClass(RouteHandler::class)]
+#[CoversClass(RouterTrait::class)]
 class RouterTraitTest extends TestCase
 {
     private function getRouter(): RouterInterface
