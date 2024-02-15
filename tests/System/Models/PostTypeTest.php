@@ -1,31 +1,66 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
-use Attribute;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionAttribute;
-use ReflectionClass;
+use System\Exception\ApplicationException;
 
 #[CoversClass(PostType::class)]
 class PostTypeTest extends TestCase
 {
-    public function test_getAttributes01(): void
+    public function test_construct(): void
     {
-        $ref = new ReflectionClass(PostTypeTestMockA::class);
-        $attrs = $ref->getAttributes(PostType::class);
+        $obj = new PostType();
+        $this->assertNotNull($obj);
+    }
 
-        $this->assertCount(1, $attrs);
-        $this->assertInstanceOf(ReflectionAttribute::class, $attrs[0]);
-        $this->assertEquals('System\\Models\\PostType', $attrs[0]->getName());
-        $this->assertEquals(Attribute::TARGET_CLASS, $attrs[0]->getTarget());
-        $this->assertCount(1, $attrs[0]->getArguments());
-        $this->assertArrayHasKey('post_type', $attrs[0]->getArguments());
-        $this->assertEquals('mock', $attrs[0]->getArguments()['post_type']);
+    public function test_getPostType01(): void
+    {
+        $post_type = PostType::getPostType(PostTypeTestMockA::class);
+        $this->assertEquals('mock_a', $post_type);
+    }
+
+    public function test_getPostType02(): void
+    {
+        $post_type = PostType::getPostType(PostTypeTestMockB::class);
+        $this->assertEquals('mock_b', $post_type);
+    }
+
+    public function test_getPostType03(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('duplicate PostType.');
+        PostType::getPostType(PostTypeTestMockC::class);
+    }
+
+    public function test_getPostType04(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('duplicate parameters.');
+        PostType::getPostType(PostTypeTestMockD::class);
     }
 }
 
-#[PostType(post_type: 'mock')]
+#[PostType(post_type: 'mock_a')]
 class PostTypeTestMockA
+{
+}
+
+#[PostType('mock_b')]
+class PostTypeTestMockB
+{
+}
+
+
+#[PostType('a')]
+#[PostType('b')]
+class PostTypeTestMockC
+{
+}
+
+#[PostType(hoge: 'a', fuga: 'b')]
+class PostTypeTestMockD
 {
 }
