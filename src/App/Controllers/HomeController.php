@@ -12,7 +12,7 @@ class HomeController extends PlainPhpController
 
     public function init(): void
     {
-        $this->name = 'HomeController';
+        $this->name = 'Home';
     }
 
     public function index(): void
@@ -20,7 +20,6 @@ class HomeController extends PlainPhpController
         $data = [
             'this' => $this,
             'title' => $this->name,
-            'test' => 'world',
         ];
 
         $this->ok();
@@ -35,20 +34,20 @@ class HomeController extends PlainPhpController
     {
         $id = intval($args['id']);
         if ($id === 0) {
-            $this->notFound()
-                ->done();
+            $this->notFound()->done();
         }
 
         $data = [
             'this' => $this,
-            'title' => $this->name,
-            'test' => 'world',
+            'title' => 'other page',
+            'id' => strval($id),
         ];
 
         $this->ok();
         $this
             ->view('header', $data)
             ->view('home/body', $data)
+            ->view('home/other', $data)
             ->view('footer')
             ->done();
     }
@@ -56,21 +55,5 @@ class HomeController extends PlainPhpController
     public function redirect(): void
     {
         $this->seeOther('/home/other/321')->done();
-    }
-
-    public function register(): void
-    {
-        $sample = $_POST['sample'];
-        $this->seeOther('/')->done();
-    }
-
-    public function update(array $args): void
-    {
-        $this->seeOther("/home/other/{$args['id']}")->done();
-    }
-
-    public function delete(array $args): void
-    {
-        $this->seeOther("/home/other/{$args['id']}")->done();
     }
 }

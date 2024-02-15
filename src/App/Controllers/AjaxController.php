@@ -12,8 +12,8 @@ class AjaxController extends JsonController
     {
         $data = [
             'this' => $this,
-            'title' => 'hello',
-            'test' => 'world',
+            'title' => 'ajax',
+            'value' => 123,
         ];
 
         $this->ok();
