@@ -9,7 +9,7 @@ use System\Exception\ApplicationException;
 class PostType
 {
     public function __construct(
-        public string $post_type = '',
+        public string $name,
     ) {
     }
 
@@ -18,15 +18,15 @@ class PostType
         $ref = new ReflectionClass($class);
         $attrs = $ref->getAttributes(PostType::class);
         if (count($attrs) !== 1) {
-            throw new ApplicationException('duplicate PostType.');
+            throw new ApplicationException('illegal to set PostType.');
         }
         $args = $attrs[0]->getArguments();
-        if (array_key_exists('post_type', $args)) {
-            return $args['post_type'];
+        if (array_key_exists('name', $args)) {
+            return $args['name'];
         } elseif (count($args) === 1) {
             return $args[0];
         } else {
-            throw new ApplicationException('duplicate parameters.');
+            throw new ApplicationException('illegal parameters.');
         }
     }
 }

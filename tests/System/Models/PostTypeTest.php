@@ -8,10 +8,18 @@ use System\Exception\ApplicationException;
 #[CoversClass(PostType::class)]
 class PostTypeTest extends TestCase
 {
-    public function test_construct(): void
+    public function test_construct01(): void
     {
-        $obj = new PostType();
+        $obj = new PostType('test');
         $this->assertNotNull($obj);
+        $this->assertEquals('test', $obj->name);
+    }
+
+    public function test_construct02(): void
+    {
+        $obj = new PostType(name: 'test');
+        $this->assertNotNull($obj);
+        $this->assertEquals('test', $obj->name);
     }
 
     public function test_getPostType01(): void
@@ -30,7 +38,7 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate PostType.');
+        $this->expectExceptionMessage('illegal to set PostType.');
         PostType::getPostType(PostTypeTestMockC::class);
     }
 
@@ -38,17 +46,17 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate parameters.');
+        $this->expectExceptionMessage('illegal parameters.');
         PostType::getPostType(PostTypeTestMockD::class);
     }
 }
 
-#[PostType(post_type: 'mock_a')]
+#[PostType('mock_a')]
 class PostTypeTestMockA
 {
 }
 
-#[PostType('mock_b')]
+#[PostType(name: 'mock_b')]
 class PostTypeTestMockB
 {
 }
