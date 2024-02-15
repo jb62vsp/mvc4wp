@@ -13,7 +13,7 @@ class PostType
     ) {
     }
 
-    public static function getPostType(string $class_name): string
+    public static function getName(string $class_name): string
     {
         $ref = new ReflectionClass($class_name);
         $attrs = $ref->getAttributes(PostType::class);

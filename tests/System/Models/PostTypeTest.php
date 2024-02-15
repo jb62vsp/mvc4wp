@@ -22,32 +22,32 @@ class PostTypeTest extends TestCase
         $this->assertEquals('test', $obj->name);
     }
 
-    public function test_getPostType01(): void
+    public function test_getName01(): void
     {
-        $post_type = PostType::getPostType(PostTypeTestMockA::class);
+        $post_type = PostType::getName(PostTypeTestMockA::class);
         $this->assertEquals('mock_a', $post_type);
     }
 
-    public function test_getPostType02(): void
+    public function test_getName02(): void
     {
-        $post_type = PostType::getPostType(PostTypeTestMockB::class);
+        $post_type = PostType::getName(PostTypeTestMockB::class);
         $this->assertEquals('mock_b', $post_type);
     }
 
-    public function test_getPostType03(): void
+    public function test_getName03(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('illegal to set PostType.');
-        PostType::getPostType(PostTypeTestMockC::class);
+        PostType::getName(PostTypeTestMockC::class);
     }
 
-    public function test_getPostType04(): void
+    public function test_getName04(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('illegal parameters.');
-        PostType::getPostType(PostTypeTestMockD::class);
+        PostType::getName(PostTypeTestMockD::class);
     }
 }
 

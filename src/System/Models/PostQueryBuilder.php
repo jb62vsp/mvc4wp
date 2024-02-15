@@ -18,7 +18,7 @@ class PostQueryBuilder
     private function initCriteria(): void
     {
         $this->queries = [
-            'post_type' => PostType::getPostType($this->class_name),
+            'post_type' => PostType::getName($this->class_name),
         ];
     }
 
@@ -40,7 +40,7 @@ class PostQueryBuilder
     {
         $post_types = [];
         foreach ($classes as $class) {
-            array_push($post_types, PostType::getPostType($class));
+            array_push($post_types, PostType::getName($class));
         }
         $this->queries['post_type'] = $post_types;
         return $this;

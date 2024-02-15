@@ -10,14 +10,17 @@
     failOnRisky="true"
     failOnWarning="true">
     <testsuites>
-        <testsuite name="default">
-            <directory>tests</directory>
+        <testsuite name="app">
+            <directory>tests/App</directory>
+        </testsuite>
+        <testsuite name="system">
+            <directory>tests/System</directory>
         </testsuite>
     </testsuites>
 
     <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory>src</directory>
+            <directory>src/System</directory>
         </include>
     </source>
 </phpunit>
