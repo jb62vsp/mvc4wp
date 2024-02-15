@@ -1,4 +1,13 @@
 #
+# vendor
+#
+vendor: composer.json
+	@composer install
+
+vendor_clear: composer.json composer.lock vendor/
+	@rm -rf vendor/ composer.lock
+
+#
 # unit test
 #
 

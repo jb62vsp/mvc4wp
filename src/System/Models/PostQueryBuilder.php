@@ -105,8 +105,11 @@ class PostQueryBuilder
                 $query->the_post();
                 $cls = $this->class_name;
                 $obj = new $cls();
-                $data = get_post(get_the_ID());
+                $id = get_the_ID();
+                $data = get_post($id);
                 $obj->bind($data);
+                $meta = get_post_custom($id);
+                $obj->bind($meta);
                 array_push($result, $obj);
             }
         }
@@ -125,8 +128,11 @@ class PostQueryBuilder
                 $query->the_post();
                 $cls = $this->class_name;
                 $result = new $cls();
-                $data = get_post(get_the_ID());
+                $id = get_the_ID();
+                $data = get_post($id);
                 $result->bind($data);
+                $meta = get_post_custom($id);
+                $result->bind($meta);
                 break;
             }
         }

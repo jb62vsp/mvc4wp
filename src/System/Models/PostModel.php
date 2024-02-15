@@ -28,4 +28,8 @@ class PostModel extends Model
 
     #[BindableField]
     public string $post_content;
+
+    public function __construct() {
+        $this->post_type = PostType::getName(static::class);
+    }
 }

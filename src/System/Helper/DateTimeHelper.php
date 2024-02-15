@@ -20,4 +20,9 @@ final class DateTimeHelper
     {
         return ($value instanceof DateTime) ? $value : new DateTime($value);
     }
+
+    public static function strval(DateTime $value): string
+    {
+        return $value->format(self::DATETIME_FORMAT);
+    }
 }

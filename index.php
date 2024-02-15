@@ -26,6 +26,16 @@ $wpmvc_app->get('/post/{id:\d+}', 'PostController::single');
 $wpmvc_app->post('/post/', 'PostController::register');
 $wpmvc_app->put('/post/{id:\d+}', 'PostController::update');
 $wpmvc_app->delete('/post/{id:\d+}', 'PostController::delete');
+// custom example
+$wpmvc_app->get('/example/', 'ExampleController::index');
+$wpmvc_app->get('/example/index', 'ExampleController::index');
+$wpmvc_app->get('/example/list', 'ExampleController::list');
+$wpmvc_app->get('/example/list/{sort}', 'ExampleController::list');
+$wpmvc_app->get('/example/list/{sort}/{order}', 'ExampleController::list');
+$wpmvc_app->get('/example/{id:\d+}', 'ExampleController::single');
+$wpmvc_app->post('/example/', 'ExampleController::register');
+$wpmvc_app->put('/example/{id:\d+}', 'ExampleController::update');
+$wpmvc_app->delete('/example/{id:\d+}', 'ExampleController::delete');
 
 /*
  * --------------------------------------------------------------------
