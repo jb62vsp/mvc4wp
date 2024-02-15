@@ -64,6 +64,21 @@ class BindableFieldTest extends TestCase
         $this->expectExceptionMessage('illegal parameters.');
         BindableField::getDefaultValue(BindableFieldTestMockB::class, 'field_b');
     }
+
+    public function test_getBindableFields01(): void
+    {
+        $fields = BindableField::getBindableFields(BindableFieldTestMockA::class);
+        $this->assertCount(3, $fields);
+    }
+
+    public function test_getBindableFieldNames01(): void
+    {
+        $names = BindableField::getBindableFieldNames(BindableFieldTestMockA::class);
+        $this->assertCount(3, $names);
+        $this->assertEquals('field_a', $names[0]);
+        $this->assertEquals('field_b', $names[1]);
+        $this->assertEquals('field_c', $names[2]);
+    }
 }
 
 class BindableFieldTestMockA

@@ -45,7 +45,7 @@ class PostController extends PlainPhpController
 
         $this->ok();
         $this
-            ->view('header')
+            ->view('header', $data)
             ->view('post/list', $data)
             ->view('footer')
             ->done();
@@ -70,7 +70,7 @@ class PostController extends PlainPhpController
 
         $this->ok();
         $this
-            ->view('header')
+            ->view('header', $data)
             ->view('post/single', $data)
             ->view('footer')
             ->done();
