@@ -3,6 +3,7 @@ namespace System\Response;
 
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Exception\ApplicationException;
 
 trait PlainPhpRenderTrait
 {
@@ -12,7 +13,9 @@ trait PlainPhpRenderTrait
         $responder->header('Content-Type: text/html; charset=utf-8');
         $view_path = $config->getConfig(CONFIG::VIEW_DIRECTORY) . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
-            include_once $view_path;
+            include $view_path;
+        } else {
+            throw new ApplicationException('view not found.');
         }
         return $this;
     }
