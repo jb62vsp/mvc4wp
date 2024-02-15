@@ -10,7 +10,8 @@ class PostType
 {
     public function __construct(
         public string $post_type = '',
-    ) {}
+    ) {
+    }
 
     public static function getPostType(string $class): string
     {
