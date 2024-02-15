@@ -13,9 +13,9 @@ class PostType
     ) {
     }
 
-    public static function getPostType(string $class): string
+    public static function getPostType(string $class_name): string
     {
-        $ref = new ReflectionClass($class);
+        $ref = new ReflectionClass($class_name);
         $attrs = $ref->getAttributes(PostType::class);
         if (count($attrs) !== 1) {
             throw new ApplicationException('illegal to set PostType.');

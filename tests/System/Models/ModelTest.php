@@ -3,14 +3,16 @@ namespace System\Models;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 #[CoversClass(Model::class)]
+#[CoversClass(BindableField::class)]
 class ModelTest extends TestCase
 {
     public function test_bindField01(): void
     {
         $obj = new ModelTestMockA();
-        $obj->bindMe([]);
+        $obj->bind([]);
         $this->assertEquals('abc', $obj->field_a);
         $this->assertFalse(isset($obj->field_b));
         $this->assertFalse(isset($obj->field_c));
@@ -19,14 +21,27 @@ class ModelTest extends TestCase
     public function test_bindField02(): void
     {
         $obj = new ModelTestMockA();
-        $obj->bindMe([
+        $obj->bind([
             'field_a' => 'def',
             'field_b' => 1,
             'field_c' => 2.3,
         ]);
         $this->assertEquals('def', $obj->field_a);
         $this->assertEquals(1, $obj->field_b);
-        $this->assertEquals(2.3, $obj->field_c);
+        $this->assertFalse(isset($obj->field_c));
+    }
+
+    public function test_bindField03(): void
+    {
+        $obj = new ModelTestMockA();
+        $values = new stdClass();
+        $values->field_a = 'def';
+        $values->field_b = 1;
+        $values->field_c = 2.3;
+        $obj->bind($values);
+        $this->assertEquals('def', $obj->field_a);
+        $this->assertEquals(1, $obj->field_b);
+        $this->assertFalse(isset($obj->field_c));
     }
 }
 
@@ -39,9 +54,4 @@ class ModelTestMockA extends Model
     public int $field_b;
 
     public float $field_c;
-
-    public function bindMe(object|array $data): void
-    {
-        $this->bind($data);
-    }
 }
