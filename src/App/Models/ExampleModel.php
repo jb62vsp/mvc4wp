@@ -33,5 +33,5 @@ class ExampleModel extends PostModel
 
     #[BindableField(default_value: null)]
     #[CustomField(slug: 'example_datetime', title: '日時型例')]
-    public string $example_datetime;
+    public DateTime $example_datetime;
 }

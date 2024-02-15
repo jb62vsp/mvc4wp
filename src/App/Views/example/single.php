@@ -1,6 +1,6 @@
 <?php declare(strict_types=1); ?>
 <h1>
-    <?php echo $data['title']; ?>: single
+    <?php echo v($data['title']); ?>: single
 </h1>
 <section>
     <p><a href="/example/list">list</a></p>
