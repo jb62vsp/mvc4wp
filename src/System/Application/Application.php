@@ -17,10 +17,9 @@ final class Application implements ApplicationInterface, ConfigInterface, Router
          * -------- DEFAULT CONFIGURATIONS --------
          */
         $this->addConfig(CONFIG::DEBUG, 'false');
-        $this->addConfig(CONFIG::MODEL_NAMESPACE, 'App\Models');
+        $this->addConfig(CONFIG::BOOTSTRAP, __WPMVC_ROOT__ . '/src/App/bootstrap.php');
         $this->addConfig(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
         $this->addConfig(CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
-        $this->addConfig(CONFIG::PUBLIC_DIRECTORY, __WPMVC_ROOT__ . '/public');
     }
 
     public function run(): void

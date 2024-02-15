@@ -1,8 +1,12 @@
 <?php declare(strict_types=1);
 namespace System\Config;
 
+use System\Core\Cast;
+
 trait ConfigTrait
 {
+    use Cast;
+
     private array $configs = [];
 
     public function config(): ConfigInterface

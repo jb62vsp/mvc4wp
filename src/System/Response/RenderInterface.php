@@ -5,5 +5,5 @@ use System\Config\ConfigInterface;
 
 interface RenderInterface
 {
-    public function render(ConfigInterface $config, string $view_name, array $data = []): self;
+    public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self;
 }

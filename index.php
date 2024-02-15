@@ -1,22 +1,5 @@
 <?php declare(strict_types=1);
 
-define('__WPMVC_ROOT__', __DIR__);
-
-require_once __WPMVC_ROOT__ . '/vendor/autoload.php';
-
-$app = new System\Application\Application();
-
-/*
- * --------------------------------------------------------------------
- * Configure application(comment out & edit default value for required)
- * --------------------------------------------------------------------
- */
-// $app->addConfig(System\Config\CONFIG::DEBUG, 'false');
-// $app->addConfig(System\Config\CONFIG::MODEL_NAMESPACE, 'App\Models');
-// $app->addConfig(System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-// $app->addConfig(System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
-// $app->addConfig(System\Config\CONFIG::PUBLIC_DIRECTORY, __WPMVC_ROOT__ . '/public');
-
 /*
  * --------------------------------------------------------------------
  * Route Definitions(add route)
@@ -24,20 +7,39 @@ $app = new System\Application\Application();
  * number => {parameter_name:\d+}
  * --------------------------------------------------------------------
  */
-// sample
-// $app->get('/', 'HomeController::index');
-// $app->get('/home', 'HomeController::index');
-// $app->get('/home/index', 'HomeController::index');
-// $app->get('/home/other/{id:\d+}', 'HomeController::other');
-// $app->get('/home/redirect', 'HomeController::redirect');
-// $app->post('/home', 'HomeController::register');
-// $app->put('/home/{id:\d+}', 'HomeController::update');
-// $app->delete('/home/{id:\d+}', 'HomeController::delete');
-
+// controller sample
+$wpmvc_app->get('/', 'HomeController::index');
+$wpmvc_app->get('/home/', 'HomeController::index');
+$wpmvc_app->get('/home/index', 'HomeController::index');
+$wpmvc_app->get('/home/other/{id:\d+}', 'HomeController::other');
+$wpmvc_app->get('/home/redirect', 'HomeController::redirect');
+// json response sample
+$wpmvc_app->get('/ajax/', 'AjaxController::index');
+$wpmvc_app->get('/ajax/index', 'AjaxController::index');
+// post sample
+$wpmvc_app->get('/post/', 'PostController::index');
+$wpmvc_app->get('/post/index', 'PostController::index');
+$wpmvc_app->get('/post/list', 'PostController::list');
+$wpmvc_app->get('/post/list/{sort}', 'PostController::list');
+$wpmvc_app->get('/post/list/{sort}/{order}', 'PostController::list');
+$wpmvc_app->get('/post/{id:\d+}', 'PostController::single');
+$wpmvc_app->post('/post/', 'PostController::register');
+$wpmvc_app->put('/post/{id:\d+}', 'PostController::update');
+$wpmvc_app->delete('/post/{id:\d+}', 'PostController::delete');
+// custom example
+$wpmvc_app->get('/example/', 'ExampleController::index');
+$wpmvc_app->get('/example/index', 'ExampleController::index');
+$wpmvc_app->get('/example/list', 'ExampleController::list');
+$wpmvc_app->get('/example/list/{sort}', 'ExampleController::list');
+$wpmvc_app->get('/example/list/{sort}/{order}', 'ExampleController::list');
+$wpmvc_app->get('/example/{id:\d+}', 'ExampleController::single');
+$wpmvc_app->post('/example/', 'ExampleController::register');
+$wpmvc_app->put('/example/{id:\d+}', 'ExampleController::update');
+$wpmvc_app->delete('/example/{id:\d+}', 'ExampleController::delete');
 
 /*
  * --------------------------------------------------------------------
  * Run application
  * --------------------------------------------------------------------
  */
-$app->run();
+$wpmvc_app->run();

@@ -1,3 +1,6 @@
 .devcontainer/.created
-
+.phpunit.cache/
+/.tmp/
 /vendor/
+coverage.txt
+coverage/
