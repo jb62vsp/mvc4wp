@@ -1,3 +1,4 @@
+<?php declare(strict_types=1); ?>
 <section>
     <h2>register</h2>
     <form action='/post/' method='POST'>

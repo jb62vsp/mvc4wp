@@ -1,3 +1,4 @@
+<?php declare(strict_types=1); ?>
 <section>
     <h2>delete</h2>
     <form action="<?php echo "/post/{$data['id']}"; ?>" method='POST'>

@@ -8,19 +8,19 @@ use System\Models\PostModel;
     <h2>table</h2>
     <table>
         <tr>
-            <?php foreach (PostModel::getBindableFieldNames() as $name): ?>
+            <?php foreach ($data['columns'] as $column): ?>
                 <th>
                     <?php if (array_key_exists('single', $data)): ?>
-                        <?php echo $name; ?>
+                        <?php echo $column; ?>
                     <?php else: ?>
-                        <?php if ($name === $data['sort']): ?>
-                            <a href="<?php echo "/post/list/{$name}/" . ($data['order'] === 'asc' ? 'desc' : 'asc'); ?>">
-                                <?php echo $name; ?>
+                        <?php if ($column === $data['sort']): ?>
+                            <a href="<?php echo "/post/list/{$column}/" . ($data['order'] === 'asc' ? 'desc' : 'asc'); ?>">
+                                <?php echo $column; ?>
                                 <?php echo ($data['order'] === 'asc' ? '▼' : '▲'); ?>
                             </a>
                         <?php else: ?>
-                            <a href="<?php echo "/post/list/{$name}"; ?>">
-                                <?php echo $name; ?>▲
+                            <a href="<?php echo "/post/list/{$column}"; ?>">
+                                <?php echo $column; ?>▲
                             </a>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -29,7 +29,7 @@ use System\Models\PostModel;
         </tr>
         <?php foreach ($data['posts'] as $post): ?>
             <tr>
-                <?php PostController::cast($data['this'])->view('post/parts/line', ['post' => $post]); ?>
+                <?php PostController::cast($data['this'])->view('post/parts/line', ['post' => $post, 'columns' => $data['columns']]); ?>
             </tr>
         <?php endforeach; ?>
     </table>

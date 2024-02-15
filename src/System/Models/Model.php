@@ -12,32 +12,12 @@ abstract class Model
 
     // ---- bind section ----
 
-    public static function getBindableFieldNames(): array
-    {
-        $props = self::getBindableFields();
-        $result = array_map(function (ReflectionProperty $prop) {
-            return $prop->getName();
-        }, $props);
-        return $result;
-    }
-
     public function bind(object|array $data): void
     {
-        $props = self::getBindableFields();
+        $props = BindableField::getBindableFields(static::class);
         foreach ($props as $prop) {
             self::bindProperty($this, $prop, $data);
         }
-    }
-
-    private static function getBindableFields(): array
-    {
-        $refc = new ReflectionClass(static::class);
-        $props = $refc->getProperties(ReflectionProperty::IS_PUBLIC);
-        $result = array_filter($props, function (ReflectionProperty $prop) {
-            $attrs = $prop->getAttributes(BindableField::class);
-            return count($attrs) === 1;
-        });
-        return $result;
     }
 
     private static function bindProperty(Model $obj, ReflectionProperty $prop, object|array $data): void

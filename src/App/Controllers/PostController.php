@@ -38,6 +38,7 @@ class PostController extends PlainPhpController
             'this' => $this,
             'title' => $this->name,
             'posts' => $posts,
+            'columns' => ['ID', 'post_author', 'post_date', 'post_name', 'post_status', 'post_title', 'post_type', 'post_content',],
             'sort' => $sort,
             'order' => $order,
         ];
@@ -63,6 +64,7 @@ class PostController extends PlainPhpController
             'title' => $this->name,
             'id' => $id,
             'posts' => [$post],
+            'columns' => ['ID', 'post_author', 'post_date', 'post_name', 'post_status', 'post_title', 'post_type', 'post_content',],
             'single' => 'true',
         ];
 
@@ -85,7 +87,7 @@ class PostController extends PlainPhpController
     public function update(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostModel::cast_null(PostModel::find()->byID($id));
+        $post = PostModel::cast_null(PostModel::find()->withDraft()->withTrash()->byID($id));
         if (is_null($post)) {
             $this->notFound()->done();
         }
