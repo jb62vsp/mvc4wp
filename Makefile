@@ -23,6 +23,7 @@ default: init
 .PHONY: vendor
 vendor: composer.json
 	@composer install --no-dev
+	@composer dump-autoload
 
 .PHONY: vendor_dev
 vendor_dev: composer.json
