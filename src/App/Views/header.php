@@ -6,6 +6,12 @@
     <title>
         <?php echo $data['title']; ?>
     </title>
+    <style>
+        th,
+        td {
+            border: solid silver 1px;
+        }
+    </style>
 </head>
 
 <body>

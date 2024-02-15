@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
-use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionProperty;
 use System\Core\Cast;
@@ -11,34 +10,47 @@ abstract class Model
 {
     use Cast;
 
-    private bool $loaded = false;
+    // ---- bind section ----
 
-    protected function bind(object|array $data): void
+    public static function getBindableFieldNames(): array
     {
-        $refc = new ReflectionClass($this);
-        $props = $refc->getProperties(ReflectionProperty::IS_PUBLIC);
+        $props = self::getBindableFields();
+        $result = array_map(function (ReflectionProperty $prop) {
+            return $prop->getName();
+        }, $props);
+        return $result;
+    }
+
+    public function bind(object|array $data): void
+    {
+        $props = self::getBindableFields();
         foreach ($props as $prop) {
-            $this->bindProperty($prop, $data);
+            self::bindProperty($this, $prop, $data);
         }
     }
 
-    private function bindProperty(ReflectionProperty $prop, object|array|bool|null $data): void
+    private static function getBindableFields(): array
+    {
+        $refc = new ReflectionClass(static::class);
+        $props = $refc->getProperties(ReflectionProperty::IS_PUBLIC);
+        $result = array_filter($props, function (ReflectionProperty $prop) {
+            $attrs = $prop->getAttributes(BindableField::class);
+            return count($attrs) === 1;
+        });
+        return $result;
+    }
+
+    private static function bindProperty(Model $obj, ReflectionProperty $prop, object|array $data): void
     {
         $prop_name = $prop->getName();
         if (self::_hasKey($data, $prop_name)) {
             $value = self::_getValue($data, $prop_name);
             $typed_value = self::_typedValue($prop->getType()->getName(), $value);
-            $prop->setValue($this, $typed_value);
+            $prop->setValue($obj, $typed_value);
         } else {
-            $attrs = $prop->getAttributes(BindableField::class);
-            if (count($attrs) === 1) {
-                /** @var ReflectionAttribute $attr */
-                $attr = $attrs[0];
-                $args = $attr->getArguments();
-                if (count($args) === 1) {
-                    $value = $args['default_value'];
-                    $prop->setValue($this, $value);
-                }
+            $default_value = BindableField::getDefaultValue(get_class($obj), $prop_name);
+            if (!is_null($default_value)) {
+                $prop->setValue($obj, $default_value);
             }
         }
     }
@@ -55,14 +67,12 @@ abstract class Model
         };
     }
 
-    private static function _hasKey(object|array|bool $data, $key): bool
+    private static function _hasKey(object|array $data, $key): bool
     {
         if (is_object($data)) {
             return property_exists($data, $key);
         } elseif (is_array($data)) {
             return array_key_exists($key, $data);
-        } elseif (is_bool($data)) {
-            return false;
         } else {
             return false;
         }
@@ -75,5 +85,41 @@ abstract class Model
         } else {
             return isset($data->{$key}) ? $data->{$key} : null;
         }
+    }
+
+    // ---- repository section ----
+
+    #[BindableField]
+    public int $ID;
+
+    public function isLoaded(): bool
+    {
+        return isset($this->ID);
+    }
+
+    public static function find(): PostQueryBuilder
+    {
+        return new PostQueryBuilder(static::class);
+    }
+
+    public function register(): int
+    {
+        $this->ID = wp_insert_post($this);
+
+        return $this->ID;
+    }
+
+    public function update(): void
+    {
+        wp_update_post($this);
+    }
+
+    public function delete(bool $force_delete = false): bool
+    {
+        $result = wp_delete_post($this->ID, force_delete: $force_delete);
+        if (!$result) {
+            return false;
+        }
+        return true;
     }
 }
