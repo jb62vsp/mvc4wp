@@ -100,7 +100,7 @@ class PostController extends PlainPhpController
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostModel::cast_null(PostModel::find()->byID($id));
+        $post = PostModel::cast_null(PostModel::find()->withDraft()->withTrash()->byID($id));
         if (is_null($post)) {
             $this->notFound()->done();
         }

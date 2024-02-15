@@ -128,7 +128,7 @@ class ExampleController extends PlainPhpController
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::cast_null(ExampleModel::find()->byID($id));
+        $example = ExampleModel::cast_null(ExampleModel::find()->withDraft()->withTrash()->byID($id));
         if (is_null($example)) {
             $this->notFound()->done();
         }

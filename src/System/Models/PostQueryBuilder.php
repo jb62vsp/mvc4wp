@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use System\Core\Cast;
 use WP_Query;
 
 class PostQueryBuilder
 {
+    use Cast;
+    
     protected array $queries = [];
 
     public function __construct(

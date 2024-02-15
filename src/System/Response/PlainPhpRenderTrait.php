@@ -3,10 +3,13 @@ namespace System\Response;
 
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Core\Cast;
 use System\Exception\ApplicationException;
 
 trait PlainPhpRenderTrait
 {
+    use Cast;
+
     private bool $first = true;
 
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self

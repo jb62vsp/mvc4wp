@@ -5,11 +5,13 @@ use Attribute;
 use DateTime;
 use ReflectionClass;
 use ReflectionProperty;
+use System\Core\Cast;
 use System\Exception\ApplicationException;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class BindableField
 {
+    use Cast;
 
     public function __construct(
         public bool|int|float|array|DateTime|string|null $default_value = null,

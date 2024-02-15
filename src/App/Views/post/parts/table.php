@@ -1,9 +1,4 @@
-<?php declare(strict_types=1);
-
-use App\Controllers\PostController;
-use System\Models\PostModel;
-
-?>
+<?php declare(strict_types=1); ?>
 <section>
     <h2>table</h2>
     <table>
@@ -29,7 +24,7 @@ use System\Models\PostModel;
         </tr>
         <?php foreach ($data['posts'] as $post): ?>
             <tr>
-                <?php PostController::cast($data['this'])->view('post/parts/line', ['post' => $post, 'columns' => $data['columns']]); ?>
+                <?php view('post/parts/line', ['post' => $post, 'columns' => $data['columns']]); ?>
             </tr>
         <?php endforeach; ?>
     </table>

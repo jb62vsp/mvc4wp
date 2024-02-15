@@ -1,10 +1,6 @@
-<?php declare(strict_types=1);
-
-use App\Controllers\PostController;
-
-?>
+<?php declare(strict_types=1); ?>
 <h1>
     <?php echo $data['title']; ?>: list
 </h1>
-<?php PostController::cast($data['this'])->view('post/parts/table', $data); ?>
-<?php PostController::cast($data['this'])->view('post/parts/register'); ?>
+<?php view('post/parts/table', $data); ?>
+<?php view('post/parts/register'); ?>

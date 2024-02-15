@@ -2,9 +2,11 @@
 namespace System\Response;
 
 use System\Config\ConfigInterface;
+use System\Core\Cast;
 
 trait JsonRenderTrait
 {
+    use Cast;
 
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {

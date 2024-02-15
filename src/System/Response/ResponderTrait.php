@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 namespace System\Response;
 
+use System\Core\Cast;
 use System\Core\HttpStatus;
 
 trait ResponderTrait
 {
+    use Cast;
+
     /*
      * --------------------------------------------------------------------
      * HTTP response section
