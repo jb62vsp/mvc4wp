@@ -26,7 +26,7 @@ class HomeController extends PlainPhpController
         $this->ok();
         $this
             ->view('header', $data)
-            ->view('body', $data)
+            ->view('home/body', $data)
             ->view('footer')
             ->done();
     }
@@ -48,7 +48,7 @@ class HomeController extends PlainPhpController
         $this->ok();
         $this
             ->view('header', $data)
-            ->view('body', $data)
+            ->view('home/body', $data)
             ->view('footer')
             ->done();
     }
