@@ -12,6 +12,10 @@
         td {
             border: solid silver 1px;
         }
+
+        .error {
+            color: #ff0000;
+        }
     </style>
 </head>
 

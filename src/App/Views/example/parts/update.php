@@ -1,6 +1,9 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>update</h2>
+    <?php foreach ($data['errors'] as $key => $error): ?>
+        <p class="error"><?php echo $key . ': ' . $error->getMessage(); ?></p>
+    <?php endforeach; ?>
     <form action="<?php echo '/example/' . eh($data['id']); ?>" method='POST'>
         <p>
             <input type='text' name='post_title' value='<?php echo eh($data['examples'][0]->post_title); ?>'>
@@ -9,15 +12,13 @@
             <textarea name='post_content'><?php echo eh($data['examples'][0]->post_content); ?></textarea>
         </p>
         <p>
-            <input type='text' name='example_string'
-                value='<?php echo eh($data['examples'][0]->example_string); ?>'>
+            <input type='text' name='example_string' value='<?php echo eh($data['examples'][0]->example_string); ?>'>
         </p>
         <p>
             <input type='text' name='example_int' value='<?php echo eh($data['examples'][0]->example_int); ?>'>
         </p>
         <p>
-            <input type='text' name='example_float'
-                value='<?php echo eh($data['examples'][0]->example_float); ?>'>
+            <input type='text' name='example_float' value='<?php echo eh($data['examples'][0]->example_float); ?>'>
         </p>
         <p>
             <input type='text' name='example_bool' value='<?php echo eh($data['examples'][0]->example_bool); ?>'>

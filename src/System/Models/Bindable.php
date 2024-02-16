@@ -13,30 +13,7 @@ class Bindable
 {
     use Cast;
 
-    public function __construct(
-        public bool|int|float|array|DateTime|string|null $default_value = null,
-    ) {
-    }
-
-    public static function getDefaultValue(string $class_name, string $property_name): bool|int|float|array|DateTime|string|null
-    {
-        $ref = new ReflectionProperty($class_name, $property_name);
-        $attrs = $ref->getAttributes(Bindable::class);
-        if (count($attrs) <= 0) {
-            return null;
-        } elseif (count($attrs) !== 1) {
-            throw new ApplicationException('illegal to set BindableField.');
-        }
-        $args = $attrs[0]->getArguments();
-        if (count($args) <= 0) {
-            return null;
-        } elseif (array_key_exists('default_value', $args)) {
-            return $args['default_value'];
-        } elseif (count($args) === 1) {
-            return $args[0];
-        } else {
-            throw new ApplicationException('illegal parameters.');
-        }
+    public function __construct() {
     }
 
     public static function getBindableFields(string $class_name): array
