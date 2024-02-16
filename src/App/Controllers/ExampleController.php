@@ -21,7 +21,7 @@ class ExampleController extends AdminController
         $this->list();
     }
 
-    public function list(array $args = [], array $errors = []): void
+    public function list(array $args = [], array $errors = [], $post = []): void
     {
         $examples = [];
         $sort = 'ID';
@@ -46,15 +46,35 @@ class ExampleController extends AdminController
                 'post_title',
                 'post_type',
                 'post_content',
-                'example_string',
+                'example_text',
+                'example_textarea',
                 'example_int',
+                'example_uint',
                 'example_float',
+                'example_ufloat',
                 'example_bool',
+                'example_date',
+                'example_time',
+                'example_datetime',
+            ],
+            'editable_columns' => [
+                'post_title',
+                'post_content',
+                'example_text',
+                'example_textarea',
+                'example_int',
+                'example_uint',
+                'example_float',
+                'example_ufloat',
+                'example_bool',
+                'example_date',
+                'example_time',
                 'example_datetime',
             ],
             'sort' => $sort,
             'order' => $order,
             'errors' => $errors,
+            'post' => $post,
         ];
 
         $this->ok();
@@ -65,7 +85,7 @@ class ExampleController extends AdminController
             ->done();
     }
 
-    public function single(array $args, array $errors = []): void
+    public function single(array $args, array $errors = [], array $post = []): void
     {
         $id = intval($args['id']);
         $example = ExampleModel::find()->withDraft()->withTrash()->byID($id);
@@ -86,13 +106,38 @@ class ExampleController extends AdminController
                 'post_title',
                 'post_type',
                 'post_content',
-                'example_string',
+                'example_text',
+                'example_textarea',
                 'example_int',
+                'example_uint',
                 'example_float',
+                'example_ufloat',
                 'example_bool',
+                'example_date',
+                'example_time',
+                'example_datetime',
+            ],
+            'editable_columns' => [
+                'post_author',
+                'post_date',
+                'post_name',
+                'post_status',
+                'post_title',
+                'post_type',
+                'post_content',
+                'example_text',
+                'example_textarea',
+                'example_int',
+                'example_uint',
+                'example_float',
+                'example_ufloat',
+                'example_bool',
+                'example_date',
+                'example_time',
                 'example_datetime',
             ],
             'errors' => $errors,
+            'post' => $post,
             'single' => 'true',
         ];
 
@@ -112,7 +157,7 @@ class ExampleController extends AdminController
             $id = $example->register();
             $this->seeOther("/example/{$id}")->done();
         } else {
-            $this->list([], $errors);
+            $this->list([], $errors, $_POST);
         }
     }
 
@@ -141,7 +186,12 @@ class ExampleController extends AdminController
             $this->notFound()->done();
         }
 
-        $example->delete();
-        $this->seeOther("/example/list")->done();
+        if ($_POST['to_trush'] === 'true') {
+            $example->delete();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $example->delete(true);
+            $this->seeOther("/example/list")->done();
+        }
     }
 }
