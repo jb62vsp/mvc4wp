@@ -59,7 +59,7 @@ trait RouterTrait
         $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) use ($config, $routes) {
             foreach ($routes as $key => $value) {
                 $keys = explode('|', $key);
-                $r->addRoute($keys[0], $keys[1], $config->getConfig(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
+                $r->addRoute($keys[0], $keys[1], $config->get(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
             }
         });
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);

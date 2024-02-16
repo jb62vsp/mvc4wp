@@ -20,10 +20,10 @@ final class Application implements ApplicationInterface, RouterInterface
         /*
          * -------- DEFAULT CONFIGURATIONS --------
          */
-        $this->config()->addConfig(CONFIG::DEBUG, 'false');
-        $this->config()->addConfig(CONFIG::BOOTSTRAP, __WPMVC_ROOT__ . '/src/App/bootstrap.php');
-        $this->config()->addConfig(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-        $this->config()->addConfig(CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
+        $this->config()->add(CONFIG::DEBUG, 'false');
+        $this->config()->add(CONFIG::BOOTSTRAP, __WPMVC_ROOT__ . '/src/App/bootstrap.php');
+        $this->config()->add(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
+        $this->config()->add(CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
     }
 
     public function config(): ConfigInterface
