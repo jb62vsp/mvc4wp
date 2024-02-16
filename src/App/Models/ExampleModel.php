@@ -55,17 +55,17 @@ class ExampleModel extends PostModel
     #[Bindable]
     #[CustomField(slug: 'example_date', title: '日付型例', type: CustomField::DATE)]
     #[Rule(PATTERN::DATE->value)]
-    public ?DateTime $example_date = null;
+    public DateTime $example_date;
 
     #[Bindable]
     #[CustomField(slug: 'example_time', title: '時刻型例', type: CustomField::TIME)]
     #[Rule(PATTERN::TIME->value)]
-    public ?DateTime $example_time = null;
+    public DateTime $example_time;
 
     #[Bindable]
     #[CustomField(slug: 'example_datetime', title: '日時型例', type: CustomField::DATETIME)]
     #[Rule(PATTERN::DATETIME->value)]
-    public ?DateTime $example_datetime = null;
+    public DateTime $example_datetime;
 
     public function format(string $field): string
     {
