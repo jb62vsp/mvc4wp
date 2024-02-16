@@ -26,7 +26,7 @@ class Rule
             if (count($args) === 1) {
                 $matched = preg_match($args[0], $value);
                 if (!$matched) {
-                    throw new ValidationException($property, $value, $args[0]);
+                    throw new ValidationException(get_class($obj), $property, $value, $args[0]);
                 }
             } else {
                 throw new ApplicationException();

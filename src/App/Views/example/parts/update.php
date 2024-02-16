@@ -2,7 +2,7 @@
 <section>
     <h2>update</h2>
     <?php foreach ($data['errors'] as $key => $error): ?>
-        <p class="error"><?php echo $key . ': ' . $error->getMessage(); ?></p>
+        <p class="error"><?php echo $error->getMessage(); ?></p>
     <?php endforeach; ?>
     <form action="<?php echo '/example/' . eh($data['id']); ?>" method='POST'>
         <p>
