@@ -1,11 +1,13 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>register</h2>
-    <?php foreach ($data['errors'] as $key => $error): ?>
-        <p class="error">
-            <?php echo $error->getMessage(); ?>
-        </p>
-    <?php endforeach; ?>
+    <?php if (array_key_exists('error', $data)): ?>
+        <?php foreach ($data['errors'] as $key => $error): ?>
+            <p class="error">
+                <?php echo $error->getMessage(); ?>
+            </p>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <form action='/example/' method='POST'>
         <?php foreach ($data['registerable_columns'] as $column): ?>
             <p>

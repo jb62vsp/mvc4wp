@@ -8,6 +8,28 @@ class PostQuery
 {
     use Cast;
 
+    private const ORDER_COLUMNS = [
+        'none' => 'none',
+        'ID' => 'ID',
+        'id' => 'ID',
+        'post_author' => 'author',
+        'post_title' => 'title',
+        'post_name' => 'name',
+        'post_type' => 'type',
+        'post_date' => 'date',
+        'modified' => 'modified',
+        'parent' => 'parent',
+        'rand' => 'rand',
+        'comment_count' => 'comment_count',
+        'relevance' => 'relevance',
+        'menu_order' => 'menu_order',
+        'meta_value' => 'meta_value',
+        'meta_value_num' => 'meta_value_num',
+        'post__in' => 'post__in',
+        'post_name__in' => 'post_name__in',
+        'post_parent__in' => 'post_parent__in',
+    ];
+
     protected array $queries = [];
 
     public function __construct(
@@ -74,8 +96,8 @@ class PostQuery
      * custom field only
      * @param string $key key
      * @param string $value value
-     * @param string $compare Compare operator. =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT IN, BETWEEN, NOT BETWEEN, EXISTS, NOT EXISTS, REGEXP, NOT REGEXP, RLIKE. Default value is =.
-     * @param string $type Compare type. NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED. Default value is CHAR.
+     * @param string $compare Compare operator. "=", "!=", ">", ">=", "<", "<=", "LIKE", "NOT LIKE", "IN", "NOT IN", "BETWEEN", "NOT BETWEEN", "EXISTS", "NOT EXISTS", "REGEXP", "NOT REGEXP", "RLIKE". Default value is "=".
+     * @param string $type Compare type. "NUMERIC", "BINARY", "CHAR", "DATE", "DATETIME", "DECIMAL", "SIGNED", "TIME", "UNSIGNED". Default value is "CHAR".
      */
     public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
     {
@@ -118,10 +140,22 @@ class PostQuery
 
     // ---- sort
 
-    public function order(string $order_by, $order): self
+    /**
+     * @param string $order_by Column name.
+     * @param string $order "ASC", "DESC". Default value is "ASC"
+     * @param string $type Compare type. "NUMERIC", "BINARY", "CHAR", "DATE", "DATETIME", "DECIMAL", "SIGNED", "TIME", "UNSIGNED". Default value is "CHAR".
+     */
+    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): self
     {
-        $this->queries['orderby'] = $order_by;
-        $this->queries['order'] = $order;
+        if (array_key_exists($order_by, self::ORDER_COLUMNS)) {
+            $this->queries['orderby'] = self::ORDER_COLUMNS[$order_by];
+            $this->queries['order'] = $order;
+        } else {
+            $this->queries['orderby'] = 'meta_value';
+            $this->queries['order'] = $order;
+            $this->queries['meta_key'] = $order_by;
+            $this->queries['meta_type'] = $type;
+        }
         return $this;
     }
 
@@ -130,6 +164,33 @@ class PostQuery
         $this->queries['meta_key'] = $order_by;
         $this->queries['orderby'] = 'meta_value';
         $this->queries['order'] = $order;
+        return $this;
+    }
+
+    // ---- pagination ----
+
+    public function single(): self
+    {
+        if (array_key_exists('paged', $this->queries)) {
+            unset($this->queries['paged']);
+        }
+        $this->queries['posts_per_page'] = -1;
+        return $this;
+    }
+
+    public function all(): self
+    {
+        if (array_key_exists('paged', $this->queries)) {
+            unset($this->queries['paged']);
+        }
+        $this->queries['posts_per_page'] = -1;
+        return $this;
+    }
+
+    public function page(int $page, int $per_page): self
+    {
+        $this->queries['paged'] = $page;
+        $this->queries['posts_per_page'] = $per_page;
         return $this;
     }
 
@@ -173,7 +234,7 @@ class PostQuery
     {
         $result = null;
 
-        $query = $this->build();
+        $query = $this->single()->build();
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
@@ -196,5 +257,18 @@ class PostQuery
     {
         $this->queries['p'] = $id;
         return $this->getSingle();
+    }
+
+    public function count(): int
+    {
+        $result = 0;
+
+        $query = $this->build();
+        if ($query->have_posts()) {
+            $result = $query->post_count;
+        }
+        wp_reset_postdata();
+
+        return $result;
     }
 }

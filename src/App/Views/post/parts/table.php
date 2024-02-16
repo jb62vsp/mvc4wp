@@ -1,6 +1,7 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>table</h2>
+    <p>count: <?php echo eh(count($data['posts'])); ?></p>
     <table>
         <tr>
             <?php foreach ($data['columns'] as $column): ?>

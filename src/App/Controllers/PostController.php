@@ -45,6 +45,7 @@ class PostController extends AdminController
         $this->ok();
         $this
             ->view('header', $data)
+            ->view('link', $data)
             ->view('post/list', $data)
             ->view('footer')
             ->done();
@@ -69,6 +70,7 @@ class PostController extends AdminController
         $this->ok();
         $this
             ->view('header', $data)
+            ->view('link', $data)
             ->view('post/single', $data)
             ->view('footer')
             ->done();

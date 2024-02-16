@@ -33,6 +33,8 @@ $wpmvc_app->router()->get('/example/index', 'ExampleController::index');
 $wpmvc_app->router()->get('/example/list', 'ExampleController::list');
 $wpmvc_app->router()->get('/example/list/{sort}', 'ExampleController::list');
 $wpmvc_app->router()->get('/example/list/{sort}/{order}', 'ExampleController::list');
+$wpmvc_app->router()->get('/example/list/{sort}/{order}/{page:\d+}', 'ExampleController::list');
+$wpmvc_app->router()->get('/example/list/{sort}/{order}/{page:\d+}/{per_page:\d+}', 'ExampleController::list');
 $wpmvc_app->router()->get('/example/search', 'ExampleController::list');
 $wpmvc_app->router()->post('/example/search', 'ExampleController::search');
 $wpmvc_app->router()->get('/example/{id:\d+}', 'ExampleController::single');

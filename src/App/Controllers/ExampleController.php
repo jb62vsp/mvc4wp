@@ -10,6 +10,19 @@ class ExampleController extends AdminController
 
     private string $name;
 
+    private const META_COLUMNS = [
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
     private const COLUMNS = [
         'ID',
         'post_author',
@@ -95,16 +108,30 @@ class ExampleController extends AdminController
     {
         $sort = 'ID';
         $order = 'asc';
+        $page = 1;
+        $per_page = -1;
         if (array_key_exists('sort', $args)) {
             $sort = $args['sort'];
         }
         if (array_key_exists('order', $args)) {
             $order = $args['order'];
         }
-        $examples = ExampleModel::find()->withDraft()->withTrash()->order($sort, $order)->get();
+        if (array_key_exists('page', $args)) {
+            $page = intval($args['page']);
+        }
+        if (array_key_exists('per_page', $args)) {
+            $per_page = intval($args['per_page']);
+        }
+        $query =  ExampleModel::find()
+            ->withDraft()
+            ->withTrash()
+            ->order($sort, $order);
+        $count = $query->all()->count();
+        $examples = $query->page($page, $per_page)->get();
 
         $data = [
             'title' => $this->name,
+            'count' => $count,
             'examples' => $examples,
             'columns' => self::COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
@@ -120,6 +147,7 @@ class ExampleController extends AdminController
         $this->ok();
         $this
             ->view('header', $data)
+            ->view('link', $data)
             ->view('example/list', $data)
             ->view('footer')
             ->done();
@@ -127,8 +155,8 @@ class ExampleController extends AdminController
 
     public function search(): void
     {
-        $sort = 'ID';
-        $order = 'asc';
+        $sort = $_POST['sort'];
+        $order = $_POST['order'];
         $examples = ExampleModel::find()
             ->withDraft()
             ->withTrash()
@@ -137,6 +165,7 @@ class ExampleController extends AdminController
             ->get();
         $data = [
             'title' => $this->name,
+            'count' => count($examples),
             'examples' => $examples,
             'columns' => self::COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
@@ -151,6 +180,7 @@ class ExampleController extends AdminController
         $this->ok();
         $this
             ->view('header', $data)
+            ->view('link', $data)
             ->view('example/list', $data)
             ->view('footer')
             ->done();
@@ -167,6 +197,7 @@ class ExampleController extends AdminController
         $data = [
             'title' => $this->name,
             'id' => $id,
+            'count' => 1,
             'examples' => [$example],
             'columns' => self::COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
@@ -179,6 +210,7 @@ class ExampleController extends AdminController
         $this->ok();
         $this
             ->view('header', $data)
+            ->view('link', $data)
             ->view('example/single', $data)
             ->view('footer')
             ->done();

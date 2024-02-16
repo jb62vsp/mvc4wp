@@ -18,9 +18,11 @@ class HomeController extends PlainPhpController
     private function page(string $view, array $data): self
     {
         $this->ok();
-        $this
-            ->view('header', $data)
-            ->view($view, $data)
+        $this->view('header', $data);
+        if (is_user_logged_in()) {
+            $this->view('link', $data);
+        }
+        $this->view($view, $data)
             ->view('footer', $data);
         return $this;
     }
