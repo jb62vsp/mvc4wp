@@ -29,7 +29,16 @@ class PostModel extends Model
     #[Bindable]
     public string $post_content;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->post_type = PostType::getName(static::class);
+    }
+
+    public function register(bool $publish = true): int
+    {
+        if ($publish) {
+            $this->post_status = 'publish';
+        }
+        return parent::register();
     }
 }
