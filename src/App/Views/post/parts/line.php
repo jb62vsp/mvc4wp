@@ -6,7 +6,7 @@
                 <?php echo eh($data['post']->ID); ?>
             </a>
         <?php else: ?>
-            <?php echo eh($data['post']->{$column}); ?>
+            <?php echo nl2br(eh($data['post']->{$column})); ?>
         <?php endif; ?>
     </td>
 <?php endforeach ?>
