@@ -20,3 +20,4 @@ $wpmvc_app = new System\Application\Application();
  * --------------------------------------------------------------------
  */
 System\Service\WpCustomize::addCustomPostType(App\Models\ExampleModel::class);
+System\Service\WpCustomize::disableRedirectCanonical();

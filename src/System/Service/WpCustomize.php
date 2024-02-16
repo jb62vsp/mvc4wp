@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace System\Service;
 
-use ReflectionProperty;
 use System\Helper\DateTimeHelper;
 use System\Models\CustomField;
 use System\Models\CustomPostType;
@@ -11,6 +10,11 @@ final class WpCustomize
     private static array $registered_posts = [];
 
     private static array $registered_fields = [];
+
+    public static function disableRedirectCanonical(): void
+    {
+        add_filter('redirect_canonical', fn($url) => (is_404()) ? false : $url);
+    }
 
     public static function addCustomPostType(string $class_name): void
     {
