@@ -141,6 +141,7 @@ final class WpCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}'>";
+            echo "<span>※正負の整数のみ入力できます。</span>";
             echo "</div>";
         };
     }
@@ -152,6 +153,7 @@ final class WpCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}' min='0'>";
+            echo "<span>※正の整数のみ入力できます。</span>";
             echo "</div>";
         };
     }
@@ -163,6 +165,7 @@ final class WpCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}'>";
+            echo "<span>※正負の整数、小数のみ入力できます。</span>";
             echo "</div>";
         };
     }
@@ -174,6 +177,7 @@ final class WpCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}' min='0'>";
+            echo "<span>※正の整数、小数のみ入力できます。</span>";
             echo "</div>";
         };
     }
