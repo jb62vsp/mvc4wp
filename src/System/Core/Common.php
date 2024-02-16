@@ -8,7 +8,7 @@ if (!function_exists('view')) {
     function view(string $name, array $data = [], array $options = []): void
     {
         global $wpmvc_app;
-        $view_dir = Application::cast($wpmvc_app)->getConfig(CONFIG::VIEW_DIRECTORY);
+        $view_dir = Application::cast($wpmvc_app)->config()->getConfig(CONFIG::VIEW_DIRECTORY);
         include $view_dir . DIRECTORY_SEPARATOR . $name . '.php';
     }
 }

@@ -4,7 +4,7 @@ namespace System\Config;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ConfigTrait::class)]
+#[CoversClass(Configrator::class)]
 class ConfigTraitTest extends TestCase
 {
     public function test_config(): void
@@ -20,7 +20,7 @@ class ConfigTraitTest extends TestCase
 
 class ConfigTraitTestMockA implements ConfigInterface
 {
-    use ConfigTrait;
+    use Configrator;
 
     public function __construct()
     {

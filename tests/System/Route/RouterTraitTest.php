@@ -5,9 +5,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
-use System\Config\ConfigTrait;
+use System\Config\Configrator;
 
-#[CoversClass(ConfigTrait::class)]
+#[CoversClass(Configrator::class)]
 #[CoversClass(RouteHandler::class)]
 #[CoversClass(RouterTrait::class)]
 class RouterTraitTest extends TestCase
@@ -229,7 +229,7 @@ class RouterMock implements RouterInterface
 
 class ConfigMock implements ConfigInterface
 {
-    use ConfigTrait;
+    use Configrator;
 
     public function __construct()
     {
