@@ -6,7 +6,7 @@
                 <?php echo eh($data['example']->ID); ?>
             </a>
         <?php else: ?>
-            <?php echo eh($data['example']->{$column}); ?>
+            <?php echo App\Models\ExampleModel::cast($data['example'])->format($column); ?>
         <?php endif; ?>
     </td>
 <?php endforeach ?>

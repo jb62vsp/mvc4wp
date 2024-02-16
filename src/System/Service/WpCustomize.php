@@ -83,12 +83,8 @@ final class WpCustomize
                 }
 
                 $value = $_POST[$name];
-                if (!empty($value)) {
-                    add_post_meta($post_id, $field_slug, $value, true);
-                    update_post_meta($post_id, $field_slug, $value);
-                } elseif ($value === '') {
-                    delete_post_meta($post_id, $field_slug);
-                }
+                add_post_meta($post_id, $field_slug, $value, true);
+                update_post_meta($post_id, $field_slug, $value);
             });
             self::$registered_fields[$slug] = true;
         }

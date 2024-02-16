@@ -21,7 +21,7 @@ class ExampleController extends AdminController
         $this->list();
     }
 
-    public function list(array $args = []): void
+    public function list(array $args = [], array $errors = []): void
     {
         $examples = [];
         $sort = 'ID';
@@ -54,6 +54,7 @@ class ExampleController extends AdminController
             ],
             'sort' => $sort,
             'order' => $order,
+            'errors' => $errors,
         ];
 
         $this->ok();
@@ -106,9 +107,13 @@ class ExampleController extends AdminController
     public function register(): void
     {
         $example = new ExampleModel();
-        $example->bind($_POST);
-        $id = $example->register();
-        $this->seeOther("/example/{$id}")->done();
+        $errors = $example->bind($_POST);
+        if (empty($errors)) {
+            $id = $example->register();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $this->list([], $errors);
+        }
     }
 
     public function update(array $args): void

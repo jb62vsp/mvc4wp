@@ -25,7 +25,7 @@
         </p>
         <p>
             <input type='text' name='example_datetime'
-                value='<?php echo eh($data['examples'][0]->example_datetime); ?>'>
+                value='<?php echo App\Models\ExampleModel::cast($data['examples'][0])->format('example_datetime'); ?>'>
         </p>
         <p>
             <input type="hidden" name="_METHOD" value="PUT"><input type='submit' value='update'>
