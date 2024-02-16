@@ -7,7 +7,7 @@ use WP_Query;
 class PostQuery
 {
     use Cast;
-    
+
     protected array $queries = [];
 
     public function __construct(
@@ -64,6 +64,54 @@ class PostQuery
     {
         if (!$this->addCriteria('post_status', 'trash')) {
             $this->queries['post_status'] = ['publish', 'trash'];
+        }
+        return $this;
+    }
+
+    // ---- search
+
+    /**
+     * custom field only
+     * @param string $key key
+     * @param string $value value
+     * @param string $compare Compare operator. =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT IN, BETWEEN, NOT BETWEEN, EXISTS, NOT EXISTS, REGEXP, NOT REGEXP, RLIKE. Default value is =.
+     * @param string $type Compare type. NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED. Default value is CHAR.
+     */
+    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
+    {
+        if (array_key_exists('meta_query', $this->queries)) {
+            array_push($this->queries['meta_query'], [
+                'key' => $key,
+                'compare' => $compare,
+                'value' => $value,
+                'type' => $type,
+            ]);
+        } elseif (array_key_exists('meta_key', $this->queries)) {
+            $exists = [];
+            $exists['key'] = $this->queries['meta_key'];
+            unset($this->queries['meta_key']);
+            $exists['compare'] = $this->queries['meta_compare'];
+            unset($this->queries['meta_compare']);
+            $exists['value'] = $this->queries['meta_value'];
+            unset($this->queries['meta_value']);
+            $exists['type'] = $this->queries['meta_type'];
+            unset($this->queries['meta_type']);
+
+            $this->queries['meta_query'] = [
+                'relation' => 'AND',
+                $exists,
+                [
+                    'key' => $key,
+                    'compare' => $compare,
+                    'value' => $value,
+                    'type' => $type,
+                ]
+            ];
+        } else {
+            $this->queries['meta_key'] = $key;
+            $this->queries['meta_compare'] = $compare;
+            $this->queries['meta_value'] = $value;
+            $this->queries['meta_type'] = $type;
         }
         return $this;
     }

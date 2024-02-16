@@ -5,7 +5,7 @@
         <tr>
             <?php foreach ($data['columns'] as $column): ?>
                 <th>
-                    <?php if (array_key_exists('single', $data)): ?>
+                    <?php if (!array_key_exists('list', $data)): ?>
                         <?php echo $column; ?>
                     <?php else: ?>
                         <?php if ($column === $data['sort']): ?>

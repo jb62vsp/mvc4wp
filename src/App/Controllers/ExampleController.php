@@ -10,6 +10,76 @@ class ExampleController extends AdminController
 
     private string $name;
 
+    private const COLUMNS = [
+        'ID',
+        'post_author',
+        'post_date',
+        'post_name',
+        'post_status',
+        'post_title',
+        'post_type',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const SEARCHABLE_COLUMNS = [
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const REGISTERABLE_COLUMNS = [
+        'post_title',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const EDITABLE_COLUMNS = [
+        'post_author',
+        'post_date',
+        'post_name',
+        'post_status',
+        'post_title',
+        'post_type',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+
+    ];
+
     public function init(): void
     {
         parent::init();
@@ -23,7 +93,6 @@ class ExampleController extends AdminController
 
     public function list(array $args = [], array $errors = [], $post = []): void
     {
-        $examples = [];
         $sort = 'ID';
         $order = 'asc';
         if (array_key_exists('sort', $args)) {
@@ -37,44 +106,46 @@ class ExampleController extends AdminController
         $data = [
             'title' => $this->name,
             'examples' => $examples,
-            'columns' => [
-                'ID',
-                'post_author',
-                'post_date',
-                'post_name',
-                'post_status',
-                'post_title',
-                'post_type',
-                'post_content',
-                'example_text',
-                'example_textarea',
-                'example_int',
-                'example_uint',
-                'example_float',
-                'example_ufloat',
-                'example_bool',
-                'example_date',
-                'example_time',
-                'example_datetime',
-            ],
-            'editable_columns' => [
-                'post_title',
-                'post_content',
-                'example_text',
-                'example_textarea',
-                'example_int',
-                'example_uint',
-                'example_float',
-                'example_ufloat',
-                'example_bool',
-                'example_date',
-                'example_time',
-                'example_datetime',
-            ],
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
             'sort' => $sort,
             'order' => $order,
             'errors' => $errors,
             'post' => $post,
+            'list' => true,
+        ];
+
+        $this->ok();
+        $this
+            ->view('header', $data)
+            ->view('example/list', $data)
+            ->view('footer')
+            ->done();
+    }
+
+    public function search(): void
+    {
+        $sort = 'ID';
+        $order = 'asc';
+        $examples = ExampleModel::find()
+            ->withDraft()
+            ->withTrash()
+            ->search($_POST['key'], $_POST['value'], $_POST['compare'], $_POST['type'])
+            ->order($sort, $order)
+            ->get();
+        $data = [
+            'title' => $this->name,
+            'examples' => $examples,
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
+            'key' => $_POST['key'],
+            'value' => $_POST['value'],
+            'compare' => $_POST['compare'],
+            'type' => $_POST['type'],
         ];
 
         $this->ok();
@@ -97,48 +168,12 @@ class ExampleController extends AdminController
             'title' => $this->name,
             'id' => $id,
             'examples' => [$example],
-            'columns' => [
-                'ID',
-                'post_author',
-                'post_date',
-                'post_name',
-                'post_status',
-                'post_title',
-                'post_type',
-                'post_content',
-                'example_text',
-                'example_textarea',
-                'example_int',
-                'example_uint',
-                'example_float',
-                'example_ufloat',
-                'example_bool',
-                'example_date',
-                'example_time',
-                'example_datetime',
-            ],
-            'editable_columns' => [
-                'post_author',
-                'post_date',
-                'post_name',
-                'post_status',
-                'post_title',
-                'post_type',
-                'post_content',
-                'example_text',
-                'example_textarea',
-                'example_int',
-                'example_uint',
-                'example_float',
-                'example_ufloat',
-                'example_bool',
-                'example_date',
-                'example_time',
-                'example_datetime',
-            ],
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
             'errors' => $errors,
             'post' => $post,
-            'single' => 'true',
         ];
 
         $this->ok();
