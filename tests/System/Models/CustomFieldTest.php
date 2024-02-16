@@ -10,10 +10,11 @@ class CustomFieldTest extends TestCase
 {
     public function test_construct01(): void
     {
-        $obj = new CustomField('slug', 'title');
+        $obj = new CustomField('slug', 'title', 'int');
         $this->assertNotNull($obj);
         $this->assertEquals('slug', $obj->slug);
         $this->assertEquals('title', $obj->title);
+        $this->assertEquals('int', $obj->type);
     }
 
     public function test_getSlug01(): void
@@ -59,11 +60,33 @@ class CustomFieldTest extends TestCase
         $this->expectExceptionMessage('illegal to set CustomField.');
         CustomField::getTitle(CustomFieldTestMockA::class, 'field_c');
     }
+
+    public function test_getType01(): void
+    {
+        $val = CustomField::getType(CustomFieldTestMockA::class, 'field_a');
+        $this->assertEquals('int', $val);
+    }
+
+    public function test_getType02(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('illegal parameters.');
+        CustomField::getSlug(CustomFieldTestMockA::class, 'field_b');
+    }
+
+    public function test_getType03(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('illegal to set CustomField.');
+        CustomField::getType(CustomFieldTestMockA::class, 'field_c');
+    }
 }
 
 class CustomFieldTestMockA
 {
-    #[CustomField(slug: 'test_slug', title: 'タイトルテスト')]
+    #[CustomField(slug: 'test_slug', title: 'タイトルテスト', type: 'int')]
     public string $field_a;
 
     #[CustomField]
