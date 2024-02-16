@@ -3,23 +3,18 @@ namespace System\Config;
 
 use System\Core\Cast;
 
-trait ConfigTrait
+class DefaultConfigurator implements ConfigInterface
 {
     use Cast;
 
     private array $configs = [];
 
-    public function config(): ConfigInterface
-    {
-        return $this;
-    }
-
-    public function addConfig(CONFIG $key, string $value): void
+    public function add(CONFIG $key, string $value): void
     {
         $this->configs[$key->value] = $value;
     }
 
-    public function getConfig(CONFIG $key): string
+    public function get(CONFIG $key): string
     {
         return $this->configs[$key->value];
     }

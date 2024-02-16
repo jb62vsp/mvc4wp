@@ -1,10 +1,7 @@
-<?php declare(strict_types=1);
-
-use App\Controllers\exampleController;
-
-?>
+<?php declare(strict_types=1); ?>
 <h1>
-    <?php echo $data['title']; ?>: list
+    <?php echo eh($data['title']); ?>: list
 </h1>
-<?php exampleController::cast($data['this'])->view('example/parts/table', $data); ?>
-<?php exampleController::cast($data['this'])->view('example/parts/register'); ?>
+<?php view('example/parts/search', $data); ?>
+<?php view('example/parts/table', $data); ?>
+<?php view('example/parts/register', $data); ?>

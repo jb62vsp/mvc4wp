@@ -3,7 +3,7 @@ namespace System\Config;
 
 interface ConfigInterface
 {
-    public function addConfig(CONFIG $key, string $value): void;
+    public function add(CONFIG $key, string $value): void;
 
-    public function getConfig(CONFIG $key): string;
+    public function get(CONFIG $key): string;
 }

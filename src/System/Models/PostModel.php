@@ -8,28 +8,37 @@ class PostModel extends Model
 {
     use Cast;
 
-    #[BindableField]
+    #[Bindable]
     public int $post_author;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_date;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_name;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_status;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_title;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_type;
 
-    #[BindableField]
+    #[Bindable]
     public string $post_content;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->post_type = PostType::getName(static::class);
+    }
+
+    public function register(bool $publish = true): int
+    {
+        if ($publish) {
+            $this->post_status = 'publish';
+        }
+        return parent::register();
     }
 }

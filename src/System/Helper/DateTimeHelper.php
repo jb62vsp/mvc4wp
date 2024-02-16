@@ -11,9 +11,19 @@ final class DateTimeHelper
 
     public const DATETIME_FORMAT = self::DATE_FORMAT . ' ' . self::TIME_FORMAT;
 
-    public static function date(): string
+    public static function datetime(): string
     {
         return wp_date(self::DATETIME_FORMAT);
+    }
+
+    public static function date(): string
+    {
+        return wp_date(self::DATE_FORMAT);
+    }
+
+    public static function time(): string
+    {
+        return wp_date(self::TIME_FORMAT);
     }
 
     public static function datetimeval(DateTime|string $value): DateTime
@@ -21,8 +31,11 @@ final class DateTimeHelper
         return ($value instanceof DateTime) ? $value : new DateTime($value);
     }
 
-    public static function strval(DateTime $value): string
+    public static function strval(DateTime|null $value, string $format = self::DATETIME_FORMAT): string
     {
-        return $value->format(self::DATETIME_FORMAT);
+        if (is_null($value)) {
+            return '';
+        }
+        return $value->format($format);
     }
 }

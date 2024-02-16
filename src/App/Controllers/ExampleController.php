@@ -2,17 +2,87 @@
 namespace App\Controllers;
 
 use App\Models\ExampleModel;
-use System\Controllers\PlainPhpController;
 use System\Core\Cast;
 
-class ExampleController extends PlainPhpController
+class ExampleController extends AdminController
 {
     use Cast;
 
     private string $name;
 
+    private const COLUMNS = [
+        'ID',
+        'post_author',
+        'post_date',
+        'post_name',
+        'post_status',
+        'post_title',
+        'post_type',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const SEARCHABLE_COLUMNS = [
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const REGISTERABLE_COLUMNS = [
+        'post_title',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+    ];
+
+    private const EDITABLE_COLUMNS = [
+        'post_author',
+        'post_date',
+        'post_name',
+        'post_status',
+        'post_title',
+        'post_type',
+        'post_content',
+        'example_text',
+        'example_textarea',
+        'example_int',
+        'example_uint',
+        'example_float',
+        'example_ufloat',
+        'example_bool',
+        'example_date',
+        'example_time',
+        'example_datetime',
+
+    ];
+
     public function init(): void
     {
+        parent::init();
         $this->name = 'Example';
     }
 
@@ -21,9 +91,8 @@ class ExampleController extends PlainPhpController
         $this->list();
     }
 
-    public function list(array $args = []): void
+    public function list(array $args = [], array $errors = [], $post = []): void
     {
-        $examples = [];
         $sort = 'ID';
         $order = 'asc';
         if (array_key_exists('sort', $args)) {
@@ -35,26 +104,17 @@ class ExampleController extends PlainPhpController
         $examples = ExampleModel::find()->withDraft()->withTrash()->order($sort, $order)->get();
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'examples' => $examples,
-            'columns' => [
-                'ID',
-                'post_author',
-                'post_date',
-                'post_name',
-                'post_status',
-                'post_title',
-                'post_type',
-                'post_content',
-                'example_string',
-                'example_int',
-                'example_float',
-                'example_bool',
-                'example_datetime',
-            ],
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
             'sort' => $sort,
             'order' => $order,
+            'errors' => $errors,
+            'post' => $post,
+            'list' => true,
         ];
 
         $this->ok();
@@ -65,7 +125,38 @@ class ExampleController extends PlainPhpController
             ->done();
     }
 
-    public function single(array $args): void
+    public function search(): void
+    {
+        $sort = 'ID';
+        $order = 'asc';
+        $examples = ExampleModel::find()
+            ->withDraft()
+            ->withTrash()
+            ->search($_POST['key'], $_POST['value'], $_POST['compare'], $_POST['type'])
+            ->order($sort, $order)
+            ->get();
+        $data = [
+            'title' => $this->name,
+            'examples' => $examples,
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
+            'key' => $_POST['key'],
+            'value' => $_POST['value'],
+            'compare' => $_POST['compare'],
+            'type' => $_POST['type'],
+        ];
+
+        $this->ok();
+        $this
+            ->view('header', $data)
+            ->view('example/list', $data)
+            ->view('footer')
+            ->done();
+    }
+
+    public function single(array $args, array $errors = [], array $post = []): void
     {
         $id = intval($args['id']);
         $example = ExampleModel::find()->withDraft()->withTrash()->byID($id);
@@ -74,26 +165,15 @@ class ExampleController extends PlainPhpController
         }
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'id' => $id,
             'examples' => [$example],
-            'columns' => [
-                'ID',
-                'post_author',
-                'post_date',
-                'post_name',
-                'post_status',
-                'post_title',
-                'post_type',
-                'post_content',
-                'example_string',
-                'example_int',
-                'example_float',
-                'example_bool',
-                'example_datetime',
-            ],
-            'single' => 'true',
+            'columns' => self::COLUMNS,
+            'searchable_columns' => self::SEARCHABLE_COLUMNS,
+            'registerable_columns' => self::REGISTERABLE_COLUMNS,
+            'editable_columns' => self::EDITABLE_COLUMNS,
+            'errors' => $errors,
+            'post' => $post,
         ];
 
         $this->ok();
@@ -107,9 +187,13 @@ class ExampleController extends PlainPhpController
     public function register(): void
     {
         $example = new ExampleModel();
-        $example->bind($_POST);
-        $id = $example->register();
-        $this->seeOther("/example/{$id}")->done();
+        $errors = $example->bind($_POST);
+        if (empty($errors)) {
+            $id = $example->register();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $this->list([], $errors, $_POST);
+        }
     }
 
     public function update(array $args): void
@@ -120,20 +204,29 @@ class ExampleController extends PlainPhpController
             $this->notFound()->done();
         }
 
-        $example->bind($_POST);
-        $example->update();
-        $this->seeOther("/example/{$id}")->done();
+        $errors = $example->bind($_POST);
+        if (empty($errors)) {
+            $example->update();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $this->single($args, $errors);
+        }
     }
 
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::cast_null(ExampleModel::find()->byID($id));
+        $example = ExampleModel::cast_null(ExampleModel::find()->withDraft()->withTrash()->byID($id));
         if (is_null($example)) {
             $this->notFound()->done();
         }
 
-        $example->delete();
-        $this->seeOther("/example/list")->done();
+        if ($_POST['to_trush'] === 'true') {
+            $example->delete();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $example->delete(true);
+            $this->seeOther("/example/list")->done();
+        }
     }
 }

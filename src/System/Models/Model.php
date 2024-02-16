@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
-use ReflectionClass;
 use ReflectionProperty;
 use System\Core\Cast;
+use System\Exception\ValidationException;
 use System\Helper\DateTimeHelper;
 
 abstract class Model
@@ -12,28 +12,32 @@ abstract class Model
 
     // ---- bind section ----
 
-    public function bind(object|array $data): void
+    public function bind(object|array $data, bool $validation = true): array
     {
-        $props = BindableField::getBindableFields(static::class);
+        $result = [];
+
+        $props = Bindable::getBindableFields(static::class);
         foreach ($props as $prop) {
-            self::bindProperty($this, $prop, $data);
+            try {
+                self::bindProperty($this, $prop, $data, $validation);
+            } catch (ValidationException $ex) {
+                $result[$ex->field] = $ex;
+            }
         }
+
+        return $result;
     }
 
-    private static function bindProperty(Model $obj, ReflectionProperty $prop, object|array $data): void
+    private static function bindProperty(Model $obj, ReflectionProperty $prop, object|array $data, bool $validation): void
     {
         $prop_name = $prop->getName();
         if (self::_hasKey($data, $prop_name)) {
             $value = self::_getValue($data, $prop_name);
+            if ($validation) {
+                Rule::validation($obj, $prop_name, toString($value));
+            }
             $typed_value = self::_typedValue($prop->getType()->getName(), $value);
             $prop->setValue($obj, $typed_value);
-        } else {
-            $default_value = BindableField::getDefaultValue(get_class($obj), $prop_name);
-            if (!is_null($default_value)) {
-                $prop->setValue($obj, $default_value);
-            } elseif ($prop->getType()->allowsNull()) {
-                $prop->setValue($obj, $default_value);
-            }
         }
     }
 
@@ -104,7 +108,7 @@ abstract class Model
 
     // ---- repository section ----
 
-    #[BindableField]
+    #[Bindable]
     public int $ID;
 
     public function isLoaded(): bool
@@ -112,9 +116,9 @@ abstract class Model
         return isset($this->ID);
     }
 
-    public static function find(): PostQueryBuilder
+    public static function find(): PostQuery
     {
-        return new PostQueryBuilder(static::class);
+        return new PostQuery(static::class);
     }
 
     public function register(): int

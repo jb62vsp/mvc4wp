@@ -5,30 +5,19 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
-use System\Config\ConfigTrait;
 
-#[CoversClass(ConfigTrait::class)]
 #[CoversClass(RouteHandler::class)]
-#[CoversClass(RouterTrait::class)]
-class RouterTraitTest extends TestCase
+#[CoversClass(DefaultRouter::class)]
+class DefaultRouterTest extends TestCase
 {
     private function getRouter(): RouterInterface
     {
-        return new RouterMock();
+        return new DefaultRouter();
     }
 
     private function getConfig(): ConfigInterface
     {
         return new ConfigMock();
-    }
-
-    public function test_router(): void
-    {
-        $router = $this->getRouter();
-
-        $router2 = $router->router();
-        $this->assertNotNull($router);
-        $this->assertEquals($router, $router2);
     }
 
     public function test_getOkCase01(): void
@@ -40,7 +29,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -53,7 +42,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -66,7 +55,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -79,7 +68,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(1, count($handler->args));
         $this->assertArrayHasKey('id', $handler->args);
         $this->assertEquals(123, $handler->args['id']);
@@ -94,7 +83,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(1, count($handler->args));
         $this->assertArrayHasKey('name', $handler->args);
         $this->assertEquals('abc', $handler->args['name']);
@@ -109,7 +98,7 @@ class RouterTraitTest extends TestCase
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::index', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
         $this->assertEquals(2, count($handler->args));
         $this->assertArrayHasKey('name', $handler->args);
         $this->assertEquals('abc', $handler->args['name']);
@@ -149,10 +138,10 @@ class RouterTraitTest extends TestCase
         $router->post('/', 'HomeController::register');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'POST', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::register', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::register', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -162,10 +151,10 @@ class RouterTraitTest extends TestCase
         $router->post('/', 'HomeController::register');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'post', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::register', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::register', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -175,10 +164,10 @@ class RouterTraitTest extends TestCase
         $router->put('/', 'HomeController::update');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'PUT', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::update', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::update', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -188,10 +177,10 @@ class RouterTraitTest extends TestCase
         $router->put('/', 'HomeController::update');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'put', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::update', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::update', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -201,10 +190,10 @@ class RouterTraitTest extends TestCase
         $router->delete('/', 'HomeController::delete');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'DELETE', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::delete', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::delete', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
@@ -214,25 +203,23 @@ class RouterTraitTest extends TestCase
         $router->delete('/', 'HomeController::delete');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'delete', '/');
- 
+
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('App\Controllers\HomeController::delete', $handler->signature);
+        $this->assertEquals('Mock\OK\HomeController::delete', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 }
 
-class RouterMock implements RouterInterface
-{
-    use RouterTrait;
-}
-
 class ConfigMock implements ConfigInterface
 {
-    use ConfigTrait;
-
-    public function __construct()
+    public function add(CONFIG $key, string $value): void
     {
-        $this->addConfig(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
+        return;
+    }
+
+    public function get(CONFIG $key): string
+    {
+        return 'Mock\OK';
     }
 }

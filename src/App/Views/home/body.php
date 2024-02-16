@@ -1,3 +1,3 @@
 <h1>
-    <?php echo "Hello {$data['title']}"; ?>
+    <?php echo 'Hello ' . eh($data['title']); ?>
 </h1>

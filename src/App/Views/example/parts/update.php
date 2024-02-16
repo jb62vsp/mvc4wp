@@ -1,14 +1,28 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>update</h2>
-    <form action="<?php echo "/example/{$data['id']}"; ?>" method='POST'>
-        <p><input type='text' name='post_title' value='<?php echo $data['examples'][0]->post_title; ?>'></p>
-        <p><textarea name='post_content'><?php echo $data['examples'][0]->post_content; ?></textarea></p>
-        <p><input type='text' name='example_string' value='<?php echo $data['examples'][0]->example_string; ?>'></p>
-        <p><input type='text' name='example_int' value='<?php echo $data['examples'][0]->example_int; ?>'></p>
-        <p><input type='text' name='example_float' value='<?php echo $data['examples'][0]->example_float; ?>'></p>
-        <p><input type='text' name='example_bool' value='<?php echo $data['examples'][0]->example_bool; ?>'></p>
-        <p><input type='text' name='example_datetime' value='<?php echo $data['examples'][0]->example_datetime; ?>'></p>
-        <p><input type="hidden" name="_METHOD" value="PUT"><input type='submit' value='update'></p>
+    <?php foreach ($data['errors'] as $key => $error): ?>
+        <p class="error">
+            <?php echo $error->getMessage(); ?>
+        </p>
+    <?php endforeach; ?>
+    <form action="<?php echo '/example/' . eh($data['id']); ?>" method='POST'>
+        <?php foreach ($data['editable_columns'] as $column): ?>
+            <p>
+                <label for='<?php echo $column; ?>'>
+                    <?php echo $column; ?>
+                </label>
+                <?php if ($column === 'example_textarea'): ?>
+                    <textarea id='<?php echo $column; ?>'
+                        name='<?php echo $column; ?>'><?php echo App\Models\ExampleModel::cast($data['examples'][0])->format($column); ?></textarea>
+                <?php else: ?>
+                    <input type='text' id='<?php echo $column; ?>' name='<?php echo $column; ?>'
+                        value='<?php echo App\Models\ExampleModel::cast($data['examples'][0])->format($column); ?>'>
+                <?php endif; ?>
+            </p>
+        <?php endforeach; ?>
+        <p>
+            <input type="hidden" name="_METHOD" value="PUT"><input type='submit' value='update'>
+        </p>
     </form>
 </section>

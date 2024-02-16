@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use System\Core\Cast;
 use WP_Query;
 
-class PostQueryBuilder
+class PostQuery
 {
+    use Cast;
+
     protected array $queries = [];
 
     public function __construct(
@@ -65,6 +68,54 @@ class PostQueryBuilder
         return $this;
     }
 
+    // ---- search
+
+    /**
+     * custom field only
+     * @param string $key key
+     * @param string $value value
+     * @param string $compare Compare operator. =, !=, >, >=, <, <=, LIKE, NOT LIKE, IN, NOT IN, BETWEEN, NOT BETWEEN, EXISTS, NOT EXISTS, REGEXP, NOT REGEXP, RLIKE. Default value is =.
+     * @param string $type Compare type. NUMERIC, BINARY, CHAR, DATE, DATETIME, DECIMAL, SIGNED, TIME, UNSIGNED. Default value is CHAR.
+     */
+    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
+    {
+        if (array_key_exists('meta_query', $this->queries)) {
+            array_push($this->queries['meta_query'], [
+                'key' => $key,
+                'compare' => $compare,
+                'value' => $value,
+                'type' => $type,
+            ]);
+        } elseif (array_key_exists('meta_key', $this->queries)) {
+            $exists = [];
+            $exists['key'] = $this->queries['meta_key'];
+            unset($this->queries['meta_key']);
+            $exists['compare'] = $this->queries['meta_compare'];
+            unset($this->queries['meta_compare']);
+            $exists['value'] = $this->queries['meta_value'];
+            unset($this->queries['meta_value']);
+            $exists['type'] = $this->queries['meta_type'];
+            unset($this->queries['meta_type']);
+
+            $this->queries['meta_query'] = [
+                'relation' => 'AND',
+                $exists,
+                [
+                    'key' => $key,
+                    'compare' => $compare,
+                    'value' => $value,
+                    'type' => $type,
+                ]
+            ];
+        } else {
+            $this->queries['meta_key'] = $key;
+            $this->queries['meta_compare'] = $compare;
+            $this->queries['meta_value'] = $value;
+            $this->queries['meta_type'] = $type;
+        }
+        return $this;
+    }
+
     // ---- sort
 
     public function order(string $order_by, $order): self
@@ -107,9 +158,9 @@ class PostQueryBuilder
                 $obj = new $cls();
                 $id = get_the_ID();
                 $data = get_post($id);
-                $obj->bind($data);
+                $obj->bind($data, false);
                 $meta = get_post_custom($id);
-                $obj->bind($meta);
+                $obj->bind($meta, false);
                 array_push($result, $obj);
             }
         }
@@ -130,9 +181,9 @@ class PostQueryBuilder
                 $result = new $cls();
                 $id = get_the_ID();
                 $data = get_post($id);
-                $result->bind($data);
+                $result->bind($data, false);
                 $meta = get_post_custom($id);
-                $result->bind($meta);
+                $result->bind($meta, false);
                 break;
             }
         }

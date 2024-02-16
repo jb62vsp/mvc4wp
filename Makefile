@@ -4,16 +4,14 @@
 .DEFAULT: init
 
 .PHONY: init
-init: vendor
+init: vendor #: initialize
 
 .PHONY: clean
-clean: vendor_clear test_clear
-	@rm -rf 
+clean: clean_vendor clean_test #: clean project
 
 .PHONY: default
-default: init
-	@rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Models/* ./src/App/Views/* ./src/bootstrap.php ./functions.php ./index.php
-	@cp .init/bootstrap.php ./src/App/
+default: init #: default settings to App
+	@rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php
 	@cp .init/functions.php ./
 	@cp .init/index.php ./
 
@@ -21,20 +19,23 @@ default: init
 # vendor
 #
 .PHONY: vendor
-vendor: composer.json
+vendor: composer.json #: install vendor
 	@composer install --no-dev
-	@composer dump-autoload
 
 .PHONY: vendor_dev
-vendor_dev: composer.json
+vendor_dev: composer.json #: install vendor with dev
 	@composer install
 
-.PHONY: vendor_clear
-vendor_clear: composer.json composer.lock vendor/
+.PHONY: reload_vendor
+reload_vendor: composer.json #: reload autoloader
+	@composer dump-autoload
+
+.PHONY: clean_vendor
+clean_vendor: composer.json composer.lock vendor/ #: clean vendor
 	@rm -rf vendor/
 
-.PHONY: vendor_unlock
-vendor_unlock: composer.lock
+.PHONY: unlock_vendor
+unlock_vendor: composer.lock #: unlock vendor
 	@rm -rf composer.lock
 
 #
@@ -42,13 +43,21 @@ vendor_unlock: composer.lock
 #
 
 .PHONY: test
-test: vendor/bin/phpunit tests/System
+test: vendor/bin/phpunit tests/System #: execute System unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --coverage-text=coverage.txt --coverage-html=coverage --testsuite 'system'
 
-.PHONY: test_app
-test_app: vendor/bin/phpunit tests/App
+.PHONY: app_test
+app_test: vendor/bin/phpunit tests/App #: execute App unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --coverage-text=coverage.txt --coverage-html=coverage --testsuite 'app'
 
-.PHONY: test_clear
-test_clear:
+.PHONY: clean_test
+clean_test: #: clean test
 	@rm -rf .phpunit.cache coverage
+
+#
+# help
+#
+
+.PHONY: help
+help: #: Display this help screen
+	@grep -E '^[a-zA-Z_-]+:.*?#: .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?#: "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'

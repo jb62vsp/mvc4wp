@@ -5,10 +5,13 @@ use FastRoute;
 use FastRoute\RouteCollector;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Core\Cast;
 use System\Core\HttpStatus;
 
-trait RouterTrait
+class DefaultRouter implements RouterInterface
 {
+    use Cast;
+
     private const GET = 'GET';
 
     private const POST = 'POST';
@@ -18,11 +21,6 @@ trait RouterTrait
     private const DELETE = 'DELETE';
 
     private array $routes = [];
-
-    public function router(): RouterInterface
-    {
-        return $this;
-    }
 
     public function get(string $route, string $handler): void
     {
@@ -56,7 +54,7 @@ trait RouterTrait
         $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) use ($config, $routes) {
             foreach ($routes as $key => $value) {
                 $keys = explode('|', $key);
-                $r->addRoute($keys[0], $keys[1], $config->getConfig(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
+                $r->addRoute($keys[0], $keys[1], $config->get(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
             }
         });
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);
