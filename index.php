@@ -16,6 +16,7 @@ $wpmvc_app->router()->get('/home/redirect', 'HomeController::redirect');
 // json response sample
 $wpmvc_app->router()->get('/ajax/', 'AjaxController::index');
 $wpmvc_app->router()->get('/ajax/index', 'AjaxController::index');
+$wpmvc_app->router()->post('/ajax/', 'AjaxController::post');
 // post sample
 $wpmvc_app->router()->get('/post/', 'PostController::index');
 $wpmvc_app->router()->get('/post/index', 'PostController::index');

@@ -10,6 +10,11 @@ class AjaxController extends JsonController
 
     public function index(): void
     {
+        $this->get();
+    }
+
+    public function get(): void
+    {
         $data = [
             'title' => 'ajax',
             'value' => 123,
@@ -17,5 +22,11 @@ class AjaxController extends JsonController
 
         $this->ok();
         $this->view(json_encode($data))->done();
+    }
+
+    public function post(): void
+    {
+        $this->ok();
+        $this->view(json_encode($_POST))->done();
     }
 }

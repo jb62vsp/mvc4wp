@@ -15,6 +15,16 @@ class HomeController extends PlainPhpController
         $this->name = 'Home';
     }
 
+    private function page(string $view, array $data): self
+    {
+        $this->ok();
+        $this
+            ->view('header', $data)
+            ->view($view, $data)
+            ->view('footer', $data);
+        return $this;
+    }
+
     public function index(): void
     {
         $data = [
@@ -22,11 +32,7 @@ class HomeController extends PlainPhpController
         ];
 
         $this->ok();
-        $this
-            ->view('header', $data)
-            ->view('home/body', $data)
-            ->view('footer')
-            ->done();
+        $this->page('home/body', $data)->done();
     }
 
     public function other(array $args): void
@@ -42,12 +48,7 @@ class HomeController extends PlainPhpController
         ];
 
         $this->ok();
-        $this
-            ->view('header', $data)
-            ->view('home/body', $data)
-            ->view('home/other', $data)
-            ->view('footer')
-            ->done();
+        $this->page('home/body', $data)->done();
     }
 
     public function redirect(): void
