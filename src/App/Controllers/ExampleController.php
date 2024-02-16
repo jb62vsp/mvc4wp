@@ -2,10 +2,9 @@
 namespace App\Controllers;
 
 use App\Models\ExampleModel;
-use System\Controllers\PlainPhpController;
 use System\Core\Cast;
 
-class ExampleController extends PlainPhpController
+class ExampleController extends AdminController
 {
     use Cast;
 
@@ -13,6 +12,7 @@ class ExampleController extends PlainPhpController
 
     public function init(): void
     {
+        parent::init();
         $this->name = 'Example';
     }
 
@@ -35,7 +35,6 @@ class ExampleController extends PlainPhpController
         $examples = ExampleModel::find()->withDraft()->withTrash()->order($sort, $order)->get();
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'examples' => $examples,
             'columns' => [
@@ -74,7 +73,6 @@ class ExampleController extends PlainPhpController
         }
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'id' => $id,
             'examples' => [$example],

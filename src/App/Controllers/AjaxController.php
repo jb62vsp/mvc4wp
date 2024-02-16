@@ -11,7 +11,6 @@ class AjaxController extends JsonController
     public function index(): void
     {
         $data = [
-            'this' => $this,
             'title' => 'ajax',
             'value' => 123,
         ];

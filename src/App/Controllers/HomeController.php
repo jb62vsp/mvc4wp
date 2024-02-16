@@ -18,7 +18,6 @@ class HomeController extends PlainPhpController
     public function index(): void
     {
         $data = [
-            'this' => $this,
             'title' => $this->name,
         ];
 
@@ -38,7 +37,6 @@ class HomeController extends PlainPhpController
         }
 
         $data = [
-            'this' => $this,
             'title' => 'other page',
             'id' => strval($id),
         ];
