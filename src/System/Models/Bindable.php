@@ -9,7 +9,7 @@ use System\Core\Cast;
 use System\Exception\ApplicationException;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class BindableField
+class Bindable
 {
     use Cast;
 
@@ -21,7 +21,7 @@ class BindableField
     public static function getDefaultValue(string $class_name, string $property_name): bool|int|float|array|DateTime|string|null
     {
         $ref = new ReflectionProperty($class_name, $property_name);
-        $attrs = $ref->getAttributes(BindableField::class);
+        $attrs = $ref->getAttributes(Bindable::class);
         if (count($attrs) <= 0) {
             return null;
         } elseif (count($attrs) !== 1) {
@@ -44,7 +44,7 @@ class BindableField
         $refc = new ReflectionClass($class_name);
         $props = $refc->getProperties(ReflectionProperty::IS_PUBLIC);
         $result = array_filter($props, function (ReflectionProperty $prop) {
-            $attrs = $prop->getAttributes(BindableField::class);
+            $attrs = $prop->getAttributes(Bindable::class);
             return count($attrs) === 1;
         });
         return $result;

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 
 #[CoversClass(Model::class)]
-#[CoversClass(BindableField::class)]
+#[CoversClass(Bindable::class)]
 class ModelTest extends TestCase
 {
     public function test_bindField01(): void
@@ -47,10 +47,10 @@ class ModelTest extends TestCase
 
 class ModelTestMockA extends Model
 {
-    #[BindableField(default_value: 'abc')]
+    #[Bindable(default_value: 'abc')]
     public string $field_a;
 
-    #[BindableField]
+    #[Bindable]
     public int $field_b;
 
     public float $field_c;

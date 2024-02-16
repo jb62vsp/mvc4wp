@@ -5,19 +5,19 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Exception\ApplicationException;
 
-#[CoversClass(BindableField::class)]
-class BindableFieldTest extends TestCase
+#[CoversClass(Bindable::class)]
+class BindableTest extends TestCase
 {
     public function test_construct01(): void
     {
-        $obj = new BindableField();
+        $obj = new Bindable();
         $this->assertNotNull($obj);
         $this->assertNull($obj->default_value);
     }
 
     public function test_construct02(): void
     {
-        $obj = new BindableField('test');
+        $obj = new Bindable('test');
         $this->assertNotNull($obj);
         $this->assertNotNull($obj->default_value);
         $this->assertEquals('test', $obj->default_value);
@@ -25,27 +25,27 @@ class BindableFieldTest extends TestCase
 
     public function test_getDefaultValue01(): void
     {
-        $val = BindableField::getDefaultValue(BindableFieldTestMockA::class, 'field_a');
+        $val = Bindable::getDefaultValue(BindableTestMockA::class, 'field_a');
         $this->assertNull($val);
     }
 
     public function test_getDefaultValue02(): void
     {
-        $val = BindableField::getDefaultValue(BindableFieldTestMockA::class, 'field_b');
+        $val = Bindable::getDefaultValue(BindableTestMockA::class, 'field_b');
         $this->assertNotNull($val);
         $this->assertEquals(0, $val);
     }
 
     public function test_getDefaultValue03(): void
     {
-        $val = BindableField::getDefaultValue(BindableFieldTestMockA::class, 'field_c');
+        $val = Bindable::getDefaultValue(BindableTestMockA::class, 'field_c');
         $this->assertNotNull($val);
         $this->assertEquals('abc', $val);
     }
 
     public function test_getDefaultValue04(): void
     {
-        $val = BindableField::getDefaultValue(BindableFieldTestMockA::class, 'field_d');
+        $val = Bindable::getDefaultValue(BindableTestMockA::class, 'field_d');
         $this->assertNull($val);
     }
 
@@ -54,7 +54,7 @@ class BindableFieldTest extends TestCase
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('illegal to set BindableField.');
-        BindableField::getDefaultValue(BindableFieldTestMockB::class, 'field_a');
+        Bindable::getDefaultValue(BindableTestMockB::class, 'field_a');
     }
 
     public function test_getDefaultValue06(): void
@@ -62,18 +62,18 @@ class BindableFieldTest extends TestCase
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('illegal parameters.');
-        BindableField::getDefaultValue(BindableFieldTestMockB::class, 'field_b');
+        Bindable::getDefaultValue(BindableTestMockB::class, 'field_b');
     }
 
     public function test_getBindableFields01(): void
     {
-        $fields = BindableField::getBindableFields(BindableFieldTestMockA::class);
+        $fields = Bindable::getBindableFields(BindableTestMockA::class);
         $this->assertCount(3, $fields);
     }
 
     public function test_getBindableFieldNames01(): void
     {
-        $names = BindableField::getBindableFieldNames(BindableFieldTestMockA::class);
+        $names = Bindable::getBindableFieldNames(BindableTestMockA::class);
         $this->assertCount(3, $names);
         $this->assertEquals('field_a', $names[0]);
         $this->assertEquals('field_b', $names[1]);
@@ -81,32 +81,32 @@ class BindableFieldTest extends TestCase
     }
 }
 
-class BindableFieldTestMockA
+class BindableTestMockA
 {
-    #[BindableField]
+    #[Bindable]
     public string $field_a;
 
-    #[BindableField(default_value: 0)]
+    #[Bindable(default_value: 0)]
     public int $field_b;
 
-    #[BindableField('abc')]
+    #[Bindable('abc')]
     public float $field_c;
 
     public string $field_d;
 
-    #[BindableField]
+    #[Bindable]
     private string $field_e;
 
-    #[BindableField]
+    #[Bindable]
     protected string $field_f;
 }
 
-class BindableFieldTestMockB
+class BindableTestMockB
 {
-    #[BindableField]
-    #[BindableField]
+    #[Bindable]
+    #[Bindable]
     public string $field_a;
 
-    #[BindableField(hoge: 'hoge', fuga: 'fuga')]
+    #[Bindable(hoge: 'hoge', fuga: 'fuga')]
     public string $field_b;
 }

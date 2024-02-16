@@ -14,7 +14,7 @@ abstract class Model
 
     public function bind(object|array $data): void
     {
-        $props = BindableField::getBindableFields(static::class);
+        $props = Bindable::getBindableFields(static::class);
         foreach ($props as $prop) {
             self::bindProperty($this, $prop, $data);
         }
@@ -28,7 +28,7 @@ abstract class Model
             $typed_value = self::_typedValue($prop->getType()->getName(), $value);
             $prop->setValue($obj, $typed_value);
         } else {
-            $default_value = BindableField::getDefaultValue(get_class($obj), $prop_name);
+            $default_value = Bindable::getDefaultValue(get_class($obj), $prop_name);
             if (!is_null($default_value)) {
                 $prop->setValue($obj, $default_value);
             } elseif ($prop->getType()->allowsNull()) {
@@ -104,7 +104,7 @@ abstract class Model
 
     // ---- repository section ----
 
-    #[BindableField]
+    #[Bindable]
     public int $ID;
 
     public function isLoaded(): bool
