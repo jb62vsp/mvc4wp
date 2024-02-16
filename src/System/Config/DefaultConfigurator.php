@@ -3,7 +3,7 @@ namespace System\Config;
 
 use System\Core\Cast;
 
-class Configurator implements ConfigInterface
+class DefaultConfigurator implements ConfigInterface
 {
     use Cast;
 

@@ -3,7 +3,7 @@ namespace System\Application;
 
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
-use System\Config\Configurator;
+use System\Config\DefaultConfigurator;
 use System\Core\Cast;
 use System\Core\HttpStatus;
 use System\Route\RouteHandler;
@@ -15,9 +15,8 @@ final class Application implements ApplicationInterface, RouterInterface
     use Cast, RouterTrait;
 
     public function __construct(
-        private ConfigInterface $config = new Configurator(),
-    )
-    {
+        private ConfigInterface $config = new DefaultConfigurator(),
+    ) {
         /*
          * -------- DEFAULT CONFIGURATIONS --------
          */
