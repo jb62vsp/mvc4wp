@@ -9,7 +9,7 @@ use System\Config\Configrator;
 
 #[CoversClass(Configrator::class)]
 #[CoversClass(RouteHandler::class)]
-#[CoversClass(RouterTrait::class)]
+#[CoversClass(DefaultRouter::class)]
 class RouterTraitTest extends TestCase
 {
     private function getRouter(): RouterInterface
@@ -224,7 +224,7 @@ class RouterTraitTest extends TestCase
 
 class RouterMock implements RouterInterface
 {
-    use RouterTrait;
+    use DefaultRouter;
 }
 
 class ConfigMock implements ConfigInterface

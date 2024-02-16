@@ -7,6 +7,8 @@ use System\Route\RouterInterface;
 interface ApplicationInterface
 {
     public function config(): ConfigInterface;
+
+    public function router(): RouterInterface;
     
-    public function execute(ConfigInterface $config, RouterInterface $router): void;
+    public function run(): void;
 }

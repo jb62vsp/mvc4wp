@@ -5,8 +5,6 @@ use System\Config\ConfigInterface;
 
 interface RouterInterface
 {
-    public function router(): RouterInterface;
-
     public function get(string $route, string $handler): void;
 
     public function post(string $route, string $handler): void;

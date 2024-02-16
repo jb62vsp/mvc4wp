@@ -8,7 +8,7 @@ use System\Config\ConfigInterface;
 use System\Core\Cast;
 use System\Core\HttpStatus;
 
-trait RouterTrait
+class DefaultRouter implements RouterInterface
 {
     use Cast;
 
@@ -21,11 +21,6 @@ trait RouterTrait
     private const DELETE = 'DELETE';
 
     private array $routes = [];
-
-    public function router(): RouterInterface
-    {
-        return $this;
-    }
 
     public function get(string $route, string $handler): void
     {

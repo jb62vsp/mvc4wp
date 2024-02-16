@@ -6,16 +6,17 @@ use System\Config\ConfigInterface;
 use System\Config\DefaultConfigurator;
 use System\Core\Cast;
 use System\Core\HttpStatus;
+use System\Route\DefaultRouter;
 use System\Route\RouteHandler;
 use System\Route\RouterInterface;
-use System\Route\RouterTrait;
 
-final class Application implements ApplicationInterface, RouterInterface
+final class Application implements ApplicationInterface
 {
-    use Cast, RouterTrait;
+    use Cast;
 
     public function __construct(
         private ConfigInterface $config = new DefaultConfigurator(),
+        private RouterInterface $router = new DefaultRouter(),
     ) {
         /*
          * -------- DEFAULT CONFIGURATIONS --------
@@ -29,6 +30,11 @@ final class Application implements ApplicationInterface, RouterInterface
     public function config(): ConfigInterface
     {
         return $this->config;
+    }
+
+    public function router(): RouterInterface
+    {
+        return $this->router;
     }
 
     public function run(): void
