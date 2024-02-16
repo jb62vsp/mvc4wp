@@ -6,7 +6,7 @@ use System\Core\Cast;
 
 trait JsonRenderTrait
 {
-    use Cast;
+    use Cast, DefaultResponder;
 
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {

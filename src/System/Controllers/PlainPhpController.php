@@ -2,9 +2,10 @@
 namespace System\Controllers;
 
 use System\Core\Cast;
+use System\Response\DefaultResponder;
 use System\Response\PlainPhpRenderTrait;
 
 abstract class PlainPhpController extends Controller
 {
-    use Cast, PlainPhpRenderTrait;
+    use Cast, DefaultResponder, PlainPhpRenderTrait;
 }

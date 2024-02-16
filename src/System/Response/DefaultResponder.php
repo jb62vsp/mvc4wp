@@ -4,7 +4,7 @@ namespace System\Response;
 use System\Core\Cast;
 use System\Core\HttpStatus;
 
-trait ResponderTrait
+trait DefaultResponder
 {
     use Cast;
 
