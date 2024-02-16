@@ -20,4 +20,4 @@ $wpmvc_app = new System\Application\Application();
  * execute bootstrap
  * --------------------------------------------------------------------
  */
-require_once $wpmvc_app->getConfig(System\Config\CONFIG::BOOTSTRAP);
+include_once($wpmvc_app->getConfig(System\Config\CONFIG::BOOTSTRAP));

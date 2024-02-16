@@ -5,10 +5,13 @@ use FastRoute;
 use FastRoute\RouteCollector;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Core\Cast;
 use System\Core\HttpStatus;
 
 trait RouterTrait
 {
+    use Cast;
+
     private const GET = 'GET';
 
     private const POST = 'POST';

@@ -2,19 +2,26 @@
 namespace System\Models;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 #[CoversClass(Model::class)]
-#[CoversClass(BindableField::class)]
+#[CoversClass(Bindable::class)]
+#[CoversClass(Rule::class)]
 class ModelTest extends TestCase
 {
+    public function setUp(): void
+    {
+        require_once __DIR__ . '/../../../src/System/Core/Common.php';
+    }
+
     public function test_bindField01(): void
     {
         $obj = new ModelTestMockA();
         $obj->bind([]);
         $this->assertEquals('abc', $obj->field_a);
-        $this->assertFalse(isset($obj->field_b));
+        $this->assertEquals(0, $obj->field_b);
         $this->assertFalse(isset($obj->field_c));
     }
 
@@ -47,11 +54,11 @@ class ModelTest extends TestCase
 
 class ModelTestMockA extends Model
 {
-    #[BindableField(default_value: 'abc')]
-    public string $field_a;
+    #[Bindable]
+    public string $field_a = 'abc';
 
-    #[BindableField]
-    public int $field_b;
+    #[Bindable]
+    public int $field_b = 0;
 
     public float $field_c;
 }

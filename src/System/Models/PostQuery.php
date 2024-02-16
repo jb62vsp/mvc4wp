@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use System\Core\Cast;
 use WP_Query;
 
-class PostQueryBuilder
+class PostQuery
 {
+    use Cast;
+    
     protected array $queries = [];
 
     public function __construct(
@@ -107,9 +110,9 @@ class PostQueryBuilder
                 $obj = new $cls();
                 $id = get_the_ID();
                 $data = get_post($id);
-                $obj->bind($data);
+                $obj->bind($data, false);
                 $meta = get_post_custom($id);
-                $obj->bind($meta);
+                $obj->bind($meta, false);
                 array_push($result, $obj);
             }
         }
@@ -130,9 +133,9 @@ class PostQueryBuilder
                 $result = new $cls();
                 $id = get_the_ID();
                 $data = get_post($id);
-                $result->bind($data);
+                $result->bind($data, false);
                 $meta = get_post_custom($id);
-                $result->bind($meta);
+                $result->bind($meta, false);
                 break;
             }
         }

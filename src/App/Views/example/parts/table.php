@@ -1,8 +1,4 @@
-<?php declare(strict_types=1);
-
-use App\Controllers\exampleController;
-
-?>
+<?php declare(strict_types=1); ?>
 <section>
     <h2>table</h2>
     <table>
@@ -28,7 +24,7 @@ use App\Controllers\exampleController;
         </tr>
         <?php foreach ($data['examples'] as $example): ?>
             <tr>
-                <?php exampleController::cast($data['this'])->view('example/parts/line', ['example' => $example, 'columns' => $data['columns']]); ?>
+                <?php view('example/parts/line', ['example' => $example, 'columns' => $data['columns']]); ?>
             </tr>
         <?php endforeach; ?>
     </table>

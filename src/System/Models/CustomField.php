@@ -4,11 +4,14 @@ namespace System\Models;
 use Attribute;
 use ReflectionClass;
 use ReflectionProperty;
+use System\Core\Cast;
 use System\Exception\ApplicationException;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class CustomField
 {
+    use Cast;
+
     public function __construct(
         public string $slug,
         public string $title,

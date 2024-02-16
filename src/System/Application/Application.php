@@ -4,12 +4,13 @@ namespace System\Application;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Config\ConfigTrait;
+use System\Core\Cast;
 use System\Route\RouterInterface;
 use System\Route\RouterTrait;
 
 final class Application implements ApplicationInterface, ConfigInterface, RouterInterface
 {
-    use ApplicationTrait, ConfigTrait, RouterTrait;
+    use ApplicationTrait, Cast, ConfigTrait, RouterTrait;
 
     public function __construct()
     {
@@ -24,6 +25,7 @@ final class Application implements ApplicationInterface, ConfigInterface, Router
 
     public function run(): void
     {
+        include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
         $this->execute($this->config(), $this->router());
     }
 }

@@ -2,10 +2,9 @@
 namespace App\Controllers;
 
 use App\Models\ExampleModel;
-use System\Controllers\PlainPhpController;
 use System\Core\Cast;
 
-class ExampleController extends PlainPhpController
+class ExampleController extends AdminController
 {
     use Cast;
 
@@ -13,6 +12,7 @@ class ExampleController extends PlainPhpController
 
     public function init(): void
     {
+        parent::init();
         $this->name = 'Example';
     }
 
@@ -35,7 +35,6 @@ class ExampleController extends PlainPhpController
         $examples = ExampleModel::find()->withDraft()->withTrash()->order($sort, $order)->get();
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'examples' => $examples,
             'columns' => [
@@ -65,7 +64,7 @@ class ExampleController extends PlainPhpController
             ->done();
     }
 
-    public function single(array $args): void
+    public function single(array $args, array $errors = []): void
     {
         $id = intval($args['id']);
         $example = ExampleModel::find()->withDraft()->withTrash()->byID($id);
@@ -74,7 +73,6 @@ class ExampleController extends PlainPhpController
         }
 
         $data = [
-            'this' => $this,
             'title' => $this->name,
             'id' => $id,
             'examples' => [$example],
@@ -93,6 +91,7 @@ class ExampleController extends PlainPhpController
                 'example_bool',
                 'example_datetime',
             ],
+            'errors' => $errors,
             'single' => 'true',
         ];
 
@@ -120,15 +119,19 @@ class ExampleController extends PlainPhpController
             $this->notFound()->done();
         }
 
-        $example->bind($_POST);
-        $example->update();
-        $this->seeOther("/example/{$id}")->done();
+        $errors = $example->bind($_POST);
+        if (empty($errors)) {
+            $example->update();
+            $this->seeOther("/example/{$id}")->done();
+        } else {
+            $this->single($args, $errors);
+        }
     }
 
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::cast_null(ExampleModel::find()->byID($id));
+        $example = ExampleModel::cast_null(ExampleModel::find()->withDraft()->withTrash()->byID($id));
         if (is_null($example)) {
             $this->notFound()->done();
         }
