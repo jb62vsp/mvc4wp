@@ -3,7 +3,6 @@ namespace System\Models;
 
 use ReflectionProperty;
 use System\Core\Cast;
-use System\Exception\ApplicationException;
 use System\Exception\ValidationException;
 use System\Helper\DateTimeHelper;
 
@@ -117,9 +116,9 @@ abstract class Model
         return isset($this->ID);
     }
 
-    public static function find(): PostQueryBuilder
+    public static function find(): PostQuery
     {
-        return new PostQueryBuilder(static::class);
+        return new PostQuery(static::class);
     }
 
     public function register(): int

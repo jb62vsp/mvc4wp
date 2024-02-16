@@ -4,7 +4,7 @@ namespace System\Models;
 use System\Core\Cast;
 use WP_Query;
 
-class PostQueryBuilder
+class PostQuery
 {
     use Cast;
     
