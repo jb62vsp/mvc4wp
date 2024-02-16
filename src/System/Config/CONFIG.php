@@ -4,7 +4,6 @@ namespace System\Config;
 enum CONFIG: string
 {
     case DEBUG = 'DEBUG';
-    case BOOTSTRAP = 'BOOTSTRAP';
     case CONTROLLER_NAMESPACE = 'CONTROLLER_NAMESPACE';
     case VIEW_DIRECTORY = 'VIEW_DIRECTORY';
 }

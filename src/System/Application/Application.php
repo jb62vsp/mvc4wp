@@ -22,7 +22,6 @@ final class Application implements ApplicationInterface
          * -------- DEFAULT CONFIGURATIONS --------
          */
         $this->config()->add(CONFIG::DEBUG, 'false');
-        $this->config()->add(CONFIG::BOOTSTRAP, __WPMVC_ROOT__ . '/src/App/bootstrap.php');
         $this->config()->add(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
         $this->config()->add(CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
     }

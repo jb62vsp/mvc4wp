@@ -11,8 +11,7 @@ clean: clean_vendor clean_test #: clean project
 
 .PHONY: default
 default: init #: default settings to App
-	@rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Models/* ./src/App/Views/* ./src/bootstrap.php ./functions.php ./index.php
-	@cp .init/bootstrap.php ./src/App/
+	@rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php
 	@cp .init/functions.php ./
 	@cp .init/index.php ./
 
@@ -44,10 +43,7 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: system_test #: execute unittest
-
-.PHONY: system_test
-system_test: vendor/bin/phpunit tests/System #: execute System unittest
+test: vendor/bin/phpunit tests/System #: execute System unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --coverage-text=coverage.txt --coverage-html=coverage --testsuite 'system'
 
 .PHONY: app_test

@@ -11,13 +11,12 @@ $wpmvc_app = new System\Application\Application();
  * --------------------------------------------------------------------
  */
 $wpmvc_app->config()->add(System\Config\CONFIG::DEBUG, 'false');
-$wpmvc_app->config()->add(System\Config\CONFIG::BOOTSTRAP, __WPMVC_ROOT__ . '/src/App/bootstrap.php');
 $wpmvc_app->config()->add(System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
 $wpmvc_app->config()->add(System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
 
 /*
  * --------------------------------------------------------------------
- * execute bootstrap
+ * init scripts
  * --------------------------------------------------------------------
  */
-include_once($wpmvc_app->config()->get(System\Config\CONFIG::BOOTSTRAP));
+System\Service\WpCustomize::addCustomPostType(App\Models\ExampleModel::class);

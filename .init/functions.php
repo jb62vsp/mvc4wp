@@ -13,7 +13,6 @@ $wpmvc_app = new System\Application\Application();
 
 /*
  * --------------------------------------------------------------------
- * execute bootstrap
+ * init scripts
  * --------------------------------------------------------------------
  */
-include_once($wpmvc_app->config()->get(System\Config\CONFIG::BOOTSTRAP));
