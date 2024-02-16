@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Helper;
+namespace System\Service;
 
 use System\Models\CustomField;
 use System\Models\CustomPostType;
 
-final class WpCustomHelper
+final class WpCustomize
 {
     private static array $registered_posts = [];
 

@@ -5,4 +5,4 @@
  * init scripts
  * --------------------------------------------------------------------
  */
-System\Helper\WpCustomHelper::addCustomPostType(App\Models\ExampleModel::class);
+System\Service\WpCustomize::addCustomPostType(App\Models\ExampleModel::class);
