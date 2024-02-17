@@ -75,7 +75,7 @@ class FileLogger extends AbstractLogger
 
         if (self::$thresholds[$level] <= $threshold) {
             $date = DateTimeHelper::datetime();
-            $this->out(strtoupper($level) . ' - ' . $date . ' --> ' . $message . "\n");
+            $this->out(strtoupper($level) . ' - ' . $date . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
         }
     }
 }
