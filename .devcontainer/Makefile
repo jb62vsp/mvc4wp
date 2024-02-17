@@ -3,7 +3,7 @@ DB = $(NAME)_db
 NW = $(NAME)_internal
 
 .PHONY: all
-all: create up
+all: create
 
 .PHONY: create
 create:
