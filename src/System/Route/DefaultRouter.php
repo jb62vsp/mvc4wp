@@ -8,6 +8,11 @@ use System\Config\ConfigInterface;
 use System\Core\Cast;
 use System\Core\HttpStatus;
 
+/**
+ * DefaultRouter has FastRoute that inner behavior.
+ * 
+ * @see https://github.com/nikic/FastRoute
+ */
 class DefaultRouter implements RouterInterface
 {
     use Cast;
