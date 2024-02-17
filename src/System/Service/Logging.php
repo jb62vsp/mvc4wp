@@ -39,7 +39,7 @@ final class Logging
 
     public static function get(string $logger_name = ''): LoggerInterface
     {
-        if (count(self::$loggers) === 0) {
+        if (!isset(self::$loggers) || count(self::$loggers) === 0) {
             return self::getNullLogger();
         }
 

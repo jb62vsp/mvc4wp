@@ -213,12 +213,12 @@ class DefaultRouterTest extends TestCase
 
 class ConfigMock implements ConfigInterface
 {
-    public function add(CONFIG $key, string $value): void
+    public function add(CONFIG $key, string|array $value): void
     {
         return;
     }
 
-    public function get(CONFIG $key): string
+    public function get(CONFIG $key): string|array
     {
         return 'Mock\OK';
     }

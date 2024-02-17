@@ -22,6 +22,9 @@ default: #: default settings to App
 			rm -rf ./log ./src/App/Controllers/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php; \
 			cp .default/functions.php ./; \
 			cp .default/index.php ./; \
+			cp .default/_index.php ./src/App/Controllers/index.php; \
+			cp .default/_index.php ./src/App/Models/index.php; \
+			cp .default/_index.php ./src/App/Views/index.php; \
 			echo done.; \
 		fi \
 	fi
