@@ -12,8 +12,8 @@ clean: clean_vendor clean_test #: clean project
 .PHONY: default
 default: init #: default settings to App
 	@rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php
-	@cp .init/functions.php ./
-	@cp .init/index.php ./
+	@cp .default/functions.php ./
+	@cp .default/index.php ./
 
 #
 # vendor
