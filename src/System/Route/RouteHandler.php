@@ -23,7 +23,7 @@ final class RouteHandler
         if (!empty($signature)) {
             $signatures = explode(self::DELIMITER, $signature);
             if (count($signatures) !== 2) {
-                throw new ApplicationException();
+                throw new ApplicationException('illegal to set signature.');
             }
             $this->class = $signatures[0];
             $this->method = $signatures[1];
