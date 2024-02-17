@@ -13,7 +13,7 @@ clean: clean_vendor #: clean project
 	@rm -rf ./log/*
 
 .PHONY: default
-default: init #: default settings to App
+default: #: default settings to App
 	@echo
 	@read -p 'Delete "ALL FILES" in ./log ./src/App/Controllers/*, ./src/App/Models/*, ./src/App/Views/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
 	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
