@@ -93,13 +93,13 @@ class ExampleController extends AdminController
 
     ];
 
-    public function init(): void
+    public function init(array $args = []): void
     {
-        parent::init();
+        parent::init($args);
         $this->name = 'Example';
     }
 
-    public function index(): void
+    public function index(array $args = []): void
     {
         $this->list();
     }

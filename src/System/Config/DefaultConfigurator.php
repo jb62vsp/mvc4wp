@@ -9,12 +9,12 @@ class DefaultConfigurator implements ConfigInterface
 
     private array $configs = [];
 
-    public function add(CONFIG $key, string $value): void
+    public function add(CONFIG $key, string|array $value): void
     {
         $this->configs[$key->value] = $value;
     }
 
-    public function get(CONFIG $key): string
+    public function get(CONFIG $key): string|array
     {
         return $this->configs[$key->value];
     }

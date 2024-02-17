@@ -10,13 +10,13 @@ class PostController extends AdminController
 
     private string $name;
 
-    public function init(): void
+    public function init(array $args = []): void
     {
-        parent::init();
+        parent::init($args);
         $this->name = 'Post';
     }
 
-    public function index(): void
+    public function index(array $args = []): void
     {
         $this->list();
     }
@@ -76,7 +76,7 @@ class PostController extends AdminController
             ->done();
     }
 
-    public function register(): void
+    public function register(array $args = []): void
     {
         $post = new PostModel();
         $post->bind($_POST);

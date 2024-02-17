@@ -10,7 +10,7 @@ class HomeController extends PlainPhpController
 
     private string $name;
 
-    public function init(): void
+    public function init(array $args = []): void
     {
         $this->name = 'Home';
     }
@@ -27,7 +27,7 @@ class HomeController extends PlainPhpController
         return $this;
     }
 
-    public function index(): void
+    public function index(array $args = []): void
     {
         $data = [
             'title' => $this->name,
@@ -53,7 +53,7 @@ class HomeController extends PlainPhpController
         $this->page('home/body', $data)->done();
     }
 
-    public function redirect(): void
+    public function redirect(array $args = []): void
     {
         $this->seeOther('/home/other/321')->done();
     }
