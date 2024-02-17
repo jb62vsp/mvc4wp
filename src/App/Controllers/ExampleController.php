@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\ExampleModel;
 use System\Core\Cast;
+use System\Service\Logging;
 
 class ExampleController extends AdminController
 {
@@ -221,6 +222,7 @@ class ExampleController extends AdminController
         $example = new ExampleModel();
         $errors = $example->bind($_POST);
         if (empty($errors)) {
+            Logging::get('model')->info(static::class . '->' . 'register', get_object_vars($example));
             $id = $example->register();
             $this->seeOther("/example/{$id}")->done();
         } else {
@@ -238,6 +240,7 @@ class ExampleController extends AdminController
 
         $errors = $example->bind($_POST);
         if (empty($errors)) {
+            Logging::get('model')->info(static::class . '->' . 'update', get_object_vars($example));
             $example->update();
             $this->seeOther("/example/{$id}")->done();
         } else {
@@ -254,6 +257,7 @@ class ExampleController extends AdminController
         }
 
         if ($_POST['to_trush'] === 'true') {
+            Logging::get('model')->info(static::class . '->' . 'delete', get_object_vars($example));
             $example->delete();
             $this->seeOther("/example/{$id}")->done();
         } else {
