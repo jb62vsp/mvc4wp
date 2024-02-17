@@ -5,18 +5,21 @@
 
 .PHONY: init
 init: vendor #: initialize
+	@mkdir -p log
+	@chmod 777 log
 
 .PHONY: clean
-clean: clean_vendor clean_test #: clean project
+clean: clean_vendor #: clean project
+	@rm -rf ./log/*
 
 .PHONY: default
 default: init #: default settings to App
 	@echo
-	@read -p 'Delete "ALL FILES" in ./src/App/Controllers/*, ./src/App/Models/*, ./src/App/Views/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
+	@read -p 'Delete "ALL FILES" in ./log ./src/App/Controllers/*, ./src/App/Models/*, ./src/App/Views/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
 	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
 		read -p 'Are you sure? [y/N]: ' ANS2; \
 		if [ "$$ANS2" = "y" -o "$$ANS2" = "Y" ]; then \
-			rm -rf ./src/App/Controllers/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php; \
+			rm -rf ./log ./src/App/Controllers/* ./src/App/Models/* ./src/App/Views/* ./functions.php ./index.php; \
 			cp .default/functions.php ./; \
 			cp .default/index.php ./; \
 			echo done.; \
@@ -39,7 +42,7 @@ reload_vendor: composer.json #: reload autoloader
 	@composer dump-autoload
 
 .PHONY: clean_vendor
-clean_vendor: composer.json composer.lock vendor/ #: clean vendor
+clean_vendor: composer.json composer.lock vendor #: clean vendor
 	@rm -rf vendor/
 
 .PHONY: unlock_vendor

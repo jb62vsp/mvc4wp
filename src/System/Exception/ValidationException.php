@@ -2,6 +2,7 @@
 namespace System\Exception;
 
 use RuntimeException;
+use System\Service\Logging;
 
 class ValidationException extends RuntimeException
 {
@@ -12,5 +13,6 @@ class ValidationException extends RuntimeException
         public string $pattern,
     ) {
         parent::__construct(message: "invalid: '{$value}' => {$pattern}, {$class}::{$field}");
+        Logging::get()->debug($this->getMessage());
     }
 }

@@ -1,10 +1,8 @@
 <?php declare(strict_types=1);
 namespace System\Application;
 
-use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Config\DefaultConfigurator;
-use System\Controllers\Controller;
 use System\Controllers\DefaultHttpErrorController;
 use System\Core\Cast;
 use System\Core\HttpStatus;
@@ -12,6 +10,7 @@ use System\Exception\ApplicationException;
 use System\Route\DefaultRouter;
 use System\Route\RouteHandler;
 use System\Route\RouterInterface;
+use System\Service\Logging;
 
 final class Application implements ApplicationInterface
 {
@@ -24,9 +23,13 @@ final class Application implements ApplicationInterface
         /*
          * -------- DEFAULT CONFIGURATIONS --------
          */
-        $this->config()->add(CONFIG::DEBUG, 'false');
-        $this->config()->add(CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-        $this->config()->add(CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
+        $this->config()->add(\System\Config\CONFIG::DEBUG, 'false');
+        $this->config()->add(\System\Config\CONFIG::LOGGER, 'System\Logger\FileLogger');
+        $this->config()->add(\System\Config\CONFIG::LOG_DIRECTORY, __WPMVC_ROOT__ . '/log/');
+        $this->config()->add(\System\Config\CONFIG::LOG_FILENAME, 'application');
+        $this->config()->add(\System\Config\CONFIG::LOG_DATE_FORMAT, 'Ymd');
+        $this->config()->add(\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
+        $this->config()->add(\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
     }
 
     public function config(): ConfigInterface
@@ -73,9 +76,11 @@ final class Application implements ApplicationInterface
         }
 
         if (method_exists($controller, 'init')) {
+            Logging::get()->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->init', $route->args);
             $controller->init($route->args);
         }
 
+        Logging::get()->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->' . $route->method, $route->args);
         $controller->{$route->method}($route->args);
     }
 }

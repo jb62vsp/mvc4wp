@@ -11,19 +11,24 @@ final class DateTimeHelper
 
     public const DATETIME_FORMAT = self::DATE_FORMAT . ' ' . self::TIME_FORMAT;
 
+    public static function now(string $format): string
+    {
+        return wp_date($format);
+    }
+
     public static function datetime(): string
     {
-        return wp_date(self::DATETIME_FORMAT);
+        return self::now(self::DATETIME_FORMAT);
     }
 
     public static function date(): string
     {
-        return wp_date(self::DATE_FORMAT);
+        return self::now(self::DATE_FORMAT);
     }
 
     public static function time(): string
     {
-        return wp_date(self::TIME_FORMAT);
+        return self::now(self::TIME_FORMAT);
     }
 
     public static function datetimeval(DateTime|string $value): DateTime
