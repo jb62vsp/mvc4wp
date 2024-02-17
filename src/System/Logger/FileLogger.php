@@ -2,7 +2,6 @@
 namespace System\Logger;
 
 use Psr\Log\AbstractLogger;
-use System\Exception\ApplicationException;
 use System\Helper\DateTimeHelper;
 
 class FileLogger extends AbstractLogger
