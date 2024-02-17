@@ -19,4 +19,8 @@ abstract class Controller implements RenderInterface, ResponderInterface
     {
         return $this->render($this->config, $this->responder(), $view_name, $data);
     }
+
+    abstract public function init(array $args = []): void;
+
+    abstract public function index(array $args = []): void;
 }

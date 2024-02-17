@@ -4,8 +4,11 @@ namespace System\Application;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Config\DefaultConfigurator;
+use System\Controllers\Controller;
+use System\Controllers\DefaultHttpErrorController;
 use System\Core\Cast;
 use System\Core\HttpStatus;
+use System\Exception\ApplicationException;
 use System\Route\DefaultRouter;
 use System\Route\RouteHandler;
 use System\Route\RouterInterface;
@@ -55,29 +58,24 @@ final class Application implements ApplicationInterface
         $route = $router->dispatch($config, $request_method, $_SERVER['REQUEST_URI']);
 
         if ($route->status !== HttpStatus::OK) {
-            return; // TODO:
+            $controller = new DefaultHttpErrorController($config, $route->status);
+            $controller->index();
+            return;
         }
 
-        $signatures = explode('::', $route->signature);
-        if (count($signatures) !== 2) {
-            return; // TODO:
+        if (!class_exists($route->class)) {
+            throw new ApplicationException();
         }
 
-        $class = $signatures[0];
-        if (!class_exists($class)) {
-            return; // TODO:
-        }
-
-        $controller = new $class($this->config());
-        $method = $signatures[1];
-        if (!method_exists($controller, $method)) {
-            return; // TODO:
+        $controller = new $route->class($this->config());
+        if (!method_exists($controller, $route->method)) {
+            throw new ApplicationException();
         }
 
         if (method_exists($controller, 'init')) {
-            $controller->init();
+            $controller->init($route->args);
         }
 
-        $controller->{$method}($route->args);
+        $controller->{$route->method}($route->args);
     }
 }

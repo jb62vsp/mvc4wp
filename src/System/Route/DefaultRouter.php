@@ -17,6 +17,10 @@ class DefaultRouter implements RouterInterface
 {
     use Cast;
 
+    private const STATUS_DELIMITER = '`';
+
+    private const ROUTE_DELIMITER = '|';
+
     private const GET = 'GET';
 
     private const POST = 'POST';
@@ -49,7 +53,7 @@ class DefaultRouter implements RouterInterface
 
     private function addRoute(string $method, string $route, string $handler): void
     {
-        $key = $method . '|' . $route;
+        $key = $method . self::STATUS_DELIMITER . $route;
         $this->routes[$key] = $handler;
     }
 
@@ -58,8 +62,12 @@ class DefaultRouter implements RouterInterface
         $routes = $this->routes;
         $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) use ($config, $routes) {
             foreach ($routes as $key => $value) {
-                $keys = explode('|', $key);
-                $r->addRoute($keys[0], $keys[1], $config->get(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
+                $keys = explode(self::STATUS_DELIMITER, $key);
+                $httpMethod = $keys[0];
+                $uris = explode(self::ROUTE_DELIMITER, $keys[1]);
+                foreach ($uris as $uri) {
+                    $r->addRoute($httpMethod, $uri, $config->get(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
+                }
             }
         });
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);
