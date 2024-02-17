@@ -4,7 +4,7 @@
     "docker-compose.yml"
   ],
   "service": "wordpress",
-  "workspaceFolder": "/var/www/html/",
+  "workspaceFolder": "/var/www/html/wordpress/wp-content/themes/wp_mvc/",
   "forwardPorts": [
     9003
   ],

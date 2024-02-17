@@ -7,13 +7,15 @@ all: create
 
 .PHONY: create
 create:
+	@cp _env .env
 	@docker compose build
 	@docker volume create $(DB)
 	@docker network create $(NW)
 	@touch .created
 
-.PHONY: remove
-remove: .created
+.PHONY: clean
+clean: .created
 	@docker volume remove $(DB)
 	@docker network remove $(NW)
-	@rm .created
+	@rm -f .env
+	@rm -f .created

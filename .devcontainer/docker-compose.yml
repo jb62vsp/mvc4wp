@@ -4,7 +4,7 @@ services:
   wordpress:
     build: ./build
     ports:
-    - 8085:80
+    - ${WP_PORT:-8080}:80
     networks:
     - wp_mvc_internal
     volumes:
@@ -49,14 +49,14 @@ services:
     - PMA_USER=wp
     - PMA_PASSWORD=wp
     ports:
-    - 18085:80
+    - ${PHPMYADMIN_PORT:-18080}:80
 
   mailhog:
     image: mailhog/mailhog:latest
     networks:
     - wp_mvc_internal
     ports:
-    - 28085:8025
+    - ${MAILHOG_PORT:-28080}:8025
 
 networks:
   wp_mvc_internal:
