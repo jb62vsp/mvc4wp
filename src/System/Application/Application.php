@@ -24,10 +24,23 @@ final class Application implements ApplicationInterface
          * -------- DEFAULT CONFIGURATIONS --------
          */
         $this->config()->add(\System\Config\CONFIG::DEBUG, 'false');
-        $this->config()->add(\System\Config\CONFIG::LOGGER, 'System\Logger\FileLogger');
-        $this->config()->add(\System\Config\CONFIG::LOG_DIRECTORY, __WPMVC_ROOT__ . '/log/');
-        $this->config()->add(\System\Config\CONFIG::LOG_FILENAME, 'application');
-        $this->config()->add(\System\Config\CONFIG::LOG_DATE_FORMAT, 'Ymd');
+        $this->config()->add(\System\Config\CONFIG::LOGGER, [
+            'default_logger_name' => 'app',
+            'loggers' => [
+                'app' => [
+                    'logger_factory' => '\System\Logger\FileLoggerFactory',
+                    'directory' => __WPMVC_ROOT__ . '/log/',
+                    'basefilename' => 'app',
+                    'date_format' => 'Ymd',
+                ],
+                'system' => [
+                    'logger_factory' => '\System\Logger\FileLoggerFactory',
+                    'directory' => __WPMVC_ROOT__ . '/log/',
+                    'basefilename' => 'sys',
+                    'date_format' => 'Ymd',
+                ],
+            ],
+        ]);
         $this->config()->add(\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
         $this->config()->add(\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
     }
@@ -76,11 +89,11 @@ final class Application implements ApplicationInterface
         }
 
         if (method_exists($controller, 'init')) {
-            Logging::get()->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->init', $route->args);
+            Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->init', $route->args);
             $controller->init($route->args);
         }
 
-        Logging::get()->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->' . $route->method, $route->args);
+        Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->' . $route->method, $route->args);
         $controller->{$route->method}($route->args);
     }
 }

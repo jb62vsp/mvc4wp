@@ -10,7 +10,7 @@ if (!function_exists('view')) {
     {
         global $wpmvc_app;
         $view_dir = Application::cast($wpmvc_app)->config()->get(CONFIG::VIEW_DIRECTORY);
-        Logging::get()->debug('include view: ' . $name, $data);
+        Logging::get('system')->debug('include view: ' . $name, $data);
         include $view_dir . DIRECTORY_SEPARATOR . $name . '.php';
     }
 }

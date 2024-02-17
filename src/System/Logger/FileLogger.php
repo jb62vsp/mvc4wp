@@ -2,29 +2,22 @@
 namespace System\Logger;
 
 use Psr\Log\AbstractLogger;
-use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Helper\DateTimeHelper;
 
 class FileLogger extends AbstractLogger
 {
-    protected string $directory;
-
-    protected string $filename;
-
-    protected string $date_format;
-
-    public function __construct(ConfigInterface $config)
-    {
-        $this->directory = $config->get(CONFIG::LOG_DIRECTORY);
-        $this->filename = $config->get(CONFIG::LOG_FILENAME);
-        $this->date_format = $config->get(CONFIG::LOG_DATE_FORMAT);
+    public function __construct(
+        protected string $directory,
+        protected string $basefilename,
+        protected string $date_format
+    ) {
     }
 
     protected function getFilePath(): string
     {
         $date = DateTimeHelper::now($this->date_format);
-        $path = $this->directory . $this->filename . '.' . $date . '.log';
+        $path = $this->directory . $this->basefilename . '.' . $date . '.log';
         return $path;
     }
 

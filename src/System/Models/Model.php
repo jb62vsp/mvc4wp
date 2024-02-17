@@ -5,6 +5,7 @@ use ReflectionProperty;
 use System\Core\Cast;
 use System\Exception\ValidationException;
 use System\Helper\DateTimeHelper;
+use System\Service\Logging;
 
 abstract class Model
 {
@@ -21,6 +22,7 @@ abstract class Model
             try {
                 self::bindProperty($this, $prop, $data, $validation);
             } catch (ValidationException $ex) {
+                Logging::get('system')->debug($ex->getMessage());
                 $result[$ex->field] = $ex;
             }
         }
