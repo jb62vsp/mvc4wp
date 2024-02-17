@@ -8,7 +8,7 @@ abstract class AdminController extends PlainPhpController
 {
     use Cast;
 
-    public function init(): void
+    public function init(array $args = []): void
     {
         if (!is_user_logged_in()) {
             $this->notFound()->done();

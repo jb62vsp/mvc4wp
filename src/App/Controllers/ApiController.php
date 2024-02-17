@@ -4,16 +4,20 @@ namespace App\Controllers;
 use System\Controllers\JsonController;
 use System\Core\Cast;
 
-class AjaxController extends JsonController
+class ApiController extends JsonController
 {
     use Cast;
 
-    public function index(): void
+    public function init(array $args = []): void
     {
-        $this->get();
     }
 
-    public function get(): void
+    public function index(array $args = []): void
+    {
+        $this->get($args);
+    }
+
+    public function get(array $args = []): void
     {
         $data = [
             'title' => 'ajax',
@@ -24,7 +28,7 @@ class AjaxController extends JsonController
         $this->view(json_encode($data))->done();
     }
 
-    public function post(): void
+    public function post(array $args = []): void
     {
         $this->ok();
         $this->view(json_encode($_POST))->done();
