@@ -2,7 +2,6 @@
 namespace System\Logger;
 
 use Psr\Log\LoggerInterface;
-use System\Config\ConfigInterface;
 
 trait LoggerFactoryTrait
 {
