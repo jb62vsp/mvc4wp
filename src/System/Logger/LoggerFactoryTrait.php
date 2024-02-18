@@ -5,5 +5,5 @@ use Psr\Log\LoggerInterface;
 
 trait LoggerFactoryTrait
 {
-    abstract public function create(string $logger_name, array $config): LoggerInterface;
+    abstract public function create(array $args = []): LoggerInterface;
 }

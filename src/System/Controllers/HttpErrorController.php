@@ -7,7 +7,7 @@ use System\Core\HttpStatus;
 use System\Response\DefaultResponder;
 use System\Response\PlainPhpRenderTrait;
 
-class DefaultHttpErrorController extends Controller
+class HttpErrorController extends Controller
 {
     use Cast, DefaultResponder, PlainPhpRenderTrait;
 

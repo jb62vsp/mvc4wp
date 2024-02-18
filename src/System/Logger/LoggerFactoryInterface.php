@@ -5,5 +5,5 @@ use Psr\Log\LoggerInterface;
 
 interface LoggerFactoryInterface
 {
-    public function create(string $logger, array $config): LoggerInterface;
+    public function create(array $args = []): LoggerInterface;
 }
