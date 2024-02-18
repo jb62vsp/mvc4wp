@@ -4,6 +4,7 @@ namespace System\Service;
 use Psr\Log\LoggerInterface;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Logger\LoggerFactoryInterface;
 use System\Logger\NullLoggerFactory;
 
 final class Logging
@@ -30,8 +31,9 @@ final class Logging
             foreach ($logconf[self::LOGGERS_KEY] as $key => $value) {
                 if (array_key_exists(self::LOGGER_FACTORY_KEY, $value) && class_exists($value[self::LOGGER_FACTORY_KEY])) {
                     $factory_class = $value[self::LOGGER_FACTORY_KEY];
+                    /** @var LoggerFactoryInterface */
                     $factory = new $factory_class();
-                    self::$loggers[$key] = $factory->create($key, $value);
+                    self::$loggers[$key] = $factory->create($value);
                 }
             }
         }
@@ -57,8 +59,9 @@ final class Logging
     private static function getNullLogger(): LoggerInterface
     {
         if (!isset(self::$null) || is_null(self::$null)) {
+            /** @var LoggerFactoryInterface */
             $factory = new NullLoggerFactory();
-            self::$null = $factory->create('null', []);
+            self::$null = $factory->create();
         }
         return self::$null;
     }
