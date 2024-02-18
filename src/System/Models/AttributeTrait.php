@@ -33,8 +33,10 @@ trait AttributeTrait
     {
         $ref = new ReflectionClass($class_name);
         $attrs = $ref->getAttributes(static::class);
-        if (count($attrs) !== 1) {
-            throw new ApplicationException('illegal to set ' . $class_name . ', ' . $attribute_key);
+        if (count($attrs) === 0) {
+            throw new ApplicationException('not set ' . $class_name . ', ' . $attribute_key);
+        } elseif (count($attrs) !== 1) {
+            throw new ApplicationException('duplicate to set ' . $class_name . ', ' . $attribute_key);
         }
         try {
             return self::getValueByAttribute($attrs[0], $attribute_key);
