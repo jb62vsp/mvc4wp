@@ -1,22 +1,18 @@
 <?php declare(strict_types=1);
 namespace System\Application;
 
-use System\Config\ConfigInterface;
 use System\Config\DefaultConfigurator;
 use System\Core\Cast;
-use System\Route\DefaultRouter;
-use System\Route\RouterInterface;
+use System\Route\DefaultRouterFactory;
 
-final class Application implements ApplicationInterface
+class Application implements ApplicationInterface
 {
     use Cast, ApplicationTrait;
 
-    public function __construct(
-        ConfigInterface $config = new DefaultConfigurator(),
-        RouterInterface $router = new DefaultRouter(),
-    ) {
-        $this->config = $config;
-        $this->router = $router;
+    public function __construct()
+    {
+        $this->config = new DefaultConfigurator();
+        $this->router = (new DefaultRouterFactory())->create();
 
         /*
          * -------- DEFAULT CONFIGURATIONS --------
