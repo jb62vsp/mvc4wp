@@ -244,7 +244,8 @@ class PostQuery
                 $data = get_post($id);
                 $result->bind($data, false);
                 $meta = get_post_custom($id);
-                $result->bind($meta);
+                $e = $result->bind($meta, true); // TODO:
+                var_dump($e);
                 break;
             }
         }

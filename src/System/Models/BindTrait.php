@@ -4,6 +4,8 @@ namespace System\Models;
 use ReflectionProperty;
 use System\Exception\ValidationException;
 use System\Helper\DateTimeHelper;
+use System\Models\Validator\Rule;
+use System\Models\Validator\ValidationError;
 use System\Service\Logging;
 
 trait BindTrait
@@ -15,6 +17,9 @@ trait BindTrait
         return $this->is_binded;
     }
 
+    /**
+     * @return array<ValidationError>
+     */
     public function bind(object|array $data, bool $validation = true): array
     {
         $result = [];
@@ -22,7 +27,8 @@ trait BindTrait
         $props = Bindable::getAttributedProperties(static::class);
         foreach ($props as $prop) {
             try {
-                self::bindProperties($this, $prop, $data, $validation);
+                $errors = self::bindProperties($this, $prop, $data, $validation);
+                $result = array_merge($result, $errors);
                 $this->is_binded = true;
             } catch (ValidationException $ex) {
                 Logging::get('system')->debug($ex->getMessage());
@@ -33,17 +39,31 @@ trait BindTrait
         return $result;
     }
 
-    private static function bindProperties(Model $obj, ReflectionProperty $prop, object|array $data, bool $validation): void
+    /**
+     * @return array<ValidationError>
+     */
+    private static function bindProperties(Model $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
     {
+        $result = [];
+
         $prop_name = $prop->getName();
         if (self::hasKey($data, $prop_name)) {
             $value = self::getValue($data, $prop_name);
-            $typed_value = self::typedValue($prop->getType()->getName(), $value);
-            if ($validation) {
-                Rule::validation($obj, $prop_name, toString($typed_value));
+            if (!is_null($value)) {
+                $errors = [];
+                if ($validation) {
+                    $errors = Rule::validate($obj, $prop_name, $value);
+                }
+                if (count($errors) <= 0) {
+                    $typed_value = self::typedValue($prop->getType()->getName(), $value);
+                    $prop->setValue($obj, $typed_value);
+                } else {
+                    $result = array_merge($result, $errors);
+                }
             }
-            $prop->setValue($obj, $typed_value);
         }
+
+        return $result;
     }
 
     private static function reverseProperty(Model $obj, ReflectionProperty $prop): string
@@ -104,10 +124,18 @@ trait BindTrait
 
     private static function getValue(object|array $data, $key): mixed
     {
+        $result = null;
+
         if (is_array($data)) {
-            return isset($data[$key]) ? $data[$key] : null;
+            $result = isset($data[$key]) ? $data[$key] : null;
         } else {
-            return isset($data->{$key}) ? $data->{$key} : null;
+            $result = isset($data->{$key}) ? $data->{$key} : null;
         }
+
+        if (is_array($result) && count($result) === 1) {
+            $result = $result[0];
+        }
+
+        return $result;
     }
 }

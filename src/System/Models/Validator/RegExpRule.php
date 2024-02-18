@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace System\Models\Validator;
 
 use Attribute;
 use System\Core\Cast;
-use System\Exception\ValidationException;
+use System\Models\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
-class Rule
+class RegExpRule extends Rule
 {
     use Cast, AttributeTrait;
 
@@ -25,22 +25,30 @@ class Rule
         'DATETIME' => '/^()|(19[0-9]{2}|2[0-9]{3}|[3-9]{4})-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[12][0-9]|3[01]) ([0-9]|0[0-9]|1[0-9]|2[0-4]):([0-9]|0[0-9]|[1-5][0-9]):([0-9]|0[0-9]|[1-5][0-9])$/',
     ];
 
+    public string $pattern_name;
+
     public function __construct(
         public PATTERN|string $pattern,
     ) {
+        $this->pattern_name = self::getPatternName($pattern);
     }
 
-    public static function validation(Model $obj, string $property_name, string $value): void
+    public function _validate(string $class_name, string $property_name, mixed $value): array
     {
-        $rules = self::getPropertyAttributes(get_class($obj), $property_name);
-        foreach ($rules as $rule) {
-            $pattern = self::getPatternString($rule->pattern);
-            $matched = preg_match($pattern, $value);
-            if (!$matched) {
-                $pattern_name = self::getPatternName($rule->pattern);
-                throw new ValidationException(get_class($obj), $property_name, $value, $pattern_name);
-            }
+        $result = [];
+
+        $pattern = self::getPatternString($this->pattern);
+        $matched = preg_match($pattern, $value);
+        if (!$matched) {
+            array_push($result, new ValidationError($class_name, $property_name, $value, $this));
         }
+
+        return $result;
+    }
+
+    public function getMessage(array $args = []): string
+    {
+        return ''; // TODO: message
     }
 
     private static function getPatternString(PATTERN|string $pattern_name): string

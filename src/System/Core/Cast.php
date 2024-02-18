@@ -5,9 +5,16 @@ use InvalidArgumentException;
 
 trait Cast
 {
-    public static function is($obj): bool
+    public static function is(mixed $obj): bool
     {
-        return $obj instanceof self;
+        $result = $obj instanceof static;
+        return $result;
+    }
+
+    public function inherited(string $parent): bool
+    {
+        $result = is_subclass_of($this, $parent);
+        return $result;
     }
 
     public static function used(object $obj): bool

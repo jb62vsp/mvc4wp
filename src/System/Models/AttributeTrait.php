@@ -11,8 +11,8 @@ trait AttributeTrait
 {
     public static function getClassAttribute(string $class_name): static
     {
-        $ref = new ReflectionClass($class_name);
-        $attrs = $ref->getAttributes(static::class);
+        $refc = new ReflectionClass($class_name);
+        $attrs = $refc->getAttributes(static::class);
         if (count($attrs) === 0) {
             throw new ApplicationException('not set ' . $class_name);
         } elseif (count($attrs) !== 1) {
@@ -42,8 +42,20 @@ trait AttributeTrait
      */
     public static function getPropertyAttributes(string $class_name, string $property_name): array
     {
-        $refc = new ReflectionProperty($class_name, $property_name);
-        $attrs = $refc->getAttributes(static::class);
+        $refp = new ReflectionProperty($class_name, $property_name);
+        $attrs = $refp->getAttributes(static::class);
+        $result = array_map(fn($attr) => $attr->newInstance(), $attrs);
+
+        return $result;
+    }
+
+    /**
+     * @return array<self>
+     */
+    public static function getPropertyAllAttributes(string $class_name, string $property_name): array
+    {
+        $refp = new ReflectionProperty($class_name, $property_name);
+        $attrs = $refp->getAttributes();
         $result = array_map(fn($attr) => $attr->newInstance(), $attrs);
 
         return $result;
@@ -71,8 +83,8 @@ trait AttributeTrait
 
     protected static function getSingleClassAttributeValue(string $class_name, string $attribute_key): mixed
     {
-        $ref = new ReflectionClass($class_name);
-        $attrs = $ref->getAttributes(static::class);
+        $refc = new ReflectionClass($class_name);
+        $attrs = $refc->getAttributes(static::class);
         if (count($attrs) === 0) {
             throw new ApplicationException('not set ' . $class_name . ', ' . $attribute_key);
         } elseif (count($attrs) !== 1) {
@@ -87,8 +99,8 @@ trait AttributeTrait
 
     protected static function getSinglePropertyAttributeValue(string $class_name, string $property_name, string $attribute_key): mixed
     {
-        $ref = new ReflectionProperty($class_name, $property_name);
-        $attrs = $ref->getAttributes(static::class);
+        $refp = new ReflectionProperty($class_name, $property_name);
+        $attrs = $refp->getAttributes(static::class);
         if (count($attrs) === 0) {
             throw new ApplicationException('not set ' . $class_name . '::' . $property_name);
         } elseif (count($attrs) !== 1) {
@@ -104,9 +116,9 @@ trait AttributeTrait
     protected static function getValueByAttribute(ReflectionAttribute $attr, string $attribute_key): mixed
     {
         try {
-            $obj = $attr->newInstance();
-            if (property_exists($obj, $attribute_key)) {
-                return $obj->{$attribute_key};
+            $inst = $attr->newInstance();
+            if (property_exists($inst, $attribute_key)) {
+                return $inst->{$attribute_key};
             } else {
                 throw new ApplicationException('not set ' . $attr->getName() . '::' . $attribute_key);
             }
