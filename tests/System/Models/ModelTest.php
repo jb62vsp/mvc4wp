@@ -2,9 +2,9 @@
 namespace System\Models;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use System\Models\Validator\Rule;
 
 #[CoversClass(Model::class)]
 #[CoversClass(Bindable::class)]
