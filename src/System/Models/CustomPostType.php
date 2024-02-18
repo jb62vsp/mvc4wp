@@ -2,43 +2,26 @@
 namespace System\Models;
 
 use Attribute;
-use ReflectionClass;
 use System\Core\Cast;
-use System\Exception\ApplicationException;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class CustomPostType
 {
-    use Cast;
+    use Cast, AttributeTrait;
     
     public function __construct(
-        public string $slug,
+        public string $name,
         public string $title,
     ) {
     }
 
-    private static function get(string $class_name, string $property_name): string
+    public static function getName(string $class_name): string
     {
-        $ref = new ReflectionClass($class_name);
-        $attrs = $ref->getAttributes(CustomPostType::class);
-        if (count($attrs) !== 1) {
-            throw new ApplicationException('illegal to set CustomPostType.');
-        }
-        $args = $attrs[0]->getArguments();
-        if (array_key_exists($property_name, $args)) {
-            return $args[$property_name];
-        } else {
-            throw new ApplicationException('illegal parameters.');
-        }
-    }
-
-    public static function getSlug(string $class_name): string
-    {
-        return self::get($class_name, 'slug');
+        return self::getSingleClassAttributeValue($class_name, 'name');
     }
 
     public static function getTitle(string $class_name): string
     {
-        return self::get($class_name, 'title');
+        return self::getSingleClassAttributeValue($class_name, 'title');
     }
 }

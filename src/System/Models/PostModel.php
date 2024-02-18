@@ -3,31 +3,31 @@ namespace System\Models;
 
 use System\Core\Cast;
 
-#[PostType('post')]
+#[PostType(name: 'post')]
 class PostModel extends Model
 {
     use Cast;
 
     #[Bindable]
-    public int $post_author;
+    protected int $post_author;
 
     #[Bindable]
-    public string $post_date;
+    protected string $post_date;
 
     #[Bindable]
-    public string $post_name;
+    protected string $post_name;
 
     #[Bindable]
-    public string $post_status;
+    protected string $post_status;
 
     #[Bindable]
-    public string $post_title;
+    protected string $post_title;
 
     #[Bindable]
-    public string $post_type;
+    protected string $post_type;
 
     #[Bindable]
-    public string $post_content;
+    protected string $post_content;
 
     public function __construct()
     {
@@ -40,5 +40,10 @@ class PostModel extends Model
             $this->post_status = 'publish';
         }
         return parent::register();
+    }
+
+    public static function find(): PostQuery
+    {
+        return new PostQuery(static::class);
     }
 }

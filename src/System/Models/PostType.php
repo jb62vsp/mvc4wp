@@ -9,7 +9,7 @@ use System\Exception\ApplicationException;
 #[Attribute(Attribute::TARGET_CLASS)]
 class PostType
 {
-    use Cast;
+    use Cast, AttributeTrait;
 
     public function __construct(
         public string $name,
@@ -18,18 +18,6 @@ class PostType
 
     public static function getName(string $class_name): string
     {
-        $ref = new ReflectionClass($class_name);
-        $attrs = $ref->getAttributes(PostType::class);
-        if (count($attrs) !== 1) {
-            throw new ApplicationException('illegal to set PostType.');
-        }
-        $args = $attrs[0]->getArguments();
-        if (array_key_exists('name', $args)) {
-            return $args['name'];
-        } elseif (count($args) === 1) {
-            return $args[0];
-        } else {
-            throw new ApplicationException('illegal parameters.');
-        }
+        return self::getSingleClassAttributeValue($class_name, 'name');
     }
 }
