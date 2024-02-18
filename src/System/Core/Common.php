@@ -1,16 +1,12 @@
 <?php declare(strict_types=1);
 
-use System\Config\CONFIG;
 use System\Helper\DateTimeHelper;
-use System\Service\App;
-use System\Service\Logging;
+use System\Service\Locator;
 
 if (!function_exists('view')) {
-    function view(string $name, array $data = [], string $application = ''): void
+    function view(string $view_name, array $data = []): void
     {
-        $view_dir = App::get($application)->config()->get(CONFIG::VIEW_DIRECTORY);
-        Logging::get('system')->debug('include view: ' . $name, $data);
-        include $view_dir . DIRECTORY_SEPARATOR . $name . '.php';
+        Locator::getController()->view($view_name, $data);
     }
 }
 

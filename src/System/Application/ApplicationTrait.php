@@ -7,6 +7,7 @@ use System\Core\HttpStatus;
 use System\Exception\ApplicationException;
 use System\Route\RouteHandler;
 use System\Route\RouterInterface;
+use System\Service\Locator;
 use System\Service\Logging;
 
 trait ApplicationTrait
@@ -48,6 +49,7 @@ trait ApplicationTrait
         }
 
         $controller = new $route->class($this->config());
+        Locator::setController($controller);
         if (!method_exists($controller, $route->method)) {
             throw new ApplicationException();
         }
