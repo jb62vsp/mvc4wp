@@ -27,7 +27,7 @@ class CustomPostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal to set System\Models\CustomPostTypeTestMockB, name');
+        $this->expectExceptionMessage('duplicate to set System\Models\CustomPostTypeTestMockB, name');
         CustomPostType::getName(CustomPostTypeTestMockB::class);
     }
 

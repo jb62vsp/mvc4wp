@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace System\Route\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
+use System\Route\RouteHandler;
+use System\Route\RouterInterface;
 
 #[CoversClass(RouteHandler::class)]
 #[CoversClass(DefaultRouter::class)]
