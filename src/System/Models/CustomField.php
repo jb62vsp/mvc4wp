@@ -33,7 +33,6 @@ class CustomField
         public string $name,
         public string $title,
         public string $type = self::TEXT,
-        public string $description = '',
     ) {
     }
 
@@ -50,10 +49,5 @@ class CustomField
     public static function getType(string $class_name, string $property_name): string
     {
         return self::getSinglePropertyAttributeValue($class_name, $property_name, 'type');
-    }
-
-    public static function getDescription(string $class_name, string $property_name): string
-    {
-        return self::getSinglePropertyAttributeValue($class_name, $property_name, 'description');
     }
 }

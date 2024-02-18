@@ -47,8 +47,10 @@ trait AttributeTrait
     {
         $ref = new ReflectionProperty($class_name, $property_name);
         $attrs = $ref->getAttributes(static::class);
-        if (count($attrs) !== 1) {
-            throw new ApplicationException('duplicate to set ' . $class_name . '::' . $property_name . ', ' . $attribute_key);
+        if (count($attrs) === 0) {
+            throw new ApplicationException('not set ' . $class_name . '::' . $property_name);
+        } elseif (count($attrs) !== 1) {
+            throw new ApplicationException('duplicate to set ' . $class_name . '::' . $property_name);
         }
         try {
             return self::getValueByAttribute($attrs[0], $attribute_key);
