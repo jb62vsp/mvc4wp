@@ -1,14 +1,17 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace System\Route\Default;
 
 use FastRoute;
+use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use System\Config\CONFIG;
 use System\Config\ConfigInterface;
 use System\Core\HttpStatus;
+use System\Route\RouteHandler;
+use System\Route\RouterInterface;
 
 /**
- * DefaultRouter has FastRoute that inner behavior.
+ * FastRouteRouterTrait has FastRoute that inner behavior.
  * 
  * @see https://github.com/nikic/FastRoute
  */
@@ -29,9 +32,9 @@ trait FastRouteRouterTrait
         });
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);
         return match ($routeInfo[0]) {
-            FastRoute\Dispatcher::NOT_FOUND => new RouteHandler(HttpStatus::NOT_FOUND),
-            FastRoute\Dispatcher::METHOD_NOT_ALLOWED => new RouteHandler(HttpStatus::METHOD_NOT_ALLOWED),
-            FastRoute\Dispatcher::FOUND => new RouteHandler(HttpStatus::OK, $routeInfo[1], $routeInfo[2]),
+            Dispatcher::NOT_FOUND => new RouteHandler(HttpStatus::NOT_FOUND),
+            Dispatcher::METHOD_NOT_ALLOWED => new RouteHandler(HttpStatus::METHOD_NOT_ALLOWED),
+            Dispatcher::FOUND => new RouteHandler(HttpStatus::OK, $routeInfo[1], $routeInfo[2]),
         };
     }
 }

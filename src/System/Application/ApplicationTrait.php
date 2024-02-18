@@ -2,7 +2,7 @@
 namespace System\Application;
 
 use System\Config\ConfigInterface;
-use System\Controllers\DefaultHttpErrorController;
+use System\Controllers\HttpErrorController;
 use System\Core\HttpStatus;
 use System\Exception\ApplicationException;
 use System\Route\RouteHandler;
@@ -38,7 +38,7 @@ trait ApplicationTrait
         $route = $router->dispatch($config, $request_method, $_SERVER['REQUEST_URI']);
 
         if ($route->status !== HttpStatus::OK) {
-            $controller = new DefaultHttpErrorController($config, $route->status);
+            $controller = new HttpErrorController($config, $route->status);
             $controller->index();
             return;
         }
