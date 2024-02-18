@@ -7,7 +7,7 @@ use System\Logger\AbstractLoggerFactory;
 
 class NullLoggerFactory extends AbstractLoggerFactory
 {
-    public function create(string $logger, array $config): LoggerInterface
+    public function create(array $args = []): LoggerInterface
     {
         return new NullLogger();
     }
