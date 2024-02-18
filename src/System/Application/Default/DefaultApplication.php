@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
-namespace System\Application;
+namespace System\Application\Default;
 
+use System\Application\ApplicationInterface;
+use System\Application\ApplicationTrait;
 use System\Config\DefaultConfigurator;
 use System\Core\Cast;
 use System\Route\DefaultRouterFactory;
 
-class Application implements ApplicationInterface
+class DefaultApplication implements ApplicationInterface
 {
     use Cast, ApplicationTrait;
 
