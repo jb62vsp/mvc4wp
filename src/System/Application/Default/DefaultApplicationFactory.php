@@ -4,7 +4,7 @@ namespace System\Application\Default;
 use System\Application\AbstractApplicationFactory;
 use System\Application\ApplicationInterface;
 use System\Config\Default\DefaultConfiguratorFactory;
-use System\Route\DefaultRouterFactory;
+use System\Route\Default\DefaultRouterFactory;
 
 class DefaultApplicationFactory extends AbstractApplicationFactory
 {
