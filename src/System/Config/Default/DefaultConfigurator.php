@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Config;
+namespace System\Config\Default;
 
+use System\Config\CONFIG;
+use System\Config\ConfigInterface;
 use System\Core\Cast;
 
 class DefaultConfigurator implements ConfigInterface
