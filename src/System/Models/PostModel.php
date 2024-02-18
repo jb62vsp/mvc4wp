@@ -9,25 +9,25 @@ class PostModel extends Model
     use Cast;
 
     #[Bindable]
-    protected int $post_author;
+    public int $post_author;
 
     #[Bindable]
-    protected string $post_date;
+    public string $post_date;
 
     #[Bindable]
-    protected string $post_name;
+    public string $post_name;
 
     #[Bindable]
-    protected string $post_status;
+    public string $post_status;
 
     #[Bindable]
-    protected string $post_title;
+    public string $post_title;
 
     #[Bindable]
-    protected string $post_type;
+    public string $post_type;
 
     #[Bindable]
-    protected string $post_content;
+    public string $post_content;
 
     public function __construct()
     {

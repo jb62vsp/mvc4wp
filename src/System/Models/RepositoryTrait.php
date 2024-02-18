@@ -6,7 +6,7 @@ trait RepositoryTrait
     public function register(): int
     {
         $this->ID = wp_insert_post($this);
-        $fields = CustomField::getCustomFields(get_class($this));
+        $fields = CustomField::getAttributedProperties(get_class($this));
         foreach ($fields as $field) {
             $untypedValue = self::reverseProperty($this, $field);
             $property = $field->getName();
@@ -18,7 +18,7 @@ trait RepositoryTrait
     public function update(): void
     {
         wp_update_post($this);
-        $fields = CustomField::getCustomFields(get_class($this));
+        $fields = CustomField::getAttributedProperties(get_class($this));
         foreach ($fields as $field) {
             $untypedValue = self::reverseProperty($this, $field);
             $property = $field->getName();
