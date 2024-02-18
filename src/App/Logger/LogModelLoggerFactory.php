@@ -9,12 +9,12 @@ class LogModelLoggerFactory extends AbstractLoggerFactory
 {
     private const LOG_LEVEL_KEY = 'log_level';
 
-    public function create(string $logger, array $config): LoggerInterface
+    public function create(array $args = []): LoggerInterface
     {
-        if (!array_key_exists(self::LOG_LEVEL_KEY, $config)) {
+        if (!array_key_exists(self::LOG_LEVEL_KEY, $args)) {
             throw new ApplicationException('invalid log config: ' . self::LOG_LEVEL_KEY);
         }
 
-        return new LogModelLogger($config[self::LOG_LEVEL_KEY]);
+        return new LogModelLogger($args[self::LOG_LEVEL_KEY]);
     }
 }
