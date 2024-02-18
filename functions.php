@@ -17,14 +17,14 @@ System\Service\App::get()->config()->add(\System\Config\CONFIG::LOGGER, [
             'directory' => __WPMVC_ROOT__ . '/log/',
             'basefilename' => 'app',
             'date_format' => 'Ymd',
-            'log_level' => 'notice',
+            'log_level' => 'debug',
         ],
         'system' => [
             'logger_factory' => '\System\Logger\FileLoggerFactory',
             'directory' => __WPMVC_ROOT__ . '/log/',
             'basefilename' => 'sys',
             'date_format' => 'Ymd',
-            'log_level' => 'notice',
+            'log_level' => 'debug',
         ],
         'model' => [
             'logger_factory' => '\App\Logger\LogModelLoggerFactory',

@@ -2,8 +2,8 @@
 <?php foreach ($data['columns'] as $column): ?>
     <td>
         <?php if ($column === 'ID'): ?>
-            <a href="<?php echo '/example/' . eh($data['example']->ID); ?>">
-                <?php echo eh($data['example']->ID); ?>
+            <a href="<?php echo '/example/' . eh($data['example']->getID()); ?>">
+                <?php echo eh($data['example']->getID()); ?>
             </a>
         <?php else: ?>
             <?php echo nl2br(App\Models\ExampleModel::cast($data['example'])->format($column)); ?>

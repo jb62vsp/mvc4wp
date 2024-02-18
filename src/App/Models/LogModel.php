@@ -7,7 +7,7 @@ use System\Models\PostModel;
 use System\Models\PostType;
 
 #[PostType(name: 'log')]
-#[CustomPostType(slug: 'log', title: 'ログ')]
+#[CustomPostType(name: 'log', title: 'ログ')]
 class LogModel extends PostModel
 {
     use Cast;
