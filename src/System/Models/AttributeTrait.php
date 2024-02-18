@@ -9,6 +9,46 @@ use System\Exception\ApplicationException;
 
 trait AttributeTrait
 {
+    public static function getClassAttribute(string $class_name): static
+    {
+        $ref = new ReflectionClass($class_name);
+        $attrs = $ref->getAttributes(static::class);
+        if (count($attrs) === 0) {
+            throw new ApplicationException('not set ' . $class_name);
+        } elseif (count($attrs) !== 1) {
+            throw new ApplicationException('duplicate to set ' . $class_name);
+        }
+        $result = $attrs[0]->newInstance();
+
+        return $result;
+    }
+
+    public static function getPropertyAttribute(string $class_name, string $property_name): static
+    {
+        $refc = new ReflectionProperty($class_name, $property_name);
+        $attrs = $refc->getAttributes(static::class);
+        if (count($attrs) === 0) {
+            throw new ApplicationException('not set ' . $class_name);
+        } elseif (count($attrs) !== 1) {
+            throw new ApplicationException('duplicate to set ' . $class_name);
+        }
+        $result = $attrs[0]->newInstance();
+
+        return $result;
+    }
+
+    /**
+     * @return array<static>
+     */
+    public static function getPropertyAttributes(string $class_name, string $property_name): array
+    {
+        $refc = new ReflectionProperty($class_name, $property_name);
+        $attrs = $refc->getAttributes(static::class);
+        $result = array_map(fn($attr) => $attr->newInstance(), $attrs);
+
+        return $result;
+    }
+
     public static function getAttributedProperties(string $class_name): array
     {
         $refc = new ReflectionClass($class_name);

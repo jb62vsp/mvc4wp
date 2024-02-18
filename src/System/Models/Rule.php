@@ -2,7 +2,6 @@
 namespace System\Models;
 
 use Attribute;
-use ReflectionProperty;
 use System\Core\Cast;
 use System\Exception\ValidationException;
 
@@ -31,17 +30,15 @@ class Rule
     ) {
     }
 
-    public static function validation(Model $obj, string $property, string $value): void
+    public static function validation(Model $obj, string $property_name, string $value): void
     {
-        $ref = new ReflectionProperty($obj, $property);
-        $attrs = $ref->getAttributes(Rule::class);
-        foreach ($attrs as $attr) {
-            $pattern_value = self::getValueByAttribute($attr, 'pattern');
-            $pattern = self::getPatternString($pattern_value);
+        $rules = self::getPropertyAttributes(get_class($obj), $property_name);
+        foreach ($rules as $rule) {
+            $pattern = self::getPatternString($rule->pattern);
             $matched = preg_match($pattern, $value);
             if (!$matched) {
-                $pattern_name = self::getPatternName($pattern_value);
-                throw new ValidationException(get_class($obj), $property, $value, $pattern_name);
+                $pattern_name = self::getPatternName($rule->pattern);
+                throw new ValidationException(get_class($obj), $property_name, $value, $pattern_name);
             }
         }
     }

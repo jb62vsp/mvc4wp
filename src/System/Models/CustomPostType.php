@@ -14,14 +14,4 @@ class CustomPostType
         public string $title,
     ) {
     }
-
-    public static function getName(string $class_name): string
-    {
-        return self::getSingleClassAttributeValue($class_name, 'name');
-    }
-
-    public static function getTitle(string $class_name): string
-    {
-        return self::getSingleClassAttributeValue($class_name, 'title');
-    }
 }

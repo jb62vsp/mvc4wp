@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use System\Exception\ApplicationException;
 
 #[CoversClass(CustomPostType::class)]
+#[CoversClass(AttributeTrait::class)]
 class CustomPostTypeTest extends TestCase
 {
     public function test_construct01(): void
@@ -17,32 +18,27 @@ class CustomPostTypeTest extends TestCase
         $this->assertEquals('title', $obj->title);
     }
 
-    public function test_getName01(): void
+    public function test_accessible(): void
     {
-        $name = CustomPostType::getName(CustomPostTypeTestMockA::class);
-        $this->assertEquals('mock_a', $name);
+        $attr = CustomPostType::getClassAttribute(CustomPostTypeTestMockA::class);
+        $this->assertEquals('mock_a', $attr->name);
+        $this->assertEquals('タイトルA', $attr->title);
     }
 
-    public function test_getName02(): void
+    public function test_duplicateError(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set System\Models\CustomPostTypeTestMockB, name');
-        CustomPostType::getName(CustomPostTypeTestMockB::class);
+        $this->expectExceptionMessage('duplicate to set System\Models\CustomPostTypeTestMockB');
+        CustomPostType::getClassAttribute(CustomPostTypeTestMockB::class);
     }
 
-    public function test_getName03(): void
+    public function test_illegalParameterError(): void
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Unknown named parameter $hoge');
-        CustomPostType::getName(CustomPostTypeTestMockC::class);
-    }
-
-    public function test_getTitle01(): void
-    {
-        $name = CustomPostType::getTitle(CustomPostTypeTestMockA::class);
-        $this->assertEquals('タイトルA', $name);
+        CustomPostType::getClassAttribute(CustomPostTypeTestMockC::class);
     }
 }
 
