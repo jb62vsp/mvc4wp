@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Config;
+namespace System\Config\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use System\Config\CONFIG;
 
 #[CoversClass(DefaultConfigurator::class)]
 class DefaultConfiguratorTest extends TestCase

@@ -3,17 +3,13 @@
 define('__WPMVC_ROOT__', __DIR__);
 require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
 
-global $wpmvc_app;
-$wpmvc_app = (new \System\Application\Default\DefaultApplicationFactory())->create();
-
-
 /*
  * --------------------------------------------------------------------
  * Configure application(comment out OR edit value for required)
  * --------------------------------------------------------------------
  */
-$wpmvc_app->config()->add(\System\Config\CONFIG::DEBUG, 'false');
-$wpmvc_app->config()->add(\System\Config\CONFIG::LOGGER, [
+System\Service\App::get()->config()->add(\System\Config\CONFIG::DEBUG, 'false');
+System\Service\App::get()->config()->add(\System\Config\CONFIG::LOGGER, [
     'default_logger_name' => 'app',
     'loggers' => [
         'app' => [
@@ -36,8 +32,8 @@ $wpmvc_app->config()->add(\System\Config\CONFIG::LOGGER, [
         ],
     ],
 ]);
-$wpmvc_app->config()->add(\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-$wpmvc_app->config()->add(\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
+System\Service\App::get()->config()->add(\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
+System\Service\App::get()->config()->add(\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
 
 /*
  * --------------------------------------------------------------------

@@ -1,16 +1,14 @@
 <?php declare(strict_types=1);
 
-use System\Application\ApplicationInterface;
 use System\Config\CONFIG;
 use System\Helper\DateTimeHelper;
+use System\Service\App;
 use System\Service\Logging;
 
 if (!function_exists('view')) {
-    function view(string $name, array $data = []): void
+    function view(string $name, array $data = [], string $application = ''): void
     {
-        global $wpmvc_app;
-        /** @var ApplicationInterface $wpmvc_app */
-        $view_dir = $wpmvc_app->config()->get(CONFIG::VIEW_DIRECTORY);
+        $view_dir = App::get($application)->config()->get(CONFIG::VIEW_DIRECTORY);
         Logging::get('system')->debug('include view: ' . $name, $data);
         include $view_dir . DIRECTORY_SEPARATOR . $name . '.php';
     }

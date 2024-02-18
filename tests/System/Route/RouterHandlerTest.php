@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace System\Route\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Core\HttpStatus;
 use System\Exception\ApplicationException;
+use System\Route\RouteHandler;
 
 #[CoversClass(RouteHandler::class)]
 class RouterHandlerTest extends TestCase

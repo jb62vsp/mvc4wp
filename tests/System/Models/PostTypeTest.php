@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Exception\ApplicationException;
@@ -38,15 +39,15 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal to set PostType.');
+        $this->expectExceptionMessage('duplicate to set System\Models\PostTypeTestMockC');
         PostType::getName(PostTypeTestMockC::class);
     }
 
     public function test_getName04(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal parameters.');
+        $this->expectExceptionMessage('Unknown named parameter $hoge');
         PostType::getName(PostTypeTestMockD::class);
     }
 }

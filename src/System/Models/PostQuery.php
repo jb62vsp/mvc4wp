@@ -221,7 +221,7 @@ class PostQuery
                 $data = get_post($id);
                 $obj->bind($data, false);
                 $meta = get_post_custom($id);
-                $obj->bind($meta, false);
+                $obj->bind($meta);
                 array_push($result, $obj);
             }
         }
@@ -244,7 +244,7 @@ class PostQuery
                 $data = get_post($id);
                 $result->bind($data, false);
                 $meta = get_post_custom($id);
-                $result->bind($meta, false);
+                $result->bind($meta);
                 break;
             }
         }

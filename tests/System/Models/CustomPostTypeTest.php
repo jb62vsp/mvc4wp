@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use System\Exception\ApplicationException;
@@ -10,58 +11,42 @@ class CustomPostTypeTest extends TestCase
 {
     public function test_construct01(): void
     {
-        $obj = new CustomPostType('slug', 'title');
+        $obj = new CustomPostType('name', 'title');
         $this->assertNotNull($obj);
-        $this->assertEquals('slug', $obj->slug);
+        $this->assertEquals('name', $obj->name);
         $this->assertEquals('title', $obj->title);
     }
 
-    public function test_getSlug01(): void
+    public function test_getName01(): void
     {
-        $slug = CustomPostType::getSlug(CustomPostTypeTestMockA::class);
-        $this->assertEquals('mock_a', $slug);
+        $name = CustomPostType::getName(CustomPostTypeTestMockA::class);
+        $this->assertEquals('mock_a', $name);
     }
 
-    public function test_getSlug02(): void
+    public function test_getName02(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal to set CustomPostType.');
-        CustomPostType::getSlug(CustomPostTypeTestMockB::class);
+        $this->expectExceptionMessage('duplicate to set System\Models\CustomPostTypeTestMockB, name');
+        CustomPostType::getName(CustomPostTypeTestMockB::class);
     }
 
-    public function test_getSlug03(): void
+    public function test_getName03(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal parameters.');
-        CustomPostType::getSlug(CustomPostTypeTestMockC::class);
+        $this->expectExceptionMessage('Unknown named parameter $hoge');
+        CustomPostType::getName(CustomPostTypeTestMockC::class);
     }
 
     public function test_getTitle01(): void
     {
-        $slug = CustomPostType::getTitle(CustomPostTypeTestMockA::class);
-        $this->assertEquals('タイトルA', $slug);
-    }
-
-    public function test_getTitle02(): void
-    {
-        $this->expectException(ApplicationException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal to set CustomPostType.');
-        CustomPostType::getTitle(CustomPostTypeTestMockB::class);
-    }
-
-    public function test_getTitle03(): void
-    {
-        $this->expectException(ApplicationException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('illegal parameters.');
-        CustomPostType::getTitle(CustomPostTypeTestMockC::class);
+        $name = CustomPostType::getTitle(CustomPostTypeTestMockA::class);
+        $this->assertEquals('タイトルA', $name);
     }
 }
 
-#[CustomPostType(slug: 'mock_a', title: 'タイトルA')]
+#[CustomPostType(name: 'mock_a', title: 'タイトルA')]
 class CustomPostTypeTestMockA
 {
 }
