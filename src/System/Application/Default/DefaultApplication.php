@@ -1,17 +1,14 @@
 <?php declare(strict_types=1);
 namespace System\Application\Default;
 
-use System\Application\ApplicationInterface;
-use System\Application\ApplicationTrait;
+use System\Application\AbstractApplication;
 use System\Config\ConfigInterface;
-use System\Config\DefaultConfigurator;
 use System\Core\Cast;
-use System\Route\DefaultRouterFactory;
 use System\Route\RouterInterface;
 
-class DefaultApplication implements ApplicationInterface
+class DefaultApplication extends AbstractApplication
 {
-    use Cast, ApplicationTrait;
+    use Cast;
 
     public function __construct(
         ConfigInterface $config,
