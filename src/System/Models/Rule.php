@@ -4,13 +4,12 @@ namespace System\Models;
 use Attribute;
 use ReflectionProperty;
 use System\Core\Cast;
-use System\Exception\ApplicationException;
 use System\Exception\ValidationException;
 
-#[Attribute(Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class Rule
 {
-    use Cast;
+    use Cast, AttributeTrait;
 
     public const RULES = [
         'BOOL' => '/^(1{0,1})$/',
@@ -28,26 +27,40 @@ class Rule
     ];
 
     public function __construct(
-        public PATTERN $pattern,
+        public PATTERN|string $pattern,
     ) {
     }
 
     public static function validation(Model $obj, string $property, string $value): void
     {
         $ref = new ReflectionProperty($obj, $property);
-        $rules = $ref->getAttributes(Rule::class);
-        foreach ($rules as $rule) {
-            $args = $rule->getArguments();
-            if (count($args) === 1) {
-                $key = is_array($args[0]) ? $args[0]->value : $args[0];
-                $pattern = array_key_exists($key, self::RULES) ? self::RULES[$key] : $key;
-                $matched = preg_match($pattern, $value);
-                if (!$matched) {
-                    throw new ValidationException(get_class($obj), $property, $value, $key);
-                }
-            } else {
-                throw new ApplicationException();
+        $attrs = $ref->getAttributes(Rule::class);
+        foreach ($attrs as $attr) {
+            $pattern_value = self::getValueByAttribute($attr, 'pattern');
+            $pattern = self::getPatternString($pattern_value);
+            $matched = preg_match($pattern, $value);
+            if (!$matched) {
+                $pattern_name = self::getPatternName($pattern_value);
+                throw new ValidationException(get_class($obj), $property, $value, $pattern_name);
             }
         }
+    }
+
+    private static function getPatternString(PATTERN|string $pattern_name): string
+    {
+        $result = $pattern_name;
+        if (!is_string($result) && get_class($result) === PATTERN::class) {
+            $result = self::RULES[$result->value];
+        }
+        return $result;
+    }
+
+    private static function getPatternName(PATTERN|string $pattern_name): string
+    {
+        $result = $pattern_name;
+        if (!is_string($result) && get_class($result) === PATTERN::class) {
+            $result = $result->value;
+        }
+        return $result;
     }
 }

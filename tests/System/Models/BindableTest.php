@@ -16,16 +16,18 @@ class BindableTest extends TestCase
 
     public function test_getBindableFields01(): void
     {
-        $fields = Bindable::getBindableFields(BindableTestMockA::class);
-        $this->assertCount(1, $fields);
+        $fields = Bindable::getAttributedProperties(BindableTestMockA::class);
+        $this->assertCount(3, $fields);
     }
 
     public function test_getBindableFieldNames01(): void
     {
-        $names = Bindable::getBindableFieldNames(BindableTestMockA::class);
-        $this->assertCount(1, $names);
+        $names = Bindable::getAttributedPropertyNames(BindableTestMockA::class);
+        $this->assertCount(3, $names);
         $this->assertEquals('field_a', $names[0]);
     }
+
+    // TODO: MockB
 }
 
 class BindableTestMockA

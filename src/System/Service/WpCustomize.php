@@ -24,7 +24,7 @@ final class WpCustomize
 
     public static function addPostType(string $class_name): string
     {
-        $slug = CustomPostType::getSlug($class_name);
+        $slug = CustomPostType::getName($class_name);
         $title = CustomPostType::getTitle($class_name);
         if (!array_key_exists($slug, self::$registered_posts)) {
             add_action('init', function () use ($slug, $title) {
@@ -44,21 +44,21 @@ final class WpCustomize
 
     public static function addCustomFields(string $class_name, string|array $post_slug): void
     {
-        $property_names = CustomField::getCustomFieldNames($class_name);
+        $property_names = CustomField::getAttributedPropertyNames($class_name);
         foreach ($property_names as $property_name) {
-            $field_slug = CustomField::getSlug($class_name, $property_name);
+            $field_slug = CustomField::getName($class_name, $property_name);
             $title = CustomField::getTitle($class_name, $property_name);
             $type = CustomField::getType($class_name, $property_name);
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
-                $callback = self::createAdminField($type, $post_slug, $field_slug);
+                $callback = self::createAdminField($type, $field_slug);
                 self::addCustomField($slug, $post_slug, $field_slug, $title, $callback);
                 self::$registered_fields[$slug] = true;
             }
         }
     }
 
-    private static function createAdminField(string $type, string $post_slug, string $field_slug)
+    private static function createAdminField(string $type, string $field_slug)
     {
         if (is_user_logged_in() && is_admin()) {
             $id = $field_slug . '_id';
@@ -79,7 +79,7 @@ final class WpCustomize
             };
             return $result;
         } else {
-            return function () { };
+            return function () { /* noop */};
         }
     }
 
