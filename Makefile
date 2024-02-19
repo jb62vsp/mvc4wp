@@ -36,8 +36,10 @@ vendor: composer.json #: install vendor
 	@composer install --no-dev
 
 .PHONY: vendor_dev
-vendor_dev: vendor/bin/phpunit #: install vendor with dev
+vendor_dev: vendor/bin/phpunit vendor/bin/phpstan #: install vendor with dev
 vendor/bin/phpunit: composer.json
+	@composer install
+vendor/bin/phpstan: composer.json
 	@composer install
 
 .PHONY: reload_vendor
@@ -67,6 +69,18 @@ app_test: vendor/bin/phpunit tests/App #: execute App unittest
 .PHONY: clean_test
 clean_test: .phpunit.cache coverage coverage.txt #: clean test
 	@rm -rf .phpunit.cache coverage coverage.txt
+
+#
+# static analysis
+#
+
+.PHONY: analyze
+analyze: vendor/bin/phpstan #: execute static analysis with PHPStan
+	@./vendor/bin/phpstan analyze --memory-limit=512M
+
+.PHONY: baseline
+baseline: vendor/bin/phpstan #: generate baseline.php PHPStan
+	@./vendor/bin/phpstan analyze --generate-baseline --allow-empty-baseline --memory-limit=512M
 
 #
 # help
