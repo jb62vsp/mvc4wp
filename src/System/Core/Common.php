@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use Wp4Mvc\System\Helper\DateTimeHelper;
-use Wp4Mvc\System\Service\Locator;
+use Mvc4Wp\System\Helper\DateTimeHelper;
+use Mvc4Wp\System\Service\Locator;
 
 if (!function_exists('view')) {
     function view(string $view_name, array $data = []): void

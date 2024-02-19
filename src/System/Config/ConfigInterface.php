@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Config;
+namespace Mvc4Wp\System\Config;
 
 interface ConfigInterface
 {

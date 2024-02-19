@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Route\Default;
+namespace Mvc4Wp\System\Route\Default;
 
-use Wp4Mvc\System\Route\AbstractRouterFactory;
-use Wp4Mvc\System\Route\RouterInterface;
+use Mvc4Wp\System\Route\AbstractRouterFactory;
+use Mvc4Wp\System\Route\RouterInterface;
 
 class DefaultRouterFactory extends AbstractRouterFactory
 {

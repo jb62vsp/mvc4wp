@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Models;
+namespace Mvc4Wp\System\Models;
 
 use Attribute;
-use Wp4Mvc\System\Core\Cast;
+use Mvc4Wp\System\Core\Cast;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class PostType extends Entity

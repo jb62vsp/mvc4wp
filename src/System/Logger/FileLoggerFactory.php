@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Logger;
+namespace Mvc4Wp\System\Logger;
 
 use Psr\Log\LoggerInterface;
-use Wp4Mvc\System\Exception\ApplicationException;
-use Wp4Mvc\System\Logger\AbstractLoggerFactory;
+use Mvc4Wp\System\Exception\ApplicationException;
+use Mvc4Wp\System\Logger\AbstractLoggerFactory;
 
 class FileLoggerFactory extends AbstractLoggerFactory
 {

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Models;
+namespace Mvc4Wp\System\Models;
 
-use Wp4Mvc\System\Models\Validator\ValidationError;
+use Mvc4Wp\System\Models\Validator\ValidationError;
 
 interface BindInterface
 {

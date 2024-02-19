@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Config\Default;
+namespace Mvc4Wp\System\Config\Default;
 
 use Exception;
-use Wp4Mvc\System\Config\CONFIG;
-use Wp4Mvc\System\Config\ConfigInterface;
-use Wp4Mvc\System\Core\Cast;
-use Wp4Mvc\System\Exception\ApplicationException;
+use Mvc4Wp\System\Config\CONFIG;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 class DefaultConfigurator implements ConfigInterface
 {

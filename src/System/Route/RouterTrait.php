@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Route;
+namespace Mvc4Wp\System\Route;
 
-use Wp4Mvc\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfigInterface;
 
 trait RouterTrait
 {

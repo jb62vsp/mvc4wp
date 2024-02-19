@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Models;
+namespace Mvc4Wp\System\Models;
 
 use DateTime;
 use ReflectionProperty;
-use Wp4Mvc\System\Exception\ValidationException;
-use Wp4Mvc\System\Helper\DateTimeHelper;
-use Wp4Mvc\System\Models\Validator\Rule;
-use Wp4Mvc\System\Models\Validator\ValidationError;
-use Wp4Mvc\System\Service\Logging;
+use Mvc4Wp\System\Exception\ValidationException;
+use Mvc4Wp\System\Helper\DateTimeHelper;
+use Mvc4Wp\System\Models\Validator\Rule;
+use Mvc4Wp\System\Models\Validator\ValidationError;
+use Mvc4Wp\System\Service\Logging;
 
 trait BindTrait
 {

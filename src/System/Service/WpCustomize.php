@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Service;
+namespace Mvc4Wp\System\Service;
 
-use Wp4Mvc\System\Helper\DateTimeHelper;
-use Wp4Mvc\System\Models\CustomField;
-use Wp4Mvc\System\Models\CustomPostType;
+use Mvc4Wp\System\Helper\DateTimeHelper;
+use Mvc4Wp\System\Models\CustomField;
+use Mvc4Wp\System\Models\CustomPostType;
 
 final class WpCustomize
 {

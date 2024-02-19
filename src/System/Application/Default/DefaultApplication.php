@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Application\Default;
+namespace Mvc4Wp\System\Application\Default;
 
-use Wp4Mvc\System\Application\AbstractApplication;
-use Wp4Mvc\System\Config\ConfigInterface;
-use Wp4Mvc\System\Core\Cast;
-use Wp4Mvc\System\Route\RouterInterface;
+use Mvc4Wp\System\Application\AbstractApplication;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Route\RouterInterface;
 
 class DefaultApplication extends AbstractApplication
 {
@@ -20,12 +20,12 @@ class DefaultApplication extends AbstractApplication
         /*
          * -------- DEFAULT CONFIGURATIONS --------
          */
-        $this->config()->add(\Wp4Mvc\System\Config\CONFIG::DEBUG, 'false'); // TODO:
-        $this->config()->add(\Wp4Mvc\System\Config\CONFIG::LOGGER, [
+        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::DEBUG, 'false'); // TODO:
+        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::LOGGER, [
             'default_logger_name' => 'app',
             'loggers' => [
                 'app' => [
-                    'logger_factory' => '\Wp4Mvc\System\Logger\FileLoggerFactory',
+                    'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
                     'directory' => __WPMVC_ROOT__ . '/log/',
                     'basefilename' => 'app',
                     'file_date_format' => 'Ymd',
@@ -34,7 +34,7 @@ class DefaultApplication extends AbstractApplication
                     'log_level' => 'notice',
                 ],
                 'system' => [
-                    'logger_factory' => '\Wp4Mvc\System\Logger\FileLoggerFactory',
+                    'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
                     'directory' => __WPMVC_ROOT__ . '/log/',
                     'basefilename' => 'sys',
                     'file_date_format' => 'Ymd',
@@ -44,8 +44,8 @@ class DefaultApplication extends AbstractApplication
                 ],
             ],
         ]);
-        $this->config()->add(\Wp4Mvc\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-        $this->config()->add(\Wp4Mvc\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
+        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
+        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
 
         include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
     }

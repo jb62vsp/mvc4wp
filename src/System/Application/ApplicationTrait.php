@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Application;
+namespace Mvc4Wp\System\Application;
 
-use Wp4Mvc\System\Config\ConfigInterface;
-use Wp4Mvc\System\Controllers\HttpErrorController;
-use Wp4Mvc\System\Core\HttpStatus;
-use Wp4Mvc\System\Exception\ApplicationException;
-use Wp4Mvc\System\Route\RouteHandler;
-use Wp4Mvc\System\Route\RouterInterface;
-use Wp4Mvc\System\Service\Locator;
-use Wp4Mvc\System\Service\Logging;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Controllers\HttpErrorController;
+use Mvc4Wp\System\Core\HttpStatus;
+use Mvc4Wp\System\Exception\ApplicationException;
+use Mvc4Wp\System\Route\RouteHandler;
+use Mvc4Wp\System\Route\RouterInterface;
+use Mvc4Wp\System\Service\Locator;
+use Mvc4Wp\System\Service\Logging;
 
 trait ApplicationTrait
 {

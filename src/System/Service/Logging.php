@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Service;
+namespace Mvc4Wp\System\Service;
 
 use Psr\Log\LoggerInterface;
-use Wp4Mvc\System\Config\CONFIG;
-use Wp4Mvc\System\Config\ConfigInterface;
-use Wp4Mvc\System\Logger\LoggerFactoryInterface;
-use Wp4Mvc\System\Logger\NullLoggerFactory;
+use Mvc4Wp\System\Config\CONFIG;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Logger\LoggerFactoryInterface;
+use Mvc4Wp\System\Logger\NullLoggerFactory;
 
 final class Logging
 {

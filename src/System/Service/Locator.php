@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Service;
+namespace Mvc4Wp\System\Service;
 
-use Wp4Mvc\System\Controllers\Controller;
+use Mvc4Wp\System\Controllers\Controller;
 
 final class Locator
 {

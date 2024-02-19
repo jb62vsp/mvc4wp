@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Models;
+namespace Mvc4Wp\System\Models;
 
 use ArgumentCountError;
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionProperty;
-use Wp4Mvc\System\Exception\ApplicationException;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 trait AttributeTrait
 {

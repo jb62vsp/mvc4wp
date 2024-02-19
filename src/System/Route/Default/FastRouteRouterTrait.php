@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Route\Default;
+namespace Mvc4Wp\System\Route\Default;
 
 use FastRoute;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Wp4Mvc\System\Config\CONFIG;
-use Wp4Mvc\System\Config\ConfigInterface;
-use Wp4Mvc\System\Core\HttpStatus;
-use Wp4Mvc\System\Route\RouteHandler;
-use Wp4Mvc\System\Route\RouterInterface;
+use Mvc4Wp\System\Config\CONFIG;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Core\HttpStatus;
+use Mvc4Wp\System\Route\RouteHandler;
+use Mvc4Wp\System\Route\RouterInterface;
 
 /**
  * FastRouteRouterTrait has FastRoute that inner behavior.

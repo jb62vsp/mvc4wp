@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Controllers;
+namespace Mvc4Wp\System\Controllers;
 
-use Wp4Mvc\System\Core\Cast;
-use Wp4Mvc\System\Response\DefaultResponder;
-use Wp4Mvc\System\Response\PlainPhpRenderTrait;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Response\DefaultResponder;
+use Mvc4Wp\System\Response\PlainPhpRenderTrait;
 
 abstract class PlainPhpController extends Controller
 {

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Wp4Mvc\System\Models\Validator;
+namespace Mvc4Wp\System\Models\Validator;
 
 use Attribute;
-use Wp4Mvc\System\Core\Cast;
-use Wp4Mvc\System\Models\AttributeTrait;
-use Wp4Mvc\System\Models\Model;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Models\AttributeTrait;
+use Mvc4Wp\System\Models\Model;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 abstract class Rule
