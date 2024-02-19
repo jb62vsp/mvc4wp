@@ -6,13 +6,30 @@ use System\Models\Repository\QueryInterface;
 use System\Models\Repository\UserQuery;
 
 /**
- * @template TModel of UserModel
- * @extends UserEntity<TModel>
+ * @template TModel of UserEntity
+ * @extends Model<TModel>
  */
 #[Entity]
-class UserModel extends UserEntity
+abstract class UserEntity extends Model
 {
     use Cast;
+
+    #[Bindable]
+    public string $user_login;
+
+    #[Bindable]
+    public string $user_email;
+
+    #[Bindable]
+    public string $display_name;
+
+    #[Bindable]
+    public string $last_name;
+
+    #[Bindable]
+    public string $first_name;
+
+    // public array $roles;
 
     /**
      * @return UserQuery<TModel>

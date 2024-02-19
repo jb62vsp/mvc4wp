@@ -2,38 +2,18 @@
 namespace System\Models;
 
 use System\Core\Cast;
+use System\Core\Wp;
 use System\Models\Repository\PostQuery;
 use System\Models\Repository\QueryInterface;
 
 /**
  * @template TModel of PostModel
- * @extends Model<TModel>
+ * @extends PostEntity<TModel>
  */
 #[PostType(name: 'post')]
-class PostModel extends Model
+class PostModel extends PostEntity
 {
     use Cast;
-
-    #[Bindable]
-    public int $post_author;
-
-    #[Bindable]
-    public string $post_date;
-
-    #[Bindable]
-    public string $post_name;
-
-    #[Bindable]
-    public string $post_status;
-
-    #[Bindable]
-    public string $post_title;
-
-    #[Bindable]
-    public string $post_type;
-
-    #[Bindable]
-    public string $post_content;
 
     public function __construct()
     {

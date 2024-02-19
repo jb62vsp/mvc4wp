@@ -36,7 +36,7 @@ class PostQuery extends AbstractQuery
         'post_parent__in' => 'post_parent__in',
     ];
 
-    protected array $queries = [];
+    protected array $queries;
 
     public function __construct(
         protected string $class_name

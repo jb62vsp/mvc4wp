@@ -72,6 +72,7 @@ class UserQuery extends AbstractQuery
         $result = [];
 
         // TODO:
+        // new \WP_User_Query($this->queries);
 
         return $result;
     }
