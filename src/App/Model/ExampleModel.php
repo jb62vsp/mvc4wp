@@ -9,6 +9,8 @@ use Mvc4Wp\System\Model\CustomField;
 use Mvc4Wp\System\Model\CustomPostType;
 use Mvc4Wp\System\Model\PostModel;
 use Mvc4Wp\System\Model\PostType;
+use Mvc4Wp\System\Model\Validator\LengthRule;
+use Mvc4Wp\System\Model\Validator\NumericRule;
 use Mvc4Wp\System\Model\Validator\PATTERN;
 use Mvc4Wp\System\Model\Validator\RegExpRule;
 
@@ -24,7 +26,7 @@ class ExampleModel extends PostModel
 
     #[Bindable]
     #[CustomField(name: 'example_text', title: 'テキスト例', type: CustomField::TEXT)]
-    #[RegexpRule('/^[a-zA-Z0-9]{0,3}$/')]
+    #[LengthRule(0, 3, '%s文字から%s文字まで')]
     public string $example_text = '';
 
     #[Bindable]
@@ -33,42 +35,42 @@ class ExampleModel extends PostModel
 
     #[Bindable]
     #[CustomField(name: 'example_int', title: '整数例', type: CustomField::INTEGER)]
-    #[RegExpRule(PATTERN::INTEGER)]
+    #[RegExpRule(PATTERN::INTEGER, '整数のみ')]
     public int $example_int = -1;
 
     #[Bindable]
     #[CustomField(name: 'example_uint', title: '正の整数例', type: CustomField::UINTEGER)]
-    #[RegExpRule(PATTERN::UINTEGER)]
+    #[NumericRule('正の整数のみ')]
     public int $example_uint = 1;
 
     #[Bindable]
     #[CustomField(name: 'example_float', title: '浮動小数点数例', type: CustomField::FLOAT)]
-    #[RegExpRule(PATTERN::FLOAT)]
+    #[RegExpRule(PATTERN::FLOAT, '浮動小数点数のみ')]
     public float $example_float = -1.0;
 
     #[Bindable]
     #[CustomField(name: 'example_ufloat', title: '正の浮動小数点数例', type: CustomField::UFLOAT)]
-    #[RegExpRule(PATTERN::UFLOAT)]
+    #[RegExpRule(PATTERN::UFLOAT, '正の浮動小数点数のみ')]
     public float $example_ufloat = 1.23;
 
     #[Bindable]
     #[CustomField(name: 'example_bool', title: '真偽値例', type: CustomField::BOOL)]
-    #[RegExpRule(PATTERN::BOOL)]
+    #[RegExpRule(PATTERN::BOOL, '真偽値のみ')]
     public bool $example_bool = false;
 
     #[Bindable]
     #[CustomField(name: 'example_date', title: '日付型例', type: CustomField::DATE)]
-    #[RegExpRule(PATTERN::DATE)]
+    #[RegExpRule(PATTERN::DATE, '日付のみ')]
     public DateTime $example_date;
 
     #[Bindable]
     #[CustomField(name: 'example_time', title: '時刻型例', type: CustomField::TIME)]
-    #[RegExpRule(PATTERN::TIME)]
+    #[RegExpRule(PATTERN::TIME, '時刻のみ')]
     public DateTime $example_time;
 
     #[Bindable]
     #[CustomField(name: 'example_datetime', title: '日時型例', type: CustomField::DATETIME)]
-    #[RegExpRule(PATTERN::DATETIME)]
+    #[RegExpRule(PATTERN::DATETIME, '日時のみ')]
     public ?DateTime $example_datetime;
 
     public function format(string $field): string
