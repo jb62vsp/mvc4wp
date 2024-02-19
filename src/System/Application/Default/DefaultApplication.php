@@ -20,8 +20,8 @@ class DefaultApplication extends AbstractApplication
         /*
          * -------- DEFAULT CONFIGURATIONS --------
          */
-        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::DEBUG, 'false'); // TODO:
-        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::LOGGER, [
+        $this->config()->add('DEBUG', 'false'); // TODO:
+        $this->config()->add('LOGGER', [
             'default_logger_name' => 'app',
             'loggers' => [
                 'app' => [
@@ -44,8 +44,8 @@ class DefaultApplication extends AbstractApplication
                 ],
             ],
         ]);
-        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::CONTROLLER_NAMESPACE, 'App\Controllers');
-        $this->config()->add(\Mvc4Wp\System\Config\CONFIG::VIEW_DIRECTORY, __WPMVC_ROOT__ . '/src/App/Views/');
+        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controllers');
+        $this->config()->add('VIEW_DIRECTORY', __WPMVC_ROOT__ . '/src/App/Views/');
 
         include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
     }

@@ -4,7 +4,6 @@ namespace Mvc4Wp\System\Route\Default;
 use FastRoute;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Mvc4Wp\System\Config\CONFIG;
 use Mvc4Wp\System\Config\ConfigInterface;
 use Mvc4Wp\System\Core\HttpStatus;
 use Mvc4Wp\System\Route\RouteHandler;
@@ -26,7 +25,7 @@ trait FastRouteRouterTrait
                 $httpMethod = $keys[0];
                 $uris = explode(RouterInterface::ROUTE_DELIMITER, $keys[1]);
                 foreach ($uris as $uri) {
-                    $r->addRoute($httpMethod, $uri, $config->get(CONFIG::CONTROLLER_NAMESPACE) . '\\' . $value);
+                    $r->addRoute($httpMethod, $uri, $config->get('CONTROLLER_NAMESPACE') . '\\' . $value);
                 }
             }
         });

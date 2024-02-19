@@ -2,7 +2,6 @@
 namespace Mvc4Wp\System\Config\Default;
 
 use Exception;
-use Mvc4Wp\System\Config\CONFIG;
 use Mvc4Wp\System\Config\ConfigInterface;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
@@ -13,22 +12,22 @@ class DefaultConfigurator implements ConfigInterface
 
     private array $configs = [];
 
-    public function add(CONFIG $key, string|array $value): void
+    public function add(string $key, string|array $value): void
     {
-        $this->configs[$key->value] = $value;
+        $this->configs[$key] = $value;
     }
 
-    public function get(CONFIG $key): string|array
+    public function get(string $key): string|array
     {
-        return $this->configs[$key->value];
+        return $this->configs[$key];
     }
 
-    public function set(CONFIG $key, string|array $value, string ...$args): void
+    public function set(string $key, string|array $value, string ...$args): void
     {
         try {
-            $orig = $this->configs[$key->value];
+            $orig = $this->configs[$key];
             $conf = $this->recursive_set($orig, $args, count($args), $value);
-            $this->configs[$key->value] = $conf;
+            $this->configs[$key] = $conf;
         } catch (Exception $ex) {
             throw new ApplicationException('TODO', previous: $ex);
         }

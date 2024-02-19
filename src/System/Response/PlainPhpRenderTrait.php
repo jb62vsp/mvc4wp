@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Response;
 
-use Mvc4Wp\System\Config\CONFIG;
 use Mvc4Wp\System\Config\ConfigInterface;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
@@ -18,7 +17,7 @@ trait PlainPhpRenderTrait
             $responder->header('Content-Type: text/html; charset=utf-8');
             $this->first = false;
         }
-        $view_path = $config->get(CONFIG::VIEW_DIRECTORY) . DIRECTORY_SEPARATOR . $view . '.php';
+        $view_path = $config->get('VIEW_DIRECTORY') . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
             include $view_path;
         } else {
