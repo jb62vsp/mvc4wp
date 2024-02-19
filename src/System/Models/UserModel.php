@@ -2,12 +2,17 @@
 namespace System\Models;
 
 use System\Core\Cast;
-use System\Models\Repository\UserRepositoryTrait;
+use System\Models\Repository\QueryInterface;
+use System\Models\Repository\UserQuery;
 
+/**
+ * @template TModel of UserModel
+ * @extends Model<TModel>
+ */
 #[Entity]
 class UserModel extends Model
 {
-    use Cast, UserRepositoryTrait;
+    use Cast;
 
     #[Bindable]
     public string $user_login;
@@ -24,5 +29,30 @@ class UserModel extends Model
     #[Bindable]
     public string $first_name;
 
-    public array $roles;
+    // public array $roles;
+
+    /**
+     * @return UserQuery<TModel>
+     */
+    public static function find(): QueryInterface
+    {
+        /** @var UserQuery<TModel> */
+        $result = new UserQuery(static::class);
+        return $result;
+    }
+
+    public function register(): int
+    {
+        return -1; // TODO:
+    }
+
+    public function update(): void
+    {
+        // TODO:
+    }
+
+    public function delete(bool $force_delete = false): bool
+    {
+        return false;
+    }
 }

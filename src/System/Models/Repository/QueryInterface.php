@@ -3,20 +3,38 @@ namespace System\Models\Repository;
 
 use System\Models\Model;
 
+/**
+ * @template TModel of Model
+ */
 interface QueryInterface
 {
-    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self;
-
-    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): self;
+    /**
+     * @return QueryInterface<TModel>
+     */
+    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): QueryInterface;
 
     /**
-     * @return array<Model>
+     * @return QueryInterface<TModel>
+     */
+    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): QueryInterface;
+
+    /**
+     * @return array<TModel>
      */
     public function get(): array;
 
+    /**
+     * @return TModel|null
+     */
     public function getSingle(): ?Model;
 
+    /**
+     * @return TModel|null
+     */
     public function byID(int $id): ?Model;
 
+    /**
+     * @return int
+     */
     public function count(): int;
 }

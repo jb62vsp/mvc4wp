@@ -2,12 +2,16 @@
 namespace System\Models;
 
 use System\Core\Cast;
+use System\Models\Repository\QueryInterface;
 use System\Models\Repository\RepositoryInterface;
-use System\Models\Repository\RepositoryTrait;
 
+/**
+ * @template TModel of Model
+ * @implements RepositoryInterface<TModel, QueryInterface<TModel>>
+ */
 abstract class Model implements BindInterface, RepositoryInterface
 {
-    use Cast, BindTrait, RepositoryTrait;
+    use Cast, BindTrait;
 
     #[Bindable]
     public int $ID;
