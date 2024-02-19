@@ -28,39 +28,46 @@ trait ApplicationTrait
 
     protected function executeController(ConfigInterface $config, RouterInterface $router): void
     {
-        $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
-        if (isset($_POST['_method'])) {
-            $request_method = strtoupper($_POST['_method']);
-        } elseif (isset($_POST['_METHOD'])) {
-            $request_method = strtoupper($_POST['_METHOD']);
-        }
+        try {
+            $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
+            if (isset($_POST['_method'])) {
+                $request_method = strtoupper($_POST['_method']);
+            } elseif (isset($_POST['_METHOD'])) {
+                $request_method = strtoupper($_POST['_METHOD']);
+            }
 
-        /** @var RouteHandler $route */
-        $route = $router->dispatch($config, $request_method, $_SERVER['REQUEST_URI']);
+            /** @var RouteHandler $route */
+            $route = $router->dispatch($config, $request_method, $_SERVER['REQUEST_URI']);
 
-        if ($route->status !== HttpStatus::OK) {
-            $controller = new HttpErrorController($config, $route->status);
+            if ($route->status !== HttpStatus::OK) {
+                $controller = new HttpErrorController($config, $route->status); // TODO: error controller define config
+                $controller->index();
+                return;
+            }
+
+            if (!class_exists($route->class)) {
+                throw new ApplicationException();
+            }
+
+            $controller = new $route->class($this->config());
+            Locator::setController($controller);
+            if (!method_exists($controller, $route->method)) {
+                throw new ApplicationException();
+            }
+
+            if (method_exists($controller, 'init')) {
+                Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->init', $route->args);
+                $controller->init($route->args);
+            }
+
+            Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->' . $route->method, $route->args);
+            $controller->{$route->method}($route->args);
+        } catch (ApplicationException $ex) {
+            Logging::get('system')->error($ex->getMessage(), [$ex]);
+            $controller = new HttpErrorController($config, HttpStatus::INTERNAL_SERVER_ERROR); // TODO: error controller define config
             $controller->index();
             return;
         }
-
-        if (!class_exists($route->class)) {
-            throw new ApplicationException();
-        }
-
-        $controller = new $route->class($this->config());
-        Locator::setController($controller);
-        if (!method_exists($controller, $route->method)) {
-            throw new ApplicationException();
-        }
-
-        if (method_exists($controller, 'init')) {
-            Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->init', $route->args);
-            $controller->init($route->args);
-        }
-
-        Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '->' . $route->method, $route->args);
-        $controller->{$route->method}($route->args);
     }
 
     abstract public function run(): void;
