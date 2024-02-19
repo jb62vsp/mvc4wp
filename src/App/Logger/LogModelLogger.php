@@ -40,7 +40,7 @@ class LogModelLogger extends AbstractLogger
         if (self::$thresholds[$level] <= $threshold) {
             $model = new LogModel();
             $date = DateTimeHelper::datetime();
-            $model->post_title = $date . '-' . strtoupper($level) . ' --> ' . $message;
+            $model->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
             $model->post_content = var_export($context, true);
             $model->register(true);
         }
