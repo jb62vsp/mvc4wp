@@ -1,13 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Controller;
 
-use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Core\HttpStatus;
 
 trait HttpResponder
 {
-    use Cast;
-
     /*
      * --------------------------------------------------------------------
      * HTTP response section

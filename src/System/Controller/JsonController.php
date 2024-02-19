@@ -5,5 +5,5 @@ use Mvc4Wp\System\Core\Cast;
 
 abstract class JsonController extends Controller
 {
-    use Cast, JsonRenderTrait;
+    use Cast, HttpResponder, JsonRenderTrait;
 }
