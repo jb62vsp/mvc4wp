@@ -238,7 +238,7 @@ class PostQuery extends AbstractQuery
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                $this->bind();
+                $result = $this->bind();
                 break;
             }
         }
