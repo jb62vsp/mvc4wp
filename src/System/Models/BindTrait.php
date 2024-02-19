@@ -67,7 +67,7 @@ trait BindTrait
         return $result;
     }
 
-    private static function reverseProperty(Model $obj, ReflectionProperty $prop): string
+    protected static function reverseProperty(Model $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (self::hasKey($obj, $prop_name)) {
