@@ -5,7 +5,7 @@ use Attribute;
 use System\Core\Cast;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class PostType
+class PostType extends Entity
 {
     use Cast, AttributeTrait;
 

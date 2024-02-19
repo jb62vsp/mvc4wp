@@ -3,7 +3,6 @@ namespace System\Models\Repository;
 
 use System\Models\Model;
 use System\Models\PostType;
-use WP_Query;
 
 trait PostQueryTrait
 {
@@ -195,9 +194,9 @@ trait PostQueryTrait
 
     // ---- execute ----
 
-    protected function build(): WP_Query
+    protected function build(): \WP_Query
     {
-        return new WP_Query($this->queries);
+        return new \WP_Query($this->queries);
     }
 
     public function custom(array $criteria): self
@@ -214,14 +213,8 @@ trait PostQueryTrait
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                $cls = $this->class_name;
-                $obj = new $cls();
-                $id = get_the_ID();
-                $data = get_post($id);
-                $obj->bind($data, false);
-                $meta = get_post_custom($id);
-                $obj->bind($meta, false);
-                array_push($result, $obj);
+                $model = $this->bind();
+                array_push($result, $model);
             }
         }
         wp_reset_postdata();
@@ -237,13 +230,7 @@ trait PostQueryTrait
         if ($query->have_posts()) {
             while ($query->have_posts()) {
                 $query->the_post();
-                $cls = $this->class_name;
-                $result = new $cls();
-                $id = get_the_ID();
-                $data = get_post($id);
-                $result->bind($data, false);
-                $meta = get_post_custom($id);
-                $result->bind($meta, false);
+                $this->bind();
                 break;
             }
         }
@@ -267,6 +254,20 @@ trait PostQueryTrait
             $result = $query->post_count;
         }
         wp_reset_postdata();
+
+        return $result;
+    }
+
+    private function bind(): Model
+    {
+        $cls = $this->class_name;
+        $result = new $cls();
+
+        $id = get_the_ID();
+        $data = get_post($id);
+        $result->bind($data, false);
+        $meta = get_post_custom($id);
+        $result->bind($meta, false);
 
         return $result;
     }

@@ -17,7 +17,7 @@ trait Cast
             return true;
         }
 
-        $result = static:: extend($child_or_parent);
+        $result = static::extend($child_or_parent);
         if ($result) {
             return true;
         }
