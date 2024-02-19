@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use System\Service\App;
+use Mvc4Wp\System\Service\App;
 
 /*
  * --------------------------------------------------------------------
@@ -45,7 +45,7 @@ App::get()->router()->delete('/example/{id:\d+}|/example/{id:\d+}/', 'ExampleCon
  * init scripts for application
  * --------------------------------------------------------------------
  */
-\System\Service\Logging::configure(App::get()->config());
+\Mvc4Wp\System\Service\Logging::configure(App::get()->config());
 
 /*
  * --------------------------------------------------------------------

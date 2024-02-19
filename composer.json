@@ -1,11 +1,11 @@
 {
-    "name": "s_hino/wp_mvc",
+    "name": "s_hino/mvc4wp",
     "description": "Model-View-Controller framework for Wordpress",
     "type": "project",
     "license": "MIT License",
     "autoload": {
         "psr-4": {
-            "System\\": "src/System",
+            "Mvc4Wp\\System\\": "src/System",
             "App\\": "src/App"
         }
     },
@@ -20,6 +20,7 @@
         "psr/log": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "phpstan/phpstan": "^1.10"
     }
 }

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace Mvc4Wp\System\Route;
 
-use System\Core\Cast;
-use System\Core\HttpStatus;
-use System\Exception\ApplicationException;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Core\HttpStatus;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 final class RouteHandler
 {

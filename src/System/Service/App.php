@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Service;
+namespace Mvc4Wp\System\Service;
 
-use System\Application\ApplicationFactoryInterface;
-use System\Application\ApplicationInterface;
-use System\Application\Default\DefaultApplicationFactory;
-use System\Exception\ApplicationException;
+use Mvc4Wp\System\Application\ApplicationFactoryInterface;
+use Mvc4Wp\System\Application\ApplicationInterface;
+use Mvc4Wp\System\Application\Default\DefaultApplicationFactory;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 final class App
 {
@@ -17,7 +17,7 @@ final class App
         self::$applications[$application_name] = $factory->create();
     }
 
-    public static function get(string $application_name = ''): ApplicationInterface
+    public static function get(string $application_name = self::DEFAULT_NAME): ApplicationInterface
     {
         if (empty($application_name)) {
             return self::getDefaultApplication();

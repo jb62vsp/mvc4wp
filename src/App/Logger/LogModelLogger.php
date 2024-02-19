@@ -3,7 +3,7 @@ namespace App\Logger;
 
 use App\Models\LogModel;
 use Psr\Log\AbstractLogger;
-use System\Helper\DateTimeHelper;
+use Mvc4Wp\System\Helper\DateTimeHelper;
 
 class LogModelLogger extends AbstractLogger
 {

@@ -3,7 +3,6 @@ namespace System\Models;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use System\Exception\ApplicationException;
 
 #[CoversClass(Bindable::class)]
 class BindableTest extends TestCase

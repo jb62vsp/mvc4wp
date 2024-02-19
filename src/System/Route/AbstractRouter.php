@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace Mvc4Wp\System\Route;
 
-use System\Core\Cast;
+use Mvc4Wp\System\Core\Cast;
 
 abstract class AbstractRouter implements RouterInterface
 {

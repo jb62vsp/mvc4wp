@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Config;
+namespace Mvc4Wp\System\Config;
 
 abstract class AbstractConfiguratorFactory implements ConfiguratorFactoryInterface
 {
-    use ConfiguratorFactoryTrait;
+    abstract public function create(array $args = []): ConfigInterface;
 }

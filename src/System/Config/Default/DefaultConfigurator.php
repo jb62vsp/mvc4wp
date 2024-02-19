@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Config\Default;
+namespace Mvc4Wp\System\Config\Default;
 
-use System\Config\CONFIG;
-use System\Config\ConfigInterface;
-use System\Core\Cast;
+use Exception;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 class DefaultConfigurator implements ConfigInterface
 {
@@ -11,13 +12,36 @@ class DefaultConfigurator implements ConfigInterface
 
     private array $configs = [];
 
-    public function add(CONFIG $key, string|array $value): void
+    public function add(string $key, string|array $value): void
     {
-        $this->configs[$key->value] = $value;
+        $this->configs[$key] = $value;
     }
 
-    public function get(CONFIG $key): string|array
+    public function get(string $key): string|array
     {
-        return $this->configs[$key->value];
+        return $this->configs[$key];
+    }
+
+    public function set(string $key, string|array $value, string ...$args): void
+    {
+        try {
+            $orig = $this->configs[$key];
+            $conf = $this->recursive_set($orig, $args, count($args), $value);
+            $this->configs[$key] = $conf;
+        } catch (Exception $ex) {
+            throw new ApplicationException('TODO', previous: $ex);
+        }
+    }
+
+    private function recursive_set(array $arr, array $keys, int $index, string|array $value): array
+    {
+        $cur = count($keys) - $index;
+        if ($index === 1) {
+            $arr[$keys[$cur]] = $value;
+            return $arr;
+        } else {
+            $arr[$keys[$cur]] = $this->recursive_set($arr[$keys[$cur]], $keys, $index - 1, $value);
+            return $arr;
+        }
     }
 }

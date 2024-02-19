@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Application;
+namespace Mvc4Wp\System\Application;
 
 interface ApplicationFactoryInterface
 {

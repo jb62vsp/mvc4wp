@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Application;
+namespace Mvc4Wp\System\Application;
 
-use System\Config\ConfigInterface;
-use System\Route\RouterInterface;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Route\RouterInterface;
 
 interface ApplicationInterface
 {

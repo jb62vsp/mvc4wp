@@ -1,0 +1,171 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class System\\\\Config\\\\Default\\\\DefaultConfigurator does not have a constructor and must be instantiated without any parameters\\.$#"
+			count: 1
+			path: src/System/Config/Default/DefaultConfiguratorFactory.php
+
+		-
+			message: "#^Function esc_attr not found\\.$#"
+			count: 2
+			path: src/System/Core/Common.php
+
+		-
+			message: "#^Function esc_html not found\\.$#"
+			count: 1
+			path: src/System/Core/Common.php
+
+		-
+			message: "#^Function wp_date not found\\.$#"
+			count: 1
+			path: src/System/Helper/DateTimeHelper.php
+
+		-
+			message: "#^Function update_post_meta not found\\.$#"
+			count: 2
+			path: src/System/Models/PostModel.php
+
+		-
+			message: "#^Function wp_delete_post not found\\.$#"
+			count: 1
+			path: src/System/Models/PostModel.php
+
+		-
+			message: "#^Function wp_insert_post not found\\.$#"
+			count: 1
+			path: src/System/Models/PostModel.php
+
+		-
+			message: "#^Function wp_trash_post not found\\.$#"
+			count: 1
+			path: src/System/Models/PostModel.php
+
+		-
+			message: "#^Function wp_update_post not found\\.$#"
+			count: 1
+			path: src/System/Models/PostModel.php
+
+		-
+			message: "#^Function get_post not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Function get_post_custom not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Function get_the_ID not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Function wp_reset_postdata not found\\.$#"
+			count: 3
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Instantiated class WP_Query not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Method System\\\\Models\\\\Repository\\\\PostQuery\\:\\:build\\(\\) has invalid return type WP_Query\\.$#"
+			count: 1
+			path: src/System/Models/Repository/PostQuery.php
+
+		-
+			message: "#^Function get_user_by not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/UserQuery.php
+
+		-
+			message: "#^Function get_user_meta not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/UserQuery.php
+
+		-
+			message: "#^Instantiated class WP_User_Query not found\\.$#"
+			count: 1
+			path: src/System/Models/Repository/UserQuery.php
+
+		-
+			message: "#^Method System\\\\Models\\\\Repository\\\\UserQuery\\:\\:build\\(\\) has invalid return type WP_User_Query\\.$#"
+			count: 1
+			path: src/System/Models/Repository/UserQuery.php
+
+		-
+			message: "#^Abstract class System\\\\Models\\\\Validator\\\\Rule cannot be an Attribute class\\.$#"
+			count: 1
+			path: src/System/Models/Validator/Rule.php
+
+		-
+			message: "#^Function add_action not found\\.$#"
+			count: 3
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function add_filter not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function add_meta_box not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function add_post_meta not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function check_admin_referer not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function esc_attr not found\\.$#"
+			count: 7
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function get_post_meta not found\\.$#"
+			count: 10
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function get_the_ID not found\\.$#"
+			count: 10
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function is_404 not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function is_admin not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function is_user_logged_in not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function register_post_type not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function update_post_meta not found\\.$#"
+			count: 1
+			path: src/System/Service/WpCustomize.php
+
+		-
+			message: "#^Function wp_nonce_field not found\\.$#"
+			count: 10
+			path: src/System/Service/WpCustomize.php

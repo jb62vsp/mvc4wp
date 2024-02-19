@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Application;
+namespace Mvc4Wp\System\Application;
 
-use System\Core\Cast;
+use Mvc4Wp\System\Core\Cast;
 
 abstract class AbstractApplication implements ApplicationInterface
 {
-    use Cast, ApplicationTrait;
+    use Cast;
 }

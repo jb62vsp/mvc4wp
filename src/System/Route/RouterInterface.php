@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Route;
+namespace Mvc4Wp\System\Route;
 
-use System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfigInterface;
 
 interface RouterInterface
 {

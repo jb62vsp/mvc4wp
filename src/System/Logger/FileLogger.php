@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Logger;
+namespace Mvc4Wp\System\Logger;
 
+use DateTime;
+use DateTimeZone;
 use Psr\Log\AbstractLogger;
-use System\Helper\DateTimeHelper;
 
 class FileLogger extends AbstractLogger
 {
@@ -22,7 +23,9 @@ class FileLogger extends AbstractLogger
     public function __construct(
         protected string $directory,
         protected string $basefilename,
-        protected string $date_format,
+        protected string $file_date_format,
+        protected string $datetime_format,
+        protected string $timezone,
         string $log_level,
     ) {
         if (array_key_exists($log_level, self::$thresholds)) {
@@ -32,22 +35,23 @@ class FileLogger extends AbstractLogger
         }
     }
 
-    protected function getFilePath(): string
+    protected function getFilePath(string $date): string
     {
-        $date = DateTimeHelper::now($this->date_format);
         $path = $this->directory . $this->basefilename . '.' . $date . '.log';
         return $path;
     }
 
-    protected function out(string $line): void
+    protected function out(DateTime $now, string $line): void
     {
+        $date = $now->format($this->file_date_format);
+
         $create = false;
 
-        if (!file_exists($this->getFilePath())) {
+        if (!file_exists($this->getFilePath($date))) {
             $create = true;
         }
 
-        if (!$fp = @fopen($this->getFilePath(), 'ab')) {
+        if (!$fp = @fopen($this->getFilePath($date), 'ab')) {
             return;
         }
 
@@ -62,7 +66,7 @@ class FileLogger extends AbstractLogger
         fclose($fp);
 
         if ($create) {
-            chmod($this->getFilePath(), 0666);
+            chmod($this->getFilePath($date), 0666);
         }
     }
 
@@ -74,8 +78,11 @@ class FileLogger extends AbstractLogger
         }
 
         if (self::$thresholds[$level] <= $threshold) {
-            $date = DateTimeHelper::datetime();
-            $this->out(strtoupper($level) . ' - ' . $date . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
+            $ts = time();
+            $now = date_create('@' . $ts);
+            $now->setTimezone(new DateTimeZone($this->timezone));
+            $datetime = $now->format($this->datetime_format);
+            $this->out($now, strtoupper($level) . ' - ' . $datetime . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
         }
     }
 }

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
-namespace System\Config\Default;
+namespace Mvc4Wp\System\Config\Default;
 
-use System\Config\AbstractConfiguratorFactory;
-use System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\AbstractConfiguratorFactory;
+use Mvc4Wp\System\Config\ConfigInterface;
 
 class DefaultConfiguratorFactory extends AbstractConfiguratorFactory
 {
     public function create(array $args = []): ConfigInterface
     {
-        return new DefaultConfigurator($args);
+        return new DefaultConfigurator();
     }
 }

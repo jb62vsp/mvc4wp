@@ -6,3 +6,4 @@ coverage.txt
 coverage/
 /log/
 .devcontainer/.env
+wp-includes/

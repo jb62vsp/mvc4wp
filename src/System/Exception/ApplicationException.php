@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Exception;
+namespace Mvc4Wp\System\Exception;
 
 use Exception;
 

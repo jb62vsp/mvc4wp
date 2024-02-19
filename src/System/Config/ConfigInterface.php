@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
-namespace System\Config;
+namespace Mvc4Wp\System\Config;
 
 interface ConfigInterface
 {
-    public function add(CONFIG $key, string|array $value): void;
+    public function add(string $key, string|array $value): void;
 
-    public function get(CONFIG $key): string|array;
+    public function get(string $key): string|array;
+
+    public function set(string $key, string $value, string ...$keys): void;
 }

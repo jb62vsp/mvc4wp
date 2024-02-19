@@ -1,47 +1,97 @@
 <?php declare(strict_types=1);
-namespace System\Core;
+namespace Mvc4Wp\System\Core;
 
 use InvalidArgumentException;
 
 trait Cast
 {
-    public static function is($obj): bool
+    /**
+     * all situation.
+     */
+    public static function is(object|string $child_or_parent): bool
     {
-        return $obj instanceof self;
-    }
+        $result = false;
 
-    public static function used(object $obj): bool
-    {
-        $classes = array_merge([$obj], class_parents($obj));
-        $exists = false;
-        foreach ($classes as $class) {
-            $traits = class_uses($class);
-            if (in_array(self::class, $traits)) {
-                $exists = true;
-                break;
-            }
+        $result = static::equals($child_or_parent);
+        if ($result) {
+            return true;
         }
 
-        return $exists;
-    }
-
-    public static function cast($obj): self
-    {
-        if (!self::is($obj)) {
-            throw new InvalidArgumentException();
+        $result = static::extend($child_or_parent);
+        if ($result) {
+            return true;
         }
 
-        return $obj;
+        $result = static::extended($child_or_parent);
+
+        return $result;
     }
 
-    public static function cast_null($obj): ?self
+    /**
+     * left operator equals right operator.
+     */
+    public static function equals(object|string $object_or_class): bool
     {
-        if (is_null($obj)) {
+        $result = false;
+
+        $class = '';
+        if (is_string($object_or_class)) {
+            $class = $object_or_class;
+        } else {
+            $class = get_class($object_or_class);
+        }
+        $result = $class === static::class;
+
+        return $result;
+    }
+
+    /**
+     * left operator extends right operator.
+     */
+    public static function extend(object|string $parent): bool
+    {
+        $result = false;
+
+        if (is_string($parent)) {
+            $result = is_subclass_of(static::class, $parent);
+        } else {
+            $result = is_subclass_of(static::class, get_class($parent));
+        }
+
+        return $result;
+    }
+
+    /**
+     * right operator extends left operator.
+     */
+    public static function extended(object|string $child): bool
+    {
+        return is_subclass_of($child, static::class);
+    }
+
+    /**
+     * DO NOT upcast(only equals OR extended).
+     */
+    public static function cast(object $object): static
+    {
+        if (static::equals($object)) {
+            return $object;
+        } elseif (static::extended($object)) {
+            return $object;
+        }
+
+        throw new InvalidArgumentException();
+    }
+
+    /**
+     * DO NOT upcast(only equals OR extended).
+     */
+    public static function cast_null(object|null $object): ?static
+    {
+        if (is_null($object)) {
             return null;
-        } elseif (!self::is($obj)) {
-            throw new InvalidArgumentException();
         }
 
-        return $obj;
+        return static::cast($object);
     }
 }

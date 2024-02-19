@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Service;
+namespace Mvc4Wp\System\Service;
 
 use Psr\Log\LoggerInterface;
-use System\Config\CONFIG;
-use System\Config\ConfigInterface;
-use System\Logger\LoggerFactoryInterface;
-use System\Logger\NullLoggerFactory;
+use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Logger\LoggerFactoryInterface;
+use Mvc4Wp\System\Logger\NullLoggerFactory;
 
 final class Logging
 {
@@ -23,7 +22,7 @@ final class Logging
 
     public static function configure(ConfigInterface $config): void
     {
-        $logconf = $config->get(CONFIG::LOGGER);
+        $logconf = $config->get('LOGGER');
         if (array_key_exists(self::DEFAULT_LOGGER_NAME_KEY, $logconf)) {
             self::$default_logger_name = $logconf[self::DEFAULT_LOGGER_NAME_KEY];
         }

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Service;
+namespace Mvc4Wp\System\Service;
 
-use System\Helper\DateTimeHelper;
-use System\Models\CustomField;
-use System\Models\CustomPostType;
+use Mvc4Wp\System\Helper\DateTimeHelper;
+use Mvc4Wp\System\Model\CustomField;
+use Mvc4Wp\System\Model\CustomPostType;
 
 final class WpCustomize
 {
@@ -24,8 +24,9 @@ final class WpCustomize
 
     public static function addPostType(string $class_name): string
     {
-        $slug = CustomPostType::getName($class_name);
-        $title = CustomPostType::getTitle($class_name);
+        $attr = CustomPostType::getClassAttribute($class_name);
+        $slug = $attr->name;
+        $title = $attr->title;
         if (!array_key_exists($slug, self::$registered_posts)) {
             add_action('init', function () use ($slug, $title) {
                 register_post_type($slug, [
@@ -46,9 +47,10 @@ final class WpCustomize
     {
         $property_names = CustomField::getAttributedPropertyNames($class_name);
         foreach ($property_names as $property_name) {
-            $field_slug = CustomField::getName($class_name, $property_name);
-            $title = CustomField::getTitle($class_name, $property_name);
-            $type = CustomField::getType($class_name, $property_name);
+            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
+            $field_slug = $attr->name;
+            $title = $attr->title;
+            $type = $attr->type;
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
                 $callback = self::createAdminField($type, $field_slug);

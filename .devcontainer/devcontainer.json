@@ -25,7 +25,8 @@
         "naumstory.vscode-csscomb",
         "redhat.vscode-xml",
         "xdebug.php-debug",
-        "xdebug.php-pack"
+        "xdebug.php-pack",
+        "SanderRonde.phpstan-vscode"
       ]
     }
   }
