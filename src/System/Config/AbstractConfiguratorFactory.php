@@ -3,5 +3,5 @@ namespace System\Config;
 
 abstract class AbstractConfiguratorFactory implements ConfiguratorFactoryInterface
 {
-    use ConfiguratorFactoryTrait;
+    abstract public function create(array $args = []): ConfigInterface;
 }

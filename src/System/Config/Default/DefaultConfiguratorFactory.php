@@ -8,6 +8,6 @@ class DefaultConfiguratorFactory extends AbstractConfiguratorFactory
 {
     public function create(array $args = []): ConfigInterface
     {
-        return new DefaultConfigurator($args);
+        return new DefaultConfigurator();
     }
 }
