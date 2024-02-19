@@ -24,7 +24,7 @@ abstract class Rule
             if ($rule->extend(self::class)) {
                 $errors = $rule->_validate($class_name, $property_name, $value);
                 if (count($errors) > 0) {
-                    $result = array_merge($result, $errors);
+                    $result[$property_name] = $errors;
                 }
             }
         }
