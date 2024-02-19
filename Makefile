@@ -76,11 +76,11 @@ clean_test: .phpunit.cache coverage coverage.txt #: clean test
 
 .PHONY: analyze
 analyze: vendor/bin/phpstan #: execute static analysis with PHPStan
-	@./vendor/bin/phpstan analyze --memory-limit=512M
+	@./vendor/bin/phpstan analyze --memory-limit=4G
 
 .PHONY: baseline
-baseline: vendor/bin/phpstan #: generate baseline.php PHPStan
-	@./vendor/bin/phpstan analyze --generate-baseline --allow-empty-baseline --memory-limit=512M
+baseline: vendor/bin/phpstan #: generate phpstan-baseline.neon PHPStan
+	@./vendor/bin/phpstan analyze --generate-baseline --allow-empty-baseline --memory-limit=4G
 
 #
 # help
