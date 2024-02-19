@@ -5,7 +5,7 @@ use Mvc4Wp\System\Config\ConfigInterface;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Service\Logging;
 
-abstract class Controller implements RenderInterface, ResponderInterface
+abstract class Controller implements ControllerInterface, RenderInterface, ResponderInterface
 {
     use Cast;
 

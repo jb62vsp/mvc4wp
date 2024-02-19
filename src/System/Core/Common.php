@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
 use Mvc4Wp\System\Helper\DateTimeHelper;
-use Mvc4Wp\System\Service\Locator;
+use Mvc4Wp\System\Service\App;
 
 if (!function_exists('view')) {
-    function view(string $view_name, array $data = []): void
+    function view(string $view_name, array $data = [], string $application_name = ''): void
     {
-        Locator::getController()->view($view_name, $data);
+        App::get($application_name)->controller()->view($view_name, $data);
     }
 }
 

@@ -3,18 +3,20 @@ namespace Mvc4Wp\System\Application\Default;
 
 use Mvc4Wp\System\Application\AbstractApplication;
 use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Controller\ControllerInterface;
 use Mvc4Wp\System\Controller\HttpErrorController;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Core\HttpStatus;
 use Mvc4Wp\System\Exception\ApplicationException;
 use Mvc4Wp\System\Route\RouteHandler;
 use Mvc4Wp\System\Route\RouterInterface;
-use Mvc4Wp\System\Service\Locator;
 use Mvc4Wp\System\Service\Logging;
 
 class DefaultApplication extends AbstractApplication
 {
     use Cast;
+
+    private ControllerInterface $controller;
 
     public function __construct(
         protected ConfigInterface $config,
@@ -66,6 +68,11 @@ class DefaultApplication extends AbstractApplication
         return $this->router;
     }
 
+    public function controller(): ControllerInterface
+    {
+        return $this->controller;
+    }
+
     public function run(): void
     {
         try {
@@ -90,7 +97,7 @@ class DefaultApplication extends AbstractApplication
             }
 
             $controller = new $route->class($this->config());
-            Locator::setController($controller);
+            $this->controller = $controller;
             if (!method_exists($controller, $route->method)) {
                 throw new ApplicationException();
             }
