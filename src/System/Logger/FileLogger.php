@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace System\Logger;
 
+use DateTimeZone;
 use Psr\Log\AbstractLogger;
-use System\Helper\DateTimeHelper;
 
 class FileLogger extends AbstractLogger
 {
@@ -34,7 +34,7 @@ class FileLogger extends AbstractLogger
 
     protected function getFilePath(): string
     {
-        $date = DateTimeHelper::now($this->date_format);
+        $date = $this->getDate();
         $path = $this->directory . $this->basefilename . '.' . $date . '.log';
         return $path;
     }
@@ -74,8 +74,26 @@ class FileLogger extends AbstractLogger
         }
 
         if (self::$thresholds[$level] <= $threshold) {
-            $date = DateTimeHelper::datetime();
+            $date = $this->getDateTime();
             $this->out(strtoupper($level) . ' - ' . $date . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
         }
+    }
+
+    private function getDate(): string
+    {
+        $ts = time();
+        $dt = date_create('@' . $ts);
+        $dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
+        $date = $dt->format($this->date_format);
+        return $date;
+    }
+
+    private function getDateTime(): string
+    {
+        $ts = time();
+        $dt = date_create('@' . $ts);
+        $dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
+        $date = $dt->format('Y-m-d H:i:s');
+        return $date;
     }
 }
