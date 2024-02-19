@@ -2,18 +2,15 @@
 namespace System\Models;
 
 use System\Core\Cast;
+use System\Models\Repository\RepositoryInterface;
+use System\Models\Repository\RepositoryTrait;
 
 abstract class Model implements BindInterface, RepositoryInterface
 {
     use Cast, BindTrait, RepositoryTrait;
 
     #[Bindable]
-    protected int $ID;
-
-    public function getID(): int
-    {
-        return $this->ID;
-    }
+    public int $ID;
 
     public function isLoaded(): bool
     {

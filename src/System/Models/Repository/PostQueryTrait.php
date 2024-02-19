@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace System\Models\Repository;
 
-use System\Core\Cast;
+use System\Models\Model;
+use System\Models\PostType;
 use WP_Query;
 
-class PostQuery
+trait PostQueryTrait
 {
-    use Cast;
-
     private const ORDER_COLUMNS = [
         'none' => 'none',
         'ID' => 'ID',
@@ -221,7 +220,7 @@ class PostQuery
                 $data = get_post($id);
                 $obj->bind($data, false);
                 $meta = get_post_custom($id);
-                $obj->bind($meta);
+                $obj->bind($meta, false);
                 array_push($result, $obj);
             }
         }
@@ -244,8 +243,7 @@ class PostQuery
                 $data = get_post($id);
                 $result->bind($data, false);
                 $meta = get_post_custom($id);
-                $e = $result->bind($meta, true); // TODO:
-                var_dump($e);
+                $result->bind($meta, false);
                 break;
             }
         }

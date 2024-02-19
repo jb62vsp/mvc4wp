@@ -2,11 +2,12 @@
 namespace System\Models;
 
 use System\Core\Cast;
+use System\Models\Repository\PostRepositoryTrait;
 
 #[PostType(name: 'post')]
 class PostModel extends Model
 {
-    use Cast;
+    use Cast, PostRepositoryTrait;
 
     #[Bindable]
     public int $post_author;
@@ -40,10 +41,5 @@ class PostModel extends Model
             $this->post_status = 'publish';
         }
         return parent::register();
-    }
-
-    public static function find(): PostQuery
-    {
-        return new PostQuery(static::class);
     }
 }

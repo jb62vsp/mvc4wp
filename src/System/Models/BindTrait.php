@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace System\Models;
 
+use DateTime;
 use ReflectionProperty;
 use System\Exception\ValidationException;
 use System\Helper\DateTimeHelper;
@@ -66,18 +67,7 @@ trait BindTrait
         return $result;
     }
 
-    private static function reverseProperty(Model $obj, ReflectionProperty $prop): string
-    {
-        $prop_name = $prop->getName();
-        if (self::hasKey($obj, $prop_name)) {
-            $value = self::getValue($obj, $prop_name);
-            return self::untypedValue($prop->getType()->getName(), $value);
-        }
-
-        return '';
-    }
-
-    private static function typedValue(string $type, mixed $value): mixed
+    private static function typedValue(string $type, string|int|float|bool|DateTime $value): string|int|float|bool|DateTime
     {
         if (is_array($value) && count($value) === 1) {
             $value = $value[0];
@@ -94,7 +84,7 @@ trait BindTrait
         return $typed_value;
     }
 
-    private static function untypedValue(string $type, mixed $value): mixed
+    private static function untypedValue(string $type, string|int|float|bool|DateTime $value): string
     {
         if (is_array($value) && count($value) === 1) {
             $value = $value[0];

@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace System\Models\Repository;
 
 interface RepositoryInterface
 {
+    public static function find(): QueryInterface;
+    
     public function register(): int;
 
     public function update(): void;
