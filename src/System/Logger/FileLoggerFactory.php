@@ -11,7 +11,11 @@ class FileLoggerFactory extends AbstractLoggerFactory
 
     private const BASEFILENAME_KEY = 'basefilename';
 
-    private const DATE_FORMAT_KEY = 'date_format';
+    private const FILE_DATE_FORMAT_KEY = 'file_date_format';
+
+    private const DATETIME_FORMAT_KEY = 'datetime_format';
+
+    private const TIMEZONE_KEY = 'timezone';
 
     private const LOG_LEVEL_KEY = 'log_level';
 
@@ -23,13 +27,19 @@ class FileLoggerFactory extends AbstractLoggerFactory
         if (!array_key_exists(self::BASEFILENAME_KEY, $args)) {
             throw new ApplicationException('invalid log config: ' . self::BASEFILENAME_KEY);
         }
-        if (!array_key_exists(self::DATE_FORMAT_KEY, $args)) {
-            throw new ApplicationException('invalid log config: ' . self::DATE_FORMAT_KEY);
+        if (!array_key_exists(self::FILE_DATE_FORMAT_KEY, $args)) {
+            throw new ApplicationException('invalid log config: ' . self::FILE_DATE_FORMAT_KEY);
+        }
+        if (!array_key_exists(self::DATETIME_FORMAT_KEY, $args)) {
+            throw new ApplicationException('invalid log config: ' . self::DATETIME_FORMAT_KEY);
+        }
+        if (!array_key_exists(self::TIMEZONE_KEY, $args)) {
+            throw new ApplicationException('invalid log config: ' . self::TIMEZONE_KEY);
         }
         if (!array_key_exists(self::LOG_LEVEL_KEY, $args)) {
             throw new ApplicationException('invalid log config: ' . self::LOG_LEVEL_KEY);
         }
 
-        return new FileLogger($args[self::DIRECTORY_KEY], $args[self::BASEFILENAME_KEY], $args[self::DATE_FORMAT_KEY], $args[self::LOG_LEVEL_KEY]);
+        return new FileLogger($args[self::DIRECTORY_KEY], $args[self::BASEFILENAME_KEY], $args[self::FILE_DATE_FORMAT_KEY], $args[self::DATETIME_FORMAT_KEY], $args[self::TIMEZONE_KEY], $args[self::LOG_LEVEL_KEY]);
     }
 }

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace System\Logger;
 
+use DateTime;
 use DateTimeZone;
 use Psr\Log\AbstractLogger;
 
@@ -22,7 +23,9 @@ class FileLogger extends AbstractLogger
     public function __construct(
         protected string $directory,
         protected string $basefilename,
-        protected string $date_format,
+        protected string $file_date_format,
+        protected string $datetime_format,
+        protected string $timezone,
         string $log_level,
     ) {
         if (array_key_exists($log_level, self::$thresholds)) {
@@ -32,22 +35,23 @@ class FileLogger extends AbstractLogger
         }
     }
 
-    protected function getFilePath(): string
+    protected function getFilePath(string $date): string
     {
-        $date = $this->getDate();
         $path = $this->directory . $this->basefilename . '.' . $date . '.log';
         return $path;
     }
 
-    protected function out(string $line): void
+    protected function out(DateTime $now, string $line): void
     {
+        $date = $now->format($this->file_date_format);
+
         $create = false;
 
-        if (!file_exists($this->getFilePath())) {
+        if (!file_exists($this->getFilePath($date))) {
             $create = true;
         }
 
-        if (!$fp = @fopen($this->getFilePath(), 'ab')) {
+        if (!$fp = @fopen($this->getFilePath($date), 'ab')) {
             return;
         }
 
@@ -62,7 +66,7 @@ class FileLogger extends AbstractLogger
         fclose($fp);
 
         if ($create) {
-            chmod($this->getFilePath(), 0666);
+            chmod($this->getFilePath($date), 0666);
         }
     }
 
@@ -74,26 +78,11 @@ class FileLogger extends AbstractLogger
         }
 
         if (self::$thresholds[$level] <= $threshold) {
-            $date = $this->getDateTime();
-            $this->out(strtoupper($level) . ' - ' . $date . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
+            $ts = time();
+            $now = date_create('@' . $ts);
+            $now->setTimezone(new DateTimeZone($this->timezone));
+            $datetime = $now->format($this->datetime_format);
+            $this->out($now, strtoupper($level) . ' - ' . $datetime . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
         }
-    }
-
-    private function getDate(): string
-    {
-        $ts = time();
-        $dt = date_create('@' . $ts);
-        $dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
-        $date = $dt->format($this->date_format);
-        return $date;
-    }
-
-    private function getDateTime(): string
-    {
-        $ts = time();
-        $dt = date_create('@' . $ts);
-        $dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
-        $date = $dt->format('Y-m-d H:i:s');
-        return $date;
     }
 }

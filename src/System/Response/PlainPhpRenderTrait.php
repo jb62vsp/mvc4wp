@@ -22,7 +22,7 @@ trait PlainPhpRenderTrait
         if (file_exists($view_path)) {
             include $view_path;
         } else {
-            throw new ApplicationException('view not found.');
+            throw new ApplicationException('view not found: ' . $view_path);
         }
         return $this;
     }
