@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Models\PostModel;
+use Mvc4Wp\System\Model\PostModel;
 
 class PostController extends AdminController
 {

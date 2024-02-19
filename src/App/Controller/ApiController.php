@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use Mvc4Wp\System\Controllers\JsonController;
+use Mvc4Wp\System\Controller\JsonController;
 use Mvc4Wp\System\Core\Cast;
 
 class ApiController extends JsonController

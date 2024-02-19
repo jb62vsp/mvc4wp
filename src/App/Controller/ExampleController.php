@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use App\Models\ExampleModel;
+use App\Model\ExampleModel;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Service\Logging;
 

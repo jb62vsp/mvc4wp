@@ -14,10 +14,10 @@
                 </label>
                 <?php if ($column === 'example_textarea'): ?>
                     <textarea id='<?php echo $column; ?>'
-                        name='<?php echo $column; ?>'><?php echo App\Models\ExampleModel::cast($data['examples'][0])->format($column); ?></textarea>
+                        name='<?php echo $column; ?>'><?php echo App\Model\ExampleModel::cast($data['examples'][0])->format($column); ?></textarea>
                 <?php else: ?>
                     <input type='text' id='<?php echo $column; ?>' name='<?php echo $column; ?>'
-                        value='<?php echo App\Models\ExampleModel::cast($data['examples'][0])->format($column); ?>'>
+                        value='<?php echo App\Model\ExampleModel::cast($data['examples'][0])->format($column); ?>'>
                 <?php endif; ?>
             </p>
         <?php endforeach; ?>

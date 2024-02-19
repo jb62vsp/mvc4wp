@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace App\Logger;
 
-use App\Models\LogModel;
+use App\Model\LogModel;
 use Psr\Log\AbstractLogger;
 use Mvc4Wp\System\Helper\DateTimeHelper;
 
@@ -40,7 +40,7 @@ class LogModelLogger extends AbstractLogger
         if (self::$thresholds[$level] <= $threshold) {
             $model = new LogModel();
             $date = DateTimeHelper::datetime();
-            $model->post_title = strtoupper($level) . ' - ' . $date . ' --> ' . $message;
+            $model->post_title = $date . '-' . strtoupper($level) . ' --> ' . $message;
             $model->post_content = var_export($context, true);
             $model->register(true);
         }
