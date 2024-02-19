@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Application\Default;
+namespace Wp4Mvc\System\Application\Default;
 
-use System\Application\AbstractApplicationFactory;
-use System\Application\ApplicationInterface;
-use System\Config\Default\DefaultConfiguratorFactory;
-use System\Route\Default\DefaultRouterFactory;
+use Wp4Mvc\System\Application\AbstractApplicationFactory;
+use Wp4Mvc\System\Application\ApplicationInterface;
+use Wp4Mvc\System\Config\Default\DefaultConfiguratorFactory;
+use Wp4Mvc\System\Route\Default\DefaultRouterFactory;
 
 class DefaultApplicationFactory extends AbstractApplicationFactory
 {

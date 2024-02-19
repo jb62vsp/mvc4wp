@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Models\Repository;
+namespace Wp4Mvc\System\Models\Repository;
 
-use System\Core\Cast;
-use System\Models\Model;
-use System\Models\UserModel;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Models\Model;
+use Wp4Mvc\System\Models\UserModel;
 
 /**
  * @template TModel of Model

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Controllers;
+namespace Wp4Mvc\System\Controllers;
 
-use System\Core\Cast;
-use System\Response\JsonRenderTrait;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Response\JsonRenderTrait;
 
 abstract class JsonController extends Controller
 {

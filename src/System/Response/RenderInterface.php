@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Response;
+namespace Wp4Mvc\System\Response;
 
-use System\Config\ConfigInterface;
+use Wp4Mvc\System\Config\ConfigInterface;
 
 interface RenderInterface
 {

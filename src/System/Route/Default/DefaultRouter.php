@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Route\Default;
+namespace Wp4Mvc\System\Route\Default;
 
-use System\Core\Cast;
-use System\Route\AbstractRouter;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Route\AbstractRouter;
 
 class DefaultRouter extends AbstractRouter
 {

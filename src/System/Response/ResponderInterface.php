@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Response;
+namespace Wp4Mvc\System\Response;
 
-use System\Core\HttpStatus;
+use Wp4Mvc\System\Core\HttpStatus;
 
 interface ResponderInterface
 {

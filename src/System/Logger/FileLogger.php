@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Logger;
+namespace Wp4Mvc\System\Logger;
 
 use DateTime;
 use DateTimeZone;

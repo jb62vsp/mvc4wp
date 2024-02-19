@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Controllers;
+namespace Wp4Mvc\System\Controllers;
 
 interface ControllerInterface
 {

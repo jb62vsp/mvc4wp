@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Exception;
+namespace Wp4Mvc\System\Exception;
 
 use RuntimeException;
 

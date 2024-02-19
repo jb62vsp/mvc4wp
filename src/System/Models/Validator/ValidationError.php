@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Models\Validator;
+namespace Wp4Mvc\System\Models\Validator;
 
-use System\Core\Cast;
+use Wp4Mvc\System\Core\Cast;
 
 class ValidationError
 {

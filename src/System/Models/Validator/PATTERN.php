@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Models\Validator;
+namespace Wp4Mvc\System\Models\Validator;
 
 enum PATTERN: string
 {

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace Wp4Mvc\System\Models;
 
-use System\Core\Cast;
-use System\Models\PostType;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Models\PostType;
 
 /**
  * @template TModel of PostEntity

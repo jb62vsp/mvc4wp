@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace System\Config\Default;
+namespace Wp4Mvc\System\Config\Default;
 
-use System\Config\AbstractConfiguratorFactory;
-use System\Config\ConfigInterface;
+use Wp4Mvc\System\Config\AbstractConfiguratorFactory;
+use Wp4Mvc\System\Config\ConfigInterface;
 
 class DefaultConfiguratorFactory extends AbstractConfiguratorFactory
 {

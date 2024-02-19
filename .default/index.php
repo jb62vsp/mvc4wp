@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
 
-use System\Service\App;
+use Wp4Mvc\System\Service\App;
 
 App::get()->run();

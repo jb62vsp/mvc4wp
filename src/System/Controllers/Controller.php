@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace System\Controllers;
+namespace Wp4Mvc\System\Controllers;
 
-use System\Config\ConfigInterface;
-use System\Core\Cast;
-use System\Response\RenderInterface;
-use System\Response\ResponderInterface;
-use System\Service\Logging;
+use Wp4Mvc\System\Config\ConfigInterface;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Response\RenderInterface;
+use Wp4Mvc\System\Response\ResponderInterface;
+use Wp4Mvc\System\Service\Logging;
 
 abstract class Controller implements RenderInterface, ResponderInterface
 {

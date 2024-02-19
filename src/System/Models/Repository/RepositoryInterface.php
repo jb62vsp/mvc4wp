@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace System\Models\Repository;
+namespace Wp4Mvc\System\Models\Repository;
 
-use System\Models\Model;
+use Wp4Mvc\System\Models\Model;
 
 /**
  * @template TModel of Model

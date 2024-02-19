@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Response;
+namespace Wp4Mvc\System\Response;
 
-use System\Config\CONFIG;
-use System\Config\ConfigInterface;
-use System\Core\Cast;
-use System\Exception\ApplicationException;
+use Wp4Mvc\System\Config\CONFIG;
+use Wp4Mvc\System\Config\ConfigInterface;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Exception\ApplicationException;
 
 trait PlainPhpRenderTrait
 {

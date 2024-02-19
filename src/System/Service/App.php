@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Service;
+namespace Wp4Mvc\System\Service;
 
-use System\Application\ApplicationFactoryInterface;
-use System\Application\ApplicationInterface;
-use System\Application\Default\DefaultApplicationFactory;
-use System\Exception\ApplicationException;
+use Wp4Mvc\System\Application\ApplicationFactoryInterface;
+use Wp4Mvc\System\Application\ApplicationInterface;
+use Wp4Mvc\System\Application\Default\DefaultApplicationFactory;
+use Wp4Mvc\System\Exception\ApplicationException;
 
 final class App
 {

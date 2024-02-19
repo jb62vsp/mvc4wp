@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace System\Models\Validator;
+namespace Wp4Mvc\System\Models\Validator;
 
 use Attribute;
-use System\Core\Cast;
-use System\Models\AttributeTrait;
+use Wp4Mvc\System\Core\Cast;
+use Wp4Mvc\System\Models\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class RegExpRule extends Rule

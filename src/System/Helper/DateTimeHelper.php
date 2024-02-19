@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Helper;
+namespace Wp4Mvc\System\Helper;
 
 use DateTime;
 
