@@ -10,6 +10,11 @@ class NumericRule extends Rule
 {
     use Cast, AttributeTrait;
 
+    public function __construct(
+        public string $message = '',
+    ) {
+    }
+
     public function _validate(string $class_name, string $property_name, mixed $value): array
     {
         $result = [];
@@ -23,6 +28,6 @@ class NumericRule extends Rule
 
     public function getMessage(array $args = []): string
     {
-        return ''; // TODO: message
+        return $this->message;
     }
 }

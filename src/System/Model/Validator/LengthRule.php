@@ -13,6 +13,7 @@ class LengthRule extends Rule
     public function __construct(
         public int $min = 0,
         public int $max = PHP_INT_MAX,
+        public string $message = '',
     ) {
     }
 
@@ -30,6 +31,6 @@ class LengthRule extends Rule
 
     public function getMessage(array $args = []): string
     {
-        return ''; // TODO: message
+        return sprintf($this->message, $this->min, $this->max);
     }
 }

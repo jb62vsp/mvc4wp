@@ -3,6 +3,7 @@ namespace Mvc4Wp\System\Model\Validator;
 
 enum PATTERN: string
 {
+    case NONE = 'NONE';
     case BOOL = 'BOOL';
     case INTEGER = 'INTEGER';
     case UINTEGER = 'UINTEGER';

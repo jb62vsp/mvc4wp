@@ -11,6 +11,7 @@ class RegExpRule extends Rule
     use Cast, AttributeTrait;
 
     public const RULES = [
+        'NONE' => '/^.*$/',
         'BOOL' => '/^(1{0,1})$/',
         'INTEGER' => '/^(-{0,1})([0-9]*)$/',
         'UINTEGER' => '/^([0-9]*)$/',
@@ -28,7 +29,8 @@ class RegExpRule extends Rule
     public string $pattern_name;
 
     public function __construct(
-        public PATTERN|string $pattern,
+        public PATTERN|string $pattern = PATTERN::NONE,
+        public string $message = '',
     ) {
         $this->pattern_name = self::getPatternName($pattern);
     }
@@ -48,7 +50,7 @@ class RegExpRule extends Rule
 
     public function getMessage(array $args = []): string
     {
-        return ''; // TODO: message
+        return sprintf($this->message, $this->pattern);
     }
 
     private static function getPatternString(PATTERN|string $pattern_name): string
