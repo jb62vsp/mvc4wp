@@ -2,7 +2,6 @@
 namespace Mvc4Wp\System\Controllers;
 
 use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Response\JsonRenderTrait;
 
 abstract class JsonController extends Controller
 {

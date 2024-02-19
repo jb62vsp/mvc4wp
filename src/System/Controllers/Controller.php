@@ -3,8 +3,6 @@ namespace Mvc4Wp\System\Controllers;
 
 use Mvc4Wp\System\Config\ConfigInterface;
 use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Response\RenderInterface;
-use Mvc4Wp\System\Response\ResponderInterface;
 use Mvc4Wp\System\Service\Logging;
 
 abstract class Controller implements RenderInterface, ResponderInterface

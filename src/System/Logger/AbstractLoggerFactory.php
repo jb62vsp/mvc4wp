@@ -3,5 +3,4 @@ namespace Mvc4Wp\System\Logger;
 
 abstract class AbstractLoggerFactory implements LoggerFactoryInterface
 {
-    use LoggerFactoryTrait;
 }

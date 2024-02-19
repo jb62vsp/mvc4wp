@@ -3,5 +3,4 @@ namespace Mvc4Wp\System\Application;
 
 abstract class AbstractApplicationFactory implements ApplicationFactoryInterface
 {
-    use ApplicationFactoryTrait;
 }

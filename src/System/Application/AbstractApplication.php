@@ -5,5 +5,5 @@ use Mvc4Wp\System\Core\Cast;
 
 abstract class AbstractApplication implements ApplicationInterface
 {
-    use Cast, ApplicationTrait;
+    use Cast;
 }

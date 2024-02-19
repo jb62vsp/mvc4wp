@@ -17,7 +17,7 @@ final class App
         self::$applications[$application_name] = $factory->create();
     }
 
-    public static function get(string $application_name = ''): ApplicationInterface
+    public static function get(string $application_name = self::DEFAULT_NAME): ApplicationInterface
     {
         if (empty($application_name)) {
             return self::getDefaultApplication();

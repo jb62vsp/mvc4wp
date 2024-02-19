@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\System\Response;
+namespace Mvc4Wp\System\Controllers;
 
 use Mvc4Wp\System\Config\ConfigInterface;
 

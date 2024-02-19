@@ -3,5 +3,4 @@ namespace Mvc4Wp\System\Route;
 
 abstract class AbstractRouterFactory implements RouterFactoryInterface
 {
-    use RouterFactoryTrait;
 }
