@@ -2,8 +2,8 @@
 namespace Mvc4Wp\System\Service;
 
 use Mvc4Wp\System\Helper\DateTimeHelper;
-use Mvc4Wp\System\Models\CustomField;
-use Mvc4Wp\System\Models\CustomPostType;
+use Mvc4Wp\System\Model\CustomField;
+use Mvc4Wp\System\Model\CustomPostType;
 
 final class WpCustomize
 {

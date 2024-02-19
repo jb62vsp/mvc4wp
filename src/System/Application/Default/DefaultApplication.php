@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Application\Default;
 
 use Mvc4Wp\System\Application\AbstractApplication;
 use Mvc4Wp\System\Config\ConfigInterface;
-use Mvc4Wp\System\Controllers\HttpErrorController;
+use Mvc4Wp\System\Controller\HttpErrorController;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Core\HttpStatus;
 use Mvc4Wp\System\Exception\ApplicationException;
@@ -50,8 +50,8 @@ class DefaultApplication extends AbstractApplication
                 ],
             ],
         ]);
-        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controllers');
-        $this->config()->add('VIEW_DIRECTORY', __WPMVC_ROOT__ . '/src/App/Views/');
+        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controller');
+        $this->config()->add('VIEW_DIRECTORY', __WPMVC_ROOT__ . '/src/App/View/');
 
         include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
     }
