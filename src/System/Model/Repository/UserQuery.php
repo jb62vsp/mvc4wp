@@ -110,4 +110,23 @@ class UserQuery extends AbstractQuery
 
         return $result;
     }
+
+    public function current(): ?Model
+    {
+        $result = null;
+
+        $id = get_current_user_id();
+        if ($id !== 0) {
+            $user = get_user_by('id', $id);
+            if ($user) {
+                $cls = $this->class_name;
+                $result = new $cls();
+                $result->bind($user->data, false);
+                $user_meta = get_user_meta($id);
+                $result->bind($user_meta, false);
+            }
+        }
+
+        return $result;
+    }
 }

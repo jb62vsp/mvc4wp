@@ -35,7 +35,8 @@ class PostModel extends PostEntity
         if ($publish) {
             $this->post_status = 'publish';
         }
-        $this->ID = wp_insert_post($this);
+        $id = wp_insert_post($this);
+        $this->bind(['ID' => $id], false);
         $properties = CustomField::getAttributedProperties(get_class($this));
         foreach ($properties as $property) {
             $untypedValue = self::reverseProperty($this, $property);

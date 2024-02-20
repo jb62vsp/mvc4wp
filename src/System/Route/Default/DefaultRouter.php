@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Route\Default;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Core\HttpStatus;
 use Mvc4Wp\System\Route\AbstractRouter;
@@ -14,7 +14,7 @@ class DefaultRouter extends AbstractRouter
 {
     use Cast;
 
-    public function dispatch(ConfigInterface $config, string $request_method, string $request_uri): RouteHandler
+    public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler
     {
         $routes = $this->routes;
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) use ($config, $routes) {

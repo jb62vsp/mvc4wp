@@ -26,16 +26,18 @@ final class WpCustomize
     {
         $attr = CustomPostType::getClassAttribute($class_name);
         $slug = $attr->name;
-        $title = $attr->title;
         if (!array_key_exists($slug, self::$registered_posts)) {
-            add_action('init', function () use ($slug, $title) {
-                register_post_type($slug, [
-                    'label' => $title,
-                    'public' => true,
-                    'has_archive' => false,
-                    'menu_position' => 5,
-                    'show_in_rest' => false,
-                ]);
+            $default = [
+                'label' => $attr->title,
+                'public' => true, // wordpress default: false
+                'show_in_rest' => false, // wordpress default: true
+                'menu_position' => 5, // wordpress default: null
+                'supports' => ['title'], // wordpress default: title, editor
+                'taxonomies' => ['category', 'post_tag'], // wordpress default: []
+            ];
+            $args = array_merge($default, $attr->args);
+            add_action('init', function () use ($slug, $args) {
+                register_post_type($slug, $args);
             });
             self::$registered_posts[$slug] = true;
         }
@@ -238,20 +240,7 @@ final class WpCustomize
             echo "<input type='time' id='{$id}_time' name='{$name}_time' value='{$values[1]}' step='1'>";
             echo "<input type='hidden' id='{$id}' name='{$name}' value'{$formed_value}'>";
             ?>
-            <script>
-                {
-                    const id = '<?php echo $id; ?>';
-                    const date_id = id + '_date';
-                    const time_id = id + '_time';
-                    const input = document.querySelector('#' + id);
-                    const input_date = document.querySelector('#' + date_id);
-                    const input_time = document.querySelector('#' + time_id);
-                    const onchange = (ev) => {
-                        input.value = input_date.value + ' ' + input_time.value;
-                    };
-                    input_date.addEventListener('change', onchange);
-                    input_time.addEventListener('change', onchange);
-                }
+            <script>     { const id = '<?php echo $id; ?>'; const date_id = id + '_date'; const time_id = id + '_time'; const input = document.querySelector('#' + id); const input_date = document.querySelector('#' + date_id); const input_time = document.querySelector('#' + time_id); const onchange = (ev) => { input.value = input_date.value + ' ' + input_time.value; }; input_date.addEventListener('change', onchange); input_time.addEventListener('change', onchange); }
             </script>
             <?php
             echo "</div>";

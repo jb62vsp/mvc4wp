@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Controller;
 
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 use Mvc4Wp\System\Exception\ApplicationException;
 
 trait PlainPhpRenderTrait
 {
     private bool $first = true;
 
-    public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self
+    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
         if ($this->first) {
             $responder->header('Content-Type: text/html; charset=utf-8');

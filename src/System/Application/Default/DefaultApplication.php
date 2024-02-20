@@ -2,7 +2,7 @@
 namespace Mvc4Wp\System\Application\Default;
 
 use Mvc4Wp\System\Application\AbstractApplication;
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 use Mvc4Wp\System\Controller\ControllerInterface;
 use Mvc4Wp\System\Controller\HttpErrorController;
 use Mvc4Wp\System\Core\Cast;
@@ -19,7 +19,7 @@ class DefaultApplication extends AbstractApplication
     private ControllerInterface $controller;
 
     public function __construct(
-        protected ConfigInterface $config,
+        protected ConfiguratorInterface $config,
         protected RouterInterface $router,
     ) {
         $this->config = $config;
@@ -58,7 +58,7 @@ class DefaultApplication extends AbstractApplication
         include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
     }
 
-    public function config(): ConfigInterface
+    public function config(): ConfiguratorInterface
     {
         return $this->config;
     }
