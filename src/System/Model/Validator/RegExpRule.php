@@ -32,14 +32,14 @@ class RegExpRule extends Rule
         public PATTERN|string $pattern = PATTERN::NONE,
         public string $message = '',
     ) {
-        $this->pattern_name = self::getPatternName($pattern);
+        $this->pattern_name = static::getPatternName($pattern);
     }
 
     public function _validate(string $class_name, string $property_name, mixed $value): array
     {
         $result = [];
 
-        $pattern = self::getPatternString($this->pattern);
+        $pattern = static::getPatternString($this->pattern);
         $matched = preg_match($pattern, $value);
         if (!$matched) {
             array_push($result, new ValidationError($class_name, $property_name, $value, $this));
@@ -57,7 +57,7 @@ class RegExpRule extends Rule
     {
         $result = $pattern_name;
         if (!is_string($result) && get_class($result) === PATTERN::class) {
-            $result = self::RULES[$result->value];
+            $result = static::RULES[$result->value];
         }
         return $result;
     }

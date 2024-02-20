@@ -86,7 +86,7 @@ trait AttributeTrait
 
     public static function getAttributedPropertyNames(string $class_name): array
     {
-        $props = self::getAttributedProperties($class_name);
+        $props = static::getAttributedProperties($class_name);
         $result = array_map(function (ReflectionProperty $prop) {
             return $prop->getName();
         }, $props);

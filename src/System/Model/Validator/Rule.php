@@ -21,7 +21,7 @@ abstract class Rule
         $class_name = get_class($obj);
         $rules = static::getPropertyAllAttributes($class_name, $property_name);
         foreach ($rules as $rule) {
-            if ($rule->extend(self::class)) {
+            if ($rule->extend(static::class)) {
                 $errors = $rule->_validate($class_name, $property_name, $value);
                 if (count($errors) > 0) {
                     $result[$property_name] = $errors;

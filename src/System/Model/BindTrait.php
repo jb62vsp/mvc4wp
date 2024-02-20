@@ -26,7 +26,7 @@ trait BindTrait
 
         $props = Bindable::getAttributedProperties(static::class);
         foreach ($props as $prop) {
-            $errors = self::bindProperties($this, $prop, $data, $validation);
+            $errors = static::bindProperties($this, $prop, $data, $validation);
             $result = array_merge($result, $errors);
             $this->is_binded = true;
         }
@@ -42,15 +42,15 @@ trait BindTrait
         $result = [];
 
         $prop_name = $prop->getName();
-        if (self::hasKey($data, $prop_name)) {
-            $value = self::getValue($data, $prop_name);
+        if (static::hasKey($data, $prop_name)) {
+            $value = static::getValue($data, $prop_name);
             if (!is_null($value)) {
                 $errors = [];
                 if ($validation) {
                     $errors = Rule::validate($obj, $prop_name, $value);
                 }
                 if (count($errors) <= 0) {
-                    $typed_value = self::typedValue($prop->getType()->getName(), $value);
+                    $typed_value = static::typedValue($prop->getType()->getName(), $value);
                     if ($prop_name === 'ID') {
                         $refm = new ReflectionMethod($obj, 'setID');
                         $refm->invoke($obj, $typed_value);
@@ -69,9 +69,9 @@ trait BindTrait
     protected static function reverseProperty(Model $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
-        if (self::hasKey($obj, $prop_name)) {
-            $value = self::getValue($obj, $prop_name);
-            return self::untypedValue($prop->getType()->getName(), $value);
+        if (static::hasKey($obj, $prop_name)) {
+            $value = static::getValue($obj, $prop_name);
+            return static::untypedValue($prop->getType()->getName(), $value);
         }
 
         return '';
