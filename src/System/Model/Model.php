@@ -14,10 +14,17 @@ abstract class Model implements BindInterface, RepositoryInterface
     use Cast, BindTrait;
 
     #[Bindable]
-    public int $ID;
+    public readonly int $ID;
 
     public function isLoaded(): bool
     {
         return isset($this->ID);
+    }
+
+    private function setID(int $id): void
+    {
+        if (!$this->isLoaded()) {
+            $this->ID = $id;
+        }
     }
 }
