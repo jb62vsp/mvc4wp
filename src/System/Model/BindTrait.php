@@ -51,12 +51,8 @@ trait BindTrait
                 }
                 if (count($errors) <= 0) {
                     $typed_value = static::typedValue($prop->getType()->getName(), $value);
-                    if ($prop_name === 'ID') {
-                        $refm = new ReflectionMethod($obj, 'setID');
-                        $refm->invoke($obj, $typed_value);
-                    } else {
-                        $prop->setValue($obj, $typed_value);
-                    }
+                    $refm = new ReflectionMethod($obj, 'setValue');
+                    $refm->invoke($obj, $prop_name, $typed_value);
                 } else {
                     $result = array_merge($result, $errors);
                 }
@@ -77,6 +73,20 @@ trait BindTrait
         return '';
     }
 
+    protected static function toArrayOnlyBindable(Model $obj): array
+    {
+        $result = [];
+
+        $properties = Bindable::getAttributedProperties(get_class($obj));
+        foreach ($properties as $property) {
+            $untypedValue = static::reverseProperty($obj, $property);
+            $property = $property->getName();
+            $result[$property] = $untypedValue;
+        }
+
+        return $result;
+    }
+
     private static function typedValue(string $type, string|int|float|bool|DateTime $value): string|int|float|bool|DateTime
     {
         if (is_array($value) && count($value) === 1) {
@@ -94,8 +104,11 @@ trait BindTrait
         return $typed_value;
     }
 
-    private static function untypedValue(string $type, string|int|float|bool|DateTime $value): string
+    private static function untypedValue(string $type, string|int|float|bool|DateTime|null $value): string
     {
+        if (is_null($value)) {
+            return '';
+        }
         if (is_array($value) && count($value) === 1) {
             $value = $value[0];
         }

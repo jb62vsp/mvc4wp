@@ -88,16 +88,7 @@ class UserQuery extends AbstractQuery
 
     public function byID(int $id): ?Model
     {
-        $result = null;
-
-        $user = get_user_by('id', $id);
-        if ($user) {
-            $cls = $this->class_name;
-            $result = new $cls();
-            $result->bind($user->data, false);
-            $user_meta = get_user_meta($id);
-            $result->bind($user_meta, false);
-        }
+        $result = $this->getUserData($id);
 
         return $result;
     }
@@ -116,6 +107,15 @@ class UserQuery extends AbstractQuery
         $result = null;
 
         $id = get_current_user_id();
+        $result = $this->getUserData($id);
+
+        return $result;
+    }
+
+    private function getUserData(int $id): ?Model
+    {
+        $result = null;
+
         if ($id !== 0) {
             $user = get_user_by('id', $id);
             if ($user) {

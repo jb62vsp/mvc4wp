@@ -8,6 +8,7 @@ use Mvc4Wp\System\Model\PostType;
  * @template TModel of PostEntity
  * @extends Model<TModel>
  */
+#[Entity]
 abstract class PostEntity extends Model
 {
     use Cast;
