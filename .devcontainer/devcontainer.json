@@ -1,10 +1,10 @@
 {
-  "name": "Wordpress MVC theme container",
+  "name": "MVC for Wordpress them container",
   "dockerComposeFile": [
     "docker-compose.yml"
   ],
   "service": "wordpress",
-  "workspaceFolder": "/var/www/html/wordpress/wp-content/themes/wp_mvc/",
+  "workspaceFolder": "/var/www/html/wordpress/wp-content/themes/mvc4wp/",
   "forwardPorts": [
     9003
   ],

@@ -6,13 +6,13 @@ services:
     ports:
     - ${WP_PORT:-8080}:80
     networks:
-    - wp_mvc_internal
+    - mvc4wp_internal
     volumes:
     - /etc/localtime:/etc/localtime:ro
     - ./utc.ini:/usr/local/etc/php/conf.d/utc.ini
     - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
-    - ../:/var/www/html/wordpress/wp-content/themes/wp_mvc
+    - ../:/var/www/html/wordpress/wp-content/themes/mvc4wp
     depends_on:
     - mysql
     environment:
@@ -25,10 +25,10 @@ services:
   mysql:
     image: mysql:5.7
     networks:
-    - wp_mvc_internal
+    - mvc4wp_internal
     volumes:
     - /etc/localtime:/etc/localtime:ro
-    - wp_mvc_db:/var/lib/mysql
+    - mvc4wp_db:/var/lib/mysql
     environment:
     - MYSQL_DATABASE=wp
     - MYSQL_USER=wp
@@ -40,7 +40,7 @@ services:
     links:
     - mysql
     networks:
-    - wp_mvc_internal
+    - mvc4wp_internal
     volumes:
     - /etc/localtime:/etc/localtime:ro
     environment:
@@ -54,13 +54,13 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     networks:
-    - wp_mvc_internal
+    - mvc4wp_internal
     ports:
     - ${MAILHOG_PORT:-28080}:8025
 
 networks:
-  wp_mvc_internal:
+  mvc4wp_internal:
     external: true
 volumes:
-  wp_mvc_db:
+  mvc4wp_db:
     external: true
