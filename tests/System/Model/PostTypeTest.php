@@ -37,9 +37,9 @@ class PostTypeTest extends TestCase
 
     public function test_getName03(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set Mvc4Wp\System\Model\PostTypeTestMockC');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\PostType" must not be repeated');
         PostType::getName(PostTypeTestMockC::class);
     }
 

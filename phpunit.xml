@@ -10,9 +10,6 @@
     failOnRisky="true"
     failOnWarning="true">
     <testsuites>
-        <!-- <testsuite name="App">
-            <directory>tests/App</directory>
-        </testsuite> -->
         <testsuite name="System/Config">
             <directory>tests/System/Config</directory>
         </testsuite>

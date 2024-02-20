@@ -16,7 +16,6 @@
         "DEVSENSE.composer-php-vscode",
         "DEVSENSE.phptools-vscode",
         "DEVSENSE.profiler-php-vscode",
-        "emallin.phpunit",
         "glenn2223.live-sass",
         "josee9988.minifyall",
         "ms-azuretools.vscode-docker",
@@ -26,7 +25,8 @@
         "redhat.vscode-xml",
         "xdebug.php-debug",
         "xdebug.php-pack",
-        "SanderRonde.phpstan-vscode"
+        "SanderRonde.phpstan-vscode",
+        "ryanluker.vscode-coverage-gutters"
       ]
     }
   }

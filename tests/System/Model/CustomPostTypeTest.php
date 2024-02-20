@@ -25,11 +25,17 @@ class CustomPostTypeTest extends TestCase
         $this->assertEquals('タイトルA', $attr->title);
     }
 
-    public function test_duplicateError(): void
+    public function test_extends(): void
     {
-        $this->expectException(ApplicationException::class);
+        $attr = PostType::getClassAttribute(CustomPostTypeTestMockA::class);
+        $this->assertEquals('mock_a', $attr->name);
+    }
+
+    public function test_repeatedError(): void
+    {
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set Mvc4Wp\System\Model\CustomPostTypeTestMockB');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\CustomPostType" must not be repeated');
         CustomPostType::getClassAttribute(CustomPostTypeTestMockB::class);
     }
 
@@ -39,6 +45,14 @@ class CustomPostTypeTest extends TestCase
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Unknown named parameter $hoge');
         CustomPostType::getClassAttribute(CustomPostTypeTestMockC::class);
+    }
+
+    public function test_notSet(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('"Mvc4Wp\System\Model\CustomPostType" is not set to "Mvc4Wp\System\Model\CustomPostTypeTestMockD"');
+        CustomPostType::getClassAttribute(CustomPostTypeTestMockD::class);
     }
 }
 
@@ -55,5 +69,9 @@ class CustomPostTypeTestMockB
 
 #[CustomPostType(hoge: 'a', fuga: 'b')]
 class CustomPostTypeTestMockC
+{
+}
+
+class CustomPostTypeTestMockD
 {
 }

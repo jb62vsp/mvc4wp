@@ -1,9 +1,8 @@
 .devcontainer/.created
+.devcontainer/.env
 .phpunit.cache/
 /.tmp/
-/vendor/
-coverage.txt
-coverage/
 /log/
-.devcontainer/.env
+/vendor/
+coverage/
 wp-includes/
