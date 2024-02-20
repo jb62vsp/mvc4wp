@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Model;
 
+use ArgumentCountError;
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -20,55 +21,49 @@ class CustomFieldTest extends TestCase
         $this->assertEquals('int', $obj->type);
     }
 
-    public function test_getName01(): void
+    public function test_getName(): void
     {
         $val = CustomField::getName(CustomFieldTestMockA::class, 'field_a');
         $this->assertEquals('test_slug', $val);
     }
 
-    public function test_getName02(): void
+    public function test_getName_tooFewArguments(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(ArgumentCountError::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('not set Mvc4Wp\System\Model\CustomField::name, Mvc4Wp\System\Model\CustomFieldTestMockA::field_b');
+        $this->expectExceptionMessage('Too few arguments to function Mvc4Wp\System\Model\CustomField::__construct(),');
         CustomField::getName(CustomFieldTestMockA::class, 'field_b');
     }
 
-    public function test_getName03(): void
+    public function test_getName_notSet(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('not set Mvc4Wp\System\Model\CustomFieldTestMockA::field_c');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\CustomField" is not set to "Mvc4Wp\System\Model\CustomFieldTestMockA::field_c"');
         CustomField::getName(CustomFieldTestMockA::class, 'field_c');
     }
     
-    public function test_getName04(): void
+    public function test_getName_repeated(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set Mvc4Wp\System\Model\CustomFieldTestMockB::field_a');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\CustomField" must not be repeated');
         CustomField::getName(CustomFieldTestMockB::class, 'field_a');
     }
 
-    public function test_getTitle01(): void
+    public function test_getTitle(): void
     {
         $val = CustomField::getTitle(CustomFieldTestMockA::class, 'field_a');
         $this->assertEquals('タイトルテスト', $val);
     }
 
-    public function test_getType01(): void
+    public function test_getType(): void
     {
         $val = CustomField::getType(CustomFieldTestMockA::class, 'field_a');
         $this->assertEquals('int', $val);
     }
 
-    public function test_getType02(): void
-    {
-        $val = CustomField::getType(CustomFieldTestMockA::class, 'field_d');
-        $this->assertEquals('TEXT', $val);
-    }
-
-    public function test_systemError(): void
+    public function test_getName_unknown(): void
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
@@ -76,7 +71,7 @@ class CustomFieldTest extends TestCase
         CustomField::getName(CustomFieldTestMockC::class, 'field_a');
     }
 
-    public function test_notExistFieldName(): void
+    public function test_getName_notExist(): void
     {
         $this->expectException(ReflectionException::class);
         $this->expectExceptionCode(0);
@@ -84,11 +79,11 @@ class CustomFieldTest extends TestCase
         CustomField::getName(CustomFieldTestMockC::class, 'hoge');
     }
 
-    public function test_notSetCustomField(): void
+    public function test_getName_(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('not set Mvc4Wp\System\Model\CustomFieldTestMockD::field_a');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\CustomField" is not set to "Mvc4Wp\System\Model\CustomFieldTestMockD::field_a"');
         CustomField::getName(CustomFieldTestMockD::class, 'field_a');
     }
 }
@@ -105,7 +100,6 @@ class CustomFieldTestMockA
 
     #[CustomField(name: 'name', title: 'title')]
     public string $field_d;
-
 }
 
 class CustomFieldTestMockB

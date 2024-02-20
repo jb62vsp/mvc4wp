@@ -27,6 +27,22 @@ class AttributeTraitTest extends TestCase
         $this->assertEquals('bb', $attr->field_b);
     }
 
+    public function test_getClassAttribute_extended(): void
+    {
+        $attr = TestClassAttribute::getClassAttribute(TestMockAttributeTraitE::class);
+        $this->assertNotNull($attr);
+        $this->assertEquals('a', $attr->field_a);
+        $this->assertEquals('b', $attr->field_b);
+    }
+
+    public function test_getClassAttribute_dontUpcast(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\TestExtendedClassAttribute" is not set to "Mvc4Wp\System\Model\TestMockAttributeTraitA"');
+        TestExtendedClassAttribute::getClassAttribute(TestMockAttributeTraitA::class);
+    }
+
     public function test_getClassAttribute_notSet(): void
     {
         $this->expectException(ApplicationException::class);
@@ -43,7 +59,7 @@ class AttributeTraitTest extends TestCase
         TestClassAttribute::getClassAttribute(TestMockAttributeTraitD::class);
     }
 
-    public function test_getPropertyAttribute01(): void
+    public function test_getPropertyAttribute_withDefaultValue(): void
     {
         $attr = TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_a');
         $this->assertNotNull($attr);
@@ -51,7 +67,7 @@ class AttributeTraitTest extends TestCase
         $this->assertEquals('', $attr->field_b);
     }
 
-    public function test_getPropertyAttribute02(): void
+    public function test_getPropertyAttribute_withoutDefaultValue(): void
     {
         $attr = TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_b');
         $this->assertNotNull($attr);
@@ -59,23 +75,47 @@ class AttributeTraitTest extends TestCase
         $this->assertEquals('BB', $attr->field_b);
     }
 
-    public function test_getPropertyAttribute03(): void
+    public function test_getPropertyAttribute_extended(): void
+    {
+        $attr = TestExtendedPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitE::class, 'test_b');
+        $this->assertNotNull($attr);
+        $this->assertEquals('a', $attr->field_a);
+        $this->assertEquals('b', $attr->field_b);
+    }
+
+    public function test_getPropertyAttribute_dontUpcast(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Mvc4Wp\System\Model\TestPropertyAttribute: not set Mvc4Wp\System\Model\TestMockAttributeTraitB::test_a');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\TestExtendedPropertyAttribute" is not set to "Mvc4Wp\System\Model\TestMockAttributeTraitA::test_a"');
+        TestExtendedPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_a');
+    }
+
+    public function test_getPropertyAttribute_notSet(): void
+    {
+        $this->expectException(ApplicationException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\TestPropertyAttribute" is not set to "Mvc4Wp\System\Model\TestMockAttributeTraitB::test_a"');
         TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_a');
     }
 
-    public function test_getPropertyAttribute04(): void
+    public function test_getPropertyAttribute_repeated(): void
     {
-        $this->expectException(ApplicationException::class);
+        $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Mvc4Wp\System\Model\TestPropertyAttribute: duplicate to set Mvc4Wp\System\Model\TestMockAttributeTraitB::test_b');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\System\Model\TestPropertyAttribute" must not be repeated');
         TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_b');
     }
 
-    public function test_getPropertyAttributes01(): void
+    public function test_getPropertyAttributes(): void
+    {
+        $attrs = TestPropertyAttribute::getPropertyAttributes(TestMockAttributeTraitE::class, 'test_a');
+        $this->assertCount(1, $attrs);
+        $this->assertEquals('a', $attrs[0]->field_a);
+        $this->assertEquals('b', $attrs[0]->field_b);
+    }
+
+    public function test_getPropertyAttributes_withoutDefaultValue(): void
     {
         $attrs = TestPropertyAttribute::getPropertyAttributes(TestMockAttributeTraitE::class, 'test_a');
         $this->assertCount(1, $attrs);
@@ -97,7 +137,7 @@ class TestClassAttribute
 }
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class TestExtendsClassAttribute extends TestClassAttribute
+class TestExtendedClassAttribute extends TestClassAttribute
 {
     use Cast, AttributeTrait;
 
@@ -113,7 +153,7 @@ class TestExtendsClassAttribute extends TestClassAttribute
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestPropertyAttribute
 {
-    use AttributeTrait;
+    use Cast, AttributeTrait;
 
     public function __construct(
         public string $field_a,
@@ -125,13 +165,13 @@ class TestPropertyAttribute
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestPropertyAttributeOther
 {
-    use AttributeTrait;
+    use Cast, AttributeTrait;
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestExtendedPropertyAttribute extends TestPropertyAttribute
 {
-    use AttributeTrait;
+    use Cast, AttributeTrait;
 
     public function __construct(
         string $field_a,
@@ -178,6 +218,7 @@ class TestMockAttributeTraitD
 
 }
 
+#[TestExtendedClassAttribute('a', 'b')]
 class TestMockAttributeTraitE
 {
     use Cast;
@@ -185,4 +226,7 @@ class TestMockAttributeTraitE
     #[TestPropertyAttribute('a', 'b')]
     #[TestPropertyAttributeOther]
     public string $test_a;
+
+    #[TestExtendedPropertyAttribute('a', 'b')]
+    public string $test_b;
 }

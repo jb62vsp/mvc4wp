@@ -4,7 +4,6 @@ namespace Mvc4Wp\System\Model;
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Mvc4Wp\System\Exception\ApplicationException;
 
 #[CoversClass(PostType::class)]
 class PostTypeTest extends TestCase
