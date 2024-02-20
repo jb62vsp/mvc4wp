@@ -2,6 +2,7 @@
 namespace Mvc4Wp\System\Model;
 
 use DateTime;
+use ReflectionMethod;
 use ReflectionProperty;
 use Mvc4Wp\System\Helper\DateTimeHelper;
 use Mvc4Wp\System\Model\Validator\Rule;
@@ -50,7 +51,12 @@ trait BindTrait
                 }
                 if (count($errors) <= 0) {
                     $typed_value = self::typedValue($prop->getType()->getName(), $value);
-                    $prop->setValue($obj, $typed_value);
+                    if ($prop_name === 'ID') {
+                        $refm = new ReflectionMethod($obj, 'setID');
+                        $refm->invoke($obj, $typed_value);
+                    } else {
+                        $prop->setValue($obj, $typed_value);
+                    }
                 } else {
                     $result = array_merge($result, $errors);
                 }

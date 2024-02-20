@@ -4,37 +4,24 @@ namespace Mvc4Wp\System\Service;
 use Mvc4Wp\System\Application\ApplicationFactoryInterface;
 use Mvc4Wp\System\Application\ApplicationInterface;
 use Mvc4Wp\System\Application\Default\DefaultApplicationFactory;
-use Mvc4Wp\System\Exception\ApplicationException;
 
 final class App
 {
-    private const DEFAULT_NAME = '';
+    private static ApplicationInterface $application;
 
-    private static array $applications = [];
-
-    public static function add(string $application_name, ApplicationFactoryInterface $factory): void
+    public static function set(ApplicationFactoryInterface $factory): void
     {
-        self::$applications[$application_name] = $factory->create();
+        self::$application = $factory->create();
     }
 
-    public static function get(string $application_name = self::DEFAULT_NAME): ApplicationInterface
+    public static function get(): ApplicationInterface
     {
-        if (empty($application_name)) {
-            return self::getDefaultApplication();
-        } elseif (array_key_exists($application_name, self::$applications)) {
-            return self::$applications[$application_name];
+        if (isset(self::$application)) {
+            return self::$application;
         } else {
-            throw new ApplicationException('application not found, ' . $application_name);
-        }
-    }
-
-    private static function getDefaultApplication(): ApplicationInterface
-    {
-        if (count(self::$applications) === 0) {
             $factory = new DefaultApplicationFactory();
-            $application = $factory->create();
-            self::$applications[self::DEFAULT_NAME] = $application;
+            self::$application = $factory->create();
+            return self::$application;
         }
-        return self::$applications[self::DEFAULT_NAME];
     }
 }
