@@ -5,13 +5,14 @@ use Attribute;
 use Mvc4Wp\System\Core\Cast;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class CustomPostType
+class CustomPostType extends PostType
 {
     use Cast, AttributeTrait;
-    
+
     public function __construct(
         public string $name,
         public string $title,
+        public array $args = [],
     ) {
     }
 }
