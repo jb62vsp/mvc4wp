@@ -10,10 +10,22 @@
     failOnRisky="true"
     failOnWarning="true">
     <testsuites>
-        <testsuite name="app">
+        <!-- <testsuite name="App">
             <directory>tests/App</directory>
+        </testsuite> -->
+        <testsuite name="System/Config">
+            <directory>tests/System/Config</directory>
         </testsuite>
-        <testsuite name="system">
+        <testsuite name="System/Core">
+            <directory>tests/System/Core</directory>
+        </testsuite>
+        <testsuite name="System/Model">
+            <directory>tests/System/Model</directory>
+        </testsuite>
+        <testsuite name="System/Route">
+            <directory>tests/System/Route</directory>
+        </testsuite>
+        <testsuite name="System">
             <directory>tests/System</directory>
         </testsuite>
     </testsuites>

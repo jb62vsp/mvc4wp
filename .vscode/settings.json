@@ -6,7 +6,6 @@
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "phpunit.command": "php",
     "phpstan.memoryLimit": "2G",
     "php.problems.exclude": {
         "/": [

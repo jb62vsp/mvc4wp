@@ -39,7 +39,7 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set System\Model\PostTypeTestMockC');
+        $this->expectExceptionMessage('duplicate to set Mvc4Wp\System\Model\PostTypeTestMockC');
         PostType::getName(PostTypeTestMockC::class);
     }
 
