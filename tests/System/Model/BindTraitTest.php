@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Model;
 
-use Mvc4Wp\System\Model\Repository\AbstractQuery;
 use Mvc4Wp\System\Model\Repository\QueryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +10,7 @@ use Mvc4Wp\System\Model\Validator\Rule;
 #[CoversClass(Model::class)]
 #[CoversClass(Bindable::class)]
 #[CoversClass(Rule::class)]
-class ModelTest extends TestCase
+class BindTraitTest extends TestCase
 {
     public function setUp(): void
     {
