@@ -12,15 +12,15 @@ trait AttributeTrait
     public static function getClassAttribute(string $class_name): static
     {
         $refc = new ReflectionClass($class_name);
-        $attrs = $refc->getAttributes(static::class);
-        if (count($attrs) === 0) {
-            throw new ApplicationException('not set ' . $class_name);
-        } elseif (count($attrs) !== 1) {
-            throw new ApplicationException('duplicate to set ' . $class_name);
+        $attrs = $refc->getAttributes();
+        foreach ($attrs as $attr) {
+            $instance = $attr->newInstance();
+            if ($instance->equals(static::class) || $instance->extend(static::class)) {
+                return $instance;
+            }
         }
-        $result = $attrs[0]->newInstance();
 
-        return $result;
+        throw new ApplicationException(sprintf('Attribute "%s" is not set to "%s"', static::class, $class_name));
     }
 
     public static function getPropertyAttribute(string $class_name, string $property_name): static
@@ -28,9 +28,9 @@ trait AttributeTrait
         $refc = new ReflectionProperty($class_name, $property_name);
         $attrs = $refc->getAttributes(static::class);
         if (count($attrs) === 0) {
-            throw new ApplicationException('not set ' . $class_name);
+            throw new ApplicationException(static::class . ': not set ' . $class_name . '::' . $property_name);
         } elseif (count($attrs) !== 1) {
-            throw new ApplicationException('duplicate to set ' . $class_name);
+            throw new ApplicationException(static::class . ': duplicate to set ' . $class_name . '::' . $property_name);
         }
         $result = $attrs[0]->newInstance();
 
@@ -85,11 +85,7 @@ trait AttributeTrait
     {
         $refc = new ReflectionClass($class_name);
         $attrs = $refc->getAttributes(static::class);
-        if (count($attrs) === 0) {
-            throw new ApplicationException('not set ' . $class_name . ', ' . $attribute_key);
-        } elseif (count($attrs) !== 1) {
-            throw new ApplicationException('duplicate to set ' . $class_name . ', ' . $attribute_key);
-        }
+
         try {
             return self::getValueByAttribute($attrs[0], $attribute_key);
         } catch (ApplicationException $ex) {

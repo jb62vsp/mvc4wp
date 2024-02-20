@@ -6,7 +6,6 @@
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "phpunit.command": "php",
     "phpstan.memoryLimit": "2G",
     "php.problems.exclude": {
         "/": [
@@ -14,5 +13,7 @@
         ],
         "vendor/": true,
     },
-    "phpstan.timeout": 20000
+    "phpstan.timeout": 20000,
+    "coverage-gutters.coverageBaseDir": "coverage",
+    "coverage-gutters.showLineCoverage": true,
 }
