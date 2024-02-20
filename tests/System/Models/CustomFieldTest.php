@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace Mvc4Wp\System\Model;
 
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
-use System\Exception\ApplicationException;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 #[CoversClass(CustomField::class)]
 #[CoversClass(AttributeTrait::class)]
@@ -30,7 +30,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('not set System\Models\CustomField::name, System\Models\CustomFieldTestMockA::field_b');
+        $this->expectExceptionMessage('not set System\Model\CustomField::name, System\Model\CustomFieldTestMockA::field_b');
         CustomField::getName(CustomFieldTestMockA::class, 'field_b');
     }
 
@@ -38,7 +38,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('not set System\Models\CustomFieldTestMockA::field_c');
+        $this->expectExceptionMessage('not set System\Model\CustomFieldTestMockA::field_c');
         CustomField::getName(CustomFieldTestMockA::class, 'field_c');
     }
     
@@ -46,7 +46,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set System\Models\CustomFieldTestMockB::field_a');
+        $this->expectExceptionMessage('duplicate to set System\Model\CustomFieldTestMockB::field_a');
         CustomField::getName(CustomFieldTestMockB::class, 'field_a');
     }
 
@@ -80,7 +80,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ReflectionException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Property System\Models\CustomFieldTestMockC::$hoge does not exist');
+        $this->expectExceptionMessage('Property System\Model\CustomFieldTestMockC::$hoge does not exist');
         CustomField::getName(CustomFieldTestMockC::class, 'hoge');
     }
 }

@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace Mvc4Wp\System\Model;
 
+use Mvc4Wp\System\Model\Repository\AbstractQuery;
+use Mvc4Wp\System\Model\Repository\QueryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use System\Models\Validator\Rule;
+use Mvc4Wp\System\Model\Validator\Rule;
 
 #[CoversClass(Model::class)]
 #[CoversClass(Bindable::class)]
@@ -61,4 +63,69 @@ class ModelTestMockA extends Model
     public int $field_b = 0;
 
     public float $field_c;
+
+        /**
+     * @return TQuery
+     */
+    public static function find(): QueryInterface
+    {
+        return new ModelTestMockQuery();
+    }
+    
+    /**
+     * @return int
+     */
+    public function register(): int
+    {
+        return 0;
+    }
+
+    /**
+     * @return void
+     */
+    public function update(): void
+    {
+        // noop
+    }
+
+    /**
+     * @return bool
+     */
+    public function delete(bool $force_delete = false): bool
+    {
+        return true;
+    }
+}
+
+class ModelTestMockQuery  implements QueryInterface
+{
+    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): QueryInterface
+    {
+        return $this;
+    }
+
+    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): QueryInterface
+    {
+        return $this;
+    }
+
+    public function get(): array
+    {
+        return [];
+    }
+
+    public function getSingle(): ?Model
+    {
+        return null;
+    }
+
+    public function byID(int $id): ?Model
+    {
+        return null;
+    }
+
+    public function count(): int
+    {
+        return 0;
+    }
 }

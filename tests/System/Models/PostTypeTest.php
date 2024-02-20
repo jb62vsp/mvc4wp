@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace System\Models;
+namespace Mvc4Wp\System\Model;
 
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use System\Exception\ApplicationException;
+use Mvc4Wp\System\Exception\ApplicationException;
 
 #[CoversClass(PostType::class)]
 class PostTypeTest extends TestCase
@@ -39,7 +39,7 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('duplicate to set System\Models\PostTypeTestMockC');
+        $this->expectExceptionMessage('duplicate to set System\Model\PostTypeTestMockC');
         PostType::getName(PostTypeTestMockC::class);
     }
 

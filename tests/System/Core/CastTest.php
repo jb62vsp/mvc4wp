@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace System\Core;
+namespace Mvc4Wp\System\Core;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace System\Route\Default;
+namespace Mvc4Wp\System\Route\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use System\Config\CONFIG;
-use System\Config\ConfigInterface;
-use System\Route\RouteHandler;
-use System\Route\RouterInterface;
+use Mvc4Wp\System\Config\CONFIG;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
+use Mvc4Wp\System\Route\RouteHandler;
+use Mvc4Wp\System\Route\RouterInterface;
 
 #[CoversClass(RouteHandler::class)]
 #[CoversClass(DefaultRouter::class)]
@@ -17,7 +17,7 @@ class DefaultRouterTest extends TestCase
         return new DefaultRouter();
     }
 
-    private function getConfig(): ConfigInterface
+    private function getConfig(): ConfiguratorInterface
     {
         return new ConfigMock();
     }
@@ -213,15 +213,20 @@ class DefaultRouterTest extends TestCase
     }
 }
 
-class ConfigMock implements ConfigInterface
+class ConfigMock implements ConfiguratorInterface
 {
-    public function add(CONFIG $key, string|array $value): void
+    public function add(string $key, string|array $value): void
     {
         return;
     }
 
-    public function get(CONFIG $key): string|array
+    public function get(string $key): string|array
     {
         return 'Mock\OK';
+    }
+
+    public function set(string $key, string|array $value, string ...$keys): void
+    {
+        return;
     }
 }
