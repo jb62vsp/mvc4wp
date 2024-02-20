@@ -16,6 +16,7 @@ class PostType extends Entity
 
     public static function getName(string $class_name): string
     {
-        return self::getSingleClassAttributeValue($class_name, 'name');
+        $attr = self::getClassAttribute($class_name);
+        return $attr->name;
     }
 }

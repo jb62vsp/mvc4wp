@@ -38,16 +38,19 @@ class CustomField
 
     public static function getName(string $class_name, string $property_name): string
     {
-        return self::getSinglePropertyAttributeValue($class_name, $property_name, 'name');
+        $attr = self::getPropertyAttribute($class_name, $property_name);
+        return $attr->name;
     }
 
     public static function getTitle(string $class_name, string $property_name): string
     {
-        return self::getSinglePropertyAttributeValue($class_name, $property_name, 'title');
+        $attr = self::getPropertyAttribute($class_name, $property_name);
+        return $attr->title;
     }
 
     public static function getType(string $class_name, string $property_name): string
     {
-        return self::getSinglePropertyAttributeValue($class_name, $property_name, 'type');
+        $attr = self::getPropertyAttribute($class_name, $property_name);
+        return $attr->type;
     }
 }
