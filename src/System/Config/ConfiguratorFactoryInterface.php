@@ -3,5 +3,5 @@ namespace Mvc4Wp\System\Config;
 
 interface ConfiguratorFactoryInterface
 {
-    public function create(array $args = []): ConfigInterface;
+    public function create(array $args = []): ConfiguratorInterface;
 }

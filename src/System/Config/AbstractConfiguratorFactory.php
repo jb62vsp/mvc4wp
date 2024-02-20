@@ -7,5 +7,5 @@ abstract class AbstractConfiguratorFactory implements ConfiguratorFactoryInterfa
 {
     use Cast;
 
-    abstract public function create(array $args = []): ConfigInterface;
+    abstract public function create(array $args = []): ConfiguratorInterface;
 }

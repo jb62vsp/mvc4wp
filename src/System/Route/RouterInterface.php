@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Route;
 
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 
 interface RouterInterface
 {
@@ -25,5 +25,5 @@ interface RouterInterface
 
     public function delete(string $route, string $handler): void;
 
-    public function dispatch(ConfigInterface $config, string $request_method, string $request_uri): RouteHandler;
+    public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler;
 }

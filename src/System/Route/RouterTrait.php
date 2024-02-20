@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Route;
 
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 
 trait RouterTrait
 {
@@ -33,5 +33,5 @@ trait RouterTrait
         $this->routes[$key] = $handler;
     }
 
-    abstract public function dispatch(ConfigInterface $config, string $request_method, string $request_uri): RouteHandler;
+    abstract public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler;
 }

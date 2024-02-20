@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\System\Controller;
 
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\ConfiguratorInterface;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Service\Logging;
 
@@ -10,7 +10,7 @@ abstract class Controller implements ControllerInterface, RenderInterface, Respo
     use Cast;
 
     public function __construct(
-        public ConfigInterface $config
+        protected ConfiguratorInterface $config
     ) {
     }
 

@@ -2,11 +2,11 @@
 namespace Mvc4Wp\System\Config\Default;
 
 use Exception;
-use Mvc4Wp\System\Config\ConfigInterface;
+use Mvc4Wp\System\Config\AbstractConfigurator;
 use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
 
-class DefaultConfigurator implements ConfigInterface
+class DefaultConfigurator extends AbstractConfigurator
 {
     use Cast;
 
