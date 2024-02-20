@@ -3,11 +3,9 @@ namespace Mvc4Wp\System\Model;
 
 use DateTime;
 use ReflectionProperty;
-use Mvc4Wp\System\Exception\ValidationException;
 use Mvc4Wp\System\Helper\DateTimeHelper;
 use Mvc4Wp\System\Model\Validator\Rule;
 use Mvc4Wp\System\Model\Validator\ValidationError;
-use Mvc4Wp\System\Service\Logging;
 
 trait BindTrait
 {
@@ -27,14 +25,9 @@ trait BindTrait
 
         $props = Bindable::getAttributedProperties(static::class);
         foreach ($props as $prop) {
-            try {
-                $errors = self::bindProperties($this, $prop, $data, $validation);
-                $result = array_merge($result, $errors);
-                $this->is_binded = true;
-            } catch (ValidationException $ex) {
-                Logging::get('system')->debug($ex->getMessage());
-                $result[$ex->field] = $ex;
-            }
+            $errors = self::bindProperties($this, $prop, $data, $validation);
+            $result = array_merge($result, $errors);
+            $this->is_binded = true;
         }
 
         return $result;

@@ -2,13 +2,10 @@
 namespace Mvc4Wp\System\Controller;
 
 use Mvc4Wp\System\Config\ConfigInterface;
-use Mvc4Wp\System\Core\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
 
 trait PlainPhpRenderTrait
 {
-    use Cast;
-
     private bool $first = true;
 
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self

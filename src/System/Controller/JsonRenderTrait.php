@@ -2,12 +2,9 @@
 namespace Mvc4Wp\System\Controller;
 
 use Mvc4Wp\System\Config\ConfigInterface;
-use Mvc4Wp\System\Core\Cast;
 
 trait JsonRenderTrait
 {
-    use Cast, HttpResponder;
-
     public function render(ConfigInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
         $responder->header('Content-Type: text/json; charset=utf-8');
