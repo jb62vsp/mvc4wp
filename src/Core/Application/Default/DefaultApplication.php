@@ -37,7 +37,7 @@ class DefaultApplication extends AbstractApplication
             'default_logger_name' => 'app',
             'loggers' => [
                 'app' => [
-                    'logger_factory' => '\Mvc4Wp\System\Logger\Default\DefaultFileLoggerFactory',
+                    'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
                     'directory' => __MVC4WP_ROOT__ . '/log/',
                     'basefilename' => 'app',
                     'file_date_format' => 'Ymd',
@@ -46,7 +46,7 @@ class DefaultApplication extends AbstractApplication
                     'log_level' => 'notice',
                 ],
                 'core' => [
-                    'logger_factory' => '\Mvc4Wp\System\Logger\Default\DefaultFileLoggerFactory',
+                    'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
                     'directory' => __MVC4WP_ROOT__ . '/log/',
                     'basefilename' => 'core',
                     'file_date_format' => 'Ymd',
