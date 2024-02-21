@@ -2,8 +2,8 @@
 namespace App\Logger;
 
 use Psr\Log\LoggerInterface;
-use Mvc4Wp\System\Exception\ApplicationException;
-use Mvc4Wp\System\Logger\AbstractLoggerFactory;
+use Mvc4Wp\Core\Exception\ApplicationException;
+use Mvc4Wp\Core\Logger\AbstractLoggerFactory;
 
 class LogModelLoggerFactory extends AbstractLoggerFactory
 {

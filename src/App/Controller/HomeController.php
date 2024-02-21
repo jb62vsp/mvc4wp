@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use Mvc4Wp\System\Controller\PlainPhpController;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\Core\Controller\PlainPhpController;
+use Mvc4Wp\Core\Library\Castable;
 
 class HomeController extends PlainPhpController
 {
-    use Cast;
+    use Castable;
 
     private string $name;
 

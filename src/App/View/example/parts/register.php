@@ -18,7 +18,7 @@
                 <?php endif; ?>
                 <?php if (array_key_exists($column, $data['errors'])): ?>
                     <?php foreach ($data['errors'][$column] as $error): ?>
-                        <? /** @var \Mvc4Wp\System\Model\Validator\ValidationError @error */ ?>
+                        <? /** @var \Mvc4Wp\Core\Model\Validator\ValidationError @error */ ?>
                         <span class="error"><?php echo $error->rule->getMessage(); ?></span>
                     <?php endforeach; ?>
                 <?php endif; ?>

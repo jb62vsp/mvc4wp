@@ -45,7 +45,8 @@ App::get()->router()->delete('/example/{id:\d+}|/example/{id:\d+}/', 'ExampleCon
  * init scripts for application
  * --------------------------------------------------------------------
  */
-\Mvc4Wp\System\Service\Logging::configure(App::get()->config());
+\Mvc4Wp\Core\Service\Logging::configure(App::get()->config());
+\Mvc4Wp\Core\Service\Helper::load('View');
 
 /*
  * --------------------------------------------------------------------

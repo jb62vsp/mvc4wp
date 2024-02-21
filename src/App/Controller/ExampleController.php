@@ -2,12 +2,12 @@
 namespace App\Controller;
 
 use App\Model\ExampleModel;
-use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Service\Logging;
+use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Service\Logging;
 
 class ExampleController extends AdminController
 {
-    use Cast;
+    use Castable;
 
     private string $name;
 

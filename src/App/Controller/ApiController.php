@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use Mvc4Wp\System\Controller\JsonController;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\Core\Controller\JsonController;
+use Mvc4Wp\Core\Library\Castable;
 
 class ApiController extends JsonController
 {
-    use Cast;
+    use Castable;
 
     public function init(array $args = []): void
     {

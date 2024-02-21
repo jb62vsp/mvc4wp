@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Model\PostModel;
+use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\PostModel;
 
 class PostController extends AdminController
 {
-    use Cast;
+    use Castable;
 
     private string $name;
 

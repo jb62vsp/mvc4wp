@@ -9,10 +9,10 @@
                 </label>
                 <?php if ($column === 'example_textarea'): ?>
                     <textarea id='<?php echo $column; ?>'
-                        name='<?php echo $column; ?>'><?php echo App\Model\ExampleModel::cast($data['examples'][0])->format($column); ?></textarea>
+                        name='<?php echo $column; ?>'><?php echo $data['examples'][0]->{$column}; ?></textarea>
                 <?php else: ?>
                     <input type='text' id='<?php echo $column; ?>' name='<?php echo $column; ?>'
-                        value='<?php echo App\Model\ExampleModel::cast($data['examples'][0])->format($column); ?>'>
+                        value='<?php echo $data['examples'][0]->{$column}; ?>'>
                 <?php endif; ?>
                 <?php if (array_key_exists($column, $data['errors'])): ?>
                     <?php foreach ($data['errors'][$column] as $error): ?>

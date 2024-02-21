@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use Mvc4Wp\System\Controller\PlainPhpController;
-use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Service\Logging;
+use Mvc4Wp\Core\Controller\PlainPhpController;
+use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Service\Logging;
 
 abstract class AdminController extends PlainPhpController
 {
-    use Cast;
+    use Castable;
 
     public function init(array $args = []): void
     {

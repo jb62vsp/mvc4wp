@@ -6,7 +6,7 @@
                 <?php echo eh($data['example']->ID); ?>
             </a>
         <?php else: ?>
-            <?php echo nl2br(App\Model\ExampleModel::cast($data['example'])->format($column)); ?>
+            <?php echo nl2br(strval($data['example']->{$column})); ?>
         <?php endif; ?>
     </td>
 <?php endforeach ?>
