@@ -7,5 +7,5 @@ interface ConfiguratorInterface
 
     public function get(string $key): string|array;
 
-    public function set(string $key, string|array $value, string ...$keys): void;
+    public function set(string $key, array $keys, string|array $value): void;
 }

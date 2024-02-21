@@ -22,11 +22,11 @@ class DefaultConfigurator extends AbstractConfigurator
         return $this->configs[$key];
     }
 
-    public function set(string $key, string|array $value, string ...$args): void
+    public function set(string $key, array $keys, string|array $value): void
     {
         try {
             $orig = $this->configs[$key];
-            $conf = $this->recursive_set($orig, $args, count($args), $value);
+            $conf = $this->recursive_set($orig, $keys, count($keys), $value);
             $this->configs[$key] = $conf;
         } catch (Exception $ex) {
             throw new ApplicationException('TODO', previous: $ex);
