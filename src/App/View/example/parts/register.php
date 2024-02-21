@@ -2,11 +2,6 @@
 <section>
     <h2>register</h2>
     <?php if (array_key_exists('error', $data)): ?>
-        <?php foreach ($data['errors'] as $key => $error): ?>
-            <p class="error">
-                <?php echo $error->getMessage(); ?>
-            </p>
-        <?php endforeach; ?>
     <?php endif; ?>
     <form action='/example/' method='POST'>
         <?php foreach ($data['registerable_columns'] as $column): ?>
@@ -20,6 +15,12 @@
                 <?php else: ?>
                     <input type='text' id='<?php echo $column; ?>' name='<?php echo $column; ?>'
                         value='<?php echo array_key_exists('post', $data) && array_key_exists($column, $data['post']) ? $data['post'][$column] : ''; ?>'>
+                <?php endif; ?>
+                <?php if (array_key_exists($column, $data['errors'])): ?>
+                    <?php foreach ($data['errors'][$column] as $error): ?>
+                        <? /** @var \Mvc4Wp\System\Model\Validator\ValidationError @error */ ?>
+                        <span class="error"><?php echo $error->rule->getMessage(); ?></span>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             </p>
         <?php endforeach; ?>

@@ -61,25 +61,20 @@ class ExampleModel extends PostModel
     #[Bindable]
     #[CustomField(name: 'example_date', title: '日付型例', type: CustomField::DATE)]
     #[RegExpRule(PATTERN::DATE, '日付のみ')]
-    public DateTime $example_date;
+    public string $example_date;
 
     #[Bindable]
     #[CustomField(name: 'example_time', title: '時刻型例', type: CustomField::TIME)]
     #[RegExpRule(PATTERN::TIME, '時刻のみ')]
-    public DateTime $example_time;
+    public string $example_time;
 
     #[Bindable]
     #[CustomField(name: 'example_datetime', title: '日時型例', type: CustomField::DATETIME)]
     #[RegExpRule(PATTERN::DATETIME, '日時のみ')]
-    public ?DateTime $example_datetime;
+    public string $example_datetime;
 
     public function format(string $field): string
     {
-        return match ($field) {
-            'example_date' => eh(DateTimeHelper::strval($this->{$field}, DateTimeHelper::DATE_FORMAT)),
-            'example_time' => eh(DateTimeHelper::strval($this->{$field}, DateTimeHelper::TIME_FORMAT)),
-            'example_datetime' => eh(DateTimeHelper::strval($this->{$field}, DateTimeHelper::DATETIME_FORMAT)),
-            default => eh($this->{$field}),
-        };
+        return eh($this->{$field});
     }
 }

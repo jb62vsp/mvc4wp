@@ -3,12 +3,16 @@
 define('__WPMVC_ROOT__', __DIR__);
 require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
 
+use Mvc4Wp\System\Service\App;
+use Mvc4Wp\System\Service\Logging;
+use Mvc4Wp\System\Service\WpCustomize;
+
 /*
  * --------------------------------------------------------------------
  * Configure application(comment out OR edit value for required)
  * --------------------------------------------------------------------
  */
-\Mvc4Wp\System\Service\App::get()->config()->add('LOGGER', [
+App::get()->config()->add('LOGGER', [
     'default_logger_name' => 'app',
     'loggers' => [
         'app' => [
@@ -18,7 +22,7 @@ require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
             'file_date_format' => 'Ymd',
             'datetime_format' => 'Y-m-d H:i:s',
             'timezone' => 'Asia/Tokyo',
-            'log_level' => 'notice',
+            'log_level' => 'debug',
         ],
         'system' => [
             'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
@@ -27,7 +31,7 @@ require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
             'file_date_format' => 'Ymd',
             'datetime_format' => 'Y-m-d H:i:s',
             'timezone' => 'Asia/Tokyo',
-            'log_level' => 'notice',
+            'log_level' => 'debug',
         ],
         'model' => [
             'logger_factory' => '\App\Logger\LogModelLoggerFactory',
@@ -35,12 +39,13 @@ require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
         ],
     ],
 ]);
+Logging::configure(App::get()->config());
 
 /*
  * --------------------------------------------------------------------
  * init scripts for wordpress
  * --------------------------------------------------------------------
  */
-\Mvc4Wp\System\Service\WpCustomize::addCustomPostType(\App\Model\ExampleModel::class);
-\Mvc4Wp\System\Service\WpCustomize::addCustomPostType(\App\Model\LogModel::class);
-\Mvc4Wp\System\Service\WpCustomize::disableRedirectCanonical();
+WpCustomize::addCustomPostType(\App\Model\ExampleModel::class);
+WpCustomize::addCustomPostType(\App\Model\LogModel::class);
+WpCustomize::disableRedirectCanonical();

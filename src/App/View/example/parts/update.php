@@ -1,11 +1,6 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>update</h2>
-    <?php foreach ($data['errors'] as $key => $error): ?>
-        <p class="error">
-            <?php echo $error->property_name; ?>
-        </p>
-    <?php endforeach; ?>
     <form action="<?php echo '/example/' . eh($data['id']); ?>" method='POST'>
         <?php foreach ($data['editable_columns'] as $column): ?>
             <p>
