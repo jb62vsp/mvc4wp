@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Service;
 
 class Helper
 {
-    public static function use (string $helper_name): void
+    public static function load(string $helper_name): void
     {
         $app_helper = App::get()->config()->get('APP_ROOT') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
         if (file_exists($app_helper)) {
