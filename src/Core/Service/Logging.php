@@ -14,6 +14,30 @@ final class Logging
 
     private const LOGGER_FACTORY_KEY = 'logger_factory';
 
+    private const DEFAULT_CONFIG = [
+        'default_logger_name' => 'app',
+        'loggers' => [
+            'app' => [
+                'logger_factory' => '\Mvc4Wp\System\Logger\Default\DefaultFileLoggerFactory',
+                'directory' => __MVC4WP_ROOT__ . '/log/',
+                'basefilename' => 'app',
+                'file_date_format' => 'Ymd',
+                'datetime_format' => 'Y-m-d H:i:s',
+                'timezone' => 'Asia/Tokyo',
+                'log_level' => 'notice',
+            ],
+            'system' => [
+                'logger_factory' => '\Mvc4Wp\System\Logger\Default\DefaultFileLoggerFactory',
+                'directory' => __MVC4WP_ROOT__ . '/log/',
+                'basefilename' => 'sys',
+                'file_date_format' => 'Ymd',
+                'datetime_format' => 'Y-m-d H:i:s',
+                'timezone' => 'Asia/Tokyo',
+                'log_level' => 'notice',
+            ],
+        ],
+    ];
+
     private static LoggerInterface $null;
 
     private static array $loggers;

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Logger;
+namespace Mvc4Wp\Core\Logger\Default;
 
 use Psr\Log\LoggerInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Logger\AbstractLoggerFactory;
 
-class FileLoggerFactory extends AbstractLoggerFactory
+class DefaultFileLoggerFactory extends AbstractLoggerFactory
 {
     private const DIRECTORY_KEY = 'directory';
 
@@ -40,6 +40,13 @@ class FileLoggerFactory extends AbstractLoggerFactory
             throw new ApplicationException('invalid log config: ' . self::LOG_LEVEL_KEY);
         }
 
-        return new FileLogger($args[self::DIRECTORY_KEY], $args[self::BASEFILENAME_KEY], $args[self::FILE_DATE_FORMAT_KEY], $args[self::DATETIME_FORMAT_KEY], $args[self::TIMEZONE_KEY], $args[self::LOG_LEVEL_KEY]);
+        return new DefaultFileLogger(
+            $args[self::DIRECTORY_KEY],
+            $args[self::BASEFILENAME_KEY],
+            $args[self::FILE_DATE_FORMAT_KEY],
+            $args[self::DATETIME_FORMAT_KEY],
+            $args[self::TIMEZONE_KEY],
+            strtolower($args[self::LOG_LEVEL_KEY]),
+        );
     }
 }

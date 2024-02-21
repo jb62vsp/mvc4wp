@@ -2,10 +2,9 @@
 namespace Mvc4Wp\Core\Logger;
 
 use DateTime;
-use DateTimeZone;
 use Psr\Log\AbstractLogger;
 
-class FileLogger extends AbstractLogger
+abstract class FileLogger extends AbstractLogger
 {
     protected int $threshold;
 
@@ -26,7 +25,7 @@ class FileLogger extends AbstractLogger
         protected string $file_date_format,
         protected string $datetime_format,
         protected string $timezone,
-        string $log_level,
+        protected string $log_level,
     ) {
         if (array_key_exists($log_level, self::$thresholds)) {
             $this->threshold = self::$thresholds[$log_level];
@@ -70,19 +69,5 @@ class FileLogger extends AbstractLogger
         }
     }
 
-    public function log($level, string|\Stringable $message, array $context = []): void
-    {
-        $threshold = $this->threshold;
-        if (!array_key_exists($level, self::$thresholds)) {
-            $threshold = self::$thresholds['debug'];
-        }
-
-        if (self::$thresholds[$level] <= $threshold) {
-            $ts = time();
-            $now = date_create('@' . $ts);
-            $now->setTimezone(new DateTimeZone($this->timezone));
-            $datetime = $now->format($this->datetime_format);
-            $this->out($now, strtoupper($level) . ' - ' . $datetime . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
-        }
-    }
+    abstract public function log($level, string|\Stringable $message, array $context = []): void;
 }
