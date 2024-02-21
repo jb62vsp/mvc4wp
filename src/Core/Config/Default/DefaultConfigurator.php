@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Config\Default;
 
-use Mvc4Wp\Core\Config\AbstractConfigurator;
+use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Library\Castable;
 
-class DefaultConfigurator extends AbstractConfigurator
+class DefaultConfigurator implements ConfiguratorInterface
 {
     use Castable;
 
