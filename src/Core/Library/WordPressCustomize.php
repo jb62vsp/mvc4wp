@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Service;
+namespace Mvc4Wp\Core\Library;
 
 use Mvc4Wp\Core\Helper\DateTimeHelper;
 use Mvc4Wp\Core\Model\CustomField;
 use Mvc4Wp\Core\Model\CustomPostType;
 
-final class WpCustomize
+final class WordPressCustomize
 {
     private static array $registered_posts = [];
 
