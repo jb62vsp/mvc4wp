@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\System\Service\App;
+use Mvc4Wp\Core\Service\App;
 
 /*
  * --------------------------------------------------------------------

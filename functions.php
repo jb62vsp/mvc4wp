@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-define('__WPMVC_ROOT__', __DIR__);
-require_once(__WPMVC_ROOT__ . '/vendor/autoload.php');
+define('__MVC4WP_ROOT__', __DIR__);
+require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
-use Mvc4Wp\System\Service\App;
-use Mvc4Wp\System\Service\Logging;
-use Mvc4Wp\System\Service\WpCustomize;
+use Mvc4Wp\Core\Service\App;
+use Mvc4Wp\Core\Service\Logging;
+use Mvc4Wp\Core\Service\WpCustomize;
 
 /*
  * --------------------------------------------------------------------
@@ -16,7 +16,7 @@ App::get()->config()->add('LOGGER', [
     'default_logger_name' => 'app',
     'loggers' => [
         'app' => [
-            'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
+            'logger_factory' => '\Mvc4Wp\Core\Logger\FileLoggerFactory',
             'directory' => __WPMVC_ROOT__ . '/log/',
             'basefilename' => 'app',
             'file_date_format' => 'Ymd',
@@ -25,7 +25,7 @@ App::get()->config()->add('LOGGER', [
             'log_level' => 'debug',
         ],
         'system' => [
-            'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
+            'logger_factory' => '\Mvc4Wp\Core\Logger\FileLoggerFactory',
             'directory' => __WPMVC_ROOT__ . '/log/',
             'basefilename' => 'sys',
             'file_date_format' => 'Ymd',
