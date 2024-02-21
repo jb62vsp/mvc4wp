@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Helper\DateTimeHelper;
+use Mvc4Wp\Core\Service\DateTimeService;
 use Mvc4Wp\Core\Service\App;
 
 if (!function_exists('view')) {
@@ -16,7 +16,7 @@ if (!function_exists('toString')) {
         $result = '';
 
         if ($value instanceof DateTime) {
-            $result = DateTimeHelper::strval($value);
+            $result = DateTimeService::strval($value);
         } else {
             $result = strval($value);
         }

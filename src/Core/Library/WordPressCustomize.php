@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Library;
 
-use Mvc4Wp\Core\Helper\DateTimeHelper;
+use Mvc4Wp\Core\Service\DateTimeService;
 use Mvc4Wp\Core\Model\CustomField;
 use Mvc4Wp\Core\Model\CustomPostType;
 
@@ -207,8 +207,8 @@ final class WordPressCustomize
     private static function createDateField(string $field_slug, string $id, string $name, string $nonce)
     {
         return function () use ($field_slug, $id, $name, $nonce) {
-            $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, 'Y-m-d');
+            $value = DateTimeService::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
+            $formed_value = DateTimeService::strval($value, 'Y-m-d');
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='date' id='{$id}' name='{$name}' value='{$formed_value}' min='1900-01-01' max='9999-12-31'>";
@@ -219,8 +219,8 @@ final class WordPressCustomize
     private static function createTimeField(string $field_slug, string $id, string $name, string $nonce)
     {
         return function () use ($field_slug, $id, $name, $nonce) {
-            $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, 'H:i:s');
+            $value = DateTimeService::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
+            $formed_value = DateTimeService::strval($value, 'H:i:s');
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='time' id='{$id}' name='{$name}' value='{$formed_value}' step='1'>";
@@ -231,8 +231,8 @@ final class WordPressCustomize
     private static function createDateTimeField(string $field_slug, string $id, string $name, string $nonce)
     {
         return function () use ($field_slug, $id, $name, $nonce) {
-            $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, 'Y-m-d H:i:s');
+            $value = DateTimeService::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
+            $formed_value = DateTimeService::strval($value, 'Y-m-d H:i:s');
             $values = explode(' ', $formed_value);
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";

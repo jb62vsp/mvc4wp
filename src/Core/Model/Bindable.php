@@ -4,7 +4,7 @@ namespace Mvc4Wp\Core\Model;
 use DateTime;
 use ReflectionMethod;
 use ReflectionProperty;
-use Mvc4Wp\Core\Helper\DateTimeHelper;
+use Mvc4Wp\Core\Service\DateTimeService;
 use Mvc4Wp\Core\Model\Validator\Rule;
 use Mvc4Wp\Core\Model\Validator\ValidationError;
 
@@ -97,7 +97,7 @@ trait Bindable
             'int' => intval($value, 10),
             'float' => floatval($value),
             'bool' => boolval($value),
-            'DateTime' => DateTimeHelper::datetimeval($value),
+            'DateTime' => DateTimeService::datetimeval($value),
             default => $value,
         };
 
@@ -117,7 +117,7 @@ trait Bindable
             'int' => strval($value),
             'float' => strval($value),
             'bool' => strval($value),
-            'DateTime' => DateTimeHelper::strval($value),
+            'DateTime' => DateTimeService::strval($value),
             default => $value,
         };
 
