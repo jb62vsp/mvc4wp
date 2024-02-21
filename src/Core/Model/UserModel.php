@@ -7,12 +7,27 @@ use Mvc4Wp\Core\Model\Repository\UserQuery;
 
 /**
  * @template TModel of UserModel
- * @extends UserEntity<TModel>
+ * @extends Model<TModel>
  */
 #[Entity]
-class UserModel extends UserEntity
+class UserModel extends Model
 {
     use Castable;
+
+    #[Field]
+    public string $user_login;
+
+    #[Field]
+    public string $user_email;
+
+    #[Field]
+    public string $display_name;
+
+    #[Field]
+    public string $last_name;
+
+    #[Field]
+    public string $first_name;
 
     /**
      * @return UserQuery<TModel>

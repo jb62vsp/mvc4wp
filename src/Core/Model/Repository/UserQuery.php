@@ -7,9 +7,9 @@ use Mvc4Wp\Core\Model\UserModel;
 
 /**
  * @template TModel of Model
- * @extends AbstractQuery<TModel>
+ * @implements QueryInterface<TModel>
  */
-class UserQuery extends AbstractQuery
+class UserQuery implements QueryInterface
 {
     use Castable;
 

@@ -2,18 +2,38 @@
 namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Library\Wp;
 use Mvc4Wp\Core\Model\Repository\PostQuery;
 use Mvc4Wp\Core\Model\Repository\QueryInterface;
 
 /**
  * @template TModel of PostModel
- * @extends PostEntity<TModel>
+ * @extends Model<TModel>
  */
 #[PostType(name: 'post')]
-class PostModel extends PostEntity
+class PostModel extends Model
 {
     use Castable;
+
+    #[Field]
+    public int $post_author;
+
+    #[Field]
+    public string $post_date;
+
+    #[Field]
+    public string $post_name;
+
+    #[Field]
+    public string $post_status;
+
+    #[Field]
+    public string $post_title;
+
+    #[Field]
+    public string $post_type;
+
+    #[Field]
+    public string $post_content;
 
     public function __construct()
     {
@@ -39,7 +59,7 @@ class PostModel extends PostEntity
         $this->bind(['ID' => $id], false);
         $properties = CustomField::getAttributedProperties(get_class($this));
         foreach ($properties as $property) {
-            $untypedValue = static::reverseProperty($this, $property);
+            $untypedValue = static::toString($this, $property);
             $property = $property->getName();
             update_post_meta($this->ID, $property, $untypedValue);
         }
@@ -51,7 +71,7 @@ class PostModel extends PostEntity
         wp_update_post($this);
         $properties = CustomField::getAttributedProperties(get_class($this));
         foreach ($properties as $property) {
-            $untypedValue = static::reverseProperty($this, $property);
+            $untypedValue = static::toString($this, $property);
             $property = $property->getName();
             update_post_meta($this->ID, $property, $untypedValue);
         }

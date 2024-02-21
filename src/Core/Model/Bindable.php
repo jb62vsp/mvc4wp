@@ -62,7 +62,7 @@ trait Bindable
         return $result;
     }
 
-    protected static function reverseProperty(Model $obj, ReflectionProperty $prop): string
+    protected static function toString(Model $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (static::hasKey($obj, $prop_name)) {
@@ -79,7 +79,7 @@ trait Bindable
 
         $properties = Field::getAttributedProperties(get_class($obj));
         foreach ($properties as $property) {
-            $untypedValue = static::reverseProperty($obj, $property);
+            $untypedValue = static::toString($obj, $property);
             $property = $property->getName();
             $result[$property] = $untypedValue;
         }
