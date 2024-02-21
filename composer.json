@@ -5,7 +5,7 @@
     "license": "MIT License",
     "autoload": {
         "psr-4": {
-            "Mvc4Wp\\System\\": "src/System",
+            "Mvc4Wp\\Core\\": "src/Core",
             "App\\": "src/App"
         }
     },
