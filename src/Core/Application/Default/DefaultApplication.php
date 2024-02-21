@@ -4,6 +4,7 @@ namespace Mvc4Wp\Core\Application\Default;
 use Mvc4Wp\Core\Application\ApplicationInterface;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
+use Mvc4Wp\Core\Controller\Default\DefaultErrorController;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
@@ -68,12 +69,15 @@ class DefaultApplication implements ApplicationInterface
             $route = $this->_router->dispatch($this->_config, $request_method, $_SERVER['REQUEST_URI']);
 
             if ($route->status !== HttpStatus::OK) {
-                $cls = $this->_config->get('ERROR_HANDLERS', 'handlers', strval($route->status->value));
-                if (!is_null($cls)) {
-                    $this->errorHandlerClass = $cls;
+                $errorHandlerClass = DefaultErrorController::class;
+                $customErrorHandlerClass = $this->_config->get('ERROR_HANDLERS', 'handlers', strval($route->status->value));
+                if (!is_null($customErrorHandlerClass) && class_exists($customErrorHandlerClass)) {
+                    $errorHandlerClass = $customErrorHandlerClass;
+                } elseif (!is_null($this->errorHandlerClass) && class_exists($this->errorHandlerClass)) {
+                    $errorHandlerClass = $this->errorHandlerClass;
                 }
                 /** @var ControllerInterface $controller */
-                $controller = new $this->errorHandlerClass($this->_config);
+                $controller = new $errorHandlerClass($this->_config);
                 $controller->init([$route->status]);
                 $controller->index([$route->status]);
                 return;

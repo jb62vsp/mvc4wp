@@ -148,6 +148,7 @@ class DefaultConfiguratorTest extends TestCase
                     'buz' => 'BUZ',
                 ]
             ],
+            'bar' => 'Bar',
         ], $actual);
     }
 
@@ -162,6 +163,7 @@ class DefaultConfiguratorTest extends TestCase
             'hoge' => [
                 'fuga' => [
                     'piyo' => 'PIYO',
+                    'buz' => 'Buz',
                 ],
             ],
             'foo' => [

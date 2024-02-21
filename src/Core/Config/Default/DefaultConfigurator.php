@@ -63,9 +63,7 @@ class DefaultConfigurator implements ConfiguratorInterface
         $cur = count($keys) - $index;
         $key = $keys[$cur];
         if ($index === 1) {
-            if (array_key_exists($key, $arr)) {
-                $arr[$key] = $value;
-            }
+            $arr[$key] = $value;
             return $arr;
         } else {
             $arr[$key] = $this->recursiveSet($arr[$keys[$cur]], $keys, $index - 1, $value);
