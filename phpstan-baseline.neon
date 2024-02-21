@@ -11,16 +11,6 @@ parameters:
 			path: src/App/Controller/HomeController.php
 
 		-
-			message: "#^Function get_option not found\\.$#"
-			count: 4
-			path: src/Core/Helper/DateTimeHelper.php
-
-		-
-			message: "#^Function wp_date not found\\.$#"
-			count: 1
-			path: src/Core/Helper/DateTimeHelper.php
-
-		-
 			message: "#^Function esc_attr not found\\.$#"
 			count: 2
 			path: src/Core/Helper/ViewHelper.php
@@ -31,7 +21,7 @@ parameters:
 			path: src/Core/Helper/ViewHelper.php
 
 		-
-			message: "#^Static method Mvc4Wp\\\\Core\\\\Helper\\\\DateTimeHelper\\:\\:strval\\(\\) invoked with 1 parameter, 2 required\\.$#"
+			message: "#^Static method Mvc4Wp\\\\Core\\\\Service\\\\DateTimeService\\:\\:strval\\(\\) invoked with 1 parameter, 2 required\\.$#"
 			count: 1
 			path: src/Core/Helper/ViewHelper.php
 
@@ -106,16 +96,6 @@ parameters:
 			path: src/Core/Library/WordPressCustomize.php
 
 		-
-			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Model has an uninitialized readonly property \\$ID\\. Assign it in the constructor\\.$#"
-			count: 1
-			path: src/Core/Model/Model.php
-
-		-
-			message: "#^Static method Mvc4Wp\\\\Core\\\\Helper\\\\DateTimeHelper\\:\\:strval\\(\\) invoked with 1 parameter, 2 required\\.$#"
-			count: 1
-			path: src/Core/Model/Model.php
-
-		-
 			message: "#^Function update_post_meta not found\\.$#"
 			count: 2
 			path: src/Core/Model/PostModel.php
@@ -166,11 +146,6 @@ parameters:
 			path: src/Core/Model/Repository/PostQuery.php
 
 		-
-			message: "#^Method Mvc4Wp\\\\Core\\\\Model\\\\Repository\\\\PostQuery\\:\\:build\\(\\) has invalid return type WP_Query\\.$#"
-			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
-
-		-
 			message: "#^Function get_current_user_id not found\\.$#"
 			count: 1
 			path: src/Core/Model/Repository/UserQuery.php
@@ -187,11 +162,6 @@ parameters:
 
 		-
 			message: "#^Instantiated class WP_User_Query not found\\.$#"
-			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
-
-		-
-			message: "#^Method Mvc4Wp\\\\Core\\\\Model\\\\Repository\\\\UserQuery\\:\\:build\\(\\) has invalid return type WP_User_Query\\.$#"
 			count: 1
 			path: src/Core/Model/Repository/UserQuery.php
 
@@ -221,6 +191,6 @@ parameters:
 			path: src/Core/Model/UserModel.php
 
 		-
-			message: "#^Abstract class Mvc4Wp\\\\Core\\\\Model\\\\Validator\\\\Rule cannot be an Attribute class\\.$#"
-			count: 1
-			path: src/Core/Model/Validator/Rule.php
+			message: "#^Function get_option not found\\.$#"
+			count: 4
+			path: src/Core/Service/DateTimeService.php
