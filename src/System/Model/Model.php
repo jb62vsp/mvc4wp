@@ -9,6 +9,7 @@ use Mvc4Wp\System\Model\Repository\RepositoryInterface;
  * @template TModel of Model
  * @implements RepositoryInterface<TModel, QueryInterface<TModel>>
  */
+#[Entity]
 abstract class Model implements BindInterface, RepositoryInterface
 {
     use Cast, BindTrait;
@@ -21,10 +22,14 @@ abstract class Model implements BindInterface, RepositoryInterface
         return isset($this->ID);
     }
 
-    private function setID(int $id): void
+    private function setValue(string $property, mixed $value): void
     {
-        if (!$this->isLoaded()) {
-            $this->ID = $id;
+        if ($property === 'ID') {
+            if (!$this->isLoaded()) {
+                $this->{$property} = $value;
+            }
+        } else {
+            $this->{$property} = $value;
         }
     }
 }

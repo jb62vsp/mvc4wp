@@ -1,4 +1,4 @@
-NAME = wp_mvc
+NAME = mvc4wp
 DB = $(NAME)_db
 NW = $(NAME)_internal
 

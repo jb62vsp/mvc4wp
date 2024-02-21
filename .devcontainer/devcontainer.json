@@ -1,10 +1,10 @@
 {
-  "name": "Wordpress MVC theme container",
+  "name": "MVC for Wordpress them container",
   "dockerComposeFile": [
     "docker-compose.yml"
   ],
   "service": "wordpress",
-  "workspaceFolder": "/var/www/html/wordpress/wp-content/themes/wp_mvc/",
+  "workspaceFolder": "/var/www/html/wordpress/wp-content/themes/mvc4wp/",
   "forwardPorts": [
     9003
   ],
@@ -26,7 +26,8 @@
         "xdebug.php-debug",
         "xdebug.php-pack",
         "SanderRonde.phpstan-vscode",
-        "ryanluker.vscode-coverage-gutters"
+        "ryanluker.vscode-coverage-gutters",
+        "mhutchie.git-graph"
       ]
     }
   }

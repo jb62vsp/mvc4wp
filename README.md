@@ -1,4 +1,4 @@
-What is WP-MVC
+What is MVC4WP
 ===============
 
 Model-View-Controller framework for WordPress theme
@@ -21,7 +21,8 @@ Model-View-Controller framework for WordPress theme
 2. change directory name.
     ```
     $ cd wordpress/wp-content/themes/
-    $ mv wp_mvc PROJECT_NAME
+    $ mv mvc4wp PROJECT_NAME
+    ```
 3. setting project
     ```
     $ cd PROJECT_NAME
@@ -31,7 +32,7 @@ Model-View-Controller framework for WordPress theme
     * open WP Admin.
         - `https://HOSTNAME/wp-admin/`
     * open Appearance.
-    * Activate WP-MVC
+    * Activate MVC4WP
 5. edit style.css(RECOMMENDED)
     * edit Theme Name, Author, Description, and all that.
 

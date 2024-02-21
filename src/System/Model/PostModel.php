@@ -39,7 +39,7 @@ class PostModel extends PostEntity
         $this->bind(['ID' => $id], false);
         $properties = CustomField::getAttributedProperties(get_class($this));
         foreach ($properties as $property) {
-            $untypedValue = self::reverseProperty($this, $property);
+            $untypedValue = static::reverseProperty($this, $property);
             $property = $property->getName();
             update_post_meta($this->ID, $property, $untypedValue);
         }
@@ -51,7 +51,7 @@ class PostModel extends PostEntity
         wp_update_post($this);
         $properties = CustomField::getAttributedProperties(get_class($this));
         foreach ($properties as $property) {
-            $untypedValue = self::reverseProperty($this, $property);
+            $untypedValue = static::reverseProperty($this, $property);
             $property = $property->getName();
             update_post_meta($this->ID, $property, $untypedValue);
         }
