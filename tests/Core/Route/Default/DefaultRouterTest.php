@@ -225,7 +225,7 @@ class ConfigMock implements ConfiguratorInterface
         return 'Mock\OK';
     }
 
-    public function set(string $key, string|array $value, string ...$keys): void
+    public function set(string $key, array $keys, string|array $value): void
     {
         return;
     }
