@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Helper\DateTimeHelper;
 use Mvc4Wp\Core\Model\Validator\Rule;
 use Mvc4Wp\Core\Model\Validator\ValidationError;
 
-trait BindTrait
+trait Bindable
 {
     private bool $is_binded = false;
 

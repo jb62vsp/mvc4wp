@@ -10,9 +10,9 @@ use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
  * @implements RepositoryInterface<TModel, QueryInterface<TModel>>
  */
 #[Entity]
-abstract class Model implements BindInterface, RepositoryInterface
+abstract class Model implements RepositoryInterface
 {
-    use Castable, BindTrait;
+    use Bindable, Castable;
 
     #[Field]
     public readonly int $ID;
