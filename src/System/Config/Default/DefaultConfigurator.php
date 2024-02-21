@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Config\Default;
 
 use Exception;
 use Mvc4Wp\System\Config\AbstractConfigurator;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Library\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
 
 class DefaultConfigurator extends AbstractConfigurator

@@ -2,8 +2,8 @@
 namespace Mvc4Wp\System\Controller;
 
 use Mvc4Wp\System\Config\ConfiguratorInterface;
-use Mvc4Wp\System\Core\Cast;
-use Mvc4Wp\System\Core\HttpStatus;
+use Mvc4Wp\System\Library\Cast;
+use Mvc4Wp\System\Library\HttpStatus;
 
 class HttpErrorController extends Controller
 {

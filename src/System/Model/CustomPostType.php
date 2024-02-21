@@ -2,7 +2,7 @@
 namespace Mvc4Wp\System\Model;
 
 use Attribute;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Library\Cast;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class CustomPostType extends PostType

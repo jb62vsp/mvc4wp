@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Model;
 
 use Attribute;
 use Error;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Library\Cast;
 use Mvc4Wp\System\Exception\ApplicationException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;

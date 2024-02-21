@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Config\Default;
 
 use Mvc4Wp\System\Config\AbstractConfiguratorFactory;
 use Mvc4Wp\System\Config\ConfiguratorInterface;
-use Mvc4Wp\System\Core\Cast;
+use Mvc4Wp\System\Library\Cast;
 
 class DefaultConfiguratorFactory extends AbstractConfiguratorFactory
 {

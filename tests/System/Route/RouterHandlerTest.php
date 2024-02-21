@@ -3,7 +3,7 @@ namespace Mvc4Wp\System\Route\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Mvc4Wp\System\Core\HttpStatus;
+use Mvc4Wp\System\Library\HttpStatus;
 use Mvc4Wp\System\Exception\ApplicationException;
 use Mvc4Wp\System\Route\RouteHandler;
 
