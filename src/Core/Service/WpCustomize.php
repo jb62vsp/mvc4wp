@@ -208,7 +208,7 @@ final class WpCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, DateTimeHelper::DATE_FORMAT);
+            $formed_value = DateTimeHelper::strval($value, 'Y-m-d');
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='date' id='{$id}' name='{$name}' value='{$formed_value}' min='1900-01-01' max='9999-12-31'>";
@@ -220,7 +220,7 @@ final class WpCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, DateTimeHelper::TIME_FORMAT);
+            $formed_value = DateTimeHelper::strval($value, 'H:i:s');
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='time' id='{$id}' name='{$name}' value='{$formed_value}' step='1'>";
@@ -232,7 +232,7 @@ final class WpCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeHelper::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeHelper::strval($value, DateTimeHelper::DATETIME_FORMAT);
+            $formed_value = DateTimeHelper::strval($value, 'Y-m-d H:i:s');
             $values = explode(' ', $formed_value);
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
@@ -240,8 +240,7 @@ final class WpCustomize
             echo "<input type='time' id='{$id}_time' name='{$name}_time' value='{$values[1]}' step='1'>";
             echo "<input type='hidden' id='{$id}' name='{$name}' value'{$formed_value}'>";
             ?>
-            <script>     { const id = '<?php echo $id; ?>'; const date_id = id + '_date'; const time_id = id + '_time'; const input = document.querySelector('#' + id); const input_date = document.querySelector('#' + date_id); const input_time = document.querySelector('#' + time_id); const onchange = (ev) => { input.value = input_date.value + ' ' + input_time.value; }; input_date.addEventListener('change', onchange); input_time.addEventListener('change', onchange); }
-            </script>
+            <script>{ const id = '<?php echo $id; ?>'; const date_id = id + '_date'; const time_id = id + '_time'; const input = document.querySelector('#' + id); const input_date = document.querySelector('#' + date_id); const input_time = document.querySelector('#' + time_id); const onchange = (ev) => { input.value = input_date.value + ' ' + input_time.value; }; input_date.addEventListener('change', onchange); input_time.addEventListener('change', onchange); }</script>
             <?php
             echo "</div>";
         };

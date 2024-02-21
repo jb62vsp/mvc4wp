@@ -2,14 +2,30 @@
 namespace Mvc4Wp\Core\Helper;
 
 use DateTime;
+use DateTimeZone;
+use Mvc4Wp\Core\Library\Clock;
 
 final class DateTimeHelper
 {
-    public const DATE_FORMAT = 'Y-m-d';
+    public static function getTimeZone(): DateTimeZone
+    {
+        return get_option('timezone_string');
+    }
 
-    public const TIME_FORMAT = 'H:i:s';
+    public static function getDateFormat(): string
+    {
+        return get_option('date_format');
+    }
 
-    public const DATETIME_FORMAT = self::DATE_FORMAT . ' ' . self::TIME_FORMAT;
+    public static function getTimeFormat(): string
+    {
+        return get_option('time_format');
+    }
+
+    public static function getDateTimeFormat(): string
+    {
+        return get_option('links_updated_date_format');
+    }
 
     public static function now(string $format): string
     {
@@ -18,17 +34,17 @@ final class DateTimeHelper
 
     public static function datetime(): string
     {
-        return self::now(self::DATETIME_FORMAT);
+        return self::now(self::getDateTimeFormat());
     }
 
     public static function date(): string
     {
-        return self::now(self::DATE_FORMAT);
+        return self::now(self::getDateFormat());
     }
 
     public static function time(): string
     {
-        return self::now(self::TIME_FORMAT);
+        return self::now(self::getTimeFormat());
     }
 
     public static function datetimeval(DateTime|string $value): DateTime
@@ -36,7 +52,7 @@ final class DateTimeHelper
         return ($value instanceof DateTime) ? $value : new DateTime($value);
     }
 
-    public static function strval(DateTime|null $value, string $format = self::DATETIME_FORMAT): string
+    public static function strval(DateTime|null $value, string $format): string
     {
         if (is_null($value)) {
             return '';
