@@ -34,7 +34,7 @@ class DefaultApplication extends AbstractApplication
             'loggers' => [
                 'app' => [
                     'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
-                    'directory' => __WPMVC_ROOT__ . '/log/',
+                    'directory' => __MVC4WP_ROOT__ . '/log/',
                     'basefilename' => 'app',
                     'file_date_format' => 'Ymd',
                     'datetime_format' => 'Y-m-d H:i:s',
@@ -43,7 +43,7 @@ class DefaultApplication extends AbstractApplication
                 ],
                 'system' => [
                     'logger_factory' => '\Mvc4Wp\System\Logger\FileLoggerFactory',
-                    'directory' => __WPMVC_ROOT__ . '/log/',
+                    'directory' => __MVC4WP_ROOT__ . '/log/',
                     'basefilename' => 'sys',
                     'file_date_format' => 'Ymd',
                     'datetime_format' => 'Y-m-d H:i:s',
@@ -53,9 +53,9 @@ class DefaultApplication extends AbstractApplication
             ],
         ]);
         $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controller');
-        $this->config()->add('VIEW_DIRECTORY', __WPMVC_ROOT__ . '/src/App/View/');
+        $this->config()->add('VIEW_DIRECTORY', __MVC4WP_ROOT__ . '/src/App/View/');
 
-        include_once(__WPMVC_ROOT__ . '/src/System/Core/Common.php');
+        include_once(__MVC4WP_ROOT__ . '/src/System/Core/Common.php');
     }
 
     public function config(): ConfiguratorInterface
