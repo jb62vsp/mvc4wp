@@ -4,9 +4,9 @@ use Mvc4Wp\System\Helper\DateTimeHelper;
 use Mvc4Wp\System\Service\App;
 
 if (!function_exists('view')) {
-    function view(string $view_name, array $data = [], string $application_name = ''): void
+    function view(string $view_name, array $data = []): void
     {
-        App::get($application_name)->controller()->view($view_name, $data);
+        App::get()->controller()->view($view_name, $data);
     }
 }
 

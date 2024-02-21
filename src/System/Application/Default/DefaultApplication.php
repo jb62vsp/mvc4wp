@@ -29,6 +29,10 @@ class DefaultApplication extends AbstractApplication
          * -------- DEFAULT CONFIGURATIONS --------
          */
         $this->config()->add('DEBUG', 'false'); // TODO:
+        $this->config()->add('SYSTEM_ROOT', __MVC4WP_ROOT__ . '/src/System');
+        $this->config()->add('APP_ROOT', __MVC4WP_ROOT__ . '/src/App');
+        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controller');
+        $this->config()->add('VIEW_DIRECTORY', __MVC4WP_ROOT__ . '/src/App/View');
         $this->config()->add('LOGGER', [
             'default_logger_name' => 'app',
             'loggers' => [
@@ -52,10 +56,6 @@ class DefaultApplication extends AbstractApplication
                 ],
             ],
         ]);
-        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controller');
-        $this->config()->add('VIEW_DIRECTORY', __MVC4WP_ROOT__ . '/src/App/View/');
-
-        include_once(__MVC4WP_ROOT__ . '/src/System/Core/Common.php');
     }
 
     public function config(): ConfiguratorInterface
