@@ -50,7 +50,7 @@ final class WordPressCustomize
         $property_names = CustomField::getAttributedPropertyNames($class_name);
         foreach ($property_names as $property_name) {
             $attr = CustomField::getPropertyAttribute($class_name, $property_name);
-            $field_slug = $attr->name;
+            $field_slug = $property_name;
             $title = $attr->title;
             $type = $attr->type;
             $slug = $post_slug . '_' . $field_slug;

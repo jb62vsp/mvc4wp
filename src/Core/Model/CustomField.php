@@ -5,7 +5,7 @@ use Attribute;
 use Mvc4Wp\Core\Library\Castable;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class CustomField
+class CustomField extends Field
 {
     use Castable, AttributeTrait;
 
@@ -30,16 +30,9 @@ class CustomField
     public const DATETIME = 'DATETIME';
 
     public function __construct(
-        public string $name,
         public string $title,
         public string $type = self::TEXT,
     ) {
-    }
-
-    public static function getName(string $class_name, string $property_name): string
-    {
-        $attr = static::getPropertyAttribute($class_name, $property_name);
-        return $attr->name;
     }
 
     public static function getTitle(string $class_name, string $property_name): string
