@@ -12,19 +12,19 @@ abstract class UserEntity extends Model
 {
     use Castable;
 
-    #[Bindable]
+    #[Field]
     public string $user_login;
 
-    #[Bindable]
+    #[Field]
     public string $user_email;
 
-    #[Bindable]
+    #[Field]
     public string $display_name;
 
-    #[Bindable]
+    #[Field]
     public string $last_name;
 
-    #[Bindable]
+    #[Field]
     public string $first_name;
 
     // public array $roles;

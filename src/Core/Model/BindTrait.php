@@ -24,7 +24,7 @@ trait BindTrait
     {
         $result = [];
 
-        $props = Bindable::getAttributedProperties(static::class);
+        $props = Field::getAttributedProperties(static::class);
         foreach ($props as $prop) {
             $errors = static::bindProperties($this, $prop, $data, $validation);
             $result = array_merge($result, $errors);
@@ -73,11 +73,11 @@ trait BindTrait
         return '';
     }
 
-    protected static function toArrayOnlyBindable(Model $obj): array
+    protected static function toArrayOnlyField(Model $obj): array
     {
         $result = [];
 
-        $properties = Bindable::getAttributedProperties(get_class($obj));
+        $properties = Field::getAttributedProperties(get_class($obj));
         foreach ($properties as $property) {
             $untypedValue = static::reverseProperty($obj, $property);
             $property = $property->getName();

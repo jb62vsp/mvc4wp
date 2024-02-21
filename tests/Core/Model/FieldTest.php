@@ -4,24 +4,24 @@ namespace Mvc4Wp\Core\Model;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Bindable::class)]
-class BindableTest extends TestCase
+#[CoversClass(Field::class)]
+class FieldTest extends TestCase
 {
     public function test_construct01(): void
     {
-        $obj = new Bindable();
+        $obj = new Field();
         $this->assertNotNull($obj);
     }
 
-    public function test_getBindableFields01(): void
+    public function test_getFieldFields01(): void
     {
-        $fields = Bindable::getAttributedProperties(BindableTestMockA::class);
+        $fields = Field::getAttributedProperties(FieldTestMockA::class);
         $this->assertCount(3, $fields);
     }
 
-    public function test_getBindableFieldNames01(): void
+    public function test_getFieldFieldNames01(): void
     {
-        $names = Bindable::getAttributedPropertyNames(BindableTestMockA::class);
+        $names = Field::getAttributedPropertyNames(FieldTestMockA::class);
         $this->assertCount(3, $names);
         $this->assertEquals('field_a', $names[0]);
     }
@@ -29,26 +29,26 @@ class BindableTest extends TestCase
     // TODO: MockB
 }
 
-class BindableTestMockA
+class FieldTestMockA
 {
-    #[Bindable]
+    #[Field]
     public string $field_a;
 
     public string $field_b;
 
-    #[Bindable]
+    #[Field]
     private string $field_c;
 
-    #[Bindable]
+    #[Field]
     protected string $field_d;
 }
 
-class BindableTestMockB
+class FieldTestMockB
 {
-    #[Bindable]
-    #[Bindable]
+    #[Field]
+    #[Field]
     public string $field_a;
 
-    #[Bindable(hoge: 'hoge', fuga: 'fuga')]
+    #[Field(hoge: 'hoge', fuga: 'fuga')]
     public string $field_b;
 }

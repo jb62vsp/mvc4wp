@@ -8,7 +8,7 @@ use stdClass;
 use Mvc4Wp\Core\Model\Validator\Rule;
 
 #[CoversClass(Model::class)]
-#[CoversClass(Bindable::class)]
+#[CoversClass(Field::class)]
 #[CoversClass(Rule::class)]
 class BindTraitTest extends TestCase
 {
@@ -54,10 +54,10 @@ class BindTraitTest extends TestCase
 
 class ModelTestMockA extends Model
 {
-    #[Bindable]
+    #[Field]
     public string $field_a = 'abc';
 
-    #[Bindable]
+    #[Field]
     public int $field_b = 0;
 
     public float $field_c;

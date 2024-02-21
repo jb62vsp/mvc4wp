@@ -14,7 +14,7 @@ abstract class Model implements BindInterface, RepositoryInterface
 {
     use Castable, BindTrait;
 
-    #[Bindable]
+    #[Field]
     public readonly int $ID;
 
     public function isLoaded(): bool

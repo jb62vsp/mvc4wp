@@ -26,7 +26,7 @@ class UserModel extends UserEntity
 
     public function register(): int
     {
-        $data = static::toArrayOnlyBindable($this);
+        $data = static::toArrayOnlyField($this);
         // wp_insert_user( array|object|WP_User $userdata ): int|WP_Error
         $id = wp_insert_user($data);
         $user = get_user_by('id', $id);
@@ -37,7 +37,7 @@ class UserModel extends UserEntity
 
     public function update(): void
     {
-        $data = static::toArrayOnlyBindable($this);
+        $data = static::toArrayOnlyField($this);
         // wp_update_user( array|object|WP_User $userdata ): int|WP_Error
         wp_update_user($data);
         foreach ($data as $k => $v) {

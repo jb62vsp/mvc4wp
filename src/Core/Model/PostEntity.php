@@ -13,24 +13,24 @@ abstract class PostEntity extends Model
 {
     use Castable;
 
-    #[Bindable]
+    #[Field]
     public int $post_author;
 
-    #[Bindable]
+    #[Field]
     public string $post_date;
 
-    #[Bindable]
+    #[Field]
     public string $post_name;
 
-    #[Bindable]
+    #[Field]
     public string $post_status;
 
-    #[Bindable]
+    #[Field]
     public string $post_title;
 
-    #[Bindable]
+    #[Field]
     public string $post_type;
 
-    #[Bindable]
+    #[Field]
     public string $post_content;
 }

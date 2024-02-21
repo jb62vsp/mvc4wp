@@ -117,6 +117,6 @@ class CustomFieldTestMockC
 
 class CustomFieldTestMockD
 {
-    #[Bindable]
+    #[Field]
     public string $field_a;
 }
