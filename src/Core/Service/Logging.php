@@ -8,35 +8,13 @@ use Mvc4Wp\Core\Logger\NullLoggerFactory;
 
 final class Logging
 {
+    private const LOGGER_CATEGORY_NAME = 'LOGGER';
+
     private const DEFAULT_LOGGER_NAME_KEY = 'default_logger_name';
 
     private const LOGGERS_KEY = 'loggers';
 
     private const LOGGER_FACTORY_KEY = 'logger_factory';
-
-    private const DEFAULT_CONFIG = [
-        'default_logger_name' => 'app',
-        'loggers' => [
-            'app' => [
-                'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
-                'directory' => __MVC4WP_ROOT__ . '/log/',
-                'basefilename' => 'app',
-                'file_date_format' => 'Ymd',
-                'datetime_format' => 'Y-m-d H:i:s',
-                'timezone' => 'Asia/Tokyo',
-                'log_level' => 'notice',
-            ],
-            'core' => [
-                'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
-                'directory' => __MVC4WP_ROOT__ . '/log/',
-                'basefilename' => 'sys',
-                'file_date_format' => 'Ymd',
-                'datetime_format' => 'Y-m-d H:i:s',
-                'timezone' => 'Asia/Tokyo',
-                'log_level' => 'notice',
-            ],
-        ],
-    ];
 
     private static LoggerInterface $null;
 
@@ -46,7 +24,7 @@ final class Logging
 
     public static function configure(ConfiguratorInterface $config): void
     {
-        $logconf = $config->get('LOGGER');
+        $logconf = $config->get(self::LOGGER_CATEGORY_NAME);
         if (array_key_exists(self::DEFAULT_LOGGER_NAME_KEY, $logconf)) {
             self::$default_logger_name = $logconf[self::DEFAULT_LOGGER_NAME_KEY];
         }
@@ -82,7 +60,6 @@ final class Logging
     private static function getNullLogger(): LoggerInterface
     {
         if (!isset(self::$null) || is_null(self::$null)) {
-            /** @var LoggerFactoryInterface */
             $factory = new NullLoggerFactory();
             self::$null = $factory->create();
         }

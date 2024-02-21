@@ -1,76 +1,57 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Application\Default;
 
-use Mvc4Wp\Core\Application\AbstractApplication;
+use Mvc4Wp\Core\Application\ApplicationInterface;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
-use Mvc4Wp\Core\Controller\HttpErrorController;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
+use Mvc4Wp\Core\Library\ClockInterface;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
 use Mvc4Wp\Core\Service\Logging;
 
-class DefaultApplication extends AbstractApplication
+class DefaultApplication implements ApplicationInterface
 {
     use Castable;
 
-    private ControllerInterface $controller;
+    protected RouterInterface $_router;
+
+    protected ClockInterface $_clock;
+
+    protected ControllerInterface $_controller;
+
+    protected string $errorHandlerClass;
 
     public function __construct(
-        protected ConfiguratorInterface $config,
-        protected RouterInterface $router,
+        protected readonly ConfiguratorInterface $_config,
     ) {
-        $this->config = $config;
-        $this->router = $router;
+        $routerFactory = new($this->_config->get('FACTORY', 'router'))();
+        $this->_router = $routerFactory->create();
 
-        /*
-         * -------- DEFAULT CONFIGURATIONS --------
-         */
-        $this->config()->add('DEBUG', 'false'); // TODO:
-        $this->config()->add('CORE_ROOT', __MVC4WP_ROOT__ . '/src/Core');
-        $this->config()->add('APP_ROOT', __MVC4WP_ROOT__ . '/src/App');
-        $this->config()->add('CONTROLLER_NAMESPACE', 'App\Controller');
-        $this->config()->add('VIEW_DIRECTORY', __MVC4WP_ROOT__ . '/src/App/View');
-        $this->config()->add('LOGGER', [
-            'default_logger_name' => 'app',
-            'loggers' => [
-                'app' => [
-                    'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
-                    'directory' => __MVC4WP_ROOT__ . '/log/',
-                    'basefilename' => 'app',
-                    'file_date_format' => 'Ymd',
-                    'datetime_format' => 'Y-m-d H:i:s',
-                    'timezone' => 'Asia/Tokyo',
-                    'log_level' => 'notice',
-                ],
-                'core' => [
-                    'logger_factory' => '\Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory',
-                    'directory' => __MVC4WP_ROOT__ . '/log/',
-                    'basefilename' => 'core',
-                    'file_date_format' => 'Ymd',
-                    'datetime_format' => 'Y-m-d H:i:s',
-                    'timezone' => 'Asia/Tokyo',
-                    'log_level' => 'notice',
-                ],
-            ],
-        ]);
+        $defaultHandler = $this->_config->get('ERROR_HANDLERS', 'default_handler_name');
+        $this->errorHandlerClass = $this->_config->get('ERROR_HANDLERS', 'handlers', $defaultHandler);
     }
 
     public function config(): ConfiguratorInterface
     {
-        return $this->config;
+        return $this->_config;
     }
 
     public function router(): RouterInterface
     {
-        return $this->router;
+        return $this->_router;
+    }
+
+    public function clock(): ClockInterface
+    {
+        return $this->_clock;
     }
 
     public function controller(): ControllerInterface
     {
-        return $this->controller;
+        return $this->_controller;
     }
 
     public function run(): void
@@ -84,22 +65,28 @@ class DefaultApplication extends AbstractApplication
             }
 
             /** @var RouteHandler $route */
-            $route = $this->router->dispatch($this->config, $request_method, $_SERVER['REQUEST_URI']);
+            $route = $this->_router->dispatch($this->_config, $request_method, $_SERVER['REQUEST_URI']);
 
             if ($route->status !== HttpStatus::OK) {
-                $controller = new HttpErrorController($this->config, $route->status); // TODO: error controller define config
-                $controller->index();
+                $cls = $this->_config->get('ERROR_HANDLERS', 'handlers', strval($route->status->value));
+                if (!is_null($cls)) {
+                    $this->errorHandlerClass = $cls;
+                }
+                /** @var ControllerInterface $controller */
+                $controller = new $this->errorHandlerClass($this->_config);
+                $controller->init([$route->status]);
+                $controller->index([$route->status]);
                 return;
             }
-
             if (!class_exists($route->class)) {
-                throw new ApplicationException();
+                throw new ApplicationException(); // TODO:
             }
 
+            /** @var ControllerInterface $controller */
             $controller = new $route->class($this->config());
-            $this->controller = $controller;
+            $this->_controller = $controller;
             if (!method_exists($controller, $route->method)) {
-                throw new ApplicationException();
+                throw new ApplicationException(); // TODO:
             }
 
             if (method_exists($controller, 'init')) {
@@ -111,7 +98,9 @@ class DefaultApplication extends AbstractApplication
             $controller->{$route->method}($route->args);
         } catch (ApplicationException $ex) {
             Logging::get('core')->error($ex->getMessage(), [$ex]);
-            $controller = new HttpErrorController($this->config, HttpStatus::INTERNAL_SERVER_ERROR); // TODO: error controller define config
+            /** @var ControllerInterface $controller */
+            $controller = new $this->errorHandlerClass($this->_config, HttpStatus::INTERNAL_SERVER_ERROR);
+            $controller->init();
             $controller->index();
             return;
         }
