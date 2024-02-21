@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\QueryInterface;
 use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 
@@ -12,7 +12,7 @@ use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 #[Entity]
 abstract class Model implements BindInterface, RepositoryInterface
 {
-    use Cast, BindTrait;
+    use Castable, BindTrait;
 
     #[Bindable]
     public readonly int $ID;

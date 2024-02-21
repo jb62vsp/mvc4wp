@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Route;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 
 abstract class AbstractRouter implements RouterInterface
 {
-    use Cast, RouterTrait;
+    use Castable, RouterTrait;
 }

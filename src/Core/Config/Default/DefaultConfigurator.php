@@ -3,12 +3,12 @@ namespace Mvc4Wp\Core\Config\Default;
 
 use Exception;
 use Mvc4Wp\Core\Config\AbstractConfigurator;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Exception\ApplicationException;
 
 class DefaultConfigurator extends AbstractConfigurator
 {
-    use Cast;
+    use Castable;
 
     private array $configs = [];
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\UserModel;
 
@@ -11,7 +11,7 @@ use Mvc4Wp\Core\Model\UserModel;
  */
 class UserQuery extends AbstractQuery
 {
-    use Cast;
+    use Castable;
 
     protected array $queries = [];
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\Wp;
 use Mvc4Wp\Core\Model\Repository\PostQuery;
 use Mvc4Wp\Core\Model\Repository\QueryInterface;
@@ -13,7 +13,7 @@ use Mvc4Wp\Core\Model\Repository\QueryInterface;
 #[PostType(name: 'post')]
 class PostModel extends PostEntity
 {
-    use Cast;
+    use Castable;
 
     public function __construct()
     {

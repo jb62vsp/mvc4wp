@@ -2,12 +2,12 @@
 namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Service\Logging;
 
 abstract class Controller implements ControllerInterface, RenderInterface, ResponderInterface
 {
-    use Cast;
+    use Castable;
 
     public function __construct(
         protected ConfiguratorInterface $config

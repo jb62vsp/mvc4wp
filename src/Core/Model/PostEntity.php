@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\PostType;
 
 /**
@@ -11,7 +11,7 @@ use Mvc4Wp\Core\Model\PostType;
 #[Entity]
 abstract class PostEntity extends Model
 {
-    use Cast;
+    use Castable;
 
     #[Bindable]
     public int $post_author;

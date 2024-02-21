@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model;
 
 use Attribute;
 use Error;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -127,7 +127,7 @@ class AttributeTraitTest extends TestCase
 #[Attribute(Attribute::TARGET_CLASS)]
 class TestClassAttribute
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     public function __construct(
         public string $field_a,
@@ -139,7 +139,7 @@ class TestClassAttribute
 #[Attribute(Attribute::TARGET_CLASS)]
 class TestExtendedClassAttribute extends TestClassAttribute
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     public function __construct(
         string $field_a,
@@ -153,7 +153,7 @@ class TestExtendedClassAttribute extends TestClassAttribute
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestPropertyAttribute
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     public function __construct(
         public string $field_a,
@@ -165,13 +165,13 @@ class TestPropertyAttribute
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestPropertyAttributeOther
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class TestExtendedPropertyAttribute extends TestPropertyAttribute
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     public function __construct(
         string $field_a,
@@ -185,7 +185,7 @@ class TestExtendedPropertyAttribute extends TestPropertyAttribute
 #[TestClassAttribute('a', 'b')]
 class TestMockAttributeTraitA
 {
-    use Cast;
+    use Castable;
     
     #[TestPropertyAttribute('A')]
     public string $test_a;
@@ -197,7 +197,7 @@ class TestMockAttributeTraitA
 #[TestClassAttribute(field_b: 'bb', field_a: 'aa')]
 class TestMockAttributeTraitB
 {
-    use Cast;
+    use Castable;
     
     public string $test_a;
 
@@ -208,7 +208,7 @@ class TestMockAttributeTraitB
 
 class TestMockAttributeTraitC
 {
-    use Cast;
+    use Castable;
 }
 
 #[TestClassAttribute('')]
@@ -221,7 +221,7 @@ class TestMockAttributeTraitD
 #[TestExtendedClassAttribute('a', 'b')]
 class TestMockAttributeTraitE
 {
-    use Cast;
+    use Castable;
     
     #[TestPropertyAttribute('a', 'b')]
     #[TestPropertyAttributeOther]

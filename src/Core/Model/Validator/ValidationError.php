@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Validator;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 
 class ValidationError
 {
-    use Cast;
+    use Castable;
 
     public function __construct(
         public string $class_name,

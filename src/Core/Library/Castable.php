@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Library;
 
 use InvalidArgumentException;
 
-trait Cast
+trait Castable
 {
     /**
      * all situation.

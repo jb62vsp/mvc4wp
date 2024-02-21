@@ -2,10 +2,10 @@
 namespace Mvc4Wp\Core\Model;
 
 use Attribute;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class Entity
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 }

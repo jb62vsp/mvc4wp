@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DefaultClock::class)]
-final class ClockTest extends TestCase
+final class DefaultClockTest extends TestCase
 {
     public function test_get_now(): void
     {

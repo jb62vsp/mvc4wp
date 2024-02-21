@@ -2,12 +2,12 @@
 namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 
 class HttpErrorController extends Controller
 {
-    use Cast, HttpResponder, PlainPhpRenderTrait;
+    use Castable, HttpResponder, PlainPhpRenderTrait;
 
     public function __construct(
         public ConfiguratorInterface $config,

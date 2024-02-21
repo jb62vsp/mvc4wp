@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Route;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
 
 final class RouteHandler
 {
-    use Cast;
+    use Castable;
 
     private const DELIMITER = '::';
 

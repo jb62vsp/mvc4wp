@@ -2,13 +2,13 @@
 namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class NumericRule extends Rule
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     public function __construct(
         public string $message = '',

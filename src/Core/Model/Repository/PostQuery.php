@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\PostType;
 use Mvc4Wp\Core\Model\Repository\AbstractQuery;
@@ -12,7 +12,7 @@ use Mvc4Wp\Core\Model\Repository\AbstractQuery;
  */
 class PostQuery extends AbstractQuery
 {
-    use Cast;
+    use Castable;
 
     private const ORDER_COLUMNS = [
         'none' => 'none',

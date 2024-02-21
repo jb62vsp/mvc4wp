@@ -4,7 +4,7 @@ namespace Mvc4Wp\Core\Route\Default;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Route\AbstractRouter;
 use Mvc4Wp\Core\Route\RouteHandler;
@@ -12,7 +12,7 @@ use Mvc4Wp\Core\Route\RouterInterface;
 
 class DefaultRouter extends AbstractRouter
 {
-    use Cast;
+    use Castable;
 
     public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler
     {

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 
 /**
  * @template TModel of UserEntity
@@ -10,7 +10,7 @@ use Mvc4Wp\Core\Library\Cast;
 #[Entity]
 abstract class UserEntity extends Model
 {
-    use Cast;
+    use Castable;
 
     #[Bindable]
     public string $user_login;

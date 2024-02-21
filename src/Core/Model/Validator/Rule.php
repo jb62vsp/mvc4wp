@@ -2,14 +2,14 @@
 namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\AttributeTrait;
 use Mvc4Wp\Core\Model\Model;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 abstract class Rule
 {
-    use Cast, AttributeTrait;
+    use Castable, AttributeTrait;
 
     /**
      * @return array<ValidationError>

@@ -5,7 +5,7 @@ use Mvc4Wp\Core\Application\AbstractApplication;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
 use Mvc4Wp\Core\Controller\HttpErrorController;
-use Mvc4Wp\Core\Library\Cast;
+use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Route\RouteHandler;
@@ -14,7 +14,7 @@ use Mvc4Wp\Core\Service\Logging;
 
 class DefaultApplication extends AbstractApplication
 {
-    use Cast;
+    use Castable;
 
     private ControllerInterface $controller;
 
