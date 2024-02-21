@@ -5,18 +5,6 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 
 interface RouterInterface
 {
-    public const STATUS_DELIMITER = '`';
-
-    public const ROUTE_DELIMITER = '|';
-
-    public const GET = 'GET';
-
-    public const POST = 'POST';
-
-    public const PUT = 'PUT';
-
-    public const DELETE = 'DELETE';
-
     public function get(string $route, string $handler): void;
 
     public function post(string $route, string $handler): void;
