@@ -26,7 +26,8 @@
         "xdebug.php-debug",
         "xdebug.php-pack",
         "SanderRonde.phpstan-vscode",
-        "ryanluker.vscode-coverage-gutters"
+        "ryanluker.vscode-coverage-gutters",
+        "mhutchie.git-graph"
       ]
     }
   }
