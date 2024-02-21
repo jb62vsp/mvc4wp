@@ -103,14 +103,14 @@ class DefaultApplication extends AbstractApplication
             }
 
             if (method_exists($controller, 'init')) {
-                Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::init', $route->args);
+                Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::init', $route->args);
                 $controller->init($route->args);
             }
 
-            Logging::get('system')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::' . $route->method, $route->args);
+            Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::' . $route->method, $route->args);
             $controller->{$route->method}($route->args);
         } catch (ApplicationException $ex) {
-            Logging::get('system')->error($ex->getMessage(), [$ex]);
+            Logging::get('core')->error($ex->getMessage(), [$ex]);
             $controller = new HttpErrorController($this->config, HttpStatus::INTERNAL_SERVER_ERROR); // TODO: error controller define config
             $controller->index();
             return;

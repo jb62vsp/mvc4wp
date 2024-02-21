@@ -16,7 +16,7 @@ abstract class Controller implements ControllerInterface, RenderInterface, Respo
 
     public function view(string $view_name, array $data = []): static
     {
-        Logging::get('system')->debug('load view: ' . $view_name, $data);
+        Logging::get('core')->debug('load view: ' . $view_name, $data);
         return $this->render($this->config, $this->responder(), $view_name, $data);
     }
 

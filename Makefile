@@ -59,8 +59,8 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: vendor/bin/phpunit tests/System #: execute System unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'System'
+test: vendor/bin/phpunit tests/Core #: execute Core unittest
+	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: app_test
 app_test: vendor/bin/phpunit tests/App #: execute App unittest
