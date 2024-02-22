@@ -2,8 +2,8 @@
 namespace Mvc4Wp\Core\Library;
 
 use Mvc4Wp\Core\Service\DateTimeService;
-use Mvc4Wp\Core\Model\CustomField;
-use Mvc4Wp\Core\Model\CustomPostType;
+use Mvc4Wp\Core\Model\Attribute\CustomField;
+use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 
 final class WordPressCustomize
 {

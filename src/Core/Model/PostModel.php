@@ -2,6 +2,9 @@
 namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Attribute\CustomField;
+use Mvc4Wp\Core\Model\Attribute\Field;
+use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Repository\PostQuery;
 use Mvc4Wp\Core\Model\Repository\QueryInterface;
 

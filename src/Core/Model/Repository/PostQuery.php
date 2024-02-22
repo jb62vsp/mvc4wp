@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Model;
-use Mvc4Wp\Core\Model\PostType;
+use Mvc4Wp\Core\Model\Attribute\PostType;
 
 /**
  * @template TModel of Model
