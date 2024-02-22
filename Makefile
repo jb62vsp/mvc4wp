@@ -4,7 +4,7 @@
 .DEFAULT: init
 
 .PHONY: init
-init: vendor #: initialize
+init: vendor reload_vendor #: initialize
 	@mkdir -p log
 	@chmod 777 log
 
@@ -32,13 +32,16 @@ default: #: default settings to App
 #
 # vendor
 #
+.PHONY: vendor
 vendor: composer.json #: install vendor
 	@composer install --no-dev
 
 .PHONY: vendor_dev
 vendor_dev: vendor/bin/phpunit vendor/bin/phpstan #: install vendor with dev
+
 vendor/bin/phpunit: composer.json
 	@composer install
+
 vendor/bin/phpstan: composer.json
 	@composer install
 
@@ -59,12 +62,16 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: vendor/bin/phpunit tests/Core #: execute Core unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
+test: vendor/bin/phpunit tests #: execute All unittest
+	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'All'
 
 .PHONY: app_test
 app_test: vendor/bin/phpunit tests/App #: execute App unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'App'
+
+.PHONY: core_test
+core_test: vendor/bin/phpunit tests/Core #: execute Core unittest
+	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: clean_test
 clean_test: .phpunit.cache coverage #: clean test
