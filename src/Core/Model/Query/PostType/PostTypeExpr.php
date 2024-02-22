@@ -1,29 +1,21 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Query\PostType;
 
+use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\Query\Expr;
 
+/**
+ * @template TModel of Model
+ * @implements Expr<TModel>
+ */
 class PostTypeExpr implements Expr
 {
-    /**
-     * @var array<string> $post_types
-     */
-    protected array $post_types;
-
-    public function __construct(
-        string ...$post_types,
-    ) {
-        $this->post_types = $post_types;
-    }
-
-    public function toQuery(): array
+    public function toQuery(array $context): array
     {
-        if (empty($this->post_types)) {
-            return [];
-        } elseif (count($this->post_types) === 1) {
-            return ['post_type' => $this->post_types[0]];
+        if (count($context) === 1) {
+            return ['post_type' => $context[0]];
         } else {
-            return ['post_type' => $this->post_types];
+            return ['post_type' => $context];
         }
     }
 }

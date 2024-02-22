@@ -19,7 +19,7 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
      */
     use Castable, AuthorQuerable, PostTypeQuerable;
 
-    public function toQuery(): QueryExecutorInterface
+    public function build(): QueryExecutorInterface
     {
         return new PostQueryExecutor([]); // TODO:
     }

@@ -8,5 +8,5 @@ use Mvc4Wp\Core\Model\Model;
  */
 interface QueryBuilderInterface
 {
-    public function toQuery(): QueryExecutorInterface;
+    public function build(): QueryExecutorInterface;
 }

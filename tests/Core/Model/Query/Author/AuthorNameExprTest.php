@@ -8,11 +8,27 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(AuthorNameExpr::class)]
 class AuthorNameExprTest extends TestCase
 {
-    public function test_toQuery(): void
+    public function test_toQuery_noParams(): void
     {
-        $obj = new AuthorNameExpr('s_hino');
+        $obj = new AuthorNameExpr();
 
-        $actual = $obj->toQuery();
-        $this->assertEquals(['author_name' => 's_hino'], $actual);
+        $actual = $obj->toQuery([]);
+        $this->assertEquals([], $actual);
+    }
+
+    public function test_toQuery_singleParam(): void
+    {
+        $obj = new AuthorNameExpr();
+
+        $actual = $obj->toQuery(['hoge']);
+        $this->assertEquals(['author_name' => 'hoge'], $actual);
+    }
+
+    public function test_toQuery_multiParams(): void
+    {
+        $obj = new AuthorNameExpr();
+
+        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
+        $this->assertEquals(['author_name' => 'hoge'], $actual);
     }
 }

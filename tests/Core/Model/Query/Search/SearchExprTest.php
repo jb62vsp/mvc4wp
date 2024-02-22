@@ -7,11 +7,27 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(SearchExpr::class)]
 class SearchExprTest extends TestCase
 {
-    public function test_toQuery(): void
+    public function test_toQuery_noParams(): void
     {
-        $obj = new SearchExpr('s_hino');
+        $obj = new SearchExpr();
 
-        $actual = $obj->toQuery();
-        $this->assertEquals(['s' => 's_hino'], $actual);
+        $actual = $obj->toQuery([]);
+        $this->assertEquals([], $actual);
+    }
+
+    public function test_toQuery_singleParam(): void
+    {
+        $obj = new SearchExpr();
+
+        $actual = $obj->toQuery(['hoge']);
+        $this->assertEquals(['s' => 'hoge'], $actual);
+    }
+
+    public function test_toQuery_multiParams(): void
+    {
+        $obj = new SearchExpr();
+
+        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
+        $this->assertEquals(['s' => 'hoge'], $actual);
     }
 }

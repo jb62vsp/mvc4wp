@@ -1,30 +1,17 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Query\Author;
 
+use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\Query\Expr;
 
+/**
+ * @template TModel of Model
+ * @implements Expr<TModel>
+ */
 class AuthorInExpr implements Expr
 {
-    /**
-     * @var array<int> $authors
-     */
-    protected array $authors;
-
-    /**
-     * @param array<int> $authors
-     */
-    public function __construct(
-        int ...$authors
-    ) {
-        $this->authors = $authors;
-    }
-
-    public function toQuery(): array
+    public function toQuery(array $context): array
     {
-        if (empty($this->authors)) {
-            return [];
-        } else {
-            return ['author__in' => $this->authors];
-        }
+        return ['author__in' => $context];
     }
 }

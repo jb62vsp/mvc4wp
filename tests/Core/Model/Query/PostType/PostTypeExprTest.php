@@ -12,23 +12,23 @@ class PostTypeExprTest extends TestCase
     {
         $obj = new PostTypeExpr();
 
-        $actual = $obj->toQuery();
-        $this->assertEquals([], $actual);
+        $actual = $obj->toQuery([]);
+        $this->assertEquals(['post_type' => []], $actual);
     }
 
     public function test_toQuery_oneParam(): void
     {
-        $obj = new PostTypeExpr('post');
+        $obj = new PostTypeExpr();
 
-        $actual = $obj->toQuery();
-        $this->assertEquals(['post_type' => 'post'], $actual);
+        $actual = $obj->toQuery(['hoge']);
+        $this->assertEquals(['post_type' => 'hoge'], $actual);
     }
 
     public function test_toQuery_manyParams(): void
     {
-        $obj = new PostTypeExpr('post', 'page', 'custom');
+        $obj = new PostTypeExpr();
 
-        $actual = $obj->toQuery();
-        $this->assertEquals(['post_type' => ['post', 'page', 'custom']], $actual);
+        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
+        $this->assertEquals(['post_type' => ['hoge', 'fuga', 'piyo']], $actual);
     }
 }
