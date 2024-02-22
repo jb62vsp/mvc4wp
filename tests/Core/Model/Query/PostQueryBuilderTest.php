@@ -3,15 +3,10 @@ namespace Mvc4Wp\Core\Model\Query;
 
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Model\PostType;
-use Mvc4Wp\Core\Model\Query\Author\AuthorExpr;
-use Mvc4Wp\Core\Model\Query\Author\AuthorInExpr;
-use Mvc4Wp\Core\Model\Query\Author\AuthorNameExpr;
-use Mvc4Wp\Core\Model\Query\Author\AuthorNotInExpr;
 use Mvc4Wp\Core\Model\Query\PostType\PostTypeExpr;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(AbstractQueryBuilder::class)]
 #[CoversClass(PostQueryBuilder::class)]
 class PostQueryBuilderTest extends TestCase
 {
@@ -60,104 +55,6 @@ class PostQueryBuilderTest extends TestCase
             PostQueryBuilderTestMockC::class,
             PostQueryBuilderTestMockD::class,
         );
-    }
-
-    public function test_byAuthor_single(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj->byAuthor(1)->getExpressions();
-        $this->assertEquals([AuthorExpr::class => [1]], $actual);
-    }
-
-    public function test_byAuthor_chain(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthor(1)
-            ->byAuthor(2)
-            ->getExpressions();
-        $this->assertEquals([AuthorExpr::class => [2]], $actual);
-    }
-
-    public function test_byAuthorName_single(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj->byAuthorName('hoge')->getExpressions();
-        $this->assertEquals([AuthorNameExpr::class => ['hoge']], $actual);
-    }
-
-    public function test_byAuthorName_chain(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorName('hoge')
-            ->byAuthorName('fuga')
-            ->getExpressions();
-        $this->assertEquals([AuthorNameExpr::class => ['fuga']], $actual);
-    }
-
-    public function test_byAuthorIn_single(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorIn(1)
-            ->getExpressions();
-        $this->assertEquals([AuthorInExpr::class => [1]], $actual);
-    }
-
-    public function test_byAuthorIn_multi(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorIn(1, 2, 3)
-            ->getExpressions();
-        $this->assertEquals([AuthorInExpr::class => [1, 2, 3]], $actual);
-    }
-    public function test_byAuthorIn_chain(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorIn(1, 2)
-            ->byAuthorIn(3)
-            ->getExpressions();
-        $this->assertEquals([AuthorInExpr::class => [1, 2, 3]], $actual);
-    }
-
-    public function test_byAuthorNotIn_single(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorNotIn(1)
-            ->getExpressions();
-        $this->assertEquals([AuthorNotInExpr::class => [1]], $actual);
-    }
-
-    public function test_byAuthorNotIn_multi(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorNotIn(1, 2, 3)
-            ->getExpressions();
-        $this->assertEquals([AuthorNotInExpr::class => [1, 2, 3]], $actual);
-    }
-    public function test_byAuthorNotIn_chain(): void
-    {
-        $obj = new PostQueryBuilder();
-
-        $actual = $obj
-            ->byAuthorNotIn(1, 2)
-            ->byAuthorNotIn(3)
-            ->getExpressions();
-        $this->assertEquals([AuthorNotInExpr::class => [1, 2, 3]], $actual);
     }
 }
 
