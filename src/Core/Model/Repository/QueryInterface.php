@@ -9,16 +9,6 @@ use Mvc4Wp\Core\Model\Model;
 interface QueryInterface
 {
     /**
-     * @return QueryInterface<TModel>
-     */
-    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): QueryInterface;
-
-    /**
-     * @return QueryInterface<TModel>
-     */
-    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): QueryInterface;
-
-    /**
      * @return array<TModel>
      */
     public function get(): array;

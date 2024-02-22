@@ -49,6 +49,7 @@ class PostQuery implements QueryInterface
     {
         $this->queries = [
             'post_type' => PostType::getName($this->class_name),
+            'fields' => 'ids',
         ];
     }
 
@@ -68,31 +69,39 @@ class PostQuery implements QueryInterface
 
     public function postType(array $classes): self
     {
+        $new = clone $this;
+
         $post_types = [];
         foreach ($classes as $class) {
             array_push($post_types, PostType::getName($class));
         }
-        $this->queries['post_type'] = $post_types;
-        return $this;
+        $new->queries['post_type'] = $post_types;
+        
+        return $new;
     }
 
     // ---- post_status
 
     public function withDraft(): self
     {
+        $new = clone $this;
 
-        if (!$this->addCriteria('post_status', 'draft')) {
-            $this->queries['post_status'] = ['publish', 'draft'];
+        if (!$new->addCriteria('post_status', 'draft')) {
+            $new->queries['post_status'] = ['publish', 'draft'];
         }
-        return $this;
+
+        return $new;
     }
 
     public function withTrash(): self
     {
-        if (!$this->addCriteria('post_status', 'trash')) {
-            $this->queries['post_status'] = ['publish', 'trash'];
+        $new = clone $this;
+
+        if (!$new->addCriteria('post_status', 'trash')) {
+            $new->queries['post_status'] = ['publish', 'trash'];
         }
-        return $this;
+
+        return $new;
     }
 
     // ---- search
@@ -106,25 +115,27 @@ class PostQuery implements QueryInterface
      */
     public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
     {
-        if (array_key_exists('meta_query', $this->queries)) {
-            array_push($this->queries['meta_query'], [
+        $new = clone $this;
+
+        if (array_key_exists('meta_query', $new->queries)) {
+            array_push($new->queries['meta_query'], [
                 'key' => $key,
                 'compare' => $compare,
                 'value' => $value,
                 'type' => $type,
             ]);
-        } elseif (array_key_exists('meta_key', $this->queries)) {
+        } elseif (array_key_exists('meta_key', $new->queries)) {
             $exists = [];
-            $exists['key'] = $this->queries['meta_key'];
-            unset($this->queries['meta_key']);
-            $exists['compare'] = $this->queries['meta_compare'];
-            unset($this->queries['meta_compare']);
-            $exists['value'] = $this->queries['meta_value'];
-            unset($this->queries['meta_value']);
-            $exists['type'] = $this->queries['meta_type'];
-            unset($this->queries['meta_type']);
+            $exists['key'] = $new->queries['meta_key'];
+            unset($new->queries['meta_key']);
+            $exists['compare'] = $new->queries['meta_compare'];
+            unset($new->queries['meta_compare']);
+            $exists['value'] = $new->queries['meta_value'];
+            unset($new->queries['meta_value']);
+            $exists['type'] = $new->queries['meta_type'];
+            unset($new->queries['meta_type']);
 
-            $this->queries['meta_query'] = [
+            $new->queries['meta_query'] = [
                 'relation' => 'AND',
                 $exists,
                 [
@@ -135,11 +146,12 @@ class PostQuery implements QueryInterface
                 ]
             ];
         } else {
-            $this->queries['meta_key'] = $key;
-            $this->queries['meta_compare'] = $compare;
-            $this->queries['meta_value'] = $value;
-            $this->queries['meta_type'] = $type;
+            $new->queries['meta_key'] = $key;
+            $new->queries['meta_compare'] = $compare;
+            $new->queries['meta_value'] = $value;
+            $new->queries['meta_type'] = $type;
         }
+
         return $this;
     }
 
@@ -152,79 +164,77 @@ class PostQuery implements QueryInterface
      */
     public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): self
     {
-        if (array_key_exists($order_by, self::ORDER_COLUMNS)) {
-            $this->queries['orderby'] = self::ORDER_COLUMNS[$order_by];
-            $this->queries['order'] = $order;
-        } else {
-            $this->queries['orderby'] = 'meta_value';
-            $this->queries['order'] = $order;
-            $this->queries['meta_key'] = $order_by;
-            $this->queries['meta_type'] = $type;
-        }
-        return $this;
-    }
+        $new = clone $this;
 
-    public function orderMeta(string $order_by, $order): self
-    {
-        $this->queries['meta_key'] = $order_by;
-        $this->queries['orderby'] = 'meta_value';
-        $this->queries['order'] = $order;
-        return $this;
+        if (array_key_exists($order_by, self::ORDER_COLUMNS)) {
+            $new->queries['orderby'] = self::ORDER_COLUMNS[$order_by];
+            $new->queries['order'] = $order;
+        } else {
+            $new->queries['orderby'] = 'meta_value';
+            $new->queries['order'] = $order;
+            $new->queries['meta_key'] = $order_by;
+            $new->queries['meta_type'] = $type;
+        }
+
+        return $new;
     }
 
     // ---- pagination ----
 
     public function single(): self
     {
-        if (array_key_exists('paged', $this->queries)) {
-            unset($this->queries['paged']);
+        $new = clone $this;
+
+        if (array_key_exists('paged', $new->queries)) {
+            unset($new->queries['paged']);
         }
-        $this->queries['posts_per_page'] = -1;
-        return $this;
+        $new->queries['posts_per_page'] = -1;
+
+        return $new;
     }
 
     public function all(): self
     {
-        if (array_key_exists('paged', $this->queries)) {
-            unset($this->queries['paged']);
+        $new = clone $this;
+
+        if (array_key_exists('paged', $new->queries)) {
+            unset($new->queries['paged']);
         }
-        $this->queries['posts_per_page'] = -1;
-        return $this;
+        $new->queries['posts_per_page'] = -1;
+
+        return $new;
     }
 
     public function page(int $page, int $per_page): self
     {
-        $this->queries['paged'] = $page;
-        $this->queries['posts_per_page'] = $per_page;
-        return $this;
+        $new = clone $this;
+
+        $new->queries['paged'] = $page;
+        $new->queries['posts_per_page'] = $per_page;
+
+        return $new;
     }
 
     // ---- execute ----
 
-    protected function build(): \WP_Query
+    public function raw(array $criteria): self
     {
-        return new \WP_Query($this->queries);
-    }
+        $new = clone $this;
 
-    public function custom(array $criteria): self
-    {
-        $this->queries = $criteria;
-        return $this;
+        $new->queries = $criteria;
+
+        return $new;
     }
 
     public function get(): array
     {
         $result = [];
 
-        $query = $this->build();
-        if ($query->have_posts()) {
-            while ($query->have_posts()) {
-                $query->the_post();
-                $model = $this->bind();
-                array_push($result, $model);
-            }
+        $ids = $this->fetch();
+        foreach ($ids as $id) {
+            $model = $this->bindByID($id);
+            array_push($result, $model);
         }
-        wp_reset_postdata();
 
         return $result;
     }
@@ -233,15 +243,11 @@ class PostQuery implements QueryInterface
     {
         $result = null;
 
-        $query = $this->single()->build();
-        if ($query->have_posts()) {
-            while ($query->have_posts()) {
-                $query->the_post();
-                $result = $this->bind();
-                break;
-            }
+        $this->single();
+        $ids = $this->fetch();
+        if (!empty($ids)) {
+            $result = $this->bindByID($ids[0]);
         }
-        wp_reset_postdata();
 
         return $result;
     }
@@ -256,21 +262,23 @@ class PostQuery implements QueryInterface
     {
         $result = 0;
 
-        $query = $this->build();
-        if ($query->have_posts()) {
-            $result = $query->post_count;
-        }
-        wp_reset_postdata();
+        $ids = $this->fetch();
+        $result = count($ids);
 
         return $result;
     }
 
-    private function bind(): Model
+    private function fetch(): array
+    {
+        $wp_query = new \WP_Query($this->queries);
+        return $wp_query->get_posts();
+    }
+
+    private function bindByID(int $id): Model
     {
         $cls = $this->class_name;
         $result = new $cls();
 
-        $id = get_the_ID();
         $data = get_post($id);
         $result->bind($data, false);
         $meta = get_post_custom($id);
