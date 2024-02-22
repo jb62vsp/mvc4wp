@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Query;
 
+use Mvc4Wp\Core\Model\PostModel;
 use Mvc4Wp\Core\Model\PostType;
 use Mvc4Wp\Core\Model\Query\Author\AuthorExpr;
 use Mvc4Wp\Core\Model\Query\Author\AuthorInExpr;
@@ -8,7 +9,11 @@ use Mvc4Wp\Core\Model\Query\Author\AuthorNameExpr;
 use Mvc4Wp\Core\Model\Query\Author\AuthorNotInExpr;
 use Mvc4Wp\Core\Model\Query\PostType\PostTypeExpr;
 
-class PostQuery
+/**
+ * @template TModel of PostModel
+ * @implements QueryBuilderInterface<TModel>
+ */
+class PostQueryBuilder
 {
     /**
      * @var array<Expr> $expressions
@@ -19,7 +24,12 @@ class PostQuery
     {
     }
 
-    public function postType(string ...$classes): static
+    public function getQueries(): array
+    {
+        return $this->queries;
+    }
+
+    public function asModel(string ...$classes): static
     {
         $new = clone $this;
 
@@ -27,43 +37,43 @@ class PostQuery
         foreach ($classes as $class) {
             array_push($post_types, PostType::getName($class));
         }
-        $this->queries['post_type'] = new PostTypeExpr(...$post_types);
+        array_push($new->queries, (new PostTypeExpr(...$post_types))->toQuery());
 
         return $new;
     }
 
-    public function author(int $author): static
+    public function byAuthor(int $author): static
     {
         $new = clone $this;
 
-        $this->queries['author'] = new AuthorExpr($author);
+        array_push($new->queries, new AuthorExpr($author));
 
         return $new;
     }
 
-    public function authorIn(int ...$authors): static
+    public function byAuthorName(string $authorName): static
     {
         $new = clone $this;
 
-        $this->queries['author'] = new AuthorInExpr(...$authors);
+        array_push($new->queries, new AuthorNameExpr($authorName));
 
         return $new;
     }
 
-    public function authorNotIn(int ...$authors): static
+    public function byAuthorIn(int ...$authors): static
     {
         $new = clone $this;
 
-        $this->queries['author'] = new AuthorNotInExpr(...$authors);
+        array_push($new->queries, new AuthorInExpr(...$authors));
 
         return $new;
     }
 
-    public function authorName(string $authorName): static
+    public function byAuthorNotIn(int ...$authors): static
     {
         $new = clone $this;
 
-        $this->queries['author'] = new AuthorNameExpr($authorName);
+        array_push($new->queries, new AuthorNotInExpr(...$authors));
 
         return $new;
     }
