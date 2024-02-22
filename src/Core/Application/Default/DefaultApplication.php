@@ -9,6 +9,8 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Library\ClockInterface;
+use Mvc4Wp\Core\Library\Default\DefaultClockFactory;
+use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
 use Mvc4Wp\Core\Service\Logging;
@@ -23,16 +25,11 @@ class DefaultApplication implements ApplicationInterface
 
     protected ControllerInterface $_controller;
 
-    protected string $errorHandlerClass;
+    protected ControllerInterface $_errorHandler;
 
     public function __construct(
         protected readonly ConfiguratorInterface $_config,
     ) {
-        $routerFactory = new($this->_config->get('FACTORY', 'router'))();
-        $this->_router = $routerFactory->create();
-
-        $defaultHandler = $this->_config->get('ERROR_HANDLERS', 'default_handler_name');
-        $this->errorHandlerClass = $this->_config->get('ERROR_HANDLERS', 'handlers', $defaultHandler);
     }
 
     public function config(): ConfiguratorInterface
@@ -42,11 +39,24 @@ class DefaultApplication implements ApplicationInterface
 
     public function router(): RouterInterface
     {
+        if (!isset($this->_router)) {
+            $routerFactoryClass = $this->_config->get('FACTORY', 'router');
+            if (is_null($routerFactoryClass) || class_exists($routerFactoryClass)) {
+                $routerFactoryClass = DefaultRouterFactory::class;
+            }
+            $this->_router = (new $routerFactoryClass())->create();
+        }
         return $this->_router;
     }
 
     public function clock(): ClockInterface
     {
+        $clockFactoryClass = $this->config()->get('FACTORY', 'clock');
+        if (is_null($clockFactoryClass) || class_exists($clockFactoryClass)) {
+            $clockFactoryClass = DefaultClockFactory::class;
+        }
+        $this->_clock = (new $clockFactoryClass())->create();
+
         return $this->_clock;
     }
 
@@ -66,26 +76,18 @@ class DefaultApplication implements ApplicationInterface
             }
 
             /** @var RouteHandler $route */
-            $route = $this->_router->dispatch($this->_config, $request_method, $_SERVER['REQUEST_URI']);
+            $route = $this->_router->dispatch($this->config(), $request_method, $_SERVER['REQUEST_URI']);
 
             if ($route->status !== HttpStatus::OK) {
-                $errorHandlerClass = DefaultErrorController::class;
-                $customErrorHandlerClass = $this->_config->get('ERROR_HANDLERS', 'handlers', strval($route->status->value));
-                if (!is_null($customErrorHandlerClass) && class_exists($customErrorHandlerClass)) {
-                    $errorHandlerClass = $customErrorHandlerClass;
-                } elseif (!is_null($this->errorHandlerClass) && class_exists($this->errorHandlerClass)) {
-                    $errorHandlerClass = $this->errorHandlerClass;
-                }
-                /** @var ControllerInterface $controller */
-                $controller = new $errorHandlerClass($this->_config);
-                $controller->init([$route->status]);
-                $controller->index([$route->status]);
+                $errorHandler = $this->errorHandler();
+                $errorHandler->init([$route->status]);
+                $errorHandler->index([$route->status]);
                 return;
             }
+
             if (!class_exists($route->class)) {
                 throw new ApplicationException(); // TODO:
             }
-
             /** @var ControllerInterface $controller */
             $controller = new $route->class($this->config());
             $this->_controller = $controller;
@@ -102,11 +104,28 @@ class DefaultApplication implements ApplicationInterface
             $controller->{$route->method}($route->args);
         } catch (ApplicationException $ex) {
             Logging::get('core')->error($ex->getMessage(), [$ex]);
-            /** @var ControllerInterface $controller */
-            $controller = new $this->errorHandlerClass($this->_config, HttpStatus::INTERNAL_SERVER_ERROR);
-            $controller->init();
-            $controller->index();
+            $errorHandler = $this->errorHandler();
+            $errorHandler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $errorHandler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
             return;
         }
+    }
+
+    protected function errorHandler(): ControllerInterface
+    {
+        if (!isset($this->_errorHandler)) {
+            $errorHandlerClass = DefaultErrorController::class;
+
+            $defaultHandlerName = $this->config()->get('ERROR_HANDLERS', 'default_handler_name');
+            if (!is_null($defaultHandlerName)) {
+                $defaultErrorHandlerClass = $this->config()->get('ERROR_HANDLERS', 'handlers', $defaultHandlerName);
+                if (!is_null($defaultErrorHandlerClass) && class_exists($defaultErrorHandlerClass)) {
+                    $errorHandlerClass = $defaultErrorHandlerClass;
+                }
+            }
+            $this->_errorHandler = new $errorHandlerClass($this->config());
+        }
+
+        return $this->_errorHandler;
     }
 }
