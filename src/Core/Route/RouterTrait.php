@@ -5,33 +5,43 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 
 trait RouterTrait
 {
+    public const STATUS_DELIMITER = '`';
+
+    public const ROUTE_DELIMITER = '|';
+
+    public const GET = 'GET';
+
+    public const POST = 'POST';
+
+    public const PUT = 'PUT';
+
+    public const DELETE = 'DELETE';
+
     protected array $routes = [];
 
     public function get(string $route, string $handler): void
     {
-        $this->addRoute(RouterInterface::GET, $route, $handler);
+        $this->addRoute(self::GET, $route, $handler);
     }
 
     public function post(string $route, string $handler): void
     {
-        $this->addRoute(RouterInterface::POST, $route, $handler);
+        $this->addRoute(self::POST, $route, $handler);
     }
 
     public function put(string $route, string $handler): void
     {
-        $this->addRoute(RouterInterface::PUT, $route, $handler);
+        $this->addRoute(self::PUT, $route, $handler);
     }
 
     public function delete(string $route, string $handler): void
     {
-        $this->addRoute(RouterInterface::DELETE, $route, $handler);
+        $this->addRoute(self::DELETE, $route, $handler);
     }
 
     protected function addRoute(string $method, string $route, string $handler): void
     {
-        $key = $method . RouterInterface::STATUS_DELIMITER . $route;
+        $key = $method . self::STATUS_DELIMITER . $route;
         $this->routes[$key] = $handler;
     }
-
-    abstract public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler;
 }

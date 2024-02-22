@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Route\Default;
 
-use Mvc4Wp\Core\Route\AbstractRouterFactory;
+use Mvc4Wp\Core\Route\RouterFactoryInterface;
 use Mvc4Wp\Core\Route\RouterInterface;
 
-class DefaultRouterFactory extends AbstractRouterFactory
+class DefaultRouterFactory implements RouterFactoryInterface
 {
     public function create(array $args = []): RouterInterface
     {

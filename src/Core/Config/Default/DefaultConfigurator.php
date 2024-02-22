@@ -1,46 +1,72 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Config\Default;
 
-use Exception;
-use Mvc4Wp\Core\Config\AbstractConfigurator;
+use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Exception\ApplicationException;
 
-class DefaultConfigurator extends AbstractConfigurator
+class DefaultConfigurator implements ConfiguratorInterface
 {
     use Castable;
 
     private array $configs = [];
 
-    public function add(string $key, string|array $value): void
+    public function add(string $category, string|array $value): void
     {
-        $this->configs[$key] = $value;
-    }
-
-    public function get(string $key): string|array
-    {
-        return $this->configs[$key];
-    }
-
-    public function set(string $key, array $keys, string|array $value): void
-    {
-        try {
-            $orig = $this->configs[$key];
-            $conf = $this->recursive_set($orig, $keys, count($keys), $value);
-            $this->configs[$key] = $conf;
-        } catch (Exception $ex) {
-            throw new ApplicationException('TODO', previous: $ex);
+        if (!array_key_exists($category, $this->configs)) {
+            $this->configs[$category] = $value;
         }
     }
 
-    private function recursive_set(array $arr, array $keys, int $index, string|array $value): array
+    public function get(string $category, string ...$keys): string|array|null
+    {
+        if (array_key_exists($category, $this->configs)) {
+            if (empty($keys)) {
+                return $this->configs[$category];
+            } else {
+                return $this->recursiveGet($this->configs[$category], $keys, count($keys));
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public function set(string $category, string|array $value, string ...$keys): void
+    {
+        if (array_key_exists($category, $this->configs)) {
+            if (empty($keys)) {
+                $this->configs[$category] = $value;
+            } else {
+                $orig = $this->configs[$category];
+                $conf = $this->recursiveSet($orig, $keys, count($keys), $value);
+                $this->configs[$category] = $conf;
+            }
+        }
+    }
+
+    private function recursiveGet(array $arr, array $keys, int $index): string|array|null
     {
         $cur = count($keys) - $index;
+        $key = $keys[$cur];
         if ($index === 1) {
-            $arr[$keys[$cur]] = $value;
+            if (array_key_exists($key, $arr)) {
+                return $arr[$key];
+            } else {
+                return null;
+            }
+        } else {
+            return $this->recursiveGet($arr[$key], $keys, $index - 1);
+        }
+    }
+
+    private function recursiveSet(array $arr, array $keys, int $index, string|array $value): string|array
+    {
+        $cur = count($keys) - $index;
+        $key = $keys[$cur];
+        if ($index === 1) {
+            $arr[$key] = $value;
             return $arr;
         } else {
-            $arr[$keys[$cur]] = $this->recursive_set($arr[$keys[$cur]], $keys, $index - 1, $value);
+            $arr[$key] = $this->recursiveSet($arr[$keys[$cur]], $keys, $index - 1, $value);
             return $arr;
         }
     }

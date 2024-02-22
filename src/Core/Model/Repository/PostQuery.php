@@ -4,13 +4,12 @@ namespace Mvc4Wp\Core\Model\Repository;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\PostType;
-use Mvc4Wp\Core\Model\Repository\AbstractQuery;
 
 /**
  * @template TModel of Model
- * @extends AbstractQuery<TModel>
+ * @implements QueryInterface<TModel>
  */
-class PostQuery extends AbstractQuery
+class PostQuery implements QueryInterface
 {
     use Castable;
 

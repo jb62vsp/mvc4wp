@@ -10,9 +10,9 @@ class Helper
             include_once($app_helper);
         }
 
-        $system_helper = App::get()->config()->get('CORE_ROOT') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
-        if (file_exists($system_helper)) {
-            include_once($system_helper);
+        $core_helper = App::get()->config()->get('CORE_ROOT') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
+        if (file_exists($core_helper)) {
+            include_once($core_helper);
         }
     }
 }

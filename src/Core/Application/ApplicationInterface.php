@@ -3,6 +3,7 @@ namespace Mvc4Wp\Core\Application;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
+use Mvc4Wp\Core\Library\ClockInterface;
 use Mvc4Wp\Core\Route\RouterInterface;
 
 interface ApplicationInterface
@@ -11,7 +12,9 @@ interface ApplicationInterface
 
     public function router(): RouterInterface;
 
-    public function controller(): ControllerInterface;
+    public function clock(): ClockInterface;
     
+    public function controller(): ControllerInterface;
+
     public function run(): void;
 }

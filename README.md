@@ -50,7 +50,7 @@ Model-View-Controller framework for WordPress theme
 
 ## URI-Routing
 
-# development System (for INNER)
+# development Core (for INNER)
 
 ## implementation
 

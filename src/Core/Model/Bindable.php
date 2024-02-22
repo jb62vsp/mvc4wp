@@ -4,11 +4,11 @@ namespace Mvc4Wp\Core\Model;
 use DateTime;
 use ReflectionMethod;
 use ReflectionProperty;
-use Mvc4Wp\Core\Helper\DateTimeHelper;
+use Mvc4Wp\Core\Service\DateTimeService;
 use Mvc4Wp\Core\Model\Validator\Rule;
 use Mvc4Wp\Core\Model\Validator\ValidationError;
 
-trait BindTrait
+trait Bindable
 {
     private bool $is_binded = false;
 
@@ -62,7 +62,7 @@ trait BindTrait
         return $result;
     }
 
-    protected static function reverseProperty(Model $obj, ReflectionProperty $prop): string
+    protected static function toString(Model $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (static::hasKey($obj, $prop_name)) {
@@ -79,7 +79,7 @@ trait BindTrait
 
         $properties = Field::getAttributedProperties(get_class($obj));
         foreach ($properties as $property) {
-            $untypedValue = static::reverseProperty($obj, $property);
+            $untypedValue = static::toString($obj, $property);
             $property = $property->getName();
             $result[$property] = $untypedValue;
         }
@@ -97,7 +97,7 @@ trait BindTrait
             'int' => intval($value, 10),
             'float' => floatval($value),
             'bool' => boolval($value),
-            'DateTime' => DateTimeHelper::datetimeval($value),
+            'DateTime' => DateTimeService::datetimeval($value),
             default => $value,
         };
 
@@ -117,7 +117,7 @@ trait BindTrait
             'int' => strval($value),
             'float' => strval($value),
             'bool' => strval($value),
-            'DateTime' => DateTimeHelper::strval($value),
+            'DateTime' => DateTimeService::strval($value),
             default => $value,
         };
 

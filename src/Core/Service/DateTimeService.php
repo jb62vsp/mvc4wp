@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Helper;
+namespace Mvc4Wp\Core\Service;
 
 use DateTime;
 use DateTimeZone;
-use Mvc4Wp\Core\Library\Clock;
+use Mvc4Wp\Core\Service\App;
 
-final class DateTimeHelper
+final class DateTimeService
 {
     public static function getTimeZone(): DateTimeZone
     {
@@ -29,7 +29,8 @@ final class DateTimeHelper
 
     public static function now(string $format): string
     {
-        return wp_date($format);
+        $datetime = App::get()->clock()->get();
+        return $datetime->format($format);
     }
 
     public static function datetime(): string
