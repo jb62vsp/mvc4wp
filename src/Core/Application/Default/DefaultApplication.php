@@ -76,7 +76,7 @@ class DefaultApplication implements ApplicationInterface
             }
 
             /** @var RouteHandler $route */
-            $route = $this->_router->dispatch($this->config(), $request_method, $_SERVER['REQUEST_URI']);
+            $route = $this->router()->dispatch($this->config(), $request_method, $_SERVER['REQUEST_URI']);
 
             if ($route->status !== HttpStatus::OK) {
                 $errorHandler = $this->errorHandler();
