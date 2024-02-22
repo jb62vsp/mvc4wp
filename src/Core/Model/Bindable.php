@@ -117,7 +117,7 @@ trait Bindable
             'int' => strval($value),
             'float' => strval($value),
             'bool' => strval($value),
-            'DateTime' => DateTimeService::strval($value),
+            'DateTime' => DateTimeService::strval($value, 'Y-m-d H:i:s'), // TODO:
             default => $value,
         };
 
