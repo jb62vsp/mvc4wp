@@ -13,7 +13,7 @@ class PostQuery implements QueryInterface
 {
     use Castable;
 
-    private const ORDER_COLUMNS = [
+    private const EMBEDDED_ORDER_COLUMNS = [
         'none' => 'none',
         'ID' => 'ID',
         'id' => 'ID',
@@ -48,26 +48,25 @@ class PostQuery implements QueryInterface
     private function initCriteria(): void
     {
         $this->queries = [
-            'post_type' => PostType::getName($this->class_name),
             'fields' => 'ids',
+            'post_status' => 'publish',
+            'post_type' => PostType::getName($this->class_name),
         ];
     }
 
-    private function addCriteria(string $key, string $value): bool
+    private function addCriteria(string $key, string|array $value): void
     {
-        if (array_key_exists($key, $this->queries)) {
-            if (is_array($this->queries[$key])) {
-                array_push($this->queries[$key], $value);
-            } else {
-                $exist = $this->queries[$key];
-                $this->queries[$key] = [$exist, $value];
-            }
-            return true;
+        if (array_key_exists($key, $this->queries) && is_array($this->queries[$key])) {
+            array_push($this->queries[$key], $value);
+        } elseif (array_key_exists($key, $this->queries)) {
+            $exist = $this->queries[$key];
+            $this->queries[$key] = [$exist, $value];
+        } else {
+            $this->queries[$key] = $value;
         }
-        return false;
     }
 
-    public function postType(array $classes): self
+    public function asModel(array $classes): self
     {
         $new = clone $this;
 
@@ -76,7 +75,7 @@ class PostQuery implements QueryInterface
             array_push($post_types, PostType::getName($class));
         }
         $new->queries['post_type'] = $post_types;
-        
+
         return $new;
     }
 
@@ -86,9 +85,7 @@ class PostQuery implements QueryInterface
     {
         $new = clone $this;
 
-        if (!$new->addCriteria('post_status', 'draft')) {
-            $new->queries['post_status'] = ['publish', 'draft'];
-        }
+        $new->addCriteria('post_status', 'draft');
 
         return $new;
     }
@@ -97,9 +94,7 @@ class PostQuery implements QueryInterface
     {
         $new = clone $this;
 
-        if (!$new->addCriteria('post_status', 'trash')) {
-            $new->queries['post_status'] = ['publish', 'trash'];
-        }
+        $new->addCriteria('post_status', 'trash');
 
         return $new;
     }
@@ -113,7 +108,7 @@ class PostQuery implements QueryInterface
      * @param string $compare Compare operator. "=", "!=", ">", ">=", "<", "<=", "LIKE", "NOT LIKE", "IN", "NOT IN", "BETWEEN", "NOT BETWEEN", "EXISTS", "NOT EXISTS", "REGEXP", "NOT REGEXP", "RLIKE". Default value is "=".
      * @param string $type Compare type. "NUMERIC", "BINARY", "CHAR", "DATE", "DATETIME", "DECIMAL", "SIGNED", "TIME", "UNSIGNED". Default value is "CHAR".
      */
-    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
+    public function by(string $key, string $value, string $compare = '=', string $type = 'CHAR'): self
     {
         $new = clone $this;
 
@@ -166,8 +161,8 @@ class PostQuery implements QueryInterface
     {
         $new = clone $this;
 
-        if (array_key_exists($order_by, self::ORDER_COLUMNS)) {
-            $new->queries['orderby'] = self::ORDER_COLUMNS[$order_by];
+        if (array_key_exists($order_by, self::EMBEDDED_ORDER_COLUMNS)) {
+            $new->queries['orderby'] = self::EMBEDDED_ORDER_COLUMNS[$order_by];
             $new->queries['order'] = $order;
         } else {
             $new->queries['orderby'] = 'meta_value';
