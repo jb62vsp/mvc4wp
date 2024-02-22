@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -38,7 +38,7 @@ class PostTypeTest extends TestCase
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\PostType" must not be repeated');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\PostType" must not be repeated');
         PostType::getName(PostTypeTestMockC::class);
     }
 

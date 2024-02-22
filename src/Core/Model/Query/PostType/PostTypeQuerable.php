@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Query\PostType;
 
+use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Model;
-use Mvc4Wp\Core\Model\PostType;
 
 /**
  * @template TModel of Model

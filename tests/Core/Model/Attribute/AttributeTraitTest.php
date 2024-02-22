@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use Attribute;
 use Error;
@@ -39,7 +39,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestExtendedClassAttribute" is not set to "Mvc4Wp\Core\Model\TestMockAttributeTraitA"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestExtendedClassAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitA"');
         TestExtendedClassAttribute::getClassAttribute(TestMockAttributeTraitA::class);
     }
 
@@ -47,7 +47,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestClassAttribute" is not set to "Mvc4Wp\Core\Model\TestMockAttributeTraitC"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestClassAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitC"');
         TestClassAttribute::getClassAttribute(TestMockAttributeTraitC::class);
     }
 
@@ -55,7 +55,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestClassAttribute" must not be repeated');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestClassAttribute" must not be repeated');
         TestClassAttribute::getClassAttribute(TestMockAttributeTraitD::class);
     }
 
@@ -87,7 +87,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestExtendedPropertyAttribute" is not set to "Mvc4Wp\Core\Model\TestMockAttributeTraitA::test_a"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestExtendedPropertyAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitA::test_a"');
         TestExtendedPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_a');
     }
 
@@ -95,7 +95,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestPropertyAttribute" is not set to "Mvc4Wp\Core\Model\TestMockAttributeTraitB::test_a"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestPropertyAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitB::test_a"');
         TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_a');
     }
 
@@ -103,7 +103,7 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\TestPropertyAttribute" must not be repeated');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestPropertyAttribute" must not be repeated');
         TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_b');
     }
 
@@ -186,7 +186,7 @@ class TestExtendedPropertyAttribute extends TestPropertyAttribute
 class TestMockAttributeTraitA
 {
     use Castable;
-    
+
     #[TestPropertyAttribute('A')]
     public string $test_a;
 
@@ -198,7 +198,7 @@ class TestMockAttributeTraitA
 class TestMockAttributeTraitB
 {
     use Castable;
-    
+
     public string $test_a;
 
     #[TestPropertyAttribute('AA')]
@@ -222,7 +222,7 @@ class TestMockAttributeTraitD
 class TestMockAttributeTraitE
 {
     use Castable;
-    
+
     #[TestPropertyAttribute('a', 'b')]
     #[TestPropertyAttributeOther]
     public string $test_a;

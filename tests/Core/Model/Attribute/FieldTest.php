@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;

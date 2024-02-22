@@ -1,22 +1,18 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class PostType extends Entity
+class CustomPostType extends PostType
 {
     use Castable, AttributeTrait;
 
     public function __construct(
         public string $name,
+        public string $title,
+        public array $args = [],
     ) {
-    }
-
-    public static function getName(string $class_name): string
-    {
-        $attr = static::getClassAttribute($class_name);
-        return $attr->name;
     }
 }

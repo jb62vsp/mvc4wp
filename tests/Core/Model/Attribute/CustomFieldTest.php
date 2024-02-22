@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use ArgumentCountError;
 use Error;
@@ -30,7 +30,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Too few arguments to function Mvc4Wp\Core\Model\CustomField::__construct(),');
+        $this->expectExceptionMessage('Too few arguments to function Mvc4Wp\Core\Model\Attribute\CustomField::__construct(),');
         CustomField::getTitle(CustomFieldTestMockA::class, 'field_b');
     }
 
@@ -38,7 +38,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\CustomField" is not set to "Mvc4Wp\Core\Model\CustomFieldTestMockA::field_c"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" is not set to "Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockA::field_c"');
         CustomField::getTitle(CustomFieldTestMockA::class, 'field_c');
     }
     
@@ -46,7 +46,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\CustomField" must not be repeated');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" must not be repeated');
         CustomField::getTitle(CustomFieldTestMockB::class, 'field_a');
     }
 
@@ -68,7 +68,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ReflectionException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Property Mvc4Wp\Core\Model\CustomFieldTestMockC::$hoge does not exist');
+        $this->expectExceptionMessage('Property Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockC::$hoge does not exist');
         CustomField::getTitle(CustomFieldTestMockC::class, 'hoge');
     }
 
@@ -76,7 +76,7 @@ class CustomFieldTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\CustomField" is not set to "Mvc4Wp\Core\Model\CustomFieldTestMockD::field_a"');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" is not set to "Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockD::field_a"');
         CustomField::getTitle(CustomFieldTestMockD::class, 'field_a');
     }
 }

@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\AttributeTrait;
+use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class LengthRule extends Rule

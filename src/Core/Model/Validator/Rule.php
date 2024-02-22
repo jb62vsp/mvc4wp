@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\AttributeTrait;
+use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 use Mvc4Wp\Core\Model\Model;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]

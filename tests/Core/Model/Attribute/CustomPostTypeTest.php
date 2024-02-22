@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -35,7 +35,7 @@ class CustomPostTypeTest extends TestCase
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\CustomPostType" must not be repeated');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomPostType" must not be repeated');
         CustomPostType::getClassAttribute(CustomPostTypeTestMockB::class);
     }
 
@@ -51,7 +51,7 @@ class CustomPostTypeTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('"Mvc4Wp\Core\Model\CustomPostType" is not set to "Mvc4Wp\Core\Model\CustomPostTypeTestMockD"');
+        $this->expectExceptionMessage('"Mvc4Wp\Core\Model\Attribute\CustomPostType" is not set to "Mvc4Wp\Core\Model\Attribute\CustomPostTypeTestMockD"');
         CustomPostType::getClassAttribute(CustomPostTypeTestMockD::class);
     }
 }

@@ -2,7 +2,7 @@
 namespace Mvc4Wp\Core\Model\Query;
 
 use Mvc4Wp\Core\Exception\ApplicationException;
-use Mvc4Wp\Core\Model\PostType;
+use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Query\PostType\PostTypeExpr;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -46,7 +46,7 @@ class PostQueryBuilderTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\PostType" is not set to "Mvc4Wp\Core\Model\Query\PostQueryBuilderTestMockD');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\PostType" is not set to "Mvc4Wp\Core\Model\Query\PostQueryBuilderTestMockD');
 
         $obj = new PostQueryBuilder();
         $obj->asModel(

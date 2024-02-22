@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model;
+namespace Mvc4Wp\Core\Model\Attribute;
 
 use ReflectionClass;
 use ReflectionProperty;
@@ -68,9 +68,11 @@ trait AttributeTrait
 
     public static function getAttributedProperties(string $class_name): array
     {
+        $result = [];
+
         $refc = new ReflectionClass($class_name);
         $props = $refc->getProperties();
-        $result = array_filter($props, function (ReflectionProperty $prop) {
+        foreach ($props as $prop) {
             $attrs = $prop->getAttributes();
             $inspect = [];
             foreach ($attrs as $attr) {
@@ -79,8 +81,21 @@ trait AttributeTrait
                     array_push($inspect, $instance);
                 }
             }
-            return count($inspect) === 1;
-        });
+            if (count($inspect) === 1) {
+                array_push($result, $prop);
+            }
+        }
+        // $result = array_filter($props, function (ReflectionProperty $prop) {
+        //     $attrs = $prop->getAttributes();
+        //     $inspect = [];
+        //     foreach ($attrs as $attr) {
+        //         $instance = $attr->newInstance();
+        //         if ($instance->equals(static::class) || $instance->extend(static::class)) {
+        //             array_push($inspect, $instance);
+        //         }
+        //     }
+        //     return count($inspect) === 1;
+        // });
         return $result;
     }
 

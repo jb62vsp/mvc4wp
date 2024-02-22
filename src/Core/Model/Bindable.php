@@ -2,11 +2,12 @@
 namespace Mvc4Wp\Core\Model;
 
 use DateTime;
-use ReflectionMethod;
-use ReflectionProperty;
-use Mvc4Wp\Core\Service\DateTimeService;
+use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Validator\Rule;
 use Mvc4Wp\Core\Model\Validator\ValidationError;
+use Mvc4Wp\Core\Service\DateTimeService;
+use ReflectionMethod;
+use ReflectionProperty;
 
 trait Bindable
 {

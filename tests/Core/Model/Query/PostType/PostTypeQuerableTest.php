@@ -2,7 +2,7 @@
 namespace Mvc4Wp\Core\Model\Query\PostType;
 
 use Mvc4Wp\Core\Exception\ApplicationException;
-use Mvc4Wp\Core\Model\PostType;
+use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Query\PostType\PostTypeExpr;
 use Mvc4Wp\Core\Model\Query\Querable;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -47,7 +47,7 @@ class PostTypeQuerableTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\PostType" is not set to "Mvc4Wp\Core\Model\Query\PostType\PostTypeQuerableTestMockD');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\PostType" is not set to "Mvc4Wp\Core\Model\Query\PostType\PostTypeQuerableTestMockD');
 
         $obj = new PostTypeQuerableTestMockImpl();
         $obj->asModel(

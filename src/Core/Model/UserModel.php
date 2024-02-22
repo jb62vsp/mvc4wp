@@ -2,6 +2,7 @@
 namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Repository\QueryInterface;
 use Mvc4Wp\Core\Model\Repository\UserQuery;
 
@@ -9,7 +10,6 @@ use Mvc4Wp\Core\Model\Repository\UserQuery;
  * @template TModel of UserModel
  * @extends Model<TModel>
  */
-#[Entity]
 class UserModel extends Model
 {
     use Castable;
