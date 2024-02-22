@@ -3,9 +3,11 @@
 define('__MVC4WP_ROOT__', __DIR__);
 require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
+use App\Logger\LogModelLoggerFactory;
+use App\Model\ExampleModel;
+use App\Model\LogModel;
 use Mvc4Wp\Core\Library\WordPressCustomize;
 use Mvc4Wp\Core\Service\App;
-use Mvc4Wp\Core\Service\Logging;
 
 /*
  * --------------------------------------------------------------------
@@ -14,12 +16,16 @@ use Mvc4Wp\Core\Service\Logging;
  */
 App::get()->config()->set('LOGGER', 'debug', 'loggers', 'app', 'log_level');
 App::get()->config()->set('LOGGER', 'debug', 'loggers', 'core', 'log_level');
+App::get()->config()->set('LOGGER', [
+    'logger_factory' => LogModelLoggerFactory::class,
+    'log_level' => 'info',
+], 'loggers', 'model');
 
 /*
  * --------------------------------------------------------------------
  * init scripts for wordpress
  * --------------------------------------------------------------------
  */
-WordPressCustomize::addCustomPostType(\App\Model\ExampleModel::class);
-WordPressCustomize::addCustomPostType(\App\Model\LogModel::class);
+WordPressCustomize::addCustomPostType(ExampleModel::class);
+WordPressCustomize::addCustomPostType(LogModel::class);
 WordPressCustomize::disableRedirectCanonical();
