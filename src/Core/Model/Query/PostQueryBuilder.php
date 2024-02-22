@@ -11,22 +11,15 @@ use Mvc4Wp\Core\Model\Query\PostType\PostTypeExpr;
 
 /**
  * @template TModel of PostModel
- * @implements QueryBuilderInterface<TModel>
+ * @extends AbstractQueryBuilder<TModel>
  */
-class PostQueryBuilder
+class PostQueryBuilder extends AbstractQueryBuilder
 {
-    /**
-     * @var array<Expr> $expressions
-     */
-    protected array $queries = [];
+    protected array $expressions = [];
 
-    public function __construct()
+    public function build(): QueryExecutorInterface
     {
-    }
-
-    public function getQueries(): array
-    {
-        return $this->queries;
+        return new PostQueryExecutor([]); // TODO:
     }
 
     public function asModel(string ...$classes): static
@@ -37,7 +30,7 @@ class PostQueryBuilder
         foreach ($classes as $class) {
             array_push($post_types, PostType::getName($class));
         }
-        array_push($new->queries, (new PostTypeExpr(...$post_types))->toQuery());
+        $new->addExpression(PostTypeExpr::class, $post_types);
 
         return $new;
     }
@@ -46,7 +39,7 @@ class PostQueryBuilder
     {
         $new = clone $this;
 
-        array_push($new->queries, new AuthorExpr($author));
+        $new->setExpression(AuthorExpr::class, $author);
 
         return $new;
     }
@@ -55,7 +48,7 @@ class PostQueryBuilder
     {
         $new = clone $this;
 
-        array_push($new->queries, new AuthorNameExpr($authorName));
+        $new->setExpression(AuthorNameExpr::class, $authorName);
 
         return $new;
     }
@@ -64,7 +57,7 @@ class PostQueryBuilder
     {
         $new = clone $this;
 
-        array_push($new->queries, new AuthorInExpr(...$authors));
+        $new->addExpression(AuthorInExpr::class, $authors);
 
         return $new;
     }
@@ -73,7 +66,7 @@ class PostQueryBuilder
     {
         $new = clone $this;
 
-        array_push($new->queries, new AuthorNotInExpr(...$authors));
+        $new->addExpression(AuthorNotInExpr::class, $authors);
 
         return $new;
     }
