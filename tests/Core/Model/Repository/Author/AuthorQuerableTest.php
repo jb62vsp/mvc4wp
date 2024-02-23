@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository;
 
-use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\Repository\Author\AuthorExpr;
 use Mvc4Wp\Core\Model\Repository\Author\AuthorInExpr;
 use Mvc4Wp\Core\Model\Repository\Author\AuthorNameExpr;
@@ -112,13 +111,7 @@ class AuthorQuerableTest extends TestCase
     }
 }
 
-/**
- * @template T of Model
- */
 class AuthorQuerableTestMockA
 {
-    /**
-     * @use AuthorQuerable<T>
-     */
     use Querable, AuthorQuerable;
 }

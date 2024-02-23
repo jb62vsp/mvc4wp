@@ -6,12 +6,7 @@ use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Repository\PostQueryBuilder;
-use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
 
-/**
- * @template TModel of PostModel
- * @extends Model<TModel>
- */
 #[PostType(name: 'post')]
 class PostModel extends Model
 {
@@ -43,10 +38,7 @@ class PostModel extends Model
         $this->post_type = PostType::getName(static::class);
     }
 
-    /**
-     * @return PostQueryBuilder<TModel>
-     */
-    public static function find(): QueryBuilderInterface
+    public static function find(): PostQueryBuilder
     {
         $result = new PostQueryBuilder(static::class);
         return $result;

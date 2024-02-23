@@ -2,13 +2,8 @@
 namespace Mvc4Wp\Core\Model\Repository\CustomField;
 
 use Mvc4Wp\Core\Exception\QueryBuildViolationException;
-use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\Repository\Expr;
 
-/**
- * @template TModel of Model
- * @implements Expr<TModel>
- */
 class CustomFieldExpr implements Expr
 {
     /**

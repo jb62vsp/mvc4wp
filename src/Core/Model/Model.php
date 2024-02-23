@@ -3,13 +3,8 @@ namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Attribute\Field;
-use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
 use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 
-/**
- * @template TModel of Model
- * @implements RepositoryInterface<TModel, QueryBuilderInterface<TModel>>
- */
 abstract class Model implements RepositoryInterface
 {
     use Bindable, Castable;

@@ -3,10 +3,6 @@ namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Model\PostModel;
 
-/**
- * @template TModel of PostModel
- * @implements QueryExecutorInterface<TModel>
- */
 class PostQueryExecutor implements QueryExecutorInterface
 {
     public function __construct(

@@ -1,10 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\CustomField;
 
-use Mvc4Wp\Core\Model\Model;
-
 /**
- * @template TModel of Model
  * @see https://developer.wordpress.org/reference/classes/wp_query/#custom-field-post-meta-parameters
  */
 trait CustomFieldQuerable

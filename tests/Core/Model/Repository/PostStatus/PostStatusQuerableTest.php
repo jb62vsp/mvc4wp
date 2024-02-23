@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\PostStatus;
 
-use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusExpr;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
 use Mvc4Wp\Core\Model\Repository\Querable;
@@ -132,13 +131,7 @@ class PostStatusQuerableTest extends TestCase
     }
 }
 
-/**
- * @template T of Model
- */
 class PostStatusQuerableTestMockA
 {
-    /**
-     * @use PostStatusQuerable<T>
-     */
     use Querable, PostStatusQuerable;
 }

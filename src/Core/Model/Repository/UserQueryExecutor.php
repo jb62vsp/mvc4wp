@@ -2,13 +2,8 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\Model;
 use Mvc4Wp\Core\Model\UserModel;
 
-/**
- * @template TModel of UserModel
- * @implements QueryExecutorInterface<TModel>
- */
 class UserQueryExecutor implements QueryExecutorInterface
 {
     use Castable;
@@ -32,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): ?Model
+    public function getSingle(): ?UserModel
     {
         $result = null;
 
@@ -44,7 +39,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function byID(int $id): ?Model
+    public function byID(int $id): ?UserModel
     {
         return $this->bindByID($id);
     }
@@ -59,23 +54,13 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function current(): ?Model
-    {
-        $result = null;
-
-        $id = get_current_user_id();
-        $result = $this->bindByID($id);
-
-        return $result;
-    }
-
     protected function fetch(): array
     {
         $wp_query = new \WP_User_Query($this->queries);
-        return $wp_query->get_posts();
+        return $wp_query->get_results();
     }
 
-    protected function bindByID(int $id): ?Model
+    protected function bindByID(int $id): ?UserModel
     {
         $result = null;
 

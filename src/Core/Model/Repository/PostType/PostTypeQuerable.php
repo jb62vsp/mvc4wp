@@ -2,10 +2,8 @@
 namespace Mvc4Wp\Core\Model\Repository\PostType;
 
 use Mvc4Wp\Core\Model\Attribute\PostType;
-use Mvc4Wp\Core\Model\Model;
 
 /**
- * @template TModel of Model
  * @see https://developer.wordpress.org/reference/classes/wp_query/#post-type-parameters
  */
 trait PostTypeQuerable

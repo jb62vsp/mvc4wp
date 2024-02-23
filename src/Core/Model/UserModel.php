@@ -3,13 +3,8 @@ namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Attribute\Field;
-use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
 use Mvc4Wp\Core\Model\Repository\UserQueryBuilder;
 
-/**
- * @template TModel of UserModel
- * @extends Model<TModel>
- */
 class UserModel extends Model
 {
     use Castable;
@@ -29,7 +24,7 @@ class UserModel extends Model
     #[Field]
     public string $first_name;
 
-    public static function find(): QueryBuilderInterface
+    public static function find(): UserQueryBuilder
     {
         $result = new UserQueryBuilder(static::class);
         return $result;
