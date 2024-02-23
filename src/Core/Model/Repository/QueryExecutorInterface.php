@@ -9,7 +9,5 @@ interface QueryExecutorInterface
 
     public function getSingle(): Entity|null;
 
-    public function byID(int $id): Entity|null;
-
     public function count(): int;
 }

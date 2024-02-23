@@ -24,7 +24,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): ?PostEntity
+    public function getSingle(): PostEntity|null
     {
         $result = null;
 
@@ -34,12 +34,6 @@ class PostQueryExecutor implements QueryExecutorInterface
         }
 
         return $result;
-    }
-
-    public function byID(int $id): ?PostEntity
-    {
-        $this->queries['p'] = $id;
-        return $this->getSingle();
     }
 
     public function count(): int

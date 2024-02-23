@@ -27,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): ?UserEntity
+    public function getSingle(): UserEntity|null
     {
         $result = null;
 
@@ -37,11 +37,6 @@ class UserQueryExecutor implements QueryExecutorInterface
         }
 
         return $result;
-    }
-
-    public function byID(int $id): ?UserEntity
-    {
-        return $this->bindByID($id);
     }
 
     public function count(): int
@@ -60,7 +55,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $wp_query->get_results();
     }
 
-    protected function bindByID(int $id): ?UserEntity
+    protected function bindByID(int $id): UserEntity|null
     {
         $result = null;
 
