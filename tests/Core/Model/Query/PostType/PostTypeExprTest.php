@@ -13,7 +13,7 @@ class PostTypeExprTest extends TestCase
         $obj = new PostTypeExpr();
 
         $actual = $obj->toQuery([]);
-        $this->assertEquals(['post_type' => []], $actual);
+        $this->assertEquals([], $actual);
     }
 
     public function test_toQuery_oneParam(): void
