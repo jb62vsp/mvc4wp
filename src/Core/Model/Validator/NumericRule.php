@@ -20,7 +20,7 @@ class NumericRule extends Rule
         $result = [];
 
         if (!empty($value) && !is_numeric($value)) {
-            array_push($result, new ValidationError($class_name, $property_name, $value, $this));
+            $result[] = new ValidationError($class_name, $property_name, $value, $this);
         }
 
         return $result;

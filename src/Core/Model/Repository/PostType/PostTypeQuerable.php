@@ -17,7 +17,7 @@ trait PostTypeQuerable
 
         $post_types = [];
         foreach ($classes as $class) {
-            array_push($post_types, PostType::getName($class));
+            $post_types[] = PostType::getName($class);
         }
         $new->addExpression(PostTypeExpr::class, $post_types);
 

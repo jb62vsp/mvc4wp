@@ -47,7 +47,7 @@ trait AttributeTrait
         foreach ($attrs as $attr) {
             $instance = $attr->newInstance();
             if ($instance->equals(static::class) || $instance->extend(static::class)) {
-                array_push($result, $instance);
+                $result[] = $instance;
             }
         }
 
@@ -78,24 +78,14 @@ trait AttributeTrait
             foreach ($attrs as $attr) {
                 $instance = $attr->newInstance();
                 if ($instance->equals(static::class) || $instance->extend(static::class)) {
-                    array_push($inspect, $instance);
+                    $inspect[] = $instance;
                 }
             }
             if (count($inspect) === 1) {
-                array_push($result, $prop);
+                $result[] = $prop;
             }
         }
-        // $result = array_filter($props, function (ReflectionProperty $prop) {
-        //     $attrs = $prop->getAttributes();
-        //     $inspect = [];
-        //     foreach ($attrs as $attr) {
-        //         $instance = $attr->newInstance();
-        //         if ($instance->equals(static::class) || $instance->extend(static::class)) {
-        //             array_push($inspect, $instance);
-        //         }
-        //     }
-        //     return count($inspect) === 1;
-        // });
+
         return $result;
     }
 

@@ -42,7 +42,7 @@ class RegExpRule extends Rule
         $pattern = static::getPatternString($this->pattern);
         $matched = preg_match($pattern, $value);
         if (!$matched) {
-            array_push($result, new ValidationError($class_name, $property_name, $value, $this));
+            $result[] = new ValidationError($class_name, $property_name, $value, $this);
         }
 
         return $result;

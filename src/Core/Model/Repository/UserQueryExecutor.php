@@ -21,7 +21,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         $users = $this->fetch();
         foreach ($users as $user) {
             $model = $this->bindByID($user->ID);
-            array_push($result, $model);
+            $result[] = $model;
         }
 
         return $result;

@@ -17,7 +17,7 @@ final class WordPressCustomize
     {
         add_filter($key, $callback);
         if (array_key_exists($key, self::$added_callback)) {
-            array_push(self::$added_callback[$key], $callback);
+            self::$added_callback[$key][] = $callback;
         } else {
             self::$added_callback[$key] = [$callback];
         }

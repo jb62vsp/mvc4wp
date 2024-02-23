@@ -23,7 +23,7 @@ class LengthRule extends Rule
 
         $length = strlen(strval($value));
         if ($length < $this->min || $this->max < $length) {
-            array_push($result, new ValidationError($class_name, $property_name, $value, $this));
+            $result[] = new ValidationError($class_name, $property_name, $value, $this);
         }
 
         return $result;

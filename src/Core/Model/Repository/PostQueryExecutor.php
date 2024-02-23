@@ -18,7 +18,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         $ids = $this->fetch();
         foreach ($ids as $id) {
             $model = $this->bindByID($id);
-            array_push($result, $model);
+            $result[] = $model;
         }
 
         return $result;
