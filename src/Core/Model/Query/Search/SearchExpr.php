@@ -10,12 +10,12 @@ use Mvc4Wp\Core\Model\Query\Expr;
  */
 class SearchExpr implements Expr
 {
-    public function toQuery(array $context): array
+    public function toQuery(array $contexts): array
     {
-        if (empty($context)) {
+        if (empty($contexts)) {
             return [];
         } else {
-            return ['s' => $context[0]];
+            return ['s' => $contexts[0]];
         }
     }
 }

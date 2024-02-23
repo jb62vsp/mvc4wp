@@ -10,12 +10,12 @@ use Mvc4Wp\Core\Model\Query\Expr;
  */
 class AuthorExpr implements Expr
 {
-    public function toQuery(array $context): array
+    public function toQuery(array $contexts): array
     {
-        if (empty($context)) {
+        if (empty($contexts)) {
             return [];
         } else {
-            return ['author' => $context[0]];
+            return ['author' => $contexts[0]];
         }
     }
 }

@@ -10,8 +10,8 @@ use Mvc4Wp\Core\Model\Query\Expr;
  */
 class AuthorNotInExpr implements Expr
 {
-    public function toQuery(array $context): array
+    public function toQuery(array $contexts): array
     {
-        return ['author__not_in' => $context];
+        return ['author__not_in' => $contexts];
     }
 }

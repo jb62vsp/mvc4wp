@@ -10,12 +10,12 @@ use Mvc4Wp\Core\Model\Query\Expr;
  */
 class PostTypeExpr implements Expr
 {
-    public function toQuery(array $context): array
+    public function toQuery(array $contexts): array
     {
-        if (count($context) === 1) {
-            return ['post_type' => $context[0]];
+        if (count($contexts) === 1) {
+            return ['post_type' => $contexts[0]];
         } else {
-            return ['post_type' => $context];
+            return ['post_type' => $contexts];
         }
     }
 }

@@ -8,5 +8,5 @@ use Mvc4Wp\Core\Model\Model;
  */
 interface Expr
 {
-   public function toQuery(array $context): array;
+   public function toQuery(array $contexts): array;
 }
