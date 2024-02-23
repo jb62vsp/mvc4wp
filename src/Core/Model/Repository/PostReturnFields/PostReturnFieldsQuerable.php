@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model\Repository\ReturnFields;
+namespace Mvc4Wp\Core\Model\Repository\PostReturnFields;
 
 use Mvc4Wp\Core\Model\Model;
 
@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Model\Model;
  * @see https://developer.wordpress.org/reference/classes/wp_query/#return-fields-parameter
  */
 
-trait ReturnFieldsQuerable
+trait PostReturnFieldsQuerable
 {
     /**
      * Return all fields.
@@ -17,7 +17,7 @@ trait ReturnFieldsQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(ReturnFieldsExpr::class, 'all');
+        $new->setExpression(PostReturnFieldsExpr::class, 'all');
 
         return $new;
     }
@@ -29,7 +29,7 @@ trait ReturnFieldsQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(ReturnFieldsExpr::class, 'ids');
+        $new->setExpression(PostReturnFieldsExpr::class, 'ids');
 
         return $new;
     }
@@ -41,7 +41,7 @@ trait ReturnFieldsQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(ReturnFieldsExpr::class, 'id=>parent');
+        $new->setExpression(PostReturnFieldsExpr::class, 'id=>parent');
 
         return $new;
     }

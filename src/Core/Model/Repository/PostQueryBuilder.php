@@ -5,10 +5,10 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\PostModel;
 use Mvc4Wp\Core\Model\Repository\Author\AuthorQuerable;
 use Mvc4Wp\Core\Model\Repository\CustomField\CustomFieldQuerable;
+use Mvc4Wp\Core\Model\Repository\PostReturnFields\PostReturnFieldsQuerable;
 use Mvc4Wp\Core\Model\Repository\PostSearch\PostSearchQuerable;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
 use Mvc4Wp\Core\Model\Repository\PostType\PostTypeQuerable;
-use Mvc4Wp\Core\Model\Repository\ReturnFields\ReturnFieldsQuerable;
 
 /**
  * @template TModel of PostModel
@@ -20,12 +20,12 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
     /**
      * @use AuthorQuerable<TModel>
      * @use CustomFieldQuerable<TModel>
+     * @use PostReturnFieldsQuerable<TModel>
      * @use PostSearchQuerable<TModel>
      * @use PostStatusQuerable<TModel>
      * @use PostTypeQuerable<TModel>
-     * @use ReturnFieldsQuerable<TModel>
      */
-    use Castable, AuthorQuerable, CustomFieldQuerable, PostSearchQuerable, PostStatusQuerable, PostTypeQuerable, ReturnFieldsQuerable;
+    use Castable, AuthorQuerable, CustomFieldQuerable, PostReturnFieldsQuerable, PostSearchQuerable, PostStatusQuerable, PostTypeQuerable;
 
     public function __construct(
         protected string $entity_class,
