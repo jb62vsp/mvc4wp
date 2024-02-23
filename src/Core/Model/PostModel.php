@@ -5,8 +5,8 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Attribute\PostType;
-use Mvc4Wp\Core\Model\Repository\PostQuery;
-use Mvc4Wp\Core\Model\Repository\QueryInterface;
+use Mvc4Wp\Core\Model\Repository\PostQueryBuilder;
+use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
 
 /**
  * @template TModel of PostModel
@@ -44,12 +44,11 @@ class PostModel extends Model
     }
 
     /**
-     * @return PostQuery<TModel>
+     * @return PostQueryBuilder<TModel>
      */
-    public static function find(): QueryInterface
+    public static function find(): QueryBuilderInterface
     {
-        /** @var PostQuery<TModel> */
-        $result = new PostQuery(static::class);
+        $result = new PostQueryBuilder();
         return $result;
     }
 

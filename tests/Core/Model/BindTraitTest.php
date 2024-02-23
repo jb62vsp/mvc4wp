@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Model\Repository\QueryInterface;
+use Mvc4Wp\Core\Model\Attribute\Field;
+use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
+use Mvc4Wp\Core\Model\Repository\QueryExecutorInterface;
+use Mvc4Wp\Core\Model\Validator\Rule;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Mvc4Wp\Core\Model\Validator\Rule;
-use Mvc4Wp\Core\Model\Attribute\Field;
 
 #[CoversClass(Model::class)]
 #[CoversClass(Rule::class)]
@@ -62,9 +63,9 @@ class BindTraitTestTestMockA extends Model
 
     public float $field_c;
 
-    public static function find(): QueryInterface
+    public static function find(): QueryBuilderInterface
     {
-        return new ModelTestMockQuery();
+        return new BindTraitTestMockQueryBuilder();
     }
 
     public function register(): int
@@ -83,29 +84,27 @@ class BindTraitTestTestMockA extends Model
     }
 }
 
-class ModelTestMockQuery implements QueryInterface
+class BindTraitTestMockQueryBuilder implements QueryBuilderInterface
 {
-    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): QueryInterface
+    public function build(): QueryExecutorInterface
     {
-        return $this;
+        return new BindTraitTestMockQueryExecutor();
     }
+}
 
-    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): QueryInterface
-    {
-        return $this;
-    }
-
+class BindTraitTestMockQueryExecutor implements QueryExecutorInterface
+{
     public function get(): array
     {
         return [];
     }
 
-    public function getSingle(): ?Model
+    public function getSingle(): Model|null
     {
         return null;
     }
 
-    public function byID(int $id): ?Model
+    public function byID(int $id): Model|null
     {
         return null;
     }

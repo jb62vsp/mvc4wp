@@ -5,15 +5,15 @@ use Mvc4Wp\Core\Model\Model;
 
 /**
  * @template TModel of Model
- * @template TQuery of QueryInterface<TModel>
+ * @template TQuery of QueryBuilderInterface<TModel>
  */
 interface RepositoryInterface
 {
     /**
      * @return TQuery
      */
-    public static function find(): QueryInterface;
-    
+    public static function find(): QueryBuilderInterface;
+
     /**
      * @return int
      */
