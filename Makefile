@@ -37,12 +37,15 @@ vendor: composer.json #: install vendor
 	@composer install --no-dev
 
 .PHONY: vendor_dev
-vendor_dev: vendor/bin/phpunit vendor/bin/phpstan #: install vendor with dev
+vendor_dev: vendor/bin/phpunit vendor/bin/phpstan vendor/bin/phpmetrics #: install vendor with dev
 
 vendor/bin/phpunit: composer.json
 	@composer install
 
 vendor/bin/phpstan: composer.json
+	@composer install
+
+vendor/bin/phpmetrics: composer.json
 	@composer install
 
 .PHONY: reload_vendor
@@ -62,15 +65,15 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: vendor/bin/phpunit tests #: execute All unittest
+test: vendor_dev #: execute All unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'All'
 
 .PHONY: app_test
-app_test: vendor/bin/phpunit tests/App #: execute App unittest
+app_test: vendor_dev tests/App #: execute App unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'App'
 
 .PHONY: core_test
-core_test: vendor/bin/phpunit tests/Core #: execute Core unittest
+core_test: vendor_dev tests/Core #: execute Core unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: clean_test
@@ -78,15 +81,25 @@ clean_test: .phpunit.cache coverage #: clean test
 	@rm -rf .phpunit.cache coverage
 
 #
+# metrics
+#
+metrics: vendor_dev #: generate metrics reports with PhpMetrics
+	@./vendor/bin/phpmetrics --report-html=metrics_report ./src/Core
+
+.PHONY: clean_metrics
+clean_metrics: ./metrics_report #: clean metrics
+	@rm -rf metrics_report
+
+#
 # static analysis
 #
 
 .PHONY: analyze
-analyze: vendor/bin/phpstan #: execute static analysis with PHPStan
+analyze: vendor_dev #: execute static analysis with PHPStan
 	@./vendor/bin/phpstan analyze --memory-limit=4G
 
 .PHONY: baseline
-baseline: vendor/bin/phpstan #: generate phpstan-baseline.neon PHPStan
+baseline: vendor_dev #: generate phpstan-baseline.neon PHPStan
 	@./vendor/bin/phpstan analyze --generate-baseline --allow-empty-baseline --memory-limit=4G
 
 #

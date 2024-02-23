@@ -6,3 +6,4 @@
 /vendor/
 coverage/
 wp-includes/
+metrics_report/
