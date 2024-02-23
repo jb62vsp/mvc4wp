@@ -10,7 +10,7 @@ class PostSearchQuerableTest extends TestCase
 {
     public function test_search_single(): void
     {
-        $obj = new SearchQuerableTestMockImpl();
+        $obj = new PostSearchQuerableTestMockImpl();
 
         $actual = $obj
             ->search('hoge')
@@ -20,7 +20,7 @@ class PostSearchQuerableTest extends TestCase
 
     public function test_search_chain(): void
     {
-        $obj = new SearchQuerableTestMockImpl();
+        $obj = new PostSearchQuerableTestMockImpl();
 
         $actual = $obj
             ->search('hoge')
@@ -31,7 +31,7 @@ class PostSearchQuerableTest extends TestCase
     }
 }
 
-class SearchQuerableTestMockImpl
+class PostSearchQuerableTestMockImpl
 {
     use Querable, PostSearchQuerable;
 }
