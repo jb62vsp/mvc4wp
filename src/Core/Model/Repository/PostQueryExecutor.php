@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository;
 
-use Mvc4Wp\Core\Model\Model;
+use Mvc4Wp\Core\Model\PostModel;
 
 /**
- * @template TModel of Model
+ * @template TModel of PostModel
  * @implements QueryExecutorInterface<TModel>
  */
 class PostQueryExecutor implements QueryExecutorInterface
@@ -14,7 +14,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         protected array $queries,
     ) {
     }
-    
+
     public function get(): array
     {
         $result = [];
@@ -28,7 +28,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): ?Model
+    public function getSingle(): ?PostModel
     {
         $result = null;
 
@@ -40,7 +40,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function byID(int $id): ?Model
+    public function byID(int $id): ?PostModel
     {
         $this->queries['p'] = $id;
         return $this->getSingle();
@@ -62,7 +62,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $wp_query->get_posts();
     }
 
-    protected function bindByID(int $id): Model
+    protected function bindByID(int $id): PostModel
     {
         $cls = $this->entity_class;
         $result = new $cls();
