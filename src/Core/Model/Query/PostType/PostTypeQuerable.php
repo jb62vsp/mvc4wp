@@ -6,10 +6,14 @@ use Mvc4Wp\Core\Model\Model;
 
 /**
  * @template TModel of Model
+ * @see https://developer.wordpress.org/reference/classes/wp_query/#post-type-parameters
  */
 trait PostTypeQuerable
 {
-    public function asModel(string ...$classes): static
+    /**
+     * as Entity classes
+     */
+    public function asEntity(string ...$classes): static
     {
         $new = clone $this;
 
@@ -18,6 +22,58 @@ trait PostTypeQuerable
             array_push($post_types, PostType::getName($class));
         }
         $new->addExpression(PostTypeExpr::class, $post_types);
+
+        return $new;
+    }
+
+    /**
+     * a post.
+     */
+    public function asPost(): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(PostTypeExpr::class, 'post');
+
+        return $new;
+    }
+
+    /**
+     * a page.
+     */
+    public function asPage(): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(PostTypeExpr::class, 'page');
+
+        return $new;
+    }
+
+    /**
+     * a revision.
+     */
+    public function asRevision(): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(PostTypeExpr::class, 'revision');
+
+        return $new;
+    }
+
+    /**
+     * an attachment.
+     * Whilst the default WP_Query post_status is 'publish', attachments have a default post_status of 'inherit'.
+     * This means no attachments will be returned unless you also explicitly set post_status to 'inherit' or 'any'.
+     * See Status parameters section below.
+     * @see https://developer.wordpress.org/reference/classes/wp_query/#status-parameters
+     */
+    public function asAttachment(): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(PostTypeExpr::class, 'attachment');
 
         return $new;
     }

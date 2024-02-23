@@ -83,7 +83,8 @@ trait PostStatusQuerable
     }
 
     /**
-     * a revision. see get_children() .
+     * a revision.
+     * see get_children() .
      * @see https://developer.wordpress.org/reference/functions/get_children/
      */
     public function withInherit(): static
@@ -108,7 +109,8 @@ trait PostStatusQuerable
     }
 
     /**
-     * retrieves any status except for ‘inherit’, ‘trash’ and ‘auto-draft’. Custom post statuses with ‘exclude_from_search’ set to true are also excluded.
+     * retrieves any status except for 'inherit', 'trash' and 'auto-draft'.
+     * Custom post statuses with 'exclude_from_search' set to true are also excluded.
      */
     public function withAny(): static
     {
