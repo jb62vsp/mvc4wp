@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model\Query\Search;
+namespace Mvc4Wp\Core\Model\Query\PostSearch;
 
 use Mvc4Wp\Core\Model\Model;
 
@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Model\Model;
  * @see https://developer.wordpress.org/reference/classes/wp_query/#search-parameters
  */
 
-trait SearchQuerable
+trait PostSearchQuerable
 {
     /**
      * @param string $search Search keyword.
@@ -17,7 +17,7 @@ trait SearchQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(SearchExpr::class, $search);
+        $new->setExpression(PostSearchExpr::class, $search);
 
         return $new;
     }
