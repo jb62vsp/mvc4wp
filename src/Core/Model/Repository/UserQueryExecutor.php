@@ -18,9 +18,9 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = [];
 
-        $ids = $this->fetch();
-        foreach ($ids as $id) {
-            $model = $this->bindByID($id);
+        $users = $this->fetch();
+        foreach ($users as $user) {
+            $model = $this->bindByID($user->ID);
             array_push($result, $model);
         }
 
@@ -31,9 +31,9 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = null;
 
-        $ids = $this->fetch();
-        if (!empty($ids)) {
-            $result = $this->bindByID($ids[0]);
+        $users = $this->fetch();
+        if (!empty($users)) {
+            $result = $this->bindByID($users[0]);
         }
 
         return $result;
@@ -52,7 +52,7 @@ class UserQueryExecutor implements QueryExecutorInterface
     protected function fetch(): array
     {
         $wp_query = new \WP_User_Query($this->queries);
-        return $wp_query->get_results();
+        return $wp_query->get_results() ?: [];
     }
 
     protected function bindByID(int $id): UserEntity|null
