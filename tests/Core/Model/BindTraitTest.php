@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-#[CoversClass(Model::class)]
+#[CoversClass(Entity::class)]
 #[CoversClass(Rule::class)]
 class BindTraitTest extends TestCase
 {
@@ -53,7 +53,7 @@ class BindTraitTest extends TestCase
     }
 }
 
-class BindTraitTestTestMockA extends Model
+class BindTraitTestTestMockA extends Entity
 {
     #[Field]
     public string $field_a = 'abc';
@@ -99,12 +99,12 @@ class BindTraitTestMockQueryExecutor implements QueryExecutorInterface
         return [];
     }
 
-    public function getSingle(): Model|null
+    public function getSingle(): Entity|null
     {
         return null;
     }
 
-    public function byID(int $id): Model|null
+    public function byID(int $id): Entity|null
     {
         return null;
     }

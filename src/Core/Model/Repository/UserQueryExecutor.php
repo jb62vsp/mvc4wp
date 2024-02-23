@@ -2,7 +2,7 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\UserModel;
+use Mvc4Wp\Core\Model\UserEntity;
 
 class UserQueryExecutor implements QueryExecutorInterface
 {
@@ -27,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): ?UserModel
+    public function getSingle(): ?UserEntity
     {
         $result = null;
 
@@ -39,7 +39,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function byID(int $id): ?UserModel
+    public function byID(int $id): ?UserEntity
     {
         return $this->bindByID($id);
     }
@@ -60,7 +60,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $wp_query->get_results();
     }
 
-    protected function bindByID(int $id): ?UserModel
+    protected function bindByID(int $id): ?UserEntity
     {
         $result = null;
 

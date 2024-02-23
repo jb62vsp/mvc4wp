@@ -5,7 +5,7 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 
-abstract class Model implements RepositoryInterface
+abstract class Entity implements RepositoryInterface
 {
     use Bindable, Castable;
 

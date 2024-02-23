@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Model\Attribute\PostType;
 use Mvc4Wp\Core\Model\Repository\PostQueryBuilder;
 
 #[PostType(name: 'post')]
-class PostModel extends Model
+class PostEntity extends Entity
 {
     use Castable;
 

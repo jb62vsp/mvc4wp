@@ -38,7 +38,7 @@ trait Bindable
     /**
      * @return array<ValidationError>
      */
-    private static function bindProperties(Model $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
+    private static function bindProperties(Entity $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
     {
         $result = [];
 
@@ -63,7 +63,7 @@ trait Bindable
         return $result;
     }
 
-    protected static function toString(Model $obj, ReflectionProperty $prop): string
+    protected static function toString(Entity $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (static::hasKey($obj, $prop_name)) {
@@ -74,7 +74,7 @@ trait Bindable
         return '';
     }
 
-    protected static function toArrayOnlyField(Model $obj): array
+    protected static function toArrayOnlyField(Entity $obj): array
     {
         $result = [];
 
