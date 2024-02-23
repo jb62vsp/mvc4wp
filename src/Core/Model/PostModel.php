@@ -48,7 +48,7 @@ class PostModel extends Model
      */
     public static function find(): QueryBuilderInterface
     {
-        $result = new PostQueryBuilder();
+        $result = new PostQueryBuilder(static::class);
         return $result;
     }
 

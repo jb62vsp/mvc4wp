@@ -10,39 +10,68 @@ use Mvc4Wp\Core\Model\Model;
 class PostQueryExecutor implements QueryExecutorInterface
 {
     public function __construct(
-        protected array $query
+        protected string $entity_class,
+        protected array $queries,
     ) {
     }
     
-    /**
-     * @return array<TModel>
-     */
     public function get(): array
     {
-        return []; // TODO
+        $result = [];
+
+        $ids = $this->fetch();
+        foreach ($ids as $id) {
+            $model = $this->bindByID($id);
+            array_push($result, $model);
+        }
+
+        return $result;
     }
 
-    /**
-     * @return TModel|null
-     */
-    public function getSingle(): Model|null
+    public function getSingle(): ?Model
     {
-        return null;
+        $result = null;
+
+        $ids = $this->fetch();
+        if (!empty($ids)) {
+            $result = $this->bindByID($ids[0]);
+        }
+
+        return $result;
     }
 
-    /**
-     * @return TModel|null
-     */
-    public function byID(int $id): Model|null
+    public function byID(int $id): ?Model
     {
-        return null;
+        $this->queries['p'] = $id;
+        return $this->getSingle();
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
-        return 0;
+        $result = 0;
+
+        $ids = $this->fetch();
+        $result = count($ids);
+
+        return $result;
+    }
+
+    protected function fetch(): array
+    {
+        $wp_query = new \WP_Query($this->queries);
+        return $wp_query->get_posts();
+    }
+
+    protected function bindByID(int $id): Model
+    {
+        $cls = $this->entity_class;
+        $result = new $cls();
+
+        $data = get_post($id);
+        $result->bind($data, false);
+        $meta = get_post_custom($id);
+        $result->bind($meta, false);
+
+        return $result;
     }
 }
