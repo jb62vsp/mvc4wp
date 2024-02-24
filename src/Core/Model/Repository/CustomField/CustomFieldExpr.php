@@ -17,14 +17,16 @@ class CustomFieldExpr implements Expr
             [$field, $value, $compare, $type] = $this->tuplize($contexts[0]);
 
             return [
-                'meta_query' => [
-                    [
-                        'key' => $field,
-                        'value' => $value,
-                        'compare' => $compare,
-                        'type' => $type,
+                [
+                    'meta_query' => [
+                        [
+                            'key' => $field,
+                            'value' => $value,
+                            'compare' => $compare,
+                            'type' => $type,
+                        ],
                     ],
-                ],
+                ]
             ];
         } else {
             $result = [
@@ -39,7 +41,9 @@ class CustomFieldExpr implements Expr
                     'type' => $type,
                 ];
             }
-            return [['meta_query' => $result]];
+            return [
+                ['meta_query' => $result]
+            ];
         }
     }
 

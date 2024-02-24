@@ -22,14 +22,16 @@ class CustomFieldExprTest extends TestCase
 
         $actual = $obj->toQuery([['hoge', 'HOGE', '=', 'CHAR']]);
         $this->assertEquals([
-            'meta_query' => [
-                [
-                    'key' => 'hoge',
-                    'value' => 'HOGE',
-                    'compare' => '=',
-                    'type' => 'CHAR',
+            [
+                'meta_query' => [
+                    [
+                        'key' => 'hoge',
+                        'value' => 'HOGE',
+                        'compare' => '=',
+                        'type' => 'CHAR',
+                    ],
                 ],
-            ],
+            ]
         ], $actual);
     }
 
