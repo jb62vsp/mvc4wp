@@ -10,9 +10,9 @@ class PostTypeExpr implements Expr
         if (empty($contexts)) {
             return [];
         } elseif (count($contexts) === 1) {
-            return ['post_type' => $contexts[0]];
+            return [['post_type' => $contexts[0]]];
         } else {
-            return ['post_type' => $contexts];
+            return [['post_type' => $contexts]];
         }
     }
 }

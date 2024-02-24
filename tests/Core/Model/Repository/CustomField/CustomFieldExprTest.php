@@ -43,30 +43,32 @@ class CustomFieldExprTest extends TestCase
             ['piyo', 3, '<', 'NUMERIC'],
         ]);
         $this->assertEquals([
-            'meta_query' => [
-                'relation' => 'AND',
-                [
-                    'key' => 'hoge',
-                    'value' => 'HOGE',
-                    'compare' => '=',
-                    'type' => 'CHAR',
-                ],
-                [
-                    'key' => 'fuga',
-                    'value' => [
-                        '2023-01-01',
-                        '2023-12-31',
+            [
+                'meta_query' => [
+                    'relation' => 'AND',
+                    [
+                        'key' => 'hoge',
+                        'value' => 'HOGE',
+                        'compare' => '=',
+                        'type' => 'CHAR',
                     ],
-                    'compare' => 'BETWEEN',
-                    'type' => 'DATE',
+                    [
+                        'key' => 'fuga',
+                        'value' => [
+                            '2023-01-01',
+                            '2023-12-31',
+                        ],
+                        'compare' => 'BETWEEN',
+                        'type' => 'DATE',
+                    ],
+                    [
+                        'key' => 'piyo',
+                        'value' => 3,
+                        'compare' => '<',
+                        'type' => 'NUMERIC',
+                    ],
                 ],
-                [
-                    'key' => 'piyo',
-                    'value' => 3,
-                    'compare' => '<',
-                    'type' => 'NUMERIC',
-                ],
-            ],
+            ]
         ], $actual);
     }
 

@@ -8,10 +8,11 @@ use Mvc4Wp\Core\Model\Repository\PostReturnFields\PostReturnFieldsQuerable;
 use Mvc4Wp\Core\Model\Repository\PostSearch\PostSearchQuerable;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
 use Mvc4Wp\Core\Model\Repository\PostType\PostTypeQuerable;
+use Mvc4Wp\Core\Model\Repository\Raw\RawQuerable;
 
 class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
-    use Castable, AuthorQuerable, CustomFieldQuerable, PostReturnFieldsQuerable, PostSearchQuerable, PostStatusQuerable, PostTypeQuerable;
+    use Castable, AuthorQuerable, CustomFieldQuerable, PostReturnFieldsQuerable, PostSearchQuerable, PostStatusQuerable, PostTypeQuerable, RawQuerable;
 
     public function __construct(
         protected string $entity_class,
@@ -25,7 +26,9 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
         $queries = [];
         foreach ($expressions as $expr_class => $contexts) {
             $expr = new $expr_class();
-            $queries = array_merge($queries, $expr->toQuery($contexts));
+            foreach ($expr->toQuery($contexts) as $query) {
+                $queries = array_merge($queries, $query);
+            }
         }
         return new PostQueryExecutor($new->entity_class, $queries);
     }

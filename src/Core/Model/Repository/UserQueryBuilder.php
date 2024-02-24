@@ -2,10 +2,11 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Repository\Raw\RawQuerable;
 
 class UserQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
-    use Castable;
+    use Castable, RawQuerable;
 
     public function __construct(
         protected string $entity_class,
@@ -19,7 +20,9 @@ class UserQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
         $queries = [];
         foreach ($expressions as $expr_class => $contexts) {
             $expr = new $expr_class();
-            $queries = array_merge($queries, $expr->toQuery($contexts));
+            foreach ($expr->toQuery($contexts) as $query) {
+                $queries = array_merge($queries, $query);
+            }
         }
         return new UserQueryExecutor($new->entity_class, $queries);
     }

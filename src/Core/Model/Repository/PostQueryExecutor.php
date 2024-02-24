@@ -40,8 +40,10 @@ class PostQueryExecutor implements QueryExecutorInterface
     {
         $result = 0;
 
-        $ids = $this->fetch();
-        $result = count($ids);
+        $results = $this->fetch();
+        if (is_array($results)) {
+            $result = count($results);
+        }
 
         return $result;
     }

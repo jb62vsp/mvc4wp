@@ -7,6 +7,6 @@ class AuthorNotInExpr implements Expr
 {
     public function toQuery(array $contexts): array
     {
-        return ['author__not_in' => $contexts];
+        return [['author__not_in' => $contexts]];
     }
 }

@@ -10,7 +10,7 @@ class AuthorExpr implements Expr
         if (empty($contexts)) {
             return [];
         } else {
-            return ['author' => $contexts[0]];
+            return [['author' => $contexts[0]]];
         }
     }
 }

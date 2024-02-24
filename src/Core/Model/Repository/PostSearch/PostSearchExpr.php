@@ -10,7 +10,7 @@ class PostSearchExpr implements Expr
         if (empty($contexts)) {
             return [];
         } else {
-            return ['s' => $contexts[0]];
+            return [['s' => $contexts[0]]];
         }
     }
 }

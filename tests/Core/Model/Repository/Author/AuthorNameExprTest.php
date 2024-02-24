@@ -21,7 +21,7 @@ class AuthorNameExprTest extends TestCase
         $obj = new AuthorNameExpr();
 
         $actual = $obj->toQuery(['hoge']);
-        $this->assertEquals(['author_name' => 'hoge'], $actual);
+        $this->assertEquals([['author_name' => 'hoge']], $actual);
     }
 
     public function test_toQuery_multiParams(): void
@@ -29,6 +29,6 @@ class AuthorNameExprTest extends TestCase
         $obj = new AuthorNameExpr();
 
         $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
-        $this->assertEquals(['author_name' => 'hoge'], $actual);
+        $this->assertEquals([['author_name' => 'hoge']], $actual);
     }
 }

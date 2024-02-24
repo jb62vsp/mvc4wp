@@ -10,7 +10,7 @@ class PostReturnFieldsExpr implements Expr
         if (empty($contexts)) {
             return [];
         } else {
-            return ['fields' => $contexts[0]];
+            return [['fields' => $contexts[0]]];
         }
     }
 }

@@ -7,6 +7,10 @@ class AuthorInExpr implements Expr
 {
     public function toQuery(array $contexts): array
     {
-        return ['author__in' => $contexts];
+        if (empty($contexts)) {
+            return [];
+        } else {
+            return [['author__in' => $contexts]];
+        }
     }
 }

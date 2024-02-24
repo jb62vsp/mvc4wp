@@ -20,7 +20,7 @@ class PostSearchExprTest extends TestCase
         $obj = new PostSearchExpr();
 
         $actual = $obj->toQuery(['hoge']);
-        $this->assertEquals(['s' => 'hoge'], $actual);
+        $this->assertEquals([['s' => 'hoge']], $actual);
     }
 
     public function test_toQuery_multiParams(): void
@@ -28,6 +28,6 @@ class PostSearchExprTest extends TestCase
         $obj = new PostSearchExpr();
 
         $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
-        $this->assertEquals(['s' => 'hoge'], $actual);
+        $this->assertEquals([['s' => 'hoge']], $actual);
     }
 }

@@ -21,7 +21,7 @@ class PostStatusExprTest extends TestCase
         $obj = new PostStatusExpr();
 
         $actual = $obj->toQuery(['publish']);
-        $this->assertEquals(['post_status' => 'publish'], $actual);
+        $this->assertEquals([['post_status' => 'publish']], $actual);
     }
 
     public function test_toQuery_manyParams(): void
@@ -29,6 +29,6 @@ class PostStatusExprTest extends TestCase
         $obj = new PostStatusExpr();
 
         $actual = $obj->toQuery(['publish', 'trash', 'draft']);
-        $this->assertEquals(['post_status' => ['publish', 'trash', 'draft']], $actual);
+        $this->assertEquals([['post_status' => ['publish', 'trash', 'draft']]], $actual);
     }
 }

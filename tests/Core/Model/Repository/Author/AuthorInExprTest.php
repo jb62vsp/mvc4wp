@@ -13,7 +13,7 @@ class AuthorInExprTest extends TestCase
         $obj = new AuthorInExpr();
 
         $actual = $obj->toQuery([]);
-        $this->assertEquals(['author__in' => []], $actual);
+        $this->assertEquals([], $actual);
     }
 
     public function test_toQuery_oneParam(): void
@@ -21,7 +21,7 @@ class AuthorInExprTest extends TestCase
         $obj = new AuthorInExpr();
 
         $actual = $obj->toQuery([1]);
-        $this->assertEquals(['author__in' => [1]], $actual);
+        $this->assertEquals([['author__in' => [1]]], $actual);
     }
 
     public function test_toQuery_manyParams(): void
@@ -29,6 +29,6 @@ class AuthorInExprTest extends TestCase
         $obj = new AuthorInExpr();
 
         $actual = $obj->toQuery([1, 2, 3]);
-        $this->assertEquals(['author__in' => [1, 2, 3]], $actual);
+        $this->assertEquals([['author__in' => [1, 2, 3]]], $actual);
     }
 }

@@ -39,7 +39,7 @@ class CustomFieldExpr implements Expr
                     'type' => $type,
                 ]);
             }
-            return ['meta_query' => $result];
+            return [['meta_query' => $result]];
         }
     }
 

@@ -33,7 +33,7 @@ class UserQueryExecutor implements QueryExecutorInterface
 
         $users = $this->fetch();
         if (!empty($users)) {
-            $result = $this->bindByID($users[0]);
+            $result = $this->bindByID($users[0]->ID);
         }
 
         return $result;
