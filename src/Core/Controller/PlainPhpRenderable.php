@@ -4,7 +4,7 @@ namespace Mvc4Wp\Core\Controller;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
 
-trait PlainPhpRenderTrait
+trait PlainPhpRenderable
 {
     private bool $first = true;
 

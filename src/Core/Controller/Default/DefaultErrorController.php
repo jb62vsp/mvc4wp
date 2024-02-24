@@ -3,13 +3,13 @@ namespace Mvc4Wp\Core\Controller\Default;
 
 use Mvc4Wp\Core\Controller\ErrorController;
 use Mvc4Wp\Core\Controller\HttpRespondable;
-use Mvc4Wp\Core\Controller\PlainPhpRenderTrait;
+use Mvc4Wp\Core\Controller\PlainPhpRenderable;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 
 class DefaultErrorController extends ErrorController
 {
-    use Castable, HttpRespondable, PlainPhpRenderTrait;
+    use Castable, HttpRespondable, PlainPhpRenderable;
 
     public function init(array $args = []): void
     {
