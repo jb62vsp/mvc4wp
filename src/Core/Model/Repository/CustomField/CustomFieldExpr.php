@@ -7,7 +7,7 @@ use Mvc4Wp\Core\Model\Repository\Expr;
 class CustomFieldExpr implements Expr
 {
     /**
-     * @param array<list<string, mixed, string, string>> $context
+     * @param array<list<string, mixed, string, string>> $contexts
      */
     public function toQuery(array $contexts): array
     {
