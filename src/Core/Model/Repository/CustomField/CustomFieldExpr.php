@@ -15,9 +15,11 @@ class CustomFieldExpr implements Expr
             return $query;
         }
 
-        $query['meta_query'] = [];
+        if (!array_key_exists('meta_query', $query)) {
+            $query['meta_query'] = [];
+        }
 
-        if (count($contexts) > 1) {
+        if (!array_key_exists('relation', $query['meta_query']) && (count($query['meta_query']) > 0 || count($contexts) > 1)) {
             $query['meta_query']['relation'] = 'AND';
         }
 

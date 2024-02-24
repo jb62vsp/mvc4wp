@@ -35,6 +35,35 @@ class CustomFieldExprTest extends TestCase
         ], $actual);
     }
 
+    public function test_toQuery_oneParamWithQuery(): void
+    {
+        $obj = new CustomFieldExpr();
+
+        $actual = $obj->toQuery([
+            ['hoge', 'HOGE', '=', 'CHAR'],
+        ], [
+            'meta_query' => [
+                'hoge' => [
+                    'key' => 'hoge',
+                ],
+            ],
+        ]);
+        $this->assertEquals([
+            'meta_query' => [
+                'relation' => 'AND',
+                'hoge' => [
+                    'key' => 'hoge',
+                ],
+                [
+                    'key' => 'hoge',
+                    'value' => 'HOGE',
+                    'compare' => '=',
+                    'type' => 'CHAR',
+                ],
+            ],
+        ], $actual);
+    }
+
     public function test_toQuery_multiParams(): void
     {
         $obj = new CustomFieldExpr();
@@ -47,6 +76,52 @@ class CustomFieldExprTest extends TestCase
         $this->assertEquals([
             'meta_query' => [
                 'relation' => 'AND',
+                [
+                    'key' => 'hoge',
+                    'value' => 'HOGE',
+                    'compare' => '=',
+                    'type' => 'CHAR',
+                ],
+                [
+                    'key' => 'fuga',
+                    'value' => [
+                        '2023-01-01',
+                        '2023-12-31',
+                    ],
+                    'compare' => 'BETWEEN',
+                    'type' => 'DATE',
+                ],
+                [
+                    'key' => 'piyo',
+                    'value' => 3,
+                    'compare' => '<',
+                    'type' => 'NUMERIC',
+                ],
+            ],
+        ], $actual);
+    }
+
+    public function test_toQuery_multiParamsWithQuery(): void
+    {
+        $obj = new CustomFieldExpr();
+
+        $actual = $obj->toQuery([
+            ['hoge', 'HOGE', '=', 'CHAR'],
+            ['fuga', ['2023-01-01', '2023-12-31'], 'BETWEEN', 'DATE'],
+            ['piyo', 3, '<', 'NUMERIC'],
+        ], [
+            'meta_query' => [
+                'hoge' => [
+                    'key' => 'hoge',
+                ],
+            ],
+        ]);
+        $this->assertEquals([
+            'meta_query' => [
+                'relation' => 'AND',
+                'hoge' => [
+                    'key' => 'hoge',
+                ],
                 [
                     'key' => 'hoge',
                     'value' => 'HOGE',
