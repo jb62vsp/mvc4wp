@@ -2,16 +2,12 @@
 namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Model\Attribute\Field;
-use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
-use Mvc4Wp\Core\Model\Repository\QueryExecutorInterface;
-use Mvc4Wp\Core\Model\Validator\Rule;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-#[CoversClass(Entity::class)]
-#[CoversClass(Rule::class)]
-class BindTraitTest extends TestCase
+#[CoversClass(Bindable::class)]
+class BindableTest extends TestCase
 {
     public function setUp(): void
     {
@@ -19,8 +15,8 @@ class BindTraitTest extends TestCase
 
     public function test_bind_noMatch(): void
     {
-        $actual = new BindTraitTestTestMockA();
-        $actual->bind([]);
+        $actual = new BindableTestTestMockA();
+        $actual->bind([], false);
         $this->assertEquals('abc', $actual->field_a);
         $this->assertEquals(0, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
@@ -28,12 +24,12 @@ class BindTraitTest extends TestCase
 
     public function test_bind_bindArray(): void
     {
-        $actual = new BindTraitTestTestMockA();
+        $actual = new BindableTestTestMockA();
         $actual->bind([
             'field_a' => 'def',
             'field_b' => 1,
             'field_c' => 2.3,
-        ]);
+        ], false);
         $this->assertEquals('def', $actual->field_a);
         $this->assertEquals(1, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
@@ -46,31 +42,33 @@ class BindTraitTest extends TestCase
         $values->field_b = 1;
         $values->field_c = 2.3;
 
-        $actual = new BindTraitTestTestMockA();
-        $actual->bind($values);
+        $actual = new BindableTestTestMockA();
+        $actual->bind($values, false);
         $this->assertEquals('def', $actual->field_a);
         $this->assertEquals(1, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
     }
 
-    public function test_isLoaded_true(): void
+    public function test_isBinded_true(): void
     {
-        $actual = new BindTraitTestTestMockA();
+        $actual = new BindableTestTestMockA();
         $actual->bind([
             'ID' => 1,
-        ]);
-        $this->assertTrue($actual->isLoaded());
+        ], false);
+        $this->assertTrue($actual->isBinded());
     }
 
-    public function test_isLoaded_false(): void
+    public function test_isBinded_false(): void
     {
-        $actual = new BindTraitTestTestMockA();
-        $this->assertFalse($actual->isLoaded());
+        $actual = new BindableTestTestMockA();
+        $this->assertFalse($actual->isBinded());
     }
 }
 
-class BindTraitTestTestMockA extends Entity
+class BindableTestTestMockA
 {
+    use Bindable;
+
     #[Field]
     public string $field_a = 'abc';
 
@@ -79,49 +77,8 @@ class BindTraitTestTestMockA extends Entity
 
     public float $field_c;
 
-    public static function find(): QueryBuilderInterface
+    public function setValue(string $property_name, mixed $mixed): void
     {
-        return new BindTraitTestMockQueryBuilder();
-    }
-
-    public function register(): int
-    {
-        return 0;
-    }
-
-    public function update(): void
-    {
-        // noop
-    }
-
-    public function delete(bool $force_delete = false): bool
-    {
-        return true;
-    }
-}
-
-class BindTraitTestMockQueryBuilder implements QueryBuilderInterface
-{
-    public function build(): QueryExecutorInterface
-    {
-        return new BindTraitTestMockQueryExecutor();
-    }
-}
-
-class BindTraitTestMockQueryExecutor implements QueryExecutorInterface
-{
-    public function list(): array
-    {
-        return [];
-    }
-
-    public function single(): Entity|null
-    {
-        return null;
-    }
-
-    public function count(): int
-    {
-        return 0;
+        $this->{$property_name} = $mixed;
     }
 }
