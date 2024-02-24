@@ -17,39 +17,55 @@ class BindTraitTest extends TestCase
     {
     }
 
-    public function test_bindField01(): void
+    public function test_bind_noMatch(): void
     {
-        $obj = new BindTraitTestTestMockA();
-        $obj->bind([]);
-        $this->assertEquals('abc', $obj->field_a);
-        $this->assertEquals(0, $obj->field_b);
-        $this->assertFalse(isset($obj->field_c));
+        $actual = new BindTraitTestTestMockA();
+        $actual->bind([]);
+        $this->assertEquals('abc', $actual->field_a);
+        $this->assertEquals(0, $actual->field_b);
+        $this->assertFalse(isset($actual->field_c));
     }
 
-    public function test_bindField02(): void
+    public function test_bind_bindArray(): void
     {
-        $obj = new BindTraitTestTestMockA();
-        $obj->bind([
+        $actual = new BindTraitTestTestMockA();
+        $actual->bind([
             'field_a' => 'def',
             'field_b' => 1,
             'field_c' => 2.3,
         ]);
-        $this->assertEquals('def', $obj->field_a);
-        $this->assertEquals(1, $obj->field_b);
-        $this->assertFalse(isset($obj->field_c));
+        $this->assertEquals('def', $actual->field_a);
+        $this->assertEquals(1, $actual->field_b);
+        $this->assertFalse(isset($actual->field_c));
     }
 
-    public function test_bindField03(): void
+    public function test_bind_bindObject(): void
     {
-        $obj = new BindTraitTestTestMockA();
         $values = new stdClass();
         $values->field_a = 'def';
         $values->field_b = 1;
         $values->field_c = 2.3;
-        $obj->bind($values);
-        $this->assertEquals('def', $obj->field_a);
-        $this->assertEquals(1, $obj->field_b);
-        $this->assertFalse(isset($obj->field_c));
+
+        $actual = new BindTraitTestTestMockA();
+        $actual->bind($values);
+        $this->assertEquals('def', $actual->field_a);
+        $this->assertEquals(1, $actual->field_b);
+        $this->assertFalse(isset($actual->field_c));
+    }
+
+    public function test_isLoaded_true(): void
+    {
+        $actual = new BindTraitTestTestMockA();
+        $actual->bind([
+            'ID' => 1,
+        ]);
+        $this->assertTrue($actual->isLoaded());
+    }
+
+    public function test_isLoaded_false(): void
+    {
+        $actual = new BindTraitTestTestMockA();
+        $this->assertFalse($actual->isLoaded());
     }
 }
 
@@ -94,17 +110,12 @@ class BindTraitTestMockQueryBuilder implements QueryBuilderInterface
 
 class BindTraitTestMockQueryExecutor implements QueryExecutorInterface
 {
-    public function get(): array
+    public function list(): array
     {
         return [];
     }
 
-    public function getSingle(): Entity|null
-    {
-        return null;
-    }
-
-    public function byID(int $id): Entity|null
+    public function single(): Entity|null
     {
         return null;
     }

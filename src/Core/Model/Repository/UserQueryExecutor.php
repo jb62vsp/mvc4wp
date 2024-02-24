@@ -14,7 +14,7 @@ class UserQueryExecutor implements QueryExecutorInterface
     ) {
     }
 
-    public function get(): array
+    public function list(): array
     {
         $result = [];
 
@@ -27,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): UserEntity|null
+    public function single(): UserEntity|null
     {
         $result = null;
 

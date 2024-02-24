@@ -11,7 +11,7 @@ class PostQueryExecutor implements QueryExecutorInterface
     ) {
     }
 
-    public function get(): array
+    public function list(): array
     {
         $result = [];
 
@@ -24,7 +24,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): PostEntity|null
+    public function single(): PostEntity|null
     {
         $result = null;
 
