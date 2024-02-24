@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\Order;
 
+use Mvc4Wp\Core\Model\Repository\OrderInQuery;
 use Mvc4Wp\Core\Model\Repository\Querable;
+use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -23,14 +25,14 @@ class OrderQuerableTest extends TestCase
         $obj = new OrderQuerableTestMockImpl();
 
         $actual = $obj
-            ->orderBy('hoge', 'desc')
-            ->orderBy('fuga', type: 'TIME')
-            ->orderBy('piyo', 'DESc', 'BINARY')
+            ->orderBy('hoge')
+            ->orderBy('fuga', type: TypeInQuery::TIME)
+            ->orderBy('piyo', OrderInQuery::DESC, TypeInQuery::BINARY)
             ->getExpressions();
         $this->assertEquals([
             OrderByExpr::class => [
                 'hoge' => [
-                    'DESC',
+                    'ASC',
                     'CHAR',
                 ],
                 'fuga' => [
@@ -60,7 +62,7 @@ class OrderQuerableTest extends TestCase
         $obj = new OrderQuerableTestMockImpl();
 
         $actual = $obj
-            ->orderByID('desc')
+            ->orderByID(OrderInQuery::DESC)
             ->getExpressions();
         $this->assertEquals([OrderByExpr::class => ['ID' => ['DESC', '']]], $actual);
     }
@@ -70,7 +72,7 @@ class OrderQuerableTest extends TestCase
         $obj = new OrderQuerableTestMockImpl();
 
         $actual = $obj
-            ->orderByID('desc')
+            ->orderByID(OrderInQuery::DESC)
             ->orderByID()
             ->getExpressions();
         $this->assertEquals([OrderByExpr::class => ['ID' => ['ASC', '']]], $actual);
@@ -91,7 +93,7 @@ class OrderQuerableTest extends TestCase
         $obj = new OrderQuerableTestMockImpl();
 
         $actual = $obj
-            ->orderByName('desc')
+            ->orderByName(OrderInQuery::DESC)
             ->getExpressions();
         $this->assertEquals([OrderByExpr::class => ['name' => ['DESC', '']]], $actual);
     }
@@ -101,8 +103,8 @@ class OrderQuerableTest extends TestCase
         $obj = new OrderQuerableTestMockImpl();
 
         $actual = $obj
-            ->orderByName('desc')
-            ->orderByName()
+            ->orderByName(OrderInQuery::DESC)
+            ->orderByName(OrderInQuery::ASC)
             ->getExpressions();
         $this->assertEquals([OrderByExpr::class => ['name' => ['ASC', '']]], $actual);
     }

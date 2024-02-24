@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\CustomField;
 
+use Mvc4Wp\Core\Model\Repository\CompareInQuery;
+use Mvc4Wp\Core\Model\Repository\TypeInQuery;
+
 /**
  * @see https://developer.wordpress.org/reference/classes/wp_query/#custom-field-post-meta-parameters
  */
@@ -10,18 +13,16 @@ trait CustomFieldQuerable
      * CAUTION - custom field only
      * @param string $field Custom field key.
      * @param string|int|array $value Custom field value.
-     * @param string $compare Operator to test.
-     * Possible values are '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'EXISTS' and 'NOT EXISTS'.
+     * @param CompareInQuery $compare Operator to test.
      * Default value is '='.
-     * @param string $type Custom field type.
-     * Possible values are 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
+     * @param TypeInQuery $type Custom field type.
      * Default value is 'CHAR'.
      */
-    public function by(string $field, string|int|array $value, string $compare = '=', string $type = 'CHAR'): static
+    public function by(string $field, string|int|array $value, CompareInQuery $compare = CompareInQuery::EQ, TypeInQuery $type = TypeInQuery::CHAR): static
     {
         $new = clone $this;
 
-        $new->addExpression(CustomFieldExpr::class, [[$field, $value, $compare, $type]]);
+        $new->addExpression(CustomFieldExpr::class, [[$field, $value, $compare->value, $type->value]]);
 
         return $new;
     }

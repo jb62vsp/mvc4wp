@@ -1,39 +1,54 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\Order;
 
+use Mvc4Wp\Core\Model\Repository\OrderInQuery;
+use Mvc4Wp\Core\Model\Repository\TypeInQuery;
+
+/**
+ * @see https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters
+ * @see https://developer.wordpress.org/reference/classes/wp_user_query/#order-orderby-parameters
+ */
 trait OrderQuerable
 {
     /**
      * CAUTION - custom field only
      * @param string $field Custom field key.
-     * @param string $order Toward.
-     * @param string $type Custom field type.
-     * Possible values are 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
+     * @param OrderInQuery $order Order.
+     * Default value is 'ASC'.
+     * @param TypeInQuery $type Custom field type.
      * Default value is 'CHAR'.
      */
-    public function orderBy(string $field, string $order = 'ASC', string $type = 'CHAR'): static
+    public function orderBy(string $field, OrderInQuery $order = OrderInQuery::ASC, TypeInQuery $type = TypeInQuery::CHAR): static
     {
         $new = clone $this;
 
-        $new->addExpression(OrderByExpr::class, [$field => [strtoupper($order), strtoupper($type)]]);
+        $new->addExpression(OrderByExpr::class, [$field => [$order->value, $type->value]]);
 
         return $new;
     }
 
-    public function orderByID(string $order = 'ASC'): static
+    /**
+     * @param OrderInQuery $order Order.
+     * Default value is 'ASC'.
+     */
+    public function orderByID(OrderInQuery $order = OrderInQuery::ASC): static
     {
         $new = clone $this;
 
-        $new->addExpression(OrderByExpr::class, [OrderByExpr::ID => [strtoupper($order), '']]);
+        $new->addExpression(OrderByExpr::class, [OrderByExpr::ID => [$order->value, '']]);
 
         return $new;
     }
 
-    public function orderByName(string $order = 'ASC'): static
+    /**
+     * @param OrderInQuery $order Order.
+     * Default value is 'ASC'.
+     */
+    public function orderByName(OrderInQuery $order = OrderInQuery::ASC): static
     {
         $new = clone $this;
 
-        $new->addExpression(OrderByExpr::class, [OrderByExpr::NAME => [strtoupper($order), '']]);
+        $new->addExpression(OrderByExpr::class, [OrderByExpr::NAME => [$order->value, '']]);
 
         return $new;
     }
