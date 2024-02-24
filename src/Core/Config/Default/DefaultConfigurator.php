@@ -8,39 +8,33 @@ class DefaultConfigurator implements ConfiguratorInterface
 {
     use Castable;
 
+    public const KEY_SEPARATOR = '.';
+
     private array $configs = [];
 
-    public function add(string $category, string|array $value): void
+    public function add(string $key, string|array $value): void
     {
-        if (!array_key_exists($category, $this->configs)) {
-            $this->configs[$category] = $value;
-        }
+        $this->configs[$key] = $value;
     }
 
-    public function get(string $category, string ...$keys): string|array|null
+    public function get(string $key): string|array|null
     {
-        if (array_key_exists($category, $this->configs)) {
-            if (empty($keys)) {
-                return $this->configs[$category];
-            } else {
-                return $this->recursiveGet($this->configs[$category], $keys, count($keys));
-            }
-        } else {
+        $keys = explode(self::KEY_SEPARATOR, $key);
+        if (empty($keys)) {
             return null;
         }
+
+        return $this->recursiveGet($this->configs, $keys, count($keys));
     }
 
-    public function set(string $category, string|array $value, string ...$keys): void
+    public function set(string $key, string|array $value): void
     {
-        if (array_key_exists($category, $this->configs)) {
-            if (empty($keys)) {
-                $this->configs[$category] = $value;
-            } else {
-                $orig = $this->configs[$category];
-                $conf = $this->recursiveSet($orig, $keys, count($keys), $value);
-                $this->configs[$category] = $conf;
-            }
+        $keys = explode(self::KEY_SEPARATOR, $key);
+        if (empty($keys)) {
+            return;
         }
+
+        $this->configs = $this->recursiveSet($this->configs, $keys, count($keys), $value);
     }
 
     private function recursiveGet(array $arr, array $keys, int $index): string|array|null

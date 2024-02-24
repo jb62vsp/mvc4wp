@@ -23,7 +23,7 @@ class DefaultRouter implements RouterInterface
                 $httpMethod = $keys[0];
                 $uris = explode(self::ROUTE_DELIMITER, $keys[1]);
                 foreach ($uris as $uri) {
-                    $r->addRoute($httpMethod, $uri, $config->get('CONTROLLER_NAMESPACE') . '\\' . $value);
+                    $r->addRoute($httpMethod, $uri, $config->get('controller_namespace') . '\\' . $value);
                 }
             }
         });

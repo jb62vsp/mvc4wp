@@ -5,12 +5,12 @@ class Helper
 {
     public static function load(string $helper_name): void
     {
-        $app_helper = App::get()->config()->get('APP_ROOT') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
+        $app_helper = App::get()->config()->get('app_root') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
         if (file_exists($app_helper)) {
             include_once($app_helper);
         }
 
-        $core_helper = App::get()->config()->get('CORE_ROOT') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
+        $core_helper = App::get()->config()->get('core_root') . '/Helper/' . ucfirst($helper_name) . 'Helper.php';
         if (file_exists($core_helper)) {
             include_once($core_helper);
         }

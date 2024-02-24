@@ -40,7 +40,7 @@ class DefaultApplication implements ApplicationInterface
     public function router(): RouterInterface
     {
         if (!isset($this->_router)) {
-            $routerFactoryClass = $this->_config->get('FACTORY', 'router');
+            $routerFactoryClass = $this->_config->get('factory.router');
             if (is_null($routerFactoryClass) || class_exists($routerFactoryClass)) {
                 $routerFactoryClass = DefaultRouterFactory::class;
             }
@@ -51,7 +51,7 @@ class DefaultApplication implements ApplicationInterface
 
     public function clock(): ClockInterface
     {
-        $clockFactoryClass = $this->config()->get('FACTORY', 'clock');
+        $clockFactoryClass = $this->config()->get('factory.clock');
         if (is_null($clockFactoryClass) || class_exists($clockFactoryClass)) {
             $clockFactoryClass = DefaultClockFactory::class;
         }
@@ -116,9 +116,9 @@ class DefaultApplication implements ApplicationInterface
         if (!isset($this->_errorHandler)) {
             $errorHandlerClass = DefaultErrorController::class;
 
-            $defaultHandlerName = $this->config()->get('ERROR_HANDLERS', 'default_handler_name');
+            $defaultHandlerName = $this->config()->get('error_handlers', 'default_handler_name');
             if (!is_null($defaultHandlerName)) {
-                $defaultErrorHandlerClass = $this->config()->get('ERROR_HANDLERS', 'handlers', $defaultHandlerName);
+                $defaultErrorHandlerClass = $this->config()->get('error_handlers', 'handlers', $defaultHandlerName);
                 if (!is_null($defaultErrorHandlerClass) && class_exists($defaultErrorHandlerClass)) {
                     $errorHandlerClass = $defaultErrorHandlerClass;
                 }

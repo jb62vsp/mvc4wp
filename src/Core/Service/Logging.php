@@ -8,14 +8,6 @@ use Mvc4Wp\Core\Logger\NullLoggerFactory;
 
 final class Logging
 {
-    private const LOGGER_CATEGORY_NAME = 'LOGGER';
-
-    private const DEFAULT_LOGGER_NAME_KEY = 'default_logger_name';
-
-    private const LOGGERS_KEY = 'loggers';
-
-    private const LOGGER_FACTORY_KEY = 'logger_factory';
-
     private static LoggerInterface $null;
 
     private static array $loggers;
@@ -24,15 +16,14 @@ final class Logging
 
     public static function configure(ConfiguratorInterface $config): void
     {
-        $logconf = $config->get(self::LOGGER_CATEGORY_NAME);
-        if (array_key_exists(self::DEFAULT_LOGGER_NAME_KEY, $logconf)) {
-            self::$default_logger_name = $logconf[self::DEFAULT_LOGGER_NAME_KEY];
+        $logconf = $config->get('logger');
+        if (array_key_exists('default_logger_name', $logconf)) {
+            self::$default_logger_name = $logconf['default_logger_name'];
         }
-        if (array_key_exists(self::LOGGERS_KEY, $logconf)) {
-            foreach ($logconf[self::LOGGERS_KEY] as $key => $value) {
-                if (array_key_exists(self::LOGGER_FACTORY_KEY, $value) && class_exists($value[self::LOGGER_FACTORY_KEY])) {
-                    $factory_class = $value[self::LOGGER_FACTORY_KEY];
-                    /** @var LoggerFactoryInterface */
+        if (array_key_exists('loggers', $logconf)) {
+            foreach ($logconf['loggers'] as $key => $value) {
+                if (array_key_exists('logger_factory', $value) && class_exists($value['logger_factory'])) {
+                    $factory_class = $value['logger_factory'];
                     $factory = new $factory_class();
                     self::$loggers[$key] = $factory->create($value);
                 }
