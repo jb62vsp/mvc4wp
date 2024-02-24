@@ -13,7 +13,7 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->fetchAll()
+            ->_fetchAll()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['all']], $actual);
     }
@@ -23,8 +23,8 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->fetchAll()
-            ->fetchAll()
+            ->_fetchAll()
+            ->_fetchAll()
             ->getExpressions();
         $this->assertCount(1, $actual);
         $this->assertEquals([PostReturnFieldsExpr::class => ['all']], $actual);
@@ -35,7 +35,7 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->fetchOnlyID()
+            ->_fetchOnlyID()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['ids']], $actual);
     }
@@ -45,8 +45,8 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->fetchOnlyID()
-            ->fetchOnlyID()
+            ->_fetchOnlyID()
+            ->_fetchOnlyID()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['ids']], $actual);
     }
@@ -56,7 +56,7 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->parent()
+            ->_parent()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['id=>parent']], $actual);
     }
@@ -66,8 +66,8 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->parent()
-            ->parent()
+            ->_parent()
+            ->_parent()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['id=>parent']], $actual);
     }
@@ -77,9 +77,9 @@ class PostReturnFieldsQuerableTest extends TestCase
         $obj = new PostReturnFieldsQuerableTestMockImpl();
 
         $actual = $obj
-            ->fetchAll()
-            ->fetchOnlyID()
-            ->parent()
+            ->_fetchAll()
+            ->_fetchOnlyID()
+            ->_parent()
             ->getExpressions();
         $this->assertEquals([PostReturnFieldsExpr::class => ['id=>parent']], $actual);
     }
@@ -88,4 +88,19 @@ class PostReturnFieldsQuerableTest extends TestCase
 class PostReturnFieldsQuerableTestMockImpl
 {
     use Querable, PostReturnFieldsQuerable;
+
+    public function _fetchAll(): static
+    {
+        return $this->fetchAll();
+    }
+
+    public function _fetchOnlyID(): static
+    {
+        return $this->fetchOnlyID();
+    }
+
+    public function _parent(): static
+    {
+        return $this->parent();
+    }
 }
