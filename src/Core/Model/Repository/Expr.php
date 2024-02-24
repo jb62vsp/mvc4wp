@@ -3,5 +3,5 @@ namespace Mvc4Wp\Core\Model\Repository;
 
 interface Expr
 {
-   public function toQuery(array $contexts): array;
+   public function toQuery(array $contexts, array $query): array;
 }

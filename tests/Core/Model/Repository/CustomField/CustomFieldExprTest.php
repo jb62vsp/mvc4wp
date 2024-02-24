@@ -12,26 +12,26 @@ class CustomFieldExprTest extends TestCase
     {
         $obj = new CustomFieldExpr();
 
-        $actual = $obj->toQuery([]);
-        $this->assertEquals([], $actual);
+        $actual = $obj->toQuery([], ['hoge' => 'HOGE']);
+        $this->assertEquals(['hoge' => 'HOGE'], $actual);
     }
 
     public function test_toQuery_oneParam(): void
     {
         $obj = new CustomFieldExpr();
 
-        $actual = $obj->toQuery([['hoge', 'HOGE', '=', 'CHAR']]);
+        $actual = $obj->toQuery([
+            ['hoge', 'HOGE', '=', 'CHAR'],
+        ], []);
         $this->assertEquals([
-            [
-                'meta_query' => [
-                    [
-                        'key' => 'hoge',
-                        'value' => 'HOGE',
-                        'compare' => '=',
-                        'type' => 'CHAR',
-                    ],
+            'meta_query' => [
+                [
+                    'key' => 'hoge',
+                    'value' => 'HOGE',
+                    'compare' => '=',
+                    'type' => 'CHAR',
                 ],
-            ]
+            ],
         ], $actual);
     }
 
@@ -43,34 +43,32 @@ class CustomFieldExprTest extends TestCase
             ['hoge', 'HOGE', '=', 'CHAR'],
             ['fuga', ['2023-01-01', '2023-12-31'], 'BETWEEN', 'DATE'],
             ['piyo', 3, '<', 'NUMERIC'],
-        ]);
+        ], []);
         $this->assertEquals([
-            [
-                'meta_query' => [
-                    'relation' => 'AND',
-                    [
-                        'key' => 'hoge',
-                        'value' => 'HOGE',
-                        'compare' => '=',
-                        'type' => 'CHAR',
-                    ],
-                    [
-                        'key' => 'fuga',
-                        'value' => [
-                            '2023-01-01',
-                            '2023-12-31',
-                        ],
-                        'compare' => 'BETWEEN',
-                        'type' => 'DATE',
-                    ],
-                    [
-                        'key' => 'piyo',
-                        'value' => 3,
-                        'compare' => '<',
-                        'type' => 'NUMERIC',
-                    ],
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key' => 'hoge',
+                    'value' => 'HOGE',
+                    'compare' => '=',
+                    'type' => 'CHAR',
                 ],
-            ]
+                [
+                    'key' => 'fuga',
+                    'value' => [
+                        '2023-01-01',
+                        '2023-12-31',
+                    ],
+                    'compare' => 'BETWEEN',
+                    'type' => 'DATE',
+                ],
+                [
+                    'key' => 'piyo',
+                    'value' => 3,
+                    'compare' => '<',
+                    'type' => 'NUMERIC',
+                ],
+            ],
         ], $actual);
     }
 
@@ -81,7 +79,7 @@ class CustomFieldExprTest extends TestCase
         $this->expectExceptionMessage('field');
         $obj = new CustomFieldExpr();
 
-        $obj->toQuery([[]]);
+        $obj->toQuery([[]], []);
     }
 
     public function test_toQuery_oneParamOneTuple(): void
@@ -91,7 +89,7 @@ class CustomFieldExprTest extends TestCase
         $this->expectExceptionMessage('value');
         $obj = new CustomFieldExpr();
 
-        $obj->toQuery([['hoge']]);
+        $obj->toQuery([['hoge']], []);
     }
 
     public function test_toQuery_oneParamTwoTuple(): void
@@ -101,7 +99,7 @@ class CustomFieldExprTest extends TestCase
         $this->expectExceptionMessage('compare');
         $obj = new CustomFieldExpr();
 
-        $obj->toQuery([['hoge', 'HOGE']]);
+        $obj->toQuery([['hoge', 'HOGE']], []);
     }
 
     public function test_toQuery_oneParamThreeTuple(): void
@@ -111,6 +109,6 @@ class CustomFieldExprTest extends TestCase
         $this->expectExceptionMessage('type');
         $obj = new CustomFieldExpr();
 
-        $obj->toQuery([['hoge', 'HOGE', '=']]);
+        $obj->toQuery([['hoge', 'HOGE', '=']], []);
     }
 }

@@ -2,12 +2,13 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Model\PostEntity;
+use Mvc4Wp\Core\Service\Logging;
 
 class PostQueryExecutor implements QueryExecutorInterface
 {
     public function __construct(
         protected string $entity_class,
-        protected array $queries,
+        protected array $query,
     ) {
     }
 
@@ -50,7 +51,8 @@ class PostQueryExecutor implements QueryExecutorInterface
 
     protected function fetch(): array
     {
-        $wp_query = new \WP_Query($this->queries);
+        Logging::get('core')->debug('execute query', $this->query);
+        $wp_query = new \WP_Query($this->query);
         return $wp_query->get_posts();
     }
 

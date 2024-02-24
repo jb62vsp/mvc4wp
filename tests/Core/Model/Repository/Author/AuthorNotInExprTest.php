@@ -12,23 +12,23 @@ class AuthorNotInExprTest extends TestCase
     {
         $obj = new AuthorNotInExpr();
 
-        $actual = $obj->toQuery([]);
-        $this->assertEquals([['author__not_in' => []]], $actual);
+        $actual = $obj->toQuery([], ['hoge' => 'HOGE']);
+        $this->assertEquals(['hoge' => 'HOGE'], $actual);
     }
 
     public function test_toQuery_oneParam(): void
     {
         $obj = new AuthorNotInExpr();
 
-        $actual = $obj->toQuery([1]);
-        $this->assertEquals([['author__not_in' => [1]]], $actual);
+        $actual = $obj->toQuery([1], []);
+        $this->assertEquals(['author__not_in' => [1]], $actual);
     }
 
     public function test_toQuery_manyParams(): void
     {
         $obj = new AuthorNotInExpr();
 
-        $actual = $obj->toQuery([1, 2, 3]);
-        $this->assertEquals([['author__not_in' => [1, 2, 3]]], $actual);
+        $actual = $obj->toQuery([1, 2, 3], []);
+        $this->assertEquals(['author__not_in' => [1, 2, 3]], $actual);
     }
 }

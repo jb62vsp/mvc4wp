@@ -10,7 +10,7 @@ class UserQueryExecutor implements QueryExecutorInterface
 
     public function __construct(
         protected string $entity_class,
-        protected array $queries,
+        protected array $query,
     ) {
     }
 
@@ -51,7 +51,7 @@ class UserQueryExecutor implements QueryExecutorInterface
 
     protected function fetch(): array
     {
-        $wp_query = new \WP_User_Query($this->queries);
+        $wp_query = new \WP_User_Query($this->query);
         return $wp_query->get_results() ?: [];
     }
 

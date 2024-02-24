@@ -8,12 +8,13 @@ class RawExpr implements Expr
 {
     use Castable;
 
-    public function toQuery(array $contexts): array
+    public function toQuery(array $contexts, array $query): array
     {
         if (empty($contexts)) {
-            return [];
-        } else {
-            return [$contexts];
+            return $query;
         }
+
+        $query = array_merge($query, $contexts);
+        return $query;
     }
 }

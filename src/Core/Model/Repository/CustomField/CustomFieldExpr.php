@@ -9,42 +9,29 @@ class CustomFieldExpr implements Expr
     /**
      * @param array<list<string, mixed, string, string>> $contexts
      */
-    public function toQuery(array $contexts): array
+    public function toQuery(array $contexts, array $query): array
     {
         if (empty($contexts)) {
-            return [];
-        } elseif (count($contexts) === 1) {
-            [$field, $value, $compare, $type] = $this->tuplize($contexts[0]);
+            return $query;
+        }
 
-            return [
-                [
-                    'meta_query' => [
-                        [
-                            'key' => $field,
-                            'value' => $value,
-                            'compare' => $compare,
-                            'type' => $type,
-                        ],
-                    ],
-                ]
-            ];
-        } else {
-            $result = [
-                'relation' => 'AND',
-            ];
-            foreach ($contexts as $context) {
-                [$field, $value, $compare, $type] = $this->tuplize($context);
-                $result[] = [
-                    'key' => $field,
-                    'value' => $value,
-                    'compare' => $compare,
-                    'type' => $type,
-                ];
-            }
-            return [
-                ['meta_query' => $result]
+        $query['meta_query'] = [];
+
+        if (count($contexts) > 1) {
+            $query['meta_query']['relation'] = 'AND';
+        }
+
+        foreach ($contexts as $context) {
+            [$field, $value, $compare, $type] = $this->tuplize($context);
+            $query['meta_query'][] = [
+                'key' => $field,
+                'value' => $value,
+                'compare' => $compare,
+                'type' => $type,
             ];
         }
+
+        return $query;
     }
 
     /**

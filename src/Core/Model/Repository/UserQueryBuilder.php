@@ -17,13 +17,11 @@ class UserQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
     {
         $new = clone $this;
         $expressions = $new->getExpressions();
-        $queries = [];
+        $query = [];
         foreach ($expressions as $expr_class => $contexts) {
             $expr = new $expr_class();
-            foreach ($expr->toQuery($contexts) as $query) {
-                $queries = array_merge($queries, $query);
-            }
+            $query = $expr->toQuery($contexts, $query);
         }
-        return new UserQueryExecutor($new->entity_class, $queries);
+        return new UserQueryExecutor($new->entity_class, $query);
     }
 }
