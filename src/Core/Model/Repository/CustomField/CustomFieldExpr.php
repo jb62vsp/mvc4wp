@@ -32,12 +32,12 @@ class CustomFieldExpr implements Expr
             ];
             foreach ($contexts as $context) {
                 [$field, $value, $compare, $type] = $this->tuplize($context);
-                array_push($result, [
+                $result[] = [
                     'key' => $field,
                     'value' => $value,
                     'compare' => $compare,
                     'type' => $type,
-                ]);
+                ];
             }
             return [['meta_query' => $result]];
         }
