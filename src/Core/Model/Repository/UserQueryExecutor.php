@@ -62,8 +62,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         if ($id !== 0) {
             $user = get_user_by('id', $id);
             if ($user) {
-                $cls = $this->entity_class;
-                $result = new $cls();
+                $result = new $this->entity_class();
                 $result->bind($user->data, false);
                 $user_meta = get_user_meta($id);
                 $result->bind($user_meta, false);

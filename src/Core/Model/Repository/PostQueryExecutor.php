@@ -56,8 +56,7 @@ class PostQueryExecutor implements QueryExecutorInterface
 
     protected function bindByID(int $id): PostEntity
     {
-        $cls = $this->entity_class;
-        $result = new $cls();
+        $result = new $this->entity_class();
 
         $data = get_post($id);
         $result->bind($data, false);
