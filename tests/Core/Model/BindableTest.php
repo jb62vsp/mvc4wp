@@ -16,7 +16,7 @@ class BindableTest extends TestCase
     public function test_bind_noMatch(): void
     {
         $actual = new BindableTestTestMockA();
-        $actual->bind([], false);
+        $actual->bind([]);
         $this->assertEquals('abc', $actual->field_a);
         $this->assertEquals(0, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
@@ -29,7 +29,7 @@ class BindableTest extends TestCase
             'field_a' => 'def',
             'field_b' => 1,
             'field_c' => 2.3,
-        ], false);
+        ]);
         $this->assertEquals('def', $actual->field_a);
         $this->assertEquals(1, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
@@ -43,7 +43,7 @@ class BindableTest extends TestCase
         $values->field_c = 2.3;
 
         $actual = new BindableTestTestMockA();
-        $actual->bind($values, false);
+        $actual->bind($values);
         $this->assertEquals('def', $actual->field_a);
         $this->assertEquals(1, $actual->field_b);
         $this->assertFalse(isset($actual->field_c));
@@ -54,7 +54,7 @@ class BindableTest extends TestCase
         $actual = new BindableTestTestMockA();
         $actual->bind([
             'ID' => 1,
-        ], false);
+        ]);
         $this->assertTrue($actual->isBinded());
     }
 
