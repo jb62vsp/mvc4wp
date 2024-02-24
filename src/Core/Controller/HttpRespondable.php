@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Library\HttpStatus;
 
-trait HttpResponder
+trait HttpRespondable
 {
     /*
      * --------------------------------------------------------------------

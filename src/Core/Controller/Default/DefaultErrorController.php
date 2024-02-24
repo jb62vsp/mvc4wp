@@ -3,14 +3,14 @@ namespace Mvc4Wp\Core\Controller\Default;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ErrorController;
-use Mvc4Wp\Core\Controller\HttpResponder;
+use Mvc4Wp\Core\Controller\HttpRespondable;
 use Mvc4Wp\Core\Controller\PlainPhpRenderTrait;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 
 class DefaultErrorController extends ErrorController
 {
-    use Castable, HttpResponder, PlainPhpRenderTrait;
+    use Castable, HttpRespondable, PlainPhpRenderTrait;
 
     public function __construct(
         public ConfiguratorInterface $config,
