@@ -12,30 +12,42 @@ use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 
 class DefaultApplicationFactory implements ApplicationFactoryInterface
 {
-    public function create(array $args = []): ApplicationInterface
+    public static function create(array $args = []): ApplicationInterface
     {
-        $config = (new DefaultConfiguratorFactory())->create();
+        $config = DefaultConfiguratorFactory::create();
         if (array_key_exists('config', $args) && $args['config'] instanceof ConfiguratorInterface) {
             $config = $args['config'];
-        } else {
-            /*
-             * -------- DEFAULT CONFIGURATIONS --------
-             */
+        }
+        if (is_null($config->get('debug'))) {
             $config->add('debug', 'false'); // TODO:
+        }
+        if (is_null($config->get('core_root'))) {
             $config->add('core_root', __MVC4WP_ROOT__ . '/src/Core');
+        }
+        if (is_null($config->get('app_root'))) {
             $config->add('app_root', __MVC4WP_ROOT__ . '/src/App');
+        }
+        if (is_null($config->get('controller_namespace'))) {
             $config->add('controller_namespace', 'App\Controller');
+        }
+        if (is_null($config->get('view_directory'))) {
             $config->add('view_directory', __MVC4WP_ROOT__ . '/src/App/View');
-            $config->add('error_handlers', [
+        }
+        if (is_null($config->get('error_handler'))) {
+            $config->add('error_handler', [
                 'default_handler_name' => 'default',
                 'handlers' => [
                     'default' => DefaultErrorController::class,
                 ],
             ]);
+        }
+        if (is_null($config->get('factory'))) {
             $config->add('factory', [
                 'clock' => DefaultClockFactory::class,
                 'router' => DefaultRouterFactory::class,
             ]);
+        }
+        if (is_null($config->get('logger'))) {
             $config->add('logger', [
                 'default_logger_name' => 'app',
                 'loggers' => [
@@ -48,19 +60,16 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
                         'timezone' => 'Asia/Tokyo',
                         'log_level' => 'notice',
                     ],
+                    'core' => [
+                        'logger_factory' => DefaultFileLoggerFactory::class,
+                        'directory' => __MVC4WP_ROOT__ . '/log/',
+                        'basefilename' => 'core',
+                        'file_date_format' => 'Ymd',
+                        'datetime_format' => 'Y-m-d H:i:s',
+                        'timezone' => 'Asia/Tokyo',
+                        'log_level' => 'notice',
+                    ]
                 ],
-            ]);
-        }
-        if (is_null($config->get('logger.loggers.core'))) {
-            $config->set('logger.loggers.core', [
-                'logger_factory' => DefaultFileLoggerFactory::class,
-                'directory' => __MVC4WP_ROOT__ . '/log/',
-                'basefilename' => 'core',
-                'file_date_format' => 'Ymd',
-                'datetime_format' => 'Y-m-d H:i:s',
-                'timezone' => 'Asia/Tokyo',
-                'log_level' => 'notice',
-
             ]);
         }
 

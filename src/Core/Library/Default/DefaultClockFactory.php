@@ -6,7 +6,7 @@ use Mvc4Wp\Core\Library\ClockInterface;
 
 class DefaultClockFactory implements ClockFactoryInterface
 {
-    public function create(array $args = []): ClockInterface
+    public static function create(array $args = []): ClockInterface
     {
         return new DefaultClock();
     }
