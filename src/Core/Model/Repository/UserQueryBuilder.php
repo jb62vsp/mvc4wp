@@ -2,11 +2,12 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Repository\Order\OrderQuerable;
 use Mvc4Wp\Core\Model\Repository\Raw\RawQuerable;
 
 class UserQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
-    use Castable, RawQuerable;
+    use Castable, OrderQuerable, RawQuerable;
 
     public function __construct(
         protected string $entity_class,
