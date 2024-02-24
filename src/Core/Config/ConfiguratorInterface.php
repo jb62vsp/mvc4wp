@@ -3,9 +3,9 @@ namespace Mvc4Wp\Core\Config;
 
 interface ConfiguratorInterface
 {
-    public function add(string $category, string|array $value): void;
+    public function add(string $key, string|array $value): void;
 
-    public function get(string $category, string ...$keys): string|array|null;
+    public function get(string $key): string|array|null;
 
-    public function set(string $category, string|array $value, string ...$keys): void;
+    public function set(string $key, string|array $value): void;
 }

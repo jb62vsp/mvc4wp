@@ -14,7 +14,7 @@ trait PlainPhpRenderTrait
             $responder->header('Content-Type: text/html; charset=utf-8');
             $this->first = false;
         }
-        $view_path = $config->get('VIEW_DIRECTORY') . DIRECTORY_SEPARATOR . $view . '.php';
+        $view_path = $config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
             include $view_path;
         } else {

@@ -9,9 +9,7 @@ class DefaultConfiguratorFactoryTest extends TestCase
 {
     public function test_create(): void
     {
-        $factory = new DefaultConfiguratorFactory();
-
-        $actual = $factory->create();
+        $actual = DefaultConfiguratorFactory::create();
         $this->assertInstanceOf(DefaultConfigurator::class, $actual);
     }
 }

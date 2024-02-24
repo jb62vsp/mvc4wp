@@ -3,7 +3,6 @@ namespace Mvc4Wp\Core\Route\Default;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Mvc4Wp\Core\Config\CONFIG;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
@@ -220,12 +219,12 @@ class ConfigMock implements ConfiguratorInterface
         return;
     }
 
-    public function get(string $category, string ...$keys): string|array
+    public function get(string $key): string|array
     {
         return 'Mock\OK';
     }
 
-    public function set(string $category, string|array $value, string ...$keys): void
+    public function set(string $key, string|array $value): void
     {
         return;
     }

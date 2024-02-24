@@ -9,7 +9,7 @@ class DefaultConfiguratorFactory implements ConfiguratorFactoryInterface
 {
     use Castable;
 
-    public function create(array $args = []): ConfiguratorInterface
+    public static function create(array $args = []): ConfiguratorInterface
     {
         return new DefaultConfigurator();
     }

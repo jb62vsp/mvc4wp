@@ -20,7 +20,7 @@ class DefaultConfiguratorTest extends TestCase
         ],
     ];
 
-    public function test_get_noCategory(): void
+    public function test_get_noKey(): void
     {
         $config = new DefaultConfigurator();
 
@@ -28,22 +28,13 @@ class DefaultConfiguratorTest extends TestCase
         $this->assertNull($actual);
     }
 
-    public function test_get_category(): void
+    public function test_get_singleKey(): void
     {
         $config = new DefaultConfigurator();
-        $config->add('TEST', 'true');
+        $config->add('hoge', 'HOGE');
 
-        $actual = $config->get('TEST');
-        $this->assertEquals('true', $actual);
-    }
-
-    public function test_get_singleValueWithSingleKey(): void
-    {
-        $config = new DefaultConfigurator();
-        $config->add('TEST', $this->test_values);
-
-        $actual = $config->get('TEST', 'hoge');
-        $this->assertEquals(['fuga' => ['piyo' => 'PIYO']], $actual);
+        $actual = $config->get('hoge');
+        $this->assertEquals('HOGE', $actual);
     }
 
     public function test_get_singleValueWithMultiKey(): void
@@ -51,7 +42,7 @@ class DefaultConfiguratorTest extends TestCase
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
 
-        $actual = $config->get('TEST', 'hoge', 'fuga', 'piyo');
+        $actual = $config->get('TEST.hoge.fuga.piyo');
         $this->assertEquals('PIYO', $actual);
     }
 
@@ -60,7 +51,7 @@ class DefaultConfiguratorTest extends TestCase
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
 
-        $actual = $config->get('TEST', 'hoge', 'fuga');
+        $actual = $config->get('TEST.hoge.fuga');
         $this->assertEquals(['piyo' => 'PIYO'], $actual);
     }
 
@@ -69,7 +60,7 @@ class DefaultConfiguratorTest extends TestCase
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
 
-        $actual = $config->get('TEST', 'fuga');
+        $actual = $config->get('TEST.fuga');
         $this->assertNull($actual);
     }
 
@@ -78,42 +69,25 @@ class DefaultConfiguratorTest extends TestCase
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
 
-        $actual = $config->get('TEST', 'hoge', 'bar');
+        $actual = $config->get('TEST.hoge.bar');
         $this->assertNull($actual);
-    }
-
-    public function test_set_category(): void
-    {
-        $config = new DefaultConfigurator();
-        $config->add('TEST', 'hoge');
-        $config->set('TEST', 'fuga');
-
-        $actual = $config->get('TEST');
-        $this->assertEquals('fuga', $actual);
     }
 
     public function test_set_singleKey(): void
     {
         $config = new DefaultConfigurator();
-        $config->add('TEST', $this->test_values);
-        $config->set('TEST', 'Hoge', 'hoge');
+        $config->add('hoge', 'HOGE');
+        $config->set('hoge', 'Hoge');
 
-        $actual = $config->get('TEST');
-        $this->assertEquals([
-            'hoge' => 'Hoge',
-            'foo' => [
-                'bar' => [
-                    'buz' => 'BUZ',
-                ]
-            ],
-        ], $actual);
+        $actual = $config->get('hoge');
+        $this->assertEquals('Hoge', $actual);
     }
 
     public function test_set_multiKey(): void
     {
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
-        $config->set('TEST', 'Piyo', 'hoge', 'fuga', 'piyo');
+        $config->set('TEST.hoge.fuga.piyo', 'Piyo');
 
         $actual = $config->get('TEST');
         $this->assertEquals([
@@ -134,7 +108,7 @@ class DefaultConfiguratorTest extends TestCase
     {
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
-        $config->set('TEST', 'Bar', 'bar');
+        $config->set('TEST.bar', 'Bar');
 
         $actual = $config->get('TEST');
         $this->assertEquals([
@@ -156,7 +130,7 @@ class DefaultConfiguratorTest extends TestCase
     {
         $config = new DefaultConfigurator();
         $config->add('TEST', $this->test_values);
-        $config->set('TEST', 'Buz', 'hoge', 'fuga', 'buz');
+        $config->set('TEST.hoge.fuga.buz', 'Buz');
 
         $actual = $config->get('TEST');
         $this->assertEquals([
