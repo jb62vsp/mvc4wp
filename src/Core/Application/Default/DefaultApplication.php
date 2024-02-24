@@ -38,9 +38,11 @@ class DefaultApplication implements ApplicationInterface
     public function router(): RouterInterface
     {
         if (!isset($this->_router)) {
-            $routerFactoryClass = $this->_config->get('factory.router');
-            if (is_null($routerFactoryClass) || class_exists($routerFactoryClass)) {
-                $routerFactoryClass = DefaultRouterFactory::class;
+            $routerFactoryClass = DefaultRouterFactory::class;
+
+            $customRouterFactoryClass = $this->_config->get('factory.router');
+            if (!is_null($customRouterFactoryClass) && class_exists($customRouterFactoryClass)) {
+                $routerFactoryClass = $customRouterFactoryClass;
             }
             $this->_router = $routerFactoryClass::create();
         }
@@ -49,9 +51,11 @@ class DefaultApplication implements ApplicationInterface
 
     public function clock(): ClockInterface
     {
-        $clockFactoryClass = $this->config()->get('factory.clock');
-        if (is_null($clockFactoryClass) || class_exists($clockFactoryClass)) {
-            $clockFactoryClass = DefaultClockFactory::class;
+        $clockFactoryClass = DefaultClockFactory::class;
+
+        $customClockFactoryClass = $this->config()->get('factory.clock');
+        if (!is_null($customClockFactoryClass) && class_exists($customClockFactoryClass)) {
+            $clockFactoryClass = $customClockFactoryClass;
         }
         $this->_clock = $clockFactoryClass::create();
 
@@ -88,6 +92,7 @@ class DefaultApplication implements ApplicationInterface
             if (!class_exists($route->class)) {
                 throw new ApplicationException(); // TODO:
             }
+            
             /** @var ControllerInterface $controller */
             $controller = new $route->class($this->config());
             $this->_controller = $controller;

@@ -24,7 +24,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->get('/', 'HomeController::index');
+        $router->GET('/', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/');
 
@@ -37,7 +37,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->get('/', 'HomeController::index');
+        $router->GET('/', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'get', '/');
 
@@ -50,7 +50,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase03(): void
     {
         $router = $this->getRouter();
-        $router->get('/home/index', 'HomeController::index');
+        $router->GET('/home/index', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/index');
 
@@ -63,7 +63,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase04(): void
     {
         $router = $this->getRouter();
-        $router->get('/home/{id:\d+}', 'HomeController::index');
+        $router->GET('/home/{id:\d+}', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/123');
 
@@ -78,7 +78,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase05(): void
     {
         $router = $this->getRouter();
-        $router->get('/home/{name}', 'HomeController::index');
+        $router->GET('/home/{name}', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/abc');
 
@@ -93,7 +93,7 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase06(): void
     {
         $router = $this->getRouter();
-        $router->get('/home/{name}/{id:\d+}', 'HomeController::index');
+        $router->GET('/home/{name}/{id:\d+}', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/abc/123');
 
@@ -110,7 +110,7 @@ class DefaultRouterTest extends TestCase
     public function test_getNgCase01(): void
     {
         $router = $this->getRouter();
-        $router->get('/', 'HomeController::index');
+        $router->GET('/', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/nothing');
 
@@ -123,7 +123,7 @@ class DefaultRouterTest extends TestCase
     public function test_getNgCase02(): void
     {
         $router = $this->getRouter();
-        $router->get('/', 'HomeController::index');
+        $router->GET('/', 'HomeController::index');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'HOGE', '/');
 
@@ -136,7 +136,7 @@ class DefaultRouterTest extends TestCase
     public function test_postOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->post('/', 'HomeController::register');
+        $router->POST('/', 'HomeController::register');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'POST', '/');
 
@@ -149,7 +149,7 @@ class DefaultRouterTest extends TestCase
     public function test_postOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->post('/', 'HomeController::register');
+        $router->POST('/', 'HomeController::register');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'post', '/');
 
@@ -162,7 +162,7 @@ class DefaultRouterTest extends TestCase
     public function test_putOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->put('/', 'HomeController::update');
+        $router->PUT('/', 'HomeController::update');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'PUT', '/');
 
@@ -175,7 +175,7 @@ class DefaultRouterTest extends TestCase
     public function test_putOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->put('/', 'HomeController::update');
+        $router->PUT('/', 'HomeController::update');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'put', '/');
 
@@ -188,7 +188,7 @@ class DefaultRouterTest extends TestCase
     public function test_deleteOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->delete('/', 'HomeController::delete');
+        $router->DELETE('/', 'HomeController::delete');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'DELETE', '/');
 
@@ -201,7 +201,7 @@ class DefaultRouterTest extends TestCase
     public function test_deleteOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->delete('/', 'HomeController::delete');
+        $router->DELETE('/', 'HomeController::delete');
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'delete', '/');
 

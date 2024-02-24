@@ -1,9 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Route;
 
-use Mvc4Wp\Core\Config\ConfiguratorInterface;
-
-trait RouterTrait
+trait Routerable
 {
     public const STATUS_DELIMITER = '`';
 
@@ -19,22 +17,22 @@ trait RouterTrait
 
     protected array $routes = [];
 
-    public function get(string $route, string $handler): void
+    public function GET(string $route, string $handler): void
     {
         $this->addRoute(self::GET, $route, $handler);
     }
 
-    public function post(string $route, string $handler): void
+    public function POST(string $route, string $handler): void
     {
         $this->addRoute(self::POST, $route, $handler);
     }
 
-    public function put(string $route, string $handler): void
+    public function PUT(string $route, string $handler): void
     {
         $this->addRoute(self::PUT, $route, $handler);
     }
 
-    public function delete(string $route, string $handler): void
+    public function DELETE(string $route, string $handler): void
     {
         $this->addRoute(self::DELETE, $route, $handler);
     }
