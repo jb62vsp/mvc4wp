@@ -12,9 +12,11 @@ class OrderByExpr implements Expr
 
     public const NAME = 'name';
 
-    // public const META_VALUE = 'meta_value'; // unuse
+    /** @deprecated */
+    public const META_VALUE = 'meta_value';
 
-    // public const META_VALUE_NUM = 'meta_value_num'; // unse
+    /** @deprecated */
+    public const META_VALUE_NUM = 'meta_value_num';
 
     // ---- POST FIELDS ----
 
@@ -30,26 +32,35 @@ class OrderByExpr implements Expr
 
     public const MODIFIED = 'modified';
 
+    /** @deprecated */
     public const PARENT = 'parent';
 
+    /** @deprecated */
     public const RAND = 'rand';
 
+    /** @deprecated */
     public const COMMENT_COUNT = 'comment_count';
 
+    /** @deprecated */
     public const RELEVANCE = 'relevance';
 
+    /** @deprecated */
     public const MENU_ORDER = 'menu_order';
 
+    /** @deprecated */
     public const POST__IN = 'post__in';
 
+    /** @deprecated */
     public const POST_NAME__IN = 'post_name__in';
 
+    /** @deprecated */
     public const POST_PARENT__IN = 'post_parent__in';
 
     // ---- USER FIELDS ----
 
     public const DISPLAY_NAME = 'display_name';
 
+    /** @deprecated */
     public const INCLUDE = 'include';
 
     public const LOGIN = 'login';
