@@ -1,14 +1,15 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Mvc4Wp\Core\Model\Repository\QueryInterface;
+use Mvc4Wp\Core\Model\Attribute\Field;
+use Mvc4Wp\Core\Model\Repository\QueryBuilderInterface;
+use Mvc4Wp\Core\Model\Repository\QueryExecutorInterface;
+use Mvc4Wp\Core\Model\Validator\Rule;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Mvc4Wp\Core\Model\Validator\Rule;
 
-#[CoversClass(Model::class)]
-#[CoversClass(Field::class)]
+#[CoversClass(Entity::class)]
 #[CoversClass(Rule::class)]
 class BindTraitTest extends TestCase
 {
@@ -18,7 +19,7 @@ class BindTraitTest extends TestCase
 
     public function test_bindField01(): void
     {
-        $obj = new ModelTestMockA();
+        $obj = new BindTraitTestTestMockA();
         $obj->bind([]);
         $this->assertEquals('abc', $obj->field_a);
         $this->assertEquals(0, $obj->field_b);
@@ -27,7 +28,7 @@ class BindTraitTest extends TestCase
 
     public function test_bindField02(): void
     {
-        $obj = new ModelTestMockA();
+        $obj = new BindTraitTestTestMockA();
         $obj->bind([
             'field_a' => 'def',
             'field_b' => 1,
@@ -40,7 +41,7 @@ class BindTraitTest extends TestCase
 
     public function test_bindField03(): void
     {
-        $obj = new ModelTestMockA();
+        $obj = new BindTraitTestTestMockA();
         $values = new stdClass();
         $values->field_a = 'def';
         $values->field_b = 1;
@@ -52,7 +53,7 @@ class BindTraitTest extends TestCase
     }
 }
 
-class ModelTestMockA extends Model
+class BindTraitTestTestMockA extends Entity
 {
     #[Field]
     public string $field_a = 'abc';
@@ -62,62 +63,48 @@ class ModelTestMockA extends Model
 
     public float $field_c;
 
-        /**
-     * @return TQuery
-     */
-    public static function find(): QueryInterface
+    public static function find(): QueryBuilderInterface
     {
-        return new ModelTestMockQuery();
+        return new BindTraitTestMockQueryBuilder();
     }
-    
-    /**
-     * @return int
-     */
+
     public function register(): int
     {
         return 0;
     }
 
-    /**
-     * @return void
-     */
     public function update(): void
     {
         // noop
     }
 
-    /**
-     * @return bool
-     */
     public function delete(bool $force_delete = false): bool
     {
         return true;
     }
 }
 
-class ModelTestMockQuery  implements QueryInterface
+class BindTraitTestMockQueryBuilder implements QueryBuilderInterface
 {
-    public function search(string $key, string $value, string $compare = '=', string $type = 'CHAR'): QueryInterface
+    public function build(): QueryExecutorInterface
     {
-        return $this;
+        return new BindTraitTestMockQueryExecutor();
     }
+}
 
-    public function order(string $order_by, string $order = 'ASC', string $type = 'CHAR'): QueryInterface
-    {
-        return $this;
-    }
-
+class BindTraitTestMockQueryExecutor implements QueryExecutorInterface
+{
     public function get(): array
     {
         return [];
     }
 
-    public function getSingle(): ?Model
+    public function getSingle(): Entity|null
     {
         return null;
     }
 
-    public function byID(int $id): ?Model
+    public function byID(int $id): Entity|null
     {
         return null;
     }

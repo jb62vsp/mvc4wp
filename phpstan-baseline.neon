@@ -1,16 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Function is_user_logged_in not found\\.$#"
-			count: 1
-			path: src/App/Controller/AdminController.php
-
-		-
-			message: "#^Function is_user_logged_in not found\\.$#"
-			count: 1
-			path: src/App/Controller/HomeController.php
-
-		-
 			message: "#^Function esc_attr not found\\.$#"
 			count: 2
 			path: src/Core/Helper/ViewHelper.php

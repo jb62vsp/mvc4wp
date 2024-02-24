@@ -2,11 +2,12 @@
 namespace Mvc4Wp\Core\Model;
 
 use DateTime;
-use ReflectionMethod;
-use ReflectionProperty;
-use Mvc4Wp\Core\Service\DateTimeService;
+use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Validator\Rule;
 use Mvc4Wp\Core\Model\Validator\ValidationError;
+use Mvc4Wp\Core\Service\DateTimeService;
+use ReflectionMethod;
+use ReflectionProperty;
 
 trait Bindable
 {
@@ -37,7 +38,7 @@ trait Bindable
     /**
      * @return array<ValidationError>
      */
-    private static function bindProperties(Model $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
+    private static function bindProperties(Entity $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
     {
         $result = [];
 
@@ -62,7 +63,7 @@ trait Bindable
         return $result;
     }
 
-    protected static function toString(Model $obj, ReflectionProperty $prop): string
+    protected static function toString(Entity $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (static::hasKey($obj, $prop_name)) {
@@ -73,7 +74,7 @@ trait Bindable
         return '';
     }
 
-    protected static function toArrayOnlyField(Model $obj): array
+    protected static function toArrayOnlyField(Entity $obj): array
     {
         $result = [];
 
@@ -117,7 +118,7 @@ trait Bindable
             'int' => strval($value),
             'float' => strval($value),
             'bool' => strval($value),
-            'DateTime' => DateTimeService::strval($value),
+            'DateTime' => DateTimeService::strval($value, 'Y-m-d H:i:s'), // TODO:
             default => $value,
         };
 

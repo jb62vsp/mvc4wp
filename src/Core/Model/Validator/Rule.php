@@ -3,8 +3,8 @@ namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\AttributeTrait;
-use Mvc4Wp\Core\Model\Model;
+use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
+use Mvc4Wp\Core\Model\Entity;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 abstract class Rule
@@ -14,7 +14,7 @@ abstract class Rule
     /**
      * @return array<ValidationError>
      */
-    public static function validate(Model $obj, string $property_name, mixed $value): array
+    public static function validate(Entity $obj, string $property_name, mixed $value): array
     {
         $result = [];
 

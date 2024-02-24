@@ -2,8 +2,8 @@
 namespace Mvc4Wp\Core\Library;
 
 use Mvc4Wp\Core\Service\DateTimeService;
-use Mvc4Wp\Core\Model\CustomField;
-use Mvc4Wp\Core\Model\CustomPostType;
+use Mvc4Wp\Core\Model\Attribute\CustomField;
+use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 
 final class WordPressCustomize
 {
@@ -11,9 +11,46 @@ final class WordPressCustomize
 
     private static array $registered_fields = [];
 
+    private static array $added_callback = [];
+
+    private static function add_filter(string $key, callable $callback): void
+    {
+        add_filter($key, $callback);
+        if (array_key_exists($key, self::$added_callback)) {
+            self::$added_callback[$key][] = $callback;
+        } else {
+            self::$added_callback[$key] = [$callback];
+        }
+    }
+
+    private static function remove_filter(string $key): void
+    {
+        if (array_key_exists($key, self::$added_callback)) {
+            foreach (self::$added_callback[$key] as $callback) {
+                remove_filter($key, $callback);
+            }
+            unset(self::$added_callback[$key]);
+        }
+    }
+
+    public static function enableTraceSQL(callable $callback): void
+    {
+        self::add_filter('query', $callback);
+    }
+
+    public static function disableTraceSQL(): void
+    {
+        self::remove_filter('query');
+    }
+
+    public static function enableRedirectCanonical(): void
+    {
+        self::remove_filter('redirect_canonical');
+    }
+
     public static function disableRedirectCanonical(): void
     {
-        add_filter('redirect_canonical', fn($url) => (is_404()) ? false : $url);
+        self::add_filter('redirect_canonical', fn($url) => (is_404()) ? false : $url);
     }
 
     public static function addCustomPostType(string $class_name): void
@@ -21,7 +58,7 @@ final class WordPressCustomize
         $post_slug = self::addPostType($class_name);
         self::addCustomFields($class_name, $post_slug);
     }
-
+    
     public static function addPostType(string $class_name): string
     {
         $attr = CustomPostType::getClassAttribute($class_name);

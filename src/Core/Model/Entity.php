@@ -1,11 +1,30 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
-use Attribute;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Attribute\Field;
+use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 
-#[Attribute(Attribute::TARGET_CLASS)]
-class Entity
+abstract class Entity implements RepositoryInterface
 {
-    use Castable, AttributeTrait;
+    use Bindable, Castable;
+
+    #[Field]
+    public readonly int $ID;
+
+    public function isLoaded(): bool
+    {
+        return isset($this->ID);
+    }
+
+    private function setValue(string $property, mixed $value): void
+    {
+        if ($property === 'ID') {
+            if (!$this->isLoaded()) {
+                $this->{$property} = $value;
+            }
+        } else {
+            $this->{$property} = $value;
+        }
+    }
 }

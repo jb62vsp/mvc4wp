@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Validator;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\AttributeTrait;
+use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class LengthRule extends Rule
@@ -23,7 +23,7 @@ class LengthRule extends Rule
 
         $length = strlen(strval($value));
         if ($length < $this->min || $this->max < $length) {
-            array_push($result, new ValidationError($class_name, $property_name, $value, $this));
+            $result[] = new ValidationError($class_name, $property_name, $value, $this);
         }
 
         return $result;
