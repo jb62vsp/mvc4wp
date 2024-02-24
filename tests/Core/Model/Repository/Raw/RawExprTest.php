@@ -20,12 +20,14 @@ class RawExprTest extends TestCase
         $obj = new RawExpr();
 
         $actual = $obj->toQuery([
-            ['search' => 1],
-            ['search_columns' => ['ID',]],
+            'search' => 1,
+            'search_columns' => ['ID',],
         ]);
         $this->assertEquals([
-            ['search' => 1],
-            ['search_columns' => ['ID',]],
+            [
+                'search' => 1,
+                'search_columns' => ['ID',],
+            ]
         ], $actual);
 
     }
