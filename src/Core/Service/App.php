@@ -9,9 +9,14 @@ final class App
 {
     private static ApplicationInterface $application;
 
-    public static function set(ApplicationFactoryInterface $factory): void
+    /**
+     * @param class-string<ApplicationFactoryInterface> $application_factory
+     */
+    public static function set(string $application_factory): void
     {
-        self::$application = $factory->create();
+        if (class_exists($application_factory)) {
+            self::$application = $application_factory::create();
+        }
     }
 
     public static function get(): ApplicationInterface
@@ -19,8 +24,7 @@ final class App
         if (isset(self::$application)) {
             return self::$application;
         } else {
-            $factory = new DefaultApplicationFactory();
-            self::$application = $factory->create();
+            self::$application = DefaultApplicationFactory::create();
             return self::$application;
         }
     }

@@ -3,5 +3,5 @@ namespace Mvc4Wp\Core\Route;
 
 interface RouterFactoryInterface
 {
-    public function create(array $args = []);
+    public static function create(array $args = []);
 }

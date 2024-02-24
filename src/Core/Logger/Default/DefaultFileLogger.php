@@ -49,7 +49,7 @@ class DefaultFileLogger extends FileLogger
             $now = date_create('@' . $ts);
             $now->setTimezone(new DateTimeZone($this->timezone));
             $datetime = $now->format($this->datetime_format);
-            $this->out($now, strtoupper($level) . ' - ' . $datetime . ' --> ' . $message . ', ' . var_export($context, true) . "\n");
+            $this->out($now, strtoupper($level) . ' - ' . $datetime . ' --> ' . $message . ', ' . str_replace(["\r\n", "\r", "\n"], '', var_export($context, true)) . "\n");
         }
     }
 }

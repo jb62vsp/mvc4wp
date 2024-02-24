@@ -6,7 +6,7 @@ use Mvc4Wp\Core\Route\RouterInterface;
 
 class DefaultRouterFactory implements RouterFactoryInterface
 {
-    public function create(array $args = []): RouterInterface
+    public static function create(array $args = []): RouterInterface
     {
         return new DefaultRouter();
     }

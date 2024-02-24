@@ -16,16 +16,16 @@ final class Logging
 
     public static function configure(ConfiguratorInterface $config): void
     {
-        $logconf = $config->get('logger');
-        if (array_key_exists('default_logger_name', $logconf)) {
-            self::$default_logger_name = $logconf['default_logger_name'];
+        $logget_config = $config->get('logger');
+        if (array_key_exists('default_logger_name', $logget_config)) {
+            self::$default_logger_name = $logget_config['default_logger_name'];
         }
-        if (array_key_exists('loggers', $logconf)) {
-            foreach ($logconf['loggers'] as $key => $value) {
-                if (array_key_exists('logger_factory', $value) && class_exists($value['logger_factory'])) {
-                    $factory_class = $value['logger_factory'];
-                    $factory = new $factory_class();
-                    self::$loggers[$key] = $factory->create($value);
+        if (array_key_exists('loggers', $logget_config)) {
+            foreach ($logget_config['loggers'] as $logger_name => $logger) {
+                if (array_key_exists('logger_factory', $logger) && class_exists($logger['logger_factory'])) {
+                    /** @var LoggerFactoryInterface $logger_factory */
+                    $logger_factory = $logger['logger_factory'];
+                    self::$loggers[$logger_name] = $logger_factory::create($logger);
                 }
             }
         }
@@ -51,8 +51,7 @@ final class Logging
     private static function getNullLogger(): LoggerInterface
     {
         if (!isset(self::$null) || is_null(self::$null)) {
-            $factory = new NullLoggerFactory();
-            self::$null = $factory->create();
+            self::$null = NullLoggerFactory::create();
         }
         return self::$null;
     }

@@ -19,7 +19,7 @@ class DefaultFileLoggerFactory extends AbstractLoggerFactory
 
     private const LOG_LEVEL_KEY = 'log_level';
 
-    public function create(array $args = []): LoggerInterface
+    public static function create(array $args = []): LoggerInterface
     {
         if (!array_key_exists(self::DIRECTORY_KEY, $args)) {
             throw new ApplicationException('invalid log config: ' . self::DIRECTORY_KEY);

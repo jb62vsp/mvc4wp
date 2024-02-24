@@ -9,9 +9,7 @@ class DefaultRouterFactoryTest extends TestCase
 {
     public function test_create(): void
     {
-        $factory = new DefaultRouterFactory();
-
-        $actual = $factory->create();
+        $actual = DefaultRouterFactory::create();
         $this->assertInstanceOf(DefaultRouter::class, $actual);
     }
 }

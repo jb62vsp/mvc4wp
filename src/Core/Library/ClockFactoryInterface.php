@@ -3,5 +3,5 @@ namespace Mvc4Wp\Core\Library;
 
 interface ClockFactoryInterface
 {
-    public function create(array $args = []): ClockInterface;
+    public static function create(array $args = []): ClockInterface;
 }

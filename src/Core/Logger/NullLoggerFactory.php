@@ -7,7 +7,7 @@ use Mvc4Wp\Core\Logger\AbstractLoggerFactory;
 
 class NullLoggerFactory extends AbstractLoggerFactory
 {
-    public function create(array $args = []): LoggerInterface
+    public static function create(array $args = []): LoggerInterface
     {
         return new NullLogger();
     }

@@ -3,5 +3,5 @@ namespace Mvc4Wp\Core\Application;
 
 interface ApplicationFactoryInterface
 {
-    public function create(): ApplicationInterface;
+    public static function create(array $args = []): ApplicationInterface;
 }
