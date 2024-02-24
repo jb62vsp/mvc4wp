@@ -2,20 +2,16 @@
 namespace App\Model;
 
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\CustomField;
-use Mvc4Wp\Core\Model\CustomPostType;
-use Mvc4Wp\Core\Model\PostModel;
+use Mvc4Wp\Core\Model\Attribute\CustomField;
+use Mvc4Wp\Core\Model\Attribute\CustomPostType;
+use Mvc4Wp\Core\Model\PostEntity;
 use Mvc4Wp\Core\Model\Validator\LengthRule;
 use Mvc4Wp\Core\Model\Validator\NumericRule;
 use Mvc4Wp\Core\Model\Validator\PATTERN;
 use Mvc4Wp\Core\Model\Validator\RegExpRule;
 
-/**
- * @template TModel of ExampleModel
- * @extends PostModel<TModel>
- */
 #[CustomPostType(name: 'example', title: 'カスタム投稿例')]
-class ExampleModel extends PostModel
+class ExampleEntity extends PostEntity
 {
     use Castable;
 

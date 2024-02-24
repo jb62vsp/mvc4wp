@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
-use App\Model\ExampleModel;
+use App\Model\ExampleEntity;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Service\Logging;
 
@@ -123,12 +123,14 @@ class ExampleController extends AdminController
         if (array_key_exists('per_page', $args)) {
             $per_page = intval($args['per_page']);
         }
-        $query =  ExampleModel::find()
+        $query = ExampleEntity::find()
             ->withDraft()
             ->withTrash()
-            ->order($sort, $order);
-        $count = $query->all()->count();
-        $examples = $query->page($page, $per_page)->get();
+            // ->order($sort, $order)
+        ;
+        $count = $query->build()->count();
+        // $examples = $query->page($page, $per_page)->get();
+        $examples = $query->build()->get();
 
         $data = [
             'title' => $this->name,
@@ -158,12 +160,14 @@ class ExampleController extends AdminController
     {
         $sort = $_POST['sort'];
         $order = $_POST['order'];
-        $examples = ExampleModel::find()
+        $examples = ExampleEntity::find()
             ->withDraft()
             ->withTrash()
-            ->search($_POST['key'], $_POST['value'], $_POST['compare'], $_POST['type'])
-            ->order($sort, $order)
-            ->get();
+            ->by($_POST['key'], $_POST['value'], $_POST['compare'], $_POST['type'])
+            // ->order($sort, $order)
+            ->build()
+            ->get()
+        ;
         $data = [
             'title' => $this->name,
             'count' => count($examples),
@@ -190,7 +194,13 @@ class ExampleController extends AdminController
     public function single(array $args, array $errors = [], array $post = []): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::find()->withDraft()->withTrash()->byID($id);
+        $example = ExampleEntity::find()
+            ->rawQuery([['p' => $id]])
+            ->withDraft()
+            ->withTrash()
+            ->build()
+            ->getSingle()
+        ;
         if (is_null($example)) {
             $this->notFound()->done();
         }
@@ -219,7 +229,7 @@ class ExampleController extends AdminController
 
     public function register(): void
     {
-        $example = new ExampleModel();
+        $example = new ExampleEntity();
         $errors = $example->bind($_POST);
         if (empty($errors)) {
             Logging::get('model')->info(static::class . '->' . 'register', get_object_vars($example));
@@ -233,7 +243,7 @@ class ExampleController extends AdminController
     public function update(array $args): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::cast_null(ExampleModel::find()->withDraft()->withTrash()->byID($id));
+        $example = ExampleEntity::cast_null(ExampleEntity::find()->withDraft()->withTrash()->byID($id));
         if (is_null($example)) {
             $this->notFound()->done();
         }
@@ -251,7 +261,7 @@ class ExampleController extends AdminController
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $example = ExampleModel::cast_null(ExampleModel::find()->withDraft()->withTrash()->byID($id));
+        $example = ExampleEntity::cast_null(ExampleEntity::find()->withDraft()->withTrash()->byID($id));
         if (is_null($example)) {
             $this->notFound()->done();
         }

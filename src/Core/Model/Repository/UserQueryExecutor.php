@@ -49,6 +49,16 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
+    public function current(): ?UserEntity
+    {
+        $result = null;
+
+        $id = get_current_user_id();
+        $result = $this->bindByID($id);
+
+        return $result;
+    }
+
     protected function fetch(): array
     {
         $wp_query = new \WP_User_Query($this->queries);

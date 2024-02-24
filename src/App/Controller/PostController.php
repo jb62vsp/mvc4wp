@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use Mvc4Wp\Core\Library\Castable;
-use Mvc4Wp\Core\Model\PostModel;
+use Mvc4Wp\Core\Model\PostEntity;
 
 class PostController extends AdminController
 {
@@ -32,7 +32,13 @@ class PostController extends AdminController
         if (array_key_exists('order', $args)) {
             $order = $args['order'];
         }
-        $posts = PostModel::find()->withDraft()->withTrash()->order($sort, $order)->get();
+        $posts = PostEntity::find()
+            ->withDraft()
+            ->withTrash()
+            // ->order($sort, $order)
+            ->build()
+            ->get()
+        ;
 
         $data = [
             'title' => $this->name,
@@ -54,7 +60,13 @@ class PostController extends AdminController
     public function single(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostModel::find()->withDraft()->withTrash()->byID($id);
+        $post = PostEntity::find()
+            ->withDraft()
+            ->withTrash()
+            ->rawQuery([['p' => $id]])
+            ->build()
+            ->getSingle()
+        ;
         if (is_null($post)) {
             $this->notFound()->done();
         }
@@ -78,7 +90,7 @@ class PostController extends AdminController
 
     public function register(array $args = []): void
     {
-        $post = new PostModel();
+        $post = new PostEntity();
         $post->bind($_POST);
         $id = $post->register();
         $this->seeOther("/post/{$id}")->done();
@@ -87,7 +99,7 @@ class PostController extends AdminController
     public function update(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostModel::cast_null(PostModel::find()->withDraft()->withTrash()->byID($id));
+        $post = PostEntity::cast_null(PostEntity::find()->withDraft()->withTrash()->byID($id));
         if (is_null($post)) {
             $this->notFound()->done();
         }
@@ -100,7 +112,7 @@ class PostController extends AdminController
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostModel::cast_null(PostModel::find()->withDraft()->withTrash()->byID($id));
+        $post = PostEntity::cast_null(PostEntity::find()->withDraft()->withTrash()->byID($id));
         if (is_null($post)) {
             $this->notFound()->done();
         }
