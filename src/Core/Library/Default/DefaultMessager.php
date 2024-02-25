@@ -7,7 +7,10 @@ use Stringable;
 
 class DefaultMessager implements MessagerInterface
 {
-    protected string $locale_string = ''; // TODO:
+    public function __construct(
+        protected string $locale_string,
+    ) {
+    }
 
     public function format(string|Stringable $message, array $args = []): string|false
     {

@@ -10,7 +10,7 @@ class DefaultMessagerTest extends TestCase
 {
     public function test_format_noParams(): void
     {
-        $obj = new DefaultMessager();
+        $obj = new DefaultMessager('ja');
 
         $actual = $obj->format('hoge');
         $this->assertEquals('hoge', $actual);
@@ -18,7 +18,7 @@ class DefaultMessagerTest extends TestCase
 
     public function test_format_singleParam(): void
     {
-        $obj = new DefaultMessager();
+        $obj = new DefaultMessager('a');
 
         $actual = $obj->format('hoge: {0}', ['HOGE']);
         $this->assertEquals('hoge: HOGE', $actual);
@@ -26,15 +26,27 @@ class DefaultMessagerTest extends TestCase
 
     public function test_format_multiParams(): void
     {
-        $obj = new DefaultMessager();
+        $obj = new DefaultMessager('a');
 
         $actual = $obj->format('hoge: {0}, fuga: {1}, piyo: {2}', ['HOGE', 'FUGA', 'PIYO']);
         $this->assertEquals('hoge: HOGE, fuga: FUGA, piyo: PIYO', $actual);
     }
 
+    public function test_format_multiParamsWithKey(): void
+    {
+        $obj = new DefaultMessager('a');
+
+        $actual = $obj->format('hoge: {hoge}, fuga: {fuga}, piyo: {piyo}', [
+            'hoge' => 'HOGE',
+            'fuga' => 'FUGA',
+            'piyo' => 'PIYO'
+        ]);
+        $this->assertEquals('hoge: HOGE, fuga: FUGA, piyo: PIYO', $actual);
+    }
+
     public function test_format_Stringaable_noParams(): void
     {
-        $obj = new DefaultMessager();
+        $obj = new DefaultMessager('a');
         $mock = new DefaultMessagerTestMock('hoge');
 
         $actual = $obj->format($mock);

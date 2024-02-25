@@ -10,6 +10,8 @@ use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Library\ClockInterface;
 use Mvc4Wp\Core\Library\Default\DefaultClockFactory;
+use Mvc4Wp\Core\Library\Default\DefaultMessagerFactory;
+use Mvc4Wp\Core\Library\MessagerInterface;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
@@ -19,15 +21,31 @@ class DefaultApplication implements ApplicationInterface
 {
     use Castable;
 
-    protected RouterInterface $_router;
-
     protected ClockInterface $_clock;
 
     protected ControllerInterface $_controller;
 
+    protected MessagerInterface $_messager;
+
+    protected RouterInterface $_router;
+
     public function __construct(
         protected readonly ConfiguratorInterface $_config,
     ) {
+    }
+
+    public function clock(): ClockInterface
+    {
+        if (!isset($this->_clock)) {
+            $clock_factory = DefaultClockFactory::class;
+            $custom_clock_factory = $this->config()->get('factory.clock');
+            if (!is_null($custom_clock_factory) && class_exists($custom_clock_factory)) {
+                $clock_factory = $custom_clock_factory;
+            }
+            $this->_clock = $clock_factory::create(['config' => $this->config()]);
+        }
+
+        return $this->_clock;
     }
 
     public function config(): ConfiguratorInterface
@@ -35,36 +53,37 @@ class DefaultApplication implements ApplicationInterface
         return $this->_config;
     }
 
+    public function controller(): ControllerInterface
+    {
+        return $this->_controller;
+    }
+
+    public function messager(): MessagerInterface
+    {
+        if (!isset($this->_messager)) {
+            $messager_factory = DefaultMessagerFactory::class;
+            $custom_messager_factory = $this->config()->get('factory.messager');
+            if (!is_null($custom_messager_factory) && class_exists($custom_messager_factory)) {
+                $messager_factory = $custom_messager_factory;
+            }
+            $this->_messager = $messager_factory::create(['config' => $this->config()]);
+        }
+
+        return $this->_messager;
+    }
+
     public function router(): RouterInterface
     {
         if (!isset($this->_router)) {
             $router_factory = DefaultRouterFactory::class;
-
-            $custom_router_factory = $this->_config->get('factory.router');
+            $custom_router_factory = $this->config()->get('factory.router');
             if (!is_null($custom_router_factory) && class_exists($custom_router_factory)) {
                 $router_factory = $custom_router_factory;
             }
-            $this->_router = $router_factory::create();
+            $this->_router = $router_factory::create(['config' => $this->config()]);
         }
+
         return $this->_router;
-    }
-
-    public function clock(): ClockInterface
-    {
-        $clock_factory = DefaultClockFactory::class;
-
-        $custom_clock_factory = $this->config()->get('factory.clock');
-        if (!is_null($custom_clock_factory) && class_exists($custom_clock_factory)) {
-            $clock_factory = $custom_clock_factory;
-        }
-        $this->_clock = $clock_factory::create();
-
-        return $this->_clock;
-    }
-
-    public function controller(): ControllerInterface
-    {
-        return $this->_controller;
     }
 
     public function run(): void
@@ -92,7 +111,7 @@ class DefaultApplication implements ApplicationInterface
             if (!class_exists($route->class)) {
                 throw new ApplicationException(); // TODO:
             }
-            
+
             /** @var ControllerInterface $controller */
             $controller = new $route->class($this->config());
             $this->_controller = $controller;

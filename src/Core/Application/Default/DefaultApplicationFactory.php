@@ -7,6 +7,7 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Config\Default\DefaultConfiguratorFactory;
 use Mvc4Wp\Core\Controller\Default\DefaultErrorController;
 use Mvc4Wp\Core\Library\Default\DefaultClockFactory;
+use Mvc4Wp\Core\Library\Default\DefaultMessagerFactory;
 use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 
@@ -44,6 +45,7 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (is_null($config->get('factory'))) {
             $config->add('factory', [
                 'clock' => DefaultClockFactory::class,
+                'messager' => DefaultMessagerFactory::class,
                 'router' => DefaultRouterFactory::class,
             ]);
         }
