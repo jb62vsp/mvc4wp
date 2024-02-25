@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 
-trait JsonRenderTrait
+trait JsonRenderable
 {
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {

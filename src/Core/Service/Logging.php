@@ -16,12 +16,12 @@ final class Logging
 
     public static function configure(ConfiguratorInterface $config): void
     {
-        $logget_config = $config->get('logger');
-        if (array_key_exists('default_logger_name', $logget_config)) {
-            self::$default_logger_name = $logget_config['default_logger_name'];
+        $logger_config = $config->get('logger');
+        if (array_key_exists('default_logger_name', $logger_config)) {
+            self::$default_logger_name = $logger_config['default_logger_name'];
         }
-        if (array_key_exists('loggers', $logget_config)) {
-            foreach ($logget_config['loggers'] as $logger_name => $logger) {
+        if (array_key_exists('loggers', $logger_config)) {
+            foreach ($logger_config['loggers'] as $logger_name => $logger) {
                 if (array_key_exists('logger_factory', $logger) && class_exists($logger['logger_factory'])) {
                     /** @var LoggerFactoryInterface $logger_factory */
                     $logger_factory = $logger['logger_factory'];

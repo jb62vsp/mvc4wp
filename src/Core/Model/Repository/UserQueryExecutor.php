@@ -10,11 +10,11 @@ class UserQueryExecutor implements QueryExecutorInterface
 
     public function __construct(
         protected string $entity_class,
-        protected array $queries,
+        protected array $query,
     ) {
     }
 
-    public function get(): array
+    public function list(): array
     {
         $result = [];
 
@@ -27,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function getSingle(): UserEntity|null
+    public function single(): UserEntity|null
     {
         $result = null;
 
@@ -61,7 +61,7 @@ class UserQueryExecutor implements QueryExecutorInterface
 
     protected function fetch(): array
     {
-        $wp_query = new \WP_User_Query($this->queries);
+        $wp_query = new \WP_User_Query($this->query);
         return $wp_query->get_results() ?: [];
     }
 
@@ -72,8 +72,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         if ($id !== 0) {
             $user = get_user_by('id', $id);
             if ($user) {
-                $cls = $this->entity_class;
-                $result = new $cls();
+                $result = new $this->entity_class();
                 $result->bind($user->data, false);
                 $user_meta = get_user_meta($id);
                 $result->bind($user_meta, false);

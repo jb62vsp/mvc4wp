@@ -5,5 +5,5 @@ use Mvc4Wp\Core\Library\Castable;
 
 abstract class PlainPhpController extends Controller
 {
-    use Castable, HttpResponder, PlainPhpRenderTrait;
+    use Castable, HttpRespondable, PlainPhpRenderable;
 }

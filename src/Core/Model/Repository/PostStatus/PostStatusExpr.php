@@ -5,14 +5,17 @@ use Mvc4Wp\Core\Model\Repository\Expr;
 
 class PostStatusExpr implements Expr
 {
-    public function toQuery(array $contexts): array
+    public function toQuery(array $contexts, array $query): array
     {
         if (empty($contexts)) {
-            return [];
-        } elseif (count($contexts) === 1) {
-            return [['post_status' => $contexts[0]]];
-        } else {
-            return [['post_status' => $contexts]];
+            return $query;
         }
+
+        if (count($contexts) === 1) {
+            $query['post_status'] = $contexts[0];
+        } else {
+            $query['post_status'] = $contexts;
+        }
+        return $query;
     }
 }

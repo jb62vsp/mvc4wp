@@ -10,7 +10,7 @@ trait PostReturnFieldsQuerable
     /**
      * Return all fields.
      */
-    public function fetchAll(): static
+    protected function fetchAll(): static
     {
         $new = clone $this;
 
@@ -22,7 +22,7 @@ trait PostReturnFieldsQuerable
     /**
      * Return an array of post IDs.
      */
-    public function fetchOnlyID(): static
+    protected function fetchOnlyID(): static
     {
         $new = clone $this;
 
@@ -34,7 +34,7 @@ trait PostReturnFieldsQuerable
     /**
      * Return an array of stdClass objects with ID and post_parent properties.
      */
-    public function parent(): static
+    protected function parent(): static
     {
         $new = clone $this;
 

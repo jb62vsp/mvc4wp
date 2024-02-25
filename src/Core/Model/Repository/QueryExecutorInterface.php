@@ -5,9 +5,9 @@ use Mvc4Wp\Core\Model\Entity;
 
 interface QueryExecutorInterface
 {
-    public function get(): array;
+    public function list(): array;
 
-    public function getSingle(): Entity|null;
+    public function single(): Entity|null;
 
     public function count(): int;
 }

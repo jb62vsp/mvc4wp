@@ -12,23 +12,23 @@ class AuthorNameExprTest extends TestCase
     {
         $obj = new AuthorNameExpr();
 
-        $actual = $obj->toQuery([]);
-        $this->assertEquals([], $actual);
+        $actual = $obj->toQuery([], ['hoge' => 'HOGE']);
+        $this->assertEquals(['hoge' => 'HOGE'], $actual);
     }
 
     public function test_toQuery_singleParam(): void
     {
         $obj = new AuthorNameExpr();
 
-        $actual = $obj->toQuery(['hoge']);
-        $this->assertEquals([['author_name' => 'hoge']], $actual);
+        $actual = $obj->toQuery(['hoge'], []);
+        $this->assertEquals(['author_name' => 'hoge'], $actual);
     }
 
     public function test_toQuery_multiParams(): void
     {
         $obj = new AuthorNameExpr();
 
-        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
-        $this->assertEquals([['author_name' => 'hoge']], $actual);
+        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo'], []);
+        $this->assertEquals(['author_name' => 'hoge'], $actual);
     }
 }

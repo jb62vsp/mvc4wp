@@ -7,40 +7,33 @@ use Mvc4Wp\Core\Model\Repository\Expr;
 class CustomFieldExpr implements Expr
 {
     /**
-     * @param array<list<string, mixed, string, string>> $context
+     * @param array<list<string, mixed, string, string>> $contexts
      */
-    public function toQuery(array $contexts): array
+    public function toQuery(array $contexts, array $query): array
     {
         if (empty($contexts)) {
-            return [];
-        } elseif (count($contexts) === 1) {
-            [$field, $value, $compare, $type] = $this->tuplize($contexts[0]);
-
-            return [
-                'meta_query' => [
-                    [
-                        'key' => $field,
-                        'value' => $value,
-                        'compare' => $compare,
-                        'type' => $type,
-                    ],
-                ],
-            ];
-        } else {
-            $result = [
-                'relation' => 'AND',
-            ];
-            foreach ($contexts as $context) {
-                [$field, $value, $compare, $type] = $this->tuplize($context);
-                array_push($result, [
-                    'key' => $field,
-                    'value' => $value,
-                    'compare' => $compare,
-                    'type' => $type,
-                ]);
-            }
-            return [['meta_query' => $result]];
+            return $query;
         }
+
+        if (!array_key_exists('meta_query', $query)) {
+            $query['meta_query'] = [];
+        }
+
+        if (!array_key_exists('relation', $query['meta_query']) && (count($query['meta_query']) > 0 || count($contexts) > 1)) {
+            $query['meta_query']['relation'] = 'AND';
+        }
+
+        foreach ($contexts as $context) {
+            [$field, $value, $compare, $type] = $this->tuplize($context);
+            $query['meta_query'][] = [
+                'key' => $field,
+                'value' => $value,
+                'compare' => $compare,
+                'type' => $type,
+            ];
+        }
+
+        return $query;
     }
 
     /**

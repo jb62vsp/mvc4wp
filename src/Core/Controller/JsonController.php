@@ -5,5 +5,5 @@ use Mvc4Wp\Core\Library\Castable;
 
 abstract class JsonController extends Controller
 {
-    use Castable, HttpResponder, JsonRenderTrait;
+    use Castable, HttpRespondable, JsonRenderable;
 }

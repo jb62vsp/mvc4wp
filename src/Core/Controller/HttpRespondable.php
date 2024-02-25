@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Library\HttpStatus;
 
-trait HttpResponder
+trait HttpRespondable
 {
     /*
      * --------------------------------------------------------------------
@@ -79,7 +79,7 @@ trait HttpResponder
         599 => 'Network Connect Timeout Error',
     ];
 
-    public function responder(): self
+    public function responder(): static
     {
         return $this;
     }
@@ -89,33 +89,33 @@ trait HttpResponder
         exit();
     }
 
-    public function ok(): self
+    public function ok(): static
     {
         return $this->Response(HttpStatus::OK);
     }
 
-    public function seeOther(string $url): self
+    public function seeOther(string $url): static
     {
         return $this->Response(HttpStatus::SEE_OTHER, replace: false, addition: 'Location: ' . $url);
     }
 
-    public function forbidden(): self
+    public function forbidden(): static
     {
         return $this->Response(HttpStatus::FORBIDDEN);
     }
 
-    public function notFound(): self
+    public function notFound(): static
     {
         return $this->Response(HttpStatus::NOT_FOUND);
     }
 
-    public function header(string $message): self
+    public function header(string $message): static
     {
         header($message, false);
         return $this;
     }
 
-    public function response(HttpStatus $status_code = HttpStatus::OK, bool $replace = true, string $addition = ""): self
+    public function response(HttpStatus $status_code = HttpStatus::OK, bool $replace = true, string $addition = ""): static
     {
         header($this->createResponse($status_code), $replace, $status_code->value);
         if (!empty($addition)) {

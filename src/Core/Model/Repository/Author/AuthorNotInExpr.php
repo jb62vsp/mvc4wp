@@ -5,8 +5,13 @@ use Mvc4Wp\Core\Model\Repository\Expr;
 
 class AuthorNotInExpr implements Expr
 {
-    public function toQuery(array $contexts): array
+    public function toQuery(array $contexts, array $query): array
     {
-        return [['author__not_in' => $contexts]];
+        if (empty($contexts)) {
+            return $query;
+        }
+
+        $query['author__not_in'] = $contexts;
+        return $query;
     }
 }

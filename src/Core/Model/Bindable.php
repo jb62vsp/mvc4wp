@@ -3,8 +3,6 @@ namespace Mvc4Wp\Core\Model;
 
 use DateTime;
 use Mvc4Wp\Core\Model\Attribute\Field;
-use Mvc4Wp\Core\Model\Validator\Rule;
-use Mvc4Wp\Core\Model\Validator\ValidationError;
 use Mvc4Wp\Core\Service\DateTimeService;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -13,57 +11,34 @@ trait Bindable
 {
     private bool $is_binded = false;
 
-    public function idBinded(): bool
+    public function isBinded(): bool
     {
         return $this->is_binded;
     }
 
-    /**
-     * @return array<ValidationError>
-     */
-    public function bind(object|array $data, bool $validation = true): array
+    public function bind(object|array $data): void
     {
-        $result = [];
-
         $props = Field::getAttributedProperties(static::class);
         foreach ($props as $prop) {
-            $errors = static::bindProperties($this, $prop, $data, $validation);
-            $result = array_merge($result, $errors);
+            static::bindProperties($this, $prop, $data);
             $this->is_binded = true;
         }
-
-        return $result;
     }
 
-    /**
-     * @return array<ValidationError>
-     */
-    private static function bindProperties(Entity $obj, ReflectionProperty $prop, object|array $data, bool $validation): array
+    private static function bindProperties(object $obj, ReflectionProperty $prop, object|array $data): void
     {
-        $result = [];
-
         $prop_name = $prop->getName();
         if (static::hasKey($data, $prop_name)) {
             $value = static::getValue($data, $prop_name);
             if (!is_null($value)) {
-                $errors = [];
-                if ($validation) {
-                    $errors = Rule::validate($obj, $prop_name, $value);
-                }
-                if (count($errors) <= 0) {
-                    $typed_value = static::typedValue($prop->getType()->getName(), $value);
-                    $refm = new ReflectionMethod($obj, 'setValue');
-                    $refm->invoke($obj, $prop_name, $typed_value);
-                } else {
-                    $result = array_merge($result, $errors);
-                }
+                $typed_value = static::typedValue($prop->getType()->getName(), $value);
+                $refm = new ReflectionMethod($obj, 'setValue');
+                $refm->invoke($obj, $prop_name, $typed_value);
             }
         }
-
-        return $result;
     }
 
-    protected static function toString(Entity $obj, ReflectionProperty $prop): string
+    protected static function toString(object $obj, ReflectionProperty $prop): string
     {
         $prop_name = $prop->getName();
         if (static::hasKey($obj, $prop_name)) {
@@ -74,7 +49,7 @@ trait Bindable
         return '';
     }
 
-    protected static function toArrayOnlyField(Entity $obj): array
+    protected static function toArrayOnlyField(object $obj): array
     {
         $result = [];
 

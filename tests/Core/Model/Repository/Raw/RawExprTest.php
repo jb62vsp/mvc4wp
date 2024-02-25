@@ -11,8 +11,8 @@ class RawExprTest extends TestCase
     {
         $obj = new RawExpr();
 
-        $actual = $obj->toQuery([]);
-        $this->assertEquals([], $actual);
+        $actual = $obj->toQuery([], ['hoge' => 'HOGE']);
+        $this->assertEquals(['hoge' => 'HOGE'], $actual);
     }
 
     public function test_toQuery_single(): void
@@ -20,12 +20,30 @@ class RawExprTest extends TestCase
         $obj = new RawExpr();
 
         $actual = $obj->toQuery([
-            ['search' => 1],
-            ['search_columns' => ['ID',]],
+            'search' => 1,
+        ], []);
+        $this->assertEquals([
+            'search' => 1,
+        ], $actual);
+
+    }
+
+    public function test_toQuery_multiWithQuery(): void
+    {
+        $obj = new RawExpr();
+
+        $actual = $obj->toQuery([
+            'search' => 1,
+            'search_columns' => ['ID'],
+        ], [
+            'order' => 'ASC',
+            'orderby' => 'ID',
         ]);
         $this->assertEquals([
-            ['search' => 1],
-            ['search_columns' => ['ID',]],
+            'order' => 'ASC',
+            'orderby' => 'ID',
+            'search' => 1,
+            'search_columns' => ['ID'],
         ], $actual);
 
     }

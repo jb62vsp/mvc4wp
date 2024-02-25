@@ -8,7 +8,7 @@ trait RawQuerable
     use Castable;
 
     /**
-     * @param array<array<string, mixed>> $query raw query types ['key' => 'value'].
+     * @param array<string, string|int> $query raw query types ['key' => 'value',].
      */
     public function rawQuery(array $query): static
     {

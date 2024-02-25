@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\CustomField;
 
+use Mvc4Wp\Core\Model\Repository\CompareInQuery;
 use Mvc4Wp\Core\Model\Repository\CustomField\CustomFieldExpr;
 use Mvc4Wp\Core\Model\Repository\Querable;
+use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +16,7 @@ class CustomFieldQuerableTest extends TestCase
         $obj = new CustomFieldQuerableTestMockImpl();
 
         $actual = $obj
-            ->by('hoge', 'HOGE', '=', 'CHAR')
+            ->by('hoge', 'HOGE', CompareInQuery::EQ, TypeInQuery::CHAR)
             ->getExpressions();
         $this->assertEquals([
             CustomFieldExpr::class => [
@@ -28,8 +30,8 @@ class CustomFieldQuerableTest extends TestCase
         $obj = new CustomFieldQuerableTestMockImpl();
 
         $actual = $obj
-            ->by('hoge', 'HOGE', '=', 'CHAR')
-            ->by('fuga', 1, '<', 'NUMERIC')
+            ->by('hoge', 'HOGE', CompareInQuery::EQ, TypeInQuery::CHAR)
+            ->by('fuga', 1, CompareInQuery::LT, TypeInQuery::NUMERIC)
             ->getExpressions();
         $this->assertEquals([
             CustomFieldExpr::class => [

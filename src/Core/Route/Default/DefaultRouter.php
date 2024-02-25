@@ -8,11 +8,11 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
-use Mvc4Wp\Core\Route\RouterTrait;
+use Mvc4Wp\Core\Route\Routerable;
 
 class DefaultRouter implements RouterInterface
 {
-    use Castable, RouterTrait;
+    use Castable, Routerable;
 
     public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler
     {
@@ -27,11 +27,15 @@ class DefaultRouter implements RouterInterface
                 }
             }
         });
+
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);
-        return match ($routeInfo[0]) {
+        
+        $result = match ($routeInfo[0]) {
             Dispatcher::NOT_FOUND => new RouteHandler(HttpStatus::NOT_FOUND),
             Dispatcher::METHOD_NOT_ALLOWED => new RouteHandler(HttpStatus::METHOD_NOT_ALLOWED),
             Dispatcher::FOUND => new RouteHandler(HttpStatus::OK, $routeInfo[1], $routeInfo[2]),
         };
+
+        return $result;
     }
 }

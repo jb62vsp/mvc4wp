@@ -11,23 +11,23 @@ class PostReturnFieldsExprTest extends TestCase
     {
         $obj = new PostReturnFieldsExpr();
 
-        $actual = $obj->toQuery([]);
-        $this->assertEquals([], $actual);
+        $actual = $obj->toQuery([], ['hoge' => 'HOGE']);
+        $this->assertEquals(['hoge' => 'HOGE'], $actual);
     }
 
     public function test_toQuery_singleParam(): void
     {
         $obj = new PostReturnFieldsExpr();
 
-        $actual = $obj->toQuery(['hoge']);
-        $this->assertEquals([['fields' => 'hoge']], $actual);
+        $actual = $obj->toQuery(['hoge'], []);
+        $this->assertEquals(['fields' => 'hoge'], $actual);
     }
 
     public function test_toQuery_multiParams(): void
     {
         $obj = new PostReturnFieldsExpr();
 
-        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo']);
-        $this->assertEquals([['fields' => 'hoge']], $actual);
+        $actual = $obj->toQuery(['hoge', 'fuga', 'piyo'], []);
+        $this->assertEquals(['fields' => 'hoge'], $actual);
     }
 }
