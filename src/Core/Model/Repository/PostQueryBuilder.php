@@ -5,6 +5,7 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\Author\AuthorQuerable;
 use Mvc4Wp\Core\Model\Repository\CustomField\CustomFieldQuerable;
 use Mvc4Wp\Core\Model\Repository\Order\PostOrderQuerable;
+use Mvc4Wp\Core\Model\Repository\Post\PostQuerable;
 use Mvc4Wp\Core\Model\Repository\PostReturnFields\PostReturnFieldsQuerable;
 use Mvc4Wp\Core\Model\Repository\PostSearch\PostSearchQuerable;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
@@ -17,6 +18,7 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
         AuthorQuerable,
         CustomFieldQuerable,
         PostOrderQuerable,
+        PostQuerable,
         PostReturnFieldsQuerable,
         PostSearchQuerable,
         PostStatusQuerable,
@@ -30,7 +32,7 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
     public function build(): PostQueryExecutor
     {
         $new = $this->fetchOnlyID();
-        $expressions = $new->getExpressions();
+        $new = $new->asEntity($this->entity_class);
         $expressions = $new->getExpressions();
         $query = [];
         foreach ($expressions as $expr_class => $contexts) {
