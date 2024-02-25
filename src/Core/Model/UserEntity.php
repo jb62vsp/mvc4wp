@@ -30,11 +30,31 @@ class UserEntity extends Entity
         return $result;
     }
 
+    public static function findByID(int $id): UserEntity|null
+    {
+        $result = static::find()
+            ->byID($id)
+            ->build()
+            ->single();
+
+        return $result;
+    }
+
+    public static function current(): UserEntity|null
+    {
+        $result = static::find()
+            ->build()
+            ->current();
+
+        return $result;
+    }
+
     public function register(): int
     {
         $data = static::toArrayOnlyField($this);
         // wp_insert_user( array|object|WP_User $userdata ): int|WP_Error
         $id = wp_insert_user($data);
+        // get_user_by( string $field, int|string $value ): WP_User|false
         $user = get_user_by('id', $id);
         $this->bind($user);
 
@@ -55,8 +75,8 @@ class UserEntity extends Entity
 
     public function delete(bool $force_delete = false): bool
     {
-        // wp_delete_user( int $id, int $reassign = null ): bool
         require_once(ABSPATH . 'wp-admin/includes/user.php');
+        // wp_delete_user( int $id, int $reassign = null ): bool
         $result = wp_delete_user($this->ID);
         return $result;
     }

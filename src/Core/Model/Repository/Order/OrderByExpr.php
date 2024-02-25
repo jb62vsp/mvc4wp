@@ -75,7 +75,8 @@ class OrderByExpr implements Expr
 
     public const POST_COUNT = 'post_count';
 
-    public static array $embedded_fields = [
+    private const EMBEDDED_FIELDS = [
+        self::NONE,
         self::ID,
         self::NAME,
         self::NONE,
@@ -102,6 +103,28 @@ class OrderByExpr implements Expr
         self::POST_COUNT,
     ];
 
+    private const EMBEDDED_ORDER_FIELDS_CONVERT = [
+        'none' => self::NONE,
+        'ID' => self::ID,
+        'id' => self::ID,
+        'post_author' => self::AUTHOR,
+        'post_title' => self::TITLE,
+        'post_name' => self::NAME,
+        'post_type' => self::TYPE,
+        'post_date' => self::DATE,
+        'modified' => self::MODIFIED,
+        'parent' => self::PARENT,
+        'rand' => self::RAND,
+        'comment_count' => self::COMMENT_COUNT,
+        'relevance' => self::RELEVANCE,
+        'menu_order' => self::MENU_ORDER,
+        'meta_value' => self::META_VALUE,
+        'meta_value_num' => self::META_VALUE_NUM,
+        'post__in' => self::POST__IN,
+        'post_name__in' => self::POST_NAME__IN,
+        'post_parent__in' => self::POST_PARENT__IN,
+    ];
+
     public function toQuery(array $contexts, array $query): array
     {
         if (empty($contexts)) {
@@ -111,7 +134,9 @@ class OrderByExpr implements Expr
         $query['orderby'] = [];
         foreach ($contexts as $orderby => $context) {
             [$order, $type] = $this->tuplize($context);
-            if (!in_array($orderby, self::$embedded_fields)) {
+            if (array_key_exists($orderby, self::EMBEDDED_ORDER_FIELDS_CONVERT)) {
+                $orderby = self::EMBEDDED_ORDER_FIELDS_CONVERT[$orderby];
+            } elseif (!in_array($orderby, self::EMBEDDED_FIELDS)) {
                 $query = $this->setCustomField($orderby, $type, $query);
             }
             $query['orderby'][$orderby] = $order;
