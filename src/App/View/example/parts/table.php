@@ -1,7 +1,9 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>table</h2>
-    <p>count: <?php echo eh($data['count']); ?></p>
+    <p>count:
+        <?php echo eh($data['count']); ?>
+    </p>
     <table>
         <tr>
             <?php foreach ($data['columns'] as $column): ?>
@@ -12,12 +14,14 @@
                         <?php if ($column === $data['sort']): ?>
                             <a href="<?php echo "/example/list/{$column}/" . ($data['order'] === 'asc' ? 'desc' : 'asc'); ?>">
                                 <?php echo $column; ?>
-                                <?php echo ($data['order'] === 'asc' ? '▼' : '▲'); ?>
+                                <?php echo ($data['order'] === 'asc' ? '▲' : '▼'); ?>
                             </a>
-                        <?php else: ?>
+                        <?php elseif (in_array($column, $data['sortable_columns'])): ?>
                             <a href="<?php echo "/example/list/{$column}"; ?>">
                                 <?php echo $column; ?>▲
                             </a>
+                        <?php else: ?>
+                            <?php echo $column; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 </th>

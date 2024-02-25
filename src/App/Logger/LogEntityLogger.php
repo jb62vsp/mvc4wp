@@ -5,7 +5,7 @@ use App\Model\LogEntity;
 use Psr\Log\AbstractLogger;
 use Mvc4Wp\Core\Service\DateTimeService;
 
-class LogModelLogger extends AbstractLogger
+class LogEntityLogger extends AbstractLogger
 {
     protected static $thresholds = [
         'emergency' => 1,
@@ -38,11 +38,11 @@ class LogModelLogger extends AbstractLogger
         }
 
         if (self::$thresholds[$level] <= $threshold) {
-            $model = new LogEntity();
+            $entry = new LogEntity();
             $date = DateTimeService::datetime();
-            $model->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
-            $model->post_content = var_export($context, true);
-            $model->register(true);
+            $entry->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
+            $entry->post_content = var_export($context, true);
+            $entry->register(true);
         }
     }
 }
