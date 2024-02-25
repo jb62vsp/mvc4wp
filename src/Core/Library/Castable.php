@@ -7,6 +7,8 @@ trait Castable
 {
     /**
      * all situation.
+     * @param object|string<class-string> $child_or_parent
+     * @return bool was same or child or parent.
      */
     public static function is(object|string $child_or_parent): bool
     {
@@ -29,6 +31,8 @@ trait Castable
 
     /**
      * left operator equals right operator.
+     * @param object|string<class-string> $object_or_class
+     * @return bool was same.
      */
     public static function equals(object|string $object_or_class): bool
     {
@@ -47,6 +51,8 @@ trait Castable
 
     /**
      * left operator extends right operator.
+     * @param object|string<class-string> $parent
+     * @return bool was parent.
      */
     public static function extend(object|string $parent): bool
     {
@@ -63,6 +69,8 @@ trait Castable
 
     /**
      * right operator extends left operator.
+     * @param object|string<class-string> $child
+     * @return bool was child.
      */
     public static function extended(object|string $child): bool
     {
@@ -71,6 +79,8 @@ trait Castable
 
     /**
      * DO NOT upcast(only equals OR extended).
+     * @param object $object
+     * @return static casted object.
      */
     public static function cast(object $object): static
     {
@@ -85,8 +95,10 @@ trait Castable
 
     /**
      * DO NOT upcast(only equals OR extended).
+     * @param object $object
+     * @return static|null casted object or null.
      */
-    public static function cast_null(object|null $object): ?static
+    public static function cast_null(object|null $object): static|null
     {
         if (is_null($object)) {
             return null;
