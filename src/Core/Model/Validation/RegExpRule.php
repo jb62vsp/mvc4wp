@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model\Validator;
+namespace Mvc4Wp\Core\Model\Validation;
 
 use Attribute;
 use Mvc4Wp\Core\Library\Castable;
