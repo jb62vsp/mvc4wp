@@ -3,6 +3,7 @@ namespace Mvc4Wp\Core\Config\Default;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Library\RetrieveArray;
 
 class DefaultConfigurator implements ConfiguratorInterface
 {
@@ -24,7 +25,7 @@ class DefaultConfigurator implements ConfiguratorInterface
             return null;
         }
 
-        return $this->recursiveGet($this->configs, $keys, count($keys));
+        return RetrieveArray::get($this->configs, $keys);
     }
 
     public function set(string $key, string|array $value): void
@@ -34,34 +35,6 @@ class DefaultConfigurator implements ConfiguratorInterface
             return;
         }
 
-        $this->configs = $this->recursiveSet($this->configs, $keys, count($keys), $value);
-    }
-
-    private function recursiveGet(array $arr, array $keys, int $index): string|array|null
-    {
-        $cur = count($keys) - $index;
-        $key = $keys[$cur];
-        if ($index === 1) {
-            if (array_key_exists($key, $arr)) {
-                return $arr[$key];
-            } else {
-                return null;
-            }
-        } else {
-            return $this->recursiveGet($arr[$key], $keys, $index - 1);
-        }
-    }
-
-    private function recursiveSet(array $arr, array $keys, int $index, string|array $value): string|array
-    {
-        $cur = count($keys) - $index;
-        $key = $keys[$cur];
-        if ($index === 1) {
-            $arr[$key] = $value;
-            return $arr;
-        } else {
-            $arr[$key] = $this->recursiveSet($arr[$keys[$cur]], $keys, $index - 1, $value);
-            return $arr;
-        }
+        $this->configs = RetrieveArray::set($this->configs, $keys, $value);
     }
 }
