@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
+use App\Logger\LogEntityLoggerFactory;
 use App\Model\ExampleEntity;
 use App\Model\LogEntity;
 use Mvc4Wp\Core\Library\WordPressCustomize;
+use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
@@ -11,8 +13,23 @@ require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
 App::get()->config()->set('logger.loggers.app.log_level', 'debug');
 App::get()->config()->set('logger.loggers.core.log_level', 'debug');
-
+App::get()->config()->set('logger.loggers.log_model', [
+    'logger_factory' => LogEntityLoggerFactory::class,
+    'log_level' => 'info',
+]);
+App::get()->config()->set('logger.loggers.sql', [
+    'logger_factory' => DefaultFileLoggerFactory::class,
+    'directory' => __MVC4WP_ROOT__ . '/log/',
+    'basefilename' => 'sql',
+    'file_date_format' => 'Ymd',
+    'datetime_format' => 'Y-m-d H:i:s',
+    'timezone' => 'Asia/Tokyo',
+    'log_level' => 'debug',
+]);
 Logging::configure(App::get()->config());
-
+// WordPressCustomize::enableTraceSQL(function ($q) {
+//     Logging::get('sql')->debug($q);
+//     return $q;
+// });
 WordPressCustomize::addCustomPostType(ExampleEntity::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
