@@ -6,6 +6,7 @@ use Mvc4Wp\Core\Model\Repository\Author\AuthorQuerable;
 use Mvc4Wp\Core\Model\Repository\CustomField\CustomFieldQuerable;
 use Mvc4Wp\Core\Model\Repository\Order\PostOrderQuerable;
 use Mvc4Wp\Core\Model\Repository\Post\PostQuerable;
+use Mvc4Wp\Core\Model\Repository\PostPaginate\PostPaginateQuerable;
 use Mvc4Wp\Core\Model\Repository\PostReturnFields\PostReturnFieldsQuerable;
 use Mvc4Wp\Core\Model\Repository\PostSearch\PostSearchQuerable;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
@@ -18,6 +19,7 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
         AuthorQuerable,
         CustomFieldQuerable,
         PostOrderQuerable,
+        PostPaginateQuerable,
         PostQuerable,
         PostReturnFieldsQuerable,
         PostSearchQuerable,
