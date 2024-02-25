@@ -35,7 +35,7 @@ class OrderByExprTest extends TestCase
         $actual = $obj->toQuery([
             'ID' => ['ASC', ''],
             'name' => ['DESC', ''],
-            'author' => ['ASC', ''],
+            'post_author' => ['ASC', ''],
         ], []);
         $this->assertEquals([
             'orderby' => [
