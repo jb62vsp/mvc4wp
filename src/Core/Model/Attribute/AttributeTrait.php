@@ -55,7 +55,7 @@ trait AttributeTrait
     }
 
     /**
-     * @return array<self>
+     * @return array<static>
      */
     public static function getPropertyAllAttributes(string $class_name, string $property_name): array
     {
@@ -66,6 +66,9 @@ trait AttributeTrait
         return $result;
     }
 
+    /**
+     * @return array<ReflectionProperty>
+     */
     public static function getAttributedProperties(string $class_name): array
     {
         $result = [];
@@ -74,15 +77,12 @@ trait AttributeTrait
         $props = $refc->getProperties();
         foreach ($props as $prop) {
             $attrs = $prop->getAttributes();
-            $inspect = [];
             foreach ($attrs as $attr) {
                 $instance = $attr->newInstance();
                 if ($instance->equals(static::class) || $instance->extend(static::class)) {
-                    $inspect[] = $instance;
+                    $result[] = $prop;
+                    break;
                 }
-            }
-            if (count($inspect) === 1) {
-                $result[] = $prop;
             }
         }
 

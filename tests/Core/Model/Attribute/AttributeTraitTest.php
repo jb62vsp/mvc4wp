@@ -13,7 +13,7 @@ class AttributeTraitTest extends TestCase
 {
     public function test_getClassAttribute_withDefaultValue(): void
     {
-        $attr = TestClassAttribute::getClassAttribute(TestMockAttributeTraitA::class);
+        $attr = AttributeTraitTestClassAttributeA::getClassAttribute(AttributeTraitTestMockA::class);
         $this->assertNotNull($attr);
         $this->assertEquals('a', $attr->field_a);
         $this->assertEquals('b', $attr->field_b);
@@ -21,7 +21,7 @@ class AttributeTraitTest extends TestCase
 
     public function test_getClassAttribute_withoutDefaultValue(): void
     {
-        $attr = TestClassAttribute::getClassAttribute(TestMockAttributeTraitB::class);
+        $attr = AttributeTraitTestClassAttributeA::getClassAttribute(AttributeTraitTestMockB::class);
         $this->assertNotNull($attr);
         $this->assertEquals('aa', $attr->field_a);
         $this->assertEquals('bb', $attr->field_b);
@@ -29,7 +29,7 @@ class AttributeTraitTest extends TestCase
 
     public function test_getClassAttribute_extended(): void
     {
-        $attr = TestClassAttribute::getClassAttribute(TestMockAttributeTraitE::class);
+        $attr = AttributeTraitTestClassAttributeA::getClassAttribute(AttributeTraitTestMockE::class);
         $this->assertNotNull($attr);
         $this->assertEquals('a', $attr->field_a);
         $this->assertEquals('b', $attr->field_b);
@@ -39,29 +39,29 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestExtendedClassAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitA"');
-        TestExtendedClassAttribute::getClassAttribute(TestMockAttributeTraitA::class);
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestClassAttributeB" is not set to "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestMockA"');
+        AttributeTraitTestClassAttributeB::getClassAttribute(AttributeTraitTestMockA::class);
     }
 
     public function test_getClassAttribute_notSet(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestClassAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitC"');
-        TestClassAttribute::getClassAttribute(TestMockAttributeTraitC::class);
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestClassAttributeA" is not set to "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestMockC"');
+        AttributeTraitTestClassAttributeA::getClassAttribute(AttributeTraitTestMockC::class);
     }
 
     public function test_getClassAttribute_repeated(): void
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestClassAttribute" must not be repeated');
-        TestClassAttribute::getClassAttribute(TestMockAttributeTraitD::class);
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestClassAttributeA" must not be repeated');
+        AttributeTraitTestClassAttributeA::getClassAttribute(AttributeTraitTestMockD::class);
     }
 
     public function test_getPropertyAttribute_withDefaultValue(): void
     {
-        $attr = TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_a');
+        $attr = AttributeTraitTestPropertyAttributeA::getPropertyAttribute(AttributeTraitTestMockA::class, 'test_a');
         $this->assertNotNull($attr);
         $this->assertEquals('A', $attr->field_a);
         $this->assertEquals('', $attr->field_b);
@@ -69,7 +69,7 @@ class AttributeTraitTest extends TestCase
 
     public function test_getPropertyAttribute_withoutDefaultValue(): void
     {
-        $attr = TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_b');
+        $attr = AttributeTraitTestPropertyAttributeA::getPropertyAttribute(AttributeTraitTestMockA::class, 'test_b');
         $this->assertNotNull($attr);
         $this->assertEquals('AA', $attr->field_a);
         $this->assertEquals('BB', $attr->field_b);
@@ -77,7 +77,7 @@ class AttributeTraitTest extends TestCase
 
     public function test_getPropertyAttribute_extended(): void
     {
-        $attr = TestExtendedPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitE::class, 'test_b');
+        $attr = AttributeTraitTestPropertyAttributeC::getPropertyAttribute(AttributeTraitTestMockE::class, 'test_b');
         $this->assertNotNull($attr);
         $this->assertEquals('a', $attr->field_a);
         $this->assertEquals('b', $attr->field_b);
@@ -87,29 +87,29 @@ class AttributeTraitTest extends TestCase
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestExtendedPropertyAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitA::test_a"');
-        TestExtendedPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitA::class, 'test_a');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestPropertyAttributeC" is not set to "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestMockA::test_a"');
+        AttributeTraitTestPropertyAttributeC::getPropertyAttribute(AttributeTraitTestMockA::class, 'test_a');
     }
 
     public function test_getPropertyAttribute_notSet(): void
     {
         $this->expectException(ApplicationException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestPropertyAttribute" is not set to "Mvc4Wp\Core\Model\Attribute\TestMockAttributeTraitB::test_a"');
-        TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_a');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestPropertyAttributeA" is not set to "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestMockB::test_a"');
+        AttributeTraitTestPropertyAttributeA::getPropertyAttribute(AttributeTraitTestMockB::class, 'test_a');
     }
 
     public function test_getPropertyAttribute_repeated(): void
     {
         $this->expectException(Error::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\TestPropertyAttribute" must not be repeated');
-        TestPropertyAttribute::getPropertyAttribute(TestMockAttributeTraitB::class, 'test_b');
+        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\AttributeTraitTestPropertyAttributeA" must not be repeated');
+        AttributeTraitTestPropertyAttributeA::getPropertyAttribute(AttributeTraitTestMockB::class, 'test_b');
     }
 
     public function test_getPropertyAttributes(): void
     {
-        $attrs = TestPropertyAttribute::getPropertyAttributes(TestMockAttributeTraitE::class, 'test_a');
+        $attrs = AttributeTraitTestPropertyAttributeA::getPropertyAttributes(AttributeTraitTestMockE::class, 'test_a');
         $this->assertCount(1, $attrs);
         $this->assertEquals('a', $attrs[0]->field_a);
         $this->assertEquals('b', $attrs[0]->field_b);
@@ -117,15 +117,30 @@ class AttributeTraitTest extends TestCase
 
     public function test_getPropertyAttributes_withoutDefaultValue(): void
     {
-        $attrs = TestPropertyAttribute::getPropertyAttributes(TestMockAttributeTraitE::class, 'test_a');
+        $attrs = AttributeTraitTestPropertyAttributeA::getPropertyAttributes(AttributeTraitTestMockE::class, 'test_a');
         $this->assertCount(1, $attrs);
         $this->assertEquals('a', $attrs[0]->field_a);
         $this->assertEquals('b', $attrs[0]->field_b);
     }
+
+    public function test_getPropertyAllAttributes_noAttrs():void {
+        $actual = AttributeTraitTestPropertyAttributeD::getPropertyAllAttributes(AttributeTraitTestMockF::class, 'test_a');
+        $this->assertCount(0, $actual);
+    }
+
+    public function test_getPropertyAllAttributes_singleAttr():void {
+        $actual = AttributeTraitTestPropertyAttributeD::getPropertyAllAttributes(AttributeTraitTestMockF::class, 'test_b');
+        $this->assertCount(1, $actual);
+    }
+
+    public function test_getPropertyAllAttributes_multiAttrs():void {
+        $actual = AttributeTraitTestPropertyAttributeD::getPropertyAllAttributes(AttributeTraitTestMockF::class, 'test_c');
+        $this->assertCount(3, $actual);
+    }
 }
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class TestClassAttribute
+class AttributeTraitTestClassAttributeA
 {
     use Castable, AttributeTrait;
 
@@ -137,7 +152,7 @@ class TestClassAttribute
 }
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class TestExtendedClassAttribute extends TestClassAttribute
+class AttributeTraitTestClassAttributeB extends AttributeTraitTestClassAttributeA
 {
     use Castable, AttributeTrait;
 
@@ -151,7 +166,7 @@ class TestExtendedClassAttribute extends TestClassAttribute
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class TestPropertyAttribute
+class AttributeTraitTestPropertyAttributeA
 {
     use Castable, AttributeTrait;
 
@@ -163,13 +178,13 @@ class TestPropertyAttribute
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class TestPropertyAttributeOther
+class AttributeTraitTestPropertyAttributeB
 {
     use Castable, AttributeTrait;
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class TestExtendedPropertyAttribute extends TestPropertyAttribute
+class AttributeTraitTestPropertyAttributeC extends AttributeTraitTestPropertyAttributeA
 {
     use Castable, AttributeTrait;
 
@@ -182,51 +197,72 @@ class TestExtendedPropertyAttribute extends TestPropertyAttribute
     }
 }
 
-#[TestClassAttribute('a', 'b')]
-class TestMockAttributeTraitA
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
+class AttributeTraitTestPropertyAttributeD
+{
+    use Castable, AttributeTrait;
+}
+
+#[AttributeTraitTestClassAttributeA('a', 'b')]
+class AttributeTraitTestMockA
 {
     use Castable;
 
-    #[TestPropertyAttribute('A')]
+    #[AttributeTraitTestPropertyAttributeA('A')]
     public string $test_a;
 
-    #[TestPropertyAttribute('AA', 'BB')]
+    #[AttributeTraitTestPropertyAttributeA('AA', 'BB')]
     public string $test_b;
 }
 
-#[TestClassAttribute(field_b: 'bb', field_a: 'aa')]
-class TestMockAttributeTraitB
+#[AttributeTraitTestClassAttributeA(field_b: 'bb', field_a: 'aa')]
+class AttributeTraitTestMockB
 {
     use Castable;
 
     public string $test_a;
 
-    #[TestPropertyAttribute('AA')]
-    #[TestPropertyAttribute('AA')]
+    #[AttributeTraitTestPropertyAttributeA('AA')]
+    #[AttributeTraitTestPropertyAttributeA('AA')]
     public string $test_b;
 }
 
-class TestMockAttributeTraitC
+class AttributeTraitTestMockC
 {
     use Castable;
 }
 
-#[TestClassAttribute('')]
-#[TestClassAttribute('')]
-class TestMockAttributeTraitD
+#[AttributeTraitTestClassAttributeA('')]
+#[AttributeTraitTestClassAttributeA('')]
+class AttributeTraitTestMockD
 {
 
 }
 
-#[TestExtendedClassAttribute('a', 'b')]
-class TestMockAttributeTraitE
+#[AttributeTraitTestClassAttributeB('a', 'b')]
+class AttributeTraitTestMockE
 {
     use Castable;
 
-    #[TestPropertyAttribute('a', 'b')]
-    #[TestPropertyAttributeOther]
+    #[AttributeTraitTestPropertyAttributeA('a', 'b')]
+    #[AttributeTraitTestPropertyAttributeB]
     public string $test_a;
 
-    #[TestExtendedPropertyAttribute('a', 'b')]
+    #[AttributeTraitTestPropertyAttributeC('a', 'b')]
     public string $test_b;
+}
+
+class AttributeTraitTestMockF
+{
+    use Castable;
+
+    public string $test_a;
+
+    #[AttributeTraitTestPropertyAttributeD]
+    public string $test_b;
+
+    #[AttributeTraitTestPropertyAttributeD]
+    #[AttributeTraitTestPropertyAttributeD]
+    #[AttributeTraitTestPropertyAttributeD]
+    public string $test_c;
 }
