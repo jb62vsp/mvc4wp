@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Service\DateTimeService;
+use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Service\App;
 
 if (!function_exists('view')) {
@@ -11,22 +11,37 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('eh')) {
-    function eh(mixed $value): string
+    function eh(mixed $value, bool $return = false): string|null
     {
-        return esc_html($value);
+        if ($return) {
+            return esc_html($value);
+        } else {
+            echo esc_html($value);
+            return null;
+        }
     }
 }
 
 if (!function_exists('ea')) {
-    function ea(mixed $value): string
+    function ea(mixed $value, bool $return = false): string|null
     {
-        return esc_attr($value);
+        if ($return) {
+            return esc_attr($value);
+        } else {
+            echo esc_attr($value);
+            return null;
+        }
     }
 }
 
 if (!function_exists('eu')) {
-    function eu(mixed $value): string
+    function eu(mixed $value, bool $return = false): string|null
     {
-        return esc_attr($value);
+        if ($return) {
+            return esc_url($value);
+        } else {
+            echo esc_url($value);
+            return null;
+        }
     }
 }

@@ -12,22 +12,22 @@ init: vendor reload_vendor #: initialize
 clean: clean_vendor #: clean project
 	@rm -rf ./log/*
 
-.PHONY: default
-default: #: default settings to App
-	@echo
-	@read -p 'Delete "ALL FILES" in ./log ./src/App/Controller/*, ./src/App/Model/*, ./src/App/View/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
-	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
-		read -p 'Are you sure? [y/N]: ' ANS2; \
-		if [ "$$ANS2" = "y" -o "$$ANS2" = "Y" ]; then \
-			rm -rf ./log ./src/App/Controller/* ./src/App/Model/* ./src/App/View/* ./functions.php ./index.php; \
-			cp .default/functions.php ./; \
-			cp .default/index.php ./; \
-			cp .default/_index.php ./src/App/Controller/index.php; \
-			cp .default/_index.php ./src/App/Model/index.php; \
-			cp .default/_index.php ./src/App/View/index.php; \
-			echo done.; \
-		fi \
-	fi
+# .PHONY: default
+# default: #: default settings to App
+# 	@echo
+# 	@read -p 'Delete "ALL FILES" in ./log ./src/App/Controller/*, ./src/App/Model/*, ./src/App/View/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
+# 	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
+# 		read -p 'Are you sure? [y/N]: ' ANS2; \
+# 		if [ "$$ANS2" = "y" -o "$$ANS2" = "Y" ]; then \
+# 			rm -rf ./log ./src/App/Controller/* ./src/App/Model/* ./src/App/View/* ./functions.php ./index.php; \
+# 			cp .default/functions.php ./; \
+# 			cp .default/index.php ./; \
+# 			cp .default/_index.php ./src/App/Controller/index.php; \
+# 			cp .default/_index.php ./src/App/Model/index.php; \
+# 			cp .default/_index.php ./src/App/View/index.php; \
+# 			echo done.; \
+# 		fi \
+# 	fi
 
 #
 # vendor
@@ -65,16 +65,13 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: vendor_dev #: execute All unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'All'
+test: vendor_dev tests/Core #: execute Core unittest
+	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: app_test
 app_test: vendor_dev tests/App #: execute App unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'App'
 
-.PHONY: core_test
-core_test: vendor_dev tests/Core #: execute Core unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: clean_test
 clean_test: .phpunit.cache coverage #: clean test
