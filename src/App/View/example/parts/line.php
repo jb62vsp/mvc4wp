@@ -2,11 +2,11 @@
 <?php foreach ($data['columns'] as $column): ?>
     <td>
         <?php if ($column === 'ID'): ?>
-            <a href="<?php echo '/example/' . eh($data['example']->ID); ?>">
-                <?php echo eh($data['example']->ID); ?>
+            <a href="<?php eh('/example/' . $data['example']->ID); ?>">
+                <?php eh($data['example']->ID); ?>
             </a>
         <?php else: ?>
-            <?php echo nl2br(strval($data['example']->{$column})); ?>
+            <?php eh(nl2br(strval($data['example']->{$column}))); ?>
         <?php endif; ?>
     </td>
 <?php endforeach ?>

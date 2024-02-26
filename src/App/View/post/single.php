@@ -1,6 +1,6 @@
 <?php declare(strict_types=1); ?>
 <h1>
-    <?php echo eh($data['title']); ?>: single
+    <?php eh($data['title']); ?>: single
 </h1>
 <section>
     <p><a href="/post/list">list</a></p>

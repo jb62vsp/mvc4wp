@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        <?php echo $data['title']; ?>
+        <?php eh($data['title']); ?>
     </title>
     <style>
         th,

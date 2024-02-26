@@ -6,20 +6,21 @@
     <form action='/example/' method='POST'>
         <?php foreach ($data['registerable_columns'] as $column): ?>
             <p>
-                <label for='<?php echo $column; ?>'>
-                    <?php echo $column; ?>
+                <label for='<?php eh($column); ?>'>
+                    <?php eh($column); ?>
                 </label>
                 <?php if ($column === 'example_textarea'): ?>
-                    <textarea id='<?php echo $column; ?>'
-                        name='<?php echo $column; ?>'><?php echo array_key_exists('post', $data) && array_key_exists($column, $data['post']) ? $data['post'][$column] : ''; ?></textarea>
+                    <textarea id='<?php eh($column); ?>'
+                        name='<?php eh($column); ?>'><?php eh(array_key_exists('post', $data) && array_key_exists($column, $data['post']) ? $data['post'][$column] : ''); ?></textarea>
                 <?php else: ?>
-                    <input type='text' id='<?php echo $column; ?>' name='<?php echo $column; ?>'
-                        value='<?php echo array_key_exists('post', $data) && array_key_exists($column, $data['post']) ? $data['post'][$column] : ''; ?>'>
+                    <input type='text' id='<?php eh($column); ?>' name='<?php eh($column); ?>'
+                        value='<?php eh(array_key_exists('post', $data) && array_key_exists($column, $data['post']) ? $data['post'][$column] : ''); ?>'>
                 <?php endif; ?>
                 <?php if (array_key_exists('errors', $data) && array_key_exists($column, $data['errors'])): ?>
                     <?php foreach ($data['errors'][$column] as $error): ?>
-                        <? /** @var \Mvc4Wp\Core\Model\Validator\ValidationError @error */ ?>
-                        <span class="error"><?php echo $error->rule->getMessage(); ?></span>
+                        <span class="error">
+                            <?php eh($error->rule->getMessage()); ?>
+                        </span>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </p>

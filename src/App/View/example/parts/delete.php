@@ -1,7 +1,7 @@
 <?php declare(strict_types=1); ?>
 <section>
     <h2>delete</h2>
-    <form action="<?php echo '/example/' . eh($data['id']); ?>" method='POST'>
+    <form action="<?php eh('/example/' . $data['id']); ?>" method='POST'>
         <p>
             <label for='trush'>ゴミ箱</label>
             <input type='radio' id='trush' name='to_trush' value='true' checked>

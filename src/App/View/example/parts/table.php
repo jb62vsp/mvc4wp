@@ -2,26 +2,26 @@
 <section>
     <h2>table</h2>
     <p>count:
-        <?php echo eh($data['count']); ?>
+        <?php eh($data['count']); ?>
     </p>
     <table>
         <tr>
             <?php foreach ($data['columns'] as $column): ?>
                 <th>
                     <?php if (!array_key_exists('list', $data)): ?>
-                        <?php echo $column; ?>
+                        <?php eh($column); ?>
                     <?php else: ?>
                         <?php if ($column === $data['sort']): ?>
-                            <a href="<?php echo "/example/list/{$column}/" . ($data['order'] === 'asc' ? 'desc' : 'asc'); ?>">
-                                <?php echo $column; ?>
-                                <?php echo ($data['order'] === 'asc' ? '▲' : '▼'); ?>
+                            <a href="<?php eh("/example/list/{$column}/" . ($data['order'] === 'asc' ? 'desc' : 'asc')); ?>">
+                                <?php eh($column); ?>
+                                <?php eh(($data['order'] === 'asc' ? '▲' : '▼')); ?>
                             </a>
                         <?php elseif (in_array($column, $data['sortable_columns'])): ?>
-                            <a href="<?php echo "/example/list/{$column}"; ?>">
-                                <?php echo $column; ?>▲
+                            <a href="<?php eh("/example/list/{$column}"); ?>">
+                                <?php eh($column); ?>▲
                             </a>
                         <?php else: ?>
-                            <?php echo $column; ?>
+                            <?php eh($column); ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 </th>
