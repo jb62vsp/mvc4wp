@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model;
 
 use DateTime;
 use Mvc4Wp\Core\Model\Attribute\Field;
-use Mvc4Wp\Core\Service\DateTimeService;
+use Mvc4Wp\Core\Library\DateTimeUtils;
 use ReflectionMethod;
 use ReflectionProperty;
 
@@ -73,7 +73,7 @@ trait Bindable
             'int' => intval($value, 10),
             'float' => floatval($value),
             'bool' => boolval($value),
-            'DateTime' => DateTimeService::datetimeval($value),
+            'DateTime' => DateTimeUtils::datetimeval($value),
             default => $value,
         };
 
@@ -93,7 +93,7 @@ trait Bindable
             'int' => strval($value),
             'float' => strval($value),
             'bool' => strval($value),
-            'DateTime' => DateTimeService::strval($value, 'Y-m-d H:i:s'), // TODO:
+            'DateTime' => DateTimeUtils::strval($value, 'Y-m-d H:i:s'), // TODO:
             default => $value,
         };
 

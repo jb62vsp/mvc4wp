@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Service\DateTimeService;
+use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Service\App;
 
 if (!function_exists('view')) {

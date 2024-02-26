@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Service;
+namespace Mvc4Wp\Core\Library;
 
 use DateTime;
 use DateTimeZone;
 use Mvc4Wp\Core\Service\App;
 
-final class DateTimeService
+final class DateTimeUtils
 {
     public static function getTimeZone(): DateTimeZone
     {
