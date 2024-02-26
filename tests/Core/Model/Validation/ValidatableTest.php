@@ -2,6 +2,7 @@
 namespace Mvc4Wp\Core\Model\Validation;
 
 use Attribute;
+use Mvc4Wp\Core\Language\MessagerInterface;
 use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 use Mvc4Wp\Core\Model\Validatable;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -34,7 +35,7 @@ class ValidatableTest extends TestCase
         $this->assertEquals(ValidatableTestMockB::class, $actual['noMessage'][0]->class_name);
         $this->assertEquals('noMessage', $actual['noMessage'][0]->property_name);
         $this->assertEquals('NG', $actual['noMessage'][0]->value);
-        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage());
+        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage(new ValidatableTestMessagerMock()));
     }
 
     public function test_validate_invalidMultiValue(): void
@@ -52,14 +53,14 @@ class ValidatableTest extends TestCase
         $this->assertEquals(ValidatableTestMockB::class, $actual['noMessage'][0]->class_name);
         $this->assertEquals('noMessage', $actual['noMessage'][0]->property_name);
         $this->assertEquals('NG', $actual['noMessage'][0]->value);
-        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage());
+        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage(new ValidatableTestMessagerMock()));
         $this->assertArrayHasKey('messaged', $actual);
         $this->assertIsArray($actual['messaged']);
         $this->assertCount(1, $actual['messaged']);
         $this->assertEquals(ValidatableTestMockB::class, $actual['messaged'][0]->class_name);
         $this->assertEquals('messaged', $actual['messaged'][0]->property_name);
         $this->assertEquals('NG', $actual['messaged'][0]->value);
-        $this->assertEquals('hoge', $actual['messaged'][0]->rule->getMessage());
+        $this->assertEquals('hoge', $actual['messaged'][0]->rule->getMessage(new ValidatableTestMessagerMock()));
     }
 
     public function test_validate_invalidMultiValueMultiError(): void
@@ -77,18 +78,18 @@ class ValidatableTest extends TestCase
         $this->assertEquals(ValidatableTestMockC::class, $actual['noMessage'][0]->class_name);
         $this->assertEquals('noMessage', $actual['noMessage'][0]->property_name);
         $this->assertEquals('NG', $actual['noMessage'][0]->value);
-        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage());
+        $this->assertEquals('', $actual['noMessage'][0]->rule->getMessage(new ValidatableTestMessagerMock()));
         $this->assertArrayHasKey('messaged', $actual);
         $this->assertIsArray($actual['messaged']);
         $this->assertCount(2, $actual['messaged']);
         $this->assertEquals(ValidatableTestMockC::class, $actual['messaged'][0]->class_name);
         $this->assertEquals('messaged', $actual['messaged'][0]->property_name);
         $this->assertEquals('NG', $actual['messaged'][0]->value);
-        $this->assertEquals('hoge', $actual['messaged'][0]->rule->getMessage());
+        $this->assertEquals('hoge', $actual['messaged'][0]->rule->getMessage(new ValidatableTestMessagerMock()));
         $this->assertEquals(ValidatableTestMockC::class, $actual['messaged'][1]->class_name);
         $this->assertEquals('messaged', $actual['messaged'][1]->property_name);
         $this->assertEquals('NG', $actual['messaged'][1]->value);
-        $this->assertEquals('fuga', $actual['messaged'][1]->rule->getMessage());
+        $this->assertEquals('fuga', $actual['messaged'][1]->rule->getMessage(new ValidatableTestMessagerMock()));
     }
 }
 
@@ -107,7 +108,7 @@ class ValidatableTestMockRuleValid extends Rule
         return [];
     }
 
-    public function getMessage(array $args = []): string
+    public function getMessage(MessagerInterface $messager, array $args = []): string
     {
         return $this->message;
     }
@@ -132,7 +133,7 @@ class ValidatableTestMockRuleInvalidA extends Rule
         return $result;
     }
 
-    public function getMessage(array $args = []): string
+    public function getMessage(MessagerInterface $messager, array $args = []): string
     {
         return $this->message;
     }
@@ -157,7 +158,7 @@ class ValidatableTestMockRuleInvalidB extends Rule
         return $result;
     }
 
-    public function getMessage(array $args = []): string
+    public function getMessage(MessagerInterface $messager, array $args = []): string
     {
         return $this->message;
     }
@@ -195,4 +196,12 @@ class ValidatableTestMockC
     #[ValidatableTestMockRuleInvalidA(message: 'hoge')]
     #[ValidatableTestMockRuleInvalidB(message: 'fuga')]
     public string $messaged;
+}
+
+class ValidatableTestMessagerMock implements MessagerInterface
+{
+    public function message(string $message_key, array $args = []): string|false
+    {
+        return $message_key;
+    }
 }
