@@ -57,11 +57,11 @@ class TypeUtils
         $untyped_value = match (strtolower($type)) {
             'null' => '',
             'string' => strval($value),
-            'int' => strval($value),
-            'float' => strval($value),
-            'bool' => strval($value),
+            'int', 'integer' => strval($value),
+            'float', 'double' => strval($value),
+            'bool', 'boolean' => strval($value),
             // 'DateTime' => DateTimeUtils::strval($value, 'Y-m-d H:i:s'), // TODO:
-            default => $value,
+            default => strval($value),
         };
 
         return $untyped_value;
