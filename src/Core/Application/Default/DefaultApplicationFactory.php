@@ -6,8 +6,8 @@ use Mvc4Wp\Core\Application\ApplicationInterface;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Config\Default\DefaultConfiguratorFactory;
 use Mvc4Wp\Core\Controller\Default\DefaultErrorController;
+use Mvc4Wp\Core\Language\Default\DefaultMessagerFactory;
 use Mvc4Wp\Core\Library\Default\DefaultClockFactory;
-use Mvc4Wp\Core\Library\Default\DefaultMessagerFactory;
 use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 

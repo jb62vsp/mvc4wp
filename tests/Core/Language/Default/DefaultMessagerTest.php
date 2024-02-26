@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Library\Default;
+namespace Mvc4Wp\Core\Language\Default;
 
-use Mvc4Wp\Core\Library\MessagerFactoryInterface;
-use Mvc4Wp\Core\Library\MessagerInterface;
+use Mvc4Wp\Core\Language\MessagerFactoryInterface;
+use Mvc4Wp\Core\Language\MessagerInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

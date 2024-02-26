@@ -3,8 +3,8 @@ namespace Mvc4Wp\Core\Application;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
+use Mvc4Wp\Core\Language\MessagerInterface;
 use Mvc4Wp\Core\Library\ClockInterface;
-use Mvc4Wp\Core\Library\MessagerInterface;
 use Mvc4Wp\Core\Route\RouterInterface;
 
 interface ApplicationInterface

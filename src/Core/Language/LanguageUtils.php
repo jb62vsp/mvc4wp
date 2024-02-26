@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Library;
+namespace Mvc4Wp\Core\Language;
 
 class LanguageUtils
 {

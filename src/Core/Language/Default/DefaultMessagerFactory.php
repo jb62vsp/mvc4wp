@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Library\Default;
+namespace Mvc4Wp\Core\Language\Default;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
-use Mvc4Wp\Core\Library\LanguageUtils;
-use Mvc4Wp\Core\Library\MessagerFactoryInterface;
-use Mvc4Wp\Core\Library\MessagerInterface;
+use Mvc4Wp\Core\Language\LanguageUtils;
+use Mvc4Wp\Core\Language\MessagerFactoryInterface;
+use Mvc4Wp\Core\Language\MessagerInterface;
 
 class DefaultMessagerFactory implements MessagerFactoryInterface
 {
