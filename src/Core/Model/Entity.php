@@ -7,7 +7,7 @@ use Mvc4Wp\Core\Model\Repository\RepositoryInterface;
 
 abstract class Entity implements RepositoryInterface
 {
-    use Bindable, Castable;
+    use Castable, Bindable, Validatable;
 
     #[Field]
     public readonly int $ID;
