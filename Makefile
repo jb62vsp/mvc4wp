@@ -65,16 +65,13 @@ unlock_vendor: composer.lock #: unlock vendor
 #
 
 .PHONY: test
-test: vendor_dev #: execute All unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'All'
+test: vendor_dev tests/Core #: execute Core unittest
+	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: app_test
 app_test: vendor_dev tests/App #: execute App unittest
 	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'App'
 
-.PHONY: core_test
-core_test: vendor_dev tests/Core #: execute Core unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
 
 .PHONY: clean_test
 clean_test: .phpunit.cache coverage #: clean test

@@ -29,4 +29,7 @@
             <directory>src/Core</directory>
         </include>
     </source>
+    <logging>
+        <testdoxText outputFile="coverage/log.txt" />
+      </logging>
 </phpunit>
