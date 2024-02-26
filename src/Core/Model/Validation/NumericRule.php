@@ -15,7 +15,7 @@ class NumericRule extends Rule
     ) {
     }
 
-    public function _validate(string $class_name, string $property_name, mixed $value): array
+    public function validate(string $class_name, string $property_name, mixed $value): array
     {
         $result = [];
 

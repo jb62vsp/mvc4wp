@@ -35,7 +35,7 @@ class RegExpRule extends Rule
         $this->pattern_name = static::getPatternName($pattern);
     }
 
-    public function _validate(string $class_name, string $property_name, mixed $value): array
+    public function validate(string $class_name, string $property_name, mixed $value): array
     {
         $result = [];
 
