@@ -17,7 +17,7 @@
                 <?php if (array_key_exists('errors', $data) && array_key_exists($column, $data['errors'])): ?>
                     <?php foreach ($data['errors'][$column] as $error): ?>
                         <span class='error'>
-                            <?php eh($error->property_name . ': ' . $error->value . ', ' . $error->rule->getMessage()); ?>
+                            <?php eh($error->rule->getMessage($data['messager'], ['field' => $column])); ?>
                         </span>
                     <?php endforeach; ?>
                 <?php endif; ?>

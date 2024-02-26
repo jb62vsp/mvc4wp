@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Model\ExampleEntity;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\OrderInQuery;
+use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
 class ExampleController extends AdminController
@@ -149,7 +150,7 @@ class ExampleController extends AdminController
             ->withPublish()
             ->withTrash()
             ->orderBy($sort, $order)
-            // ->limitOf($per_page, $page)
+            ->limitOf($per_page, $page)
             ->all()
         ;
         ;
@@ -170,6 +171,7 @@ class ExampleController extends AdminController
             'errors' => $errors,
             'post' => $post,
             'list' => true,
+            'messager' => App::get()->messager(),
         ];
 
         $this->ok();
@@ -235,6 +237,7 @@ class ExampleController extends AdminController
             'editable_columns' => self::EDITABLE_COLUMNS,
             'errors' => $errors,
             'post' => $post,
+            'messager' => App::get()->messager(),
         ];
 
         $this->ok();
@@ -248,10 +251,10 @@ class ExampleController extends AdminController
 
     public function register(): void
     {
-        $errors = [];
         $example = new ExampleEntity();
-        $example->bind($_POST);
+        $errors = $example->validate($_POST);
         if (empty($errors)) {
+            $example->bind($_POST);
             Logging::get('log_post')->info(static::class . '->' . 'register', get_object_vars($example));
             $id = $example->register();
             $this->seeOther("/example/{$id}")->done();
@@ -268,9 +271,9 @@ class ExampleController extends AdminController
             $this->notFound()->done();
         }
 
-        $errors = [];
-        $example->bind($_POST);
+        $errors = $example->validate($_POST);
         if (empty($errors)) {
+            $example->bind($_POST);
             Logging::get('log_post')->info(static::class . '->' . 'update', get_object_vars($example));
             $example->update();
             $this->seeOther("/example/{$id}")->done();
