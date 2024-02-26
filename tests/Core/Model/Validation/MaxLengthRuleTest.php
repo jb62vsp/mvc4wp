@@ -11,7 +11,7 @@ class MaxLengthRuleTest extends TestCase
 {
     public function test_validate_valid(): void
     {
-        $obj = new MaxLengthRule();
+        $obj = new MaxLengthRule(5);
 
         $actual = $obj->validate('Hoge', 'hoge', 'HOGE');
         $this->assertCount(0, $actual);

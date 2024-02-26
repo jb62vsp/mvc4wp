@@ -15,7 +15,7 @@ class MinLengthRule extends Rule
     public readonly string $value;
 
     public function __construct(
-        public readonly int $minimum = 0,
+        public readonly int $minimum,
         public readonly string $message_key = 'validation.MinLengthRule',
     ) {
     }

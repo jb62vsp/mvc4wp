@@ -2,7 +2,9 @@
 namespace Mvc4Wp\Core\Model\Validation;
 
 use Attribute;
+use Mvc4Wp\Core\Language\MessagerInterface;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Library\TypeUtils;
 use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
@@ -10,10 +12,12 @@ class LengthRule extends Rule
 {
     use Castable, AttributeTrait;
 
+    public readonly string $value;
+
     public function __construct(
-        public int $min = 0,
-        public int $max = PHP_INT_MAX,
-        public string $message = '',
+        public readonly int $minimum,
+        public readonly int $max,
+        public readonly string $message_key = 'validation.LengthRule',
     ) {
     }
 
@@ -21,16 +25,20 @@ class LengthRule extends Rule
     {
         $result = [];
 
-        $length = strlen(strval($value));
-        if ($length < $this->min || $this->max < $length) {
-            $result[] = new ValidationError($class_name, $property_name, $value, $this);
+        $this->value = TypeUtils::untypedValue(gettype($value), $value);
+        $length = strlen($this->value);
+        if ($length < $this->minimum || $this->max < $length) {
+            $result[] = new ValidationError($class_name, $property_name, $this->value, $this);
         }
 
         return $result;
     }
 
-    public function getMessage(array $args = []): string
+    public function getMessage(MessagerInterface $messager, array $args = []): string
     {
-        return sprintf($this->message, $this->min, $this->max);
+        $args['minimum'] = $this->minimum;
+        $args['max'] = $this->max;
+        $args['value'] = $this->value;
+        return $messager->message($this->message_key, $args);
     }
 }

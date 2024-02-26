@@ -15,7 +15,7 @@ class MaxLengthRule extends Rule
     public readonly string $value;
 
     public function __construct(
-        public readonly int $max = PHP_INT_MAX,
+        public readonly int $max,
         public readonly string $message_key = 'validation.MaxLengthRule',
     ) {
     }
