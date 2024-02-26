@@ -36,7 +36,7 @@ class MinLengthRuleTest extends TestCase
         $this->assertEquals('HOGE', $actual[0]->value);
         $this->assertInstanceOf(MinLengthRule::class, $actual[0]->rule);
         $this->assertEquals(5, MinLengthRule::cast($actual[0]->rule)->minimum);
-        $this->assertEquals('hogeには、5文字以上の入力が必要です。："HOGE"', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
+        $this->assertEquals('hogeは、5文字以上で入力してください。', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 
     public function test_validate_invalidChangeMessage(): void
@@ -50,7 +50,7 @@ class MinLengthRuleTest extends TestCase
         $this->assertEquals('HOGE', $actual[0]->value);
         $this->assertInstanceOf(MinLengthRule::class, $actual[0]->rule);
         $this->assertEquals(10, MinLengthRule::cast($actual[0]->rule)->minimum);
-        $this->assertEquals('The hoge field must be at least 10 characters in length. : "HOGE"', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
+        $this->assertEquals('The hoge must be at least 10 characters.', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 
     public function test_validate_intValid(): void
@@ -72,7 +72,7 @@ class MinLengthRuleTest extends TestCase
         $this->assertEquals('10', $actual[0]->value);
         $this->assertInstanceOf(MinLengthRule::class, $actual[0]->rule);
         $this->assertEquals(3, MinLengthRule::cast($actual[0]->rule)->minimum);
-        $this->assertEquals('hogeには、3文字以上の入力が必要です。："10"', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
+        $this->assertEquals('hogeは、3文字以上で入力してください。', $actual[0]->rule->getMessage(new MinLengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 }
 
@@ -81,8 +81,8 @@ class MinLengthRuleTestMessagerMock implements MessagerInterface
     public function message(string $message_key, array $args = []): string|false
     {
         return match ($message_key) {
-            'validation.MinLengthRule' => MessageFormatter::formatMessage('ja', '{field}には、{minimum}文字以上の入力が必要です。："{value}"', $args),
-            'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} field must be at least {minimum} characters in length. : "{value}"', $args),
+            'validation.MinLengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{minimum}文字以上で入力してください。', $args),
+            'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} must be at least {minimum} characters.', $args),
         };
     }
 }

@@ -2,6 +2,7 @@
 
 $messages = [
     'validation' => [
-        'MinLengthRule' => '{field}には、{min}文字以上の入力が必要です。',
+        'MinLengthRule' => '{field}は、{minimum}文字以上で入力してください。',
+        'MaxLengthRule' => '{field}は、{minimum}文字以内で入力してください。',
     ],
 ];
