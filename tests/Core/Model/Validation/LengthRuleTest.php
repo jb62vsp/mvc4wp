@@ -40,6 +40,21 @@ class LengthRuleTest extends TestCase
         $this->assertEquals('hogeは、5文字以上、10文字以内で入力してください。', $actual[0]->rule->getMessage(new LengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 
+    public function test_validate_invalidLessOneLength(): void
+    {
+        $obj = new LengthRule(2, 3);
+
+        $actual = $obj->validate('Hoge', 'hoge', 'HOGE');
+        $this->assertCount(1, $actual);
+        $this->assertEquals('Hoge', $actual[0]->class_name);
+        $this->assertEquals('hoge', $actual[0]->property_name);
+        $this->assertEquals('HOGE', $actual[0]->value);
+        $this->assertInstanceOf(LengthRule::class, $actual[0]->rule);
+        $this->assertEquals(2, LengthRule::cast($actual[0]->rule)->minimum);
+        $this->assertEquals(3, LengthRule::cast($actual[0]->rule)->max);
+        $this->assertEquals('hogeは、2文字以上、3文字以内で入力してください。', $actual[0]->rule->getMessage(new LengthRuleTestMessagerMock(), ['field' => 'hoge']));
+    }
+
     public function test_validate_invalidChangeMessage(): void
     {
         $obj = new LengthRule(10, 15, 'foo.bar.buz');
