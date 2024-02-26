@@ -7,9 +7,6 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\TypeUtils;
 use Mvc4Wp\Core\Model\Attribute\AttributeTrait;
 
-/**
- * @extends Rule<MinlengthRule>
- */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
 class MinLengthRule extends Rule
 {
