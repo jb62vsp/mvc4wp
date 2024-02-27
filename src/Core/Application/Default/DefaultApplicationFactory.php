@@ -36,7 +36,7 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         }
         if (is_null($config->get('scss'))) {
             $config->add('scss', [
-                'scss_directory' => __MVC4WP_ROOT__ . '/scss',
+                'scss_directory' => __MVC4WP_ROOT__ . '/css',
                 'css_directory' => __MVC4WP_ROOT__ . '/css',
                 'use_cache' => 'true',
             ]);
