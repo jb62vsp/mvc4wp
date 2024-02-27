@@ -86,6 +86,9 @@ trait HttpRespondable
 
     public function done(): never
     {
+        if (function_exists('debug_view_body')) {
+            debug_view_body();
+        }
         exit();
     }
 

@@ -16,7 +16,13 @@ trait PlainPhpRenderable
         }
         $view_path = $config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
+            if (function_exists('view_start')) {
+                view_start($view_path);
+            }
             include $view_path;
+            if (function_exists('view_end')) {
+                view_end($view_path);
+            }
         } else {
             throw new ApplicationException('view not found: ' . $view_path);
         }
