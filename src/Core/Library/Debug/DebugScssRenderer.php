@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Library\Debug;
 
+use Exception;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\HttpRespondable;
 use Mvc4Wp\Core\Controller\RenderInterface;
@@ -23,7 +24,11 @@ class DebugScssRenderer implements RenderInterface, ResponderInterface
             }
 
             $scss = new Compiler();
-            $compiled = $scss->compileFile($scss_path);
+            try {
+                $compiled = $scss->compileFile($scss_path);
+            } catch (Exception $ex) {
+                throw new ApplicationException('SCSS compile error', 0, $ex);
+            }
             echo $compiled->getCss();
         }
         return $this;

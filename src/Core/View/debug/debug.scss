@@ -1,0 +1,253 @@
+// solarized color pallet
+$base03: #002b36;
+$base02: #073642;
+$base01: #586e75;
+$base00: #657b83;
+$base0: #839496;
+$base1: #93a1a1;
+$base2: #eee8d5;
+$base3: #fdf6e3;
+$yellow: #b58900;
+$orange: #cb4b16;
+$red: #dc322f;
+$magenta: #d33682;
+$violet: #6c71c4;
+$blue: #268bd2;
+$cyan: #2aa198;
+$green: #859900;
+
+// font
+$fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+// menu count
+$menu_count: 2;
+
+@mixin rebase($rebase03, $rebase02, $rebase01, $rebase00, $rebase0, $rebase1, $rebase2, $rebase3) {
+    background-color: $rebase03;
+    color: $rebase0;
+    font-family: #{$fonts};
+
+    * {
+        color: $rebase0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: $rebase1;
+        border-color: $rebase0;
+    }
+
+    a,
+    a:active,
+    a:visited {
+        color: $rebase1;
+    }
+}
+
+@mixin light {
+    @include rebase($base3, $base2, $base1, $base0, $base00, $base01, $base02, $base03);
+}
+
+@mixin dark {
+    @include rebase($base03, $base02, $base01, $base00, $base0, $base1, $base2, $base3);
+}
+
+@mixin accentize($accent) {
+
+    a,
+    a:active,
+    a:visited,
+    code.url {
+        color: $accent;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: $accent
+    }
+}
+
+BODY {
+    .debug {
+        @include dark;
+
+        &.view {
+            display: none;
+            font-size: 12px;
+            height: 18px;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            opacity: 0.6;
+        }
+    }
+
+    &:has(#debug-toggle:checked) {
+        .debug {
+            &.view {
+                display: block;
+            }
+        }
+    }
+}
+
+#debug {
+    .debug-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        overflow: auto;
+
+        #debug-toggle {
+            display: none;
+        }
+
+        .debug-toggle-button {
+            @include dark;
+
+            display: block;
+            position: fixed;
+            bottom: 0px;
+            right: 12px;
+            cursor: pointer;
+            z-index: 2;
+            transition: 0.2s;
+
+            .bar {
+                @include light;
+
+                display: block;
+                width: 25px;
+                height: 3px;
+                margin: 5px 0;
+                transition: 0.2s;
+
+                &:nth-child(1) {
+                    opacity: 0.8;
+                }
+
+                &:nth-child(2) {
+                    opacity: 0.6;
+                }
+
+                &:nth-child(3) {
+                    opacity: 0.4;
+                }
+            }
+
+        }
+
+        .debug-contents {
+            @include light; // TODO
+
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            transition: 0.2s;
+            overflow-y: hidden;
+
+            .debug-tab-button {
+                @include light;
+                width: calc(100%/#{$menu_count});
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                display: block;
+                float: left;
+                transition: 0.3;
+
+                &:hover {
+                    @include dark;
+                    opacity: 0.8;
+                }
+            }
+
+            INPUT[name="debug-tab-radio"] {
+                display: none;
+
+                &:checked+.debug-tab-button {
+                    @include dark;
+                }
+            }
+
+            .debug-tab-container {
+                @include dark;
+                display: none;
+                position: relative;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: calc(100% - 40px);
+
+                &.scrollbar {
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+
+                    &::-webkit-scrollbar {
+                        @include light;
+                        width: 12px;
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        @include dark;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: #{$base00};
+                    }
+                }
+            }
+
+            #debug-tab-radio01:checked~#debug-tab-container01,
+            #debug-tab-radio02:checked~#debug-tab-container02,
+            #debug-tab-radio03:checked~#debug-tab-container03 {
+                display: block;
+            }
+        }
+    }
+
+    .padding {
+        height: 0%;
+        transition: 0.2s;
+    }
+
+    &:has(#debug-toggle:checked) {
+        .debug-contents {
+            bottom: 0%;
+        }
+
+        .padding {
+            height: 40%;
+        }
+
+        .debug-toggle-button {
+            transition: 0.2s;
+
+            .bar {
+                &:nth-child(1) {
+                    opacity: 0.4;
+                }
+
+                &:nth-child(2) {
+                    opacity: 0.6;
+                }
+
+                &:nth-child(3) {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}
