@@ -9,26 +9,20 @@ use ScssPhp\ScssPhp\OutputStyle;
 
 trait ScssRenderable
 {
-    public bool $use_cache = false;
-
-    protected ConfiguratorInterface $config;
-
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
-        $this->config = $config;
-
-        if ($this->use_cache) {
-            $this->renderCss($view);
+        if ($config->get('scss.use_cache') === 'true') {
+            $this->renderCss($config, $view);
         } else {
-            $this->renderScss($view);
+            $this->renderScss($config, $view);
         }
 
         return $this;
     }
 
-    protected function renderScss(string $view)
+    protected function renderScss(ConfiguratorInterface $config, string $view)
     {
-        $scss_path = $this->config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.scss';
+        $scss_path = $config->get('scss.scss_directory') . DIRECTORY_SEPARATOR . $view . '.scss';
 
         if (!file_exists($scss_path)) {
             throw new ApplicationException('view not found: ' . $scss_path);
@@ -38,8 +32,8 @@ trait ScssRenderable
         $scss->setOutputStyle(OutputStyle::COMPRESSED);
         $compiled = $scss->compileFile($scss_path);
 
-        if ($this->use_cache) {
-            $css_path = $this->config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.css';
+        if ($config->get('scss.use_cache') === 'true') {
+            $css_path = $config->get('scss.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
             file_put_contents($css_path, $compiled->getCss(), LOCK_EX);
             Logging::get('core')->info("scss cached: {$scss_path} -> {$css_path}");
         } else {
@@ -47,12 +41,12 @@ trait ScssRenderable
         }
     }
 
-    protected function renderCss(string $view)
+    protected function renderCss(ConfiguratorInterface $config, string $view)
     {
-        $css_path = $this->config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.css';
+        $css_path = $config->get('scss.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
 
         if (!file_exists($css_path)) {
-            $this->renderScss($view);
+            $this->renderScss($config, $view);
         }
 
         if (!file_exists($css_path)) {

@@ -15,7 +15,6 @@ if (!function_exists('scss')) {
     function scss(string $scss_name): void
     {
         $render = new ScssRenderer();
-        // $render->use_cache = true; // TODO: cache
         $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
     }
 }
