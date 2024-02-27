@@ -34,6 +34,13 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (is_null($config->get('view_directory'))) {
             $config->add('view_directory', __MVC4WP_ROOT__ . '/src/App/View');
         }
+        if (is_null($config->get('scss'))) {
+            $config->add('scss', [
+                'scss_directory' => __MVC4WP_ROOT__ . '/scss',
+                'css_directory' => __MVC4WP_ROOT__ . '/css',
+                'use_cache' => 'true',
+            ]);
+        }
         if (is_null($config->get('language'))) {
             $config->add('language', [
                 'fallback_locale' => 'en_US',
