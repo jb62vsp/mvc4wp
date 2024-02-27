@@ -4,11 +4,11 @@ use Mvc4Wp\Core\Library\Debug\DebugViewRenderer;
 use Mvc4Wp\Core\Library\WordPressCustomize;
 use Mvc4Wp\Core\Service\App;
 
-if (!function_exists('debug_view_body')) {
-    function debug_view_body(): void
+if (!function_exists('debug_view')) {
+    function debug_view(string $view_name = 'body.php', array $data = []): void
     {
         $renderer = new DebugViewRenderer();
-        $renderer->render(App::get()->config(), $renderer, 'debug/body.php');
+        $renderer->render(App::get()->config(), $renderer, $view_name);
     }
 }
 
@@ -50,5 +50,4 @@ WordPressCustomize::enableTraceSQL(function ($q) {
     return $q;
 });
 
-$renderer = new DebugViewRenderer();
-$renderer->render(App::get()->config(), $renderer, 'debug/head.php');
+debug_view('head.php');

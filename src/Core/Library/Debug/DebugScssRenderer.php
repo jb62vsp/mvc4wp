@@ -6,8 +6,9 @@ use Mvc4Wp\Core\Controller\HttpRespondable;
 use Mvc4Wp\Core\Controller\RenderInterface;
 use Mvc4Wp\Core\Controller\ResponderInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
+use ScssPhp\ScssPhp\Compiler;
 
-class DebugViewRenderer implements RenderInterface, ResponderInterface
+class DebugScssRenderer implements RenderInterface, ResponderInterface
 {
     use HttpRespondable;
 
@@ -15,12 +16,15 @@ class DebugViewRenderer implements RenderInterface, ResponderInterface
     {
         if ($config->get('debug') === 'true') {
             $core_root = $config->get('core_root');
-            $view_path = $core_root . '/View/debug/' . $view;
-            if (file_exists($view_path)) {
-                include $view_path;
-            } else {
-                throw new ApplicationException('view not found: ' . $view_path);
+            $scss_path = $core_root . '/View/debug/' . $view;
+
+            if (!file_exists($scss_path)) {
+                throw new ApplicationException('view not found: ' . $scss_path);
             }
+
+            $scss = new Compiler();
+            $compiled = $scss->compileFile($scss_path);
+            echo $compiled->getCss();
         }
         return $this;
     }

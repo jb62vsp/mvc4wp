@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Service\App;
-
 global $mvc4wp_debug;
 
 ?>
@@ -71,12 +69,12 @@ global $mvc4wp_debug;
             </div>
 
             <div class='tab_content base03' id='route_content'>
-                TODO: 
+                TODO:
             </div>
         </div>
     </div>
     <script>
-        document.querySelector('head').appendChild(document.querySelector('#debug_head'));
+        document.querySelector('head').appendChild(document.querySelector('#debug_style'));
         document.querySelector('body').appendChild(document.querySelector('#debug'));
         document.querySelector('#debug-toggle').addEventListener('change', ev => {
             if (ev.target.checked) {
