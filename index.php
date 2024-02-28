@@ -1,10 +1,7 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Model\UserEntity;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Helper;
-
-$login_user = UserEntity::find()->build()->current();
 
 /*
  * --------------------------------------------------------------------

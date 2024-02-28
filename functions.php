@@ -11,6 +11,7 @@ use Mvc4Wp\Core\Service\Logging;
 define('__MVC4WP_ROOT__', __DIR__);
 require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
+App::get()->config()->set('debug', 'true');
 App::get()->config()->set('logger.loggers.app.log_level', 'debug');
 App::get()->config()->set('logger.loggers.core.log_level', 'debug');
 App::get()->config()->set('logger.loggers.log_model', [
