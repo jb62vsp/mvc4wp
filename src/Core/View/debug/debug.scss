@@ -20,7 +20,7 @@ $green: #859900;
 $fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 
 // menu count
-$menu_count: 2;
+$menu_count: 6;
 
 @mixin rebase($rebase03, $rebase02, $rebase01, $rebase00, $rebase0, $rebase1, $rebase2, $rebase3) {
     background-color: $rebase03;
@@ -83,10 +83,10 @@ BODY {
             display: none;
             font-size: 12px;
             height: 18px;
-            width: 100%;
             margin: 0px;
-            padding: 0px;
             opacity: 0.6;
+            padding: 0px;
+            width: 100%;
         }
     }
 
@@ -100,77 +100,150 @@ BODY {
 }
 
 #debug {
-    .debug-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40%;
-        overflow: auto;
+    .base03 {
+        color: #{$base03} !important;
+    }
 
-        #debug-toggle {
+    .base02 {
+        color: #{$base02} !important;
+    }
+
+    .base01 {
+        color: #{$base01} !important;
+    }
+
+    .base00 {
+        color: #{$base00} !important;
+    }
+
+    .base0 {
+        color: #{$base0} !important;
+    }
+
+    .base1 {
+        color: #{$base1} !important;
+    }
+
+    .base2 {
+        color: #{$base2} !important;
+    }
+
+    .base3 {
+        color: #{$base3} !important;
+    }
+
+    .yellow {
+        color: #{$yellow} !important;
+    }
+
+    .orange {
+        color: #{$orange} !important;
+    }
+
+    .red {
+        color: #{$red} !important;
+    }
+
+    .magenta {
+        color: #{$magenta} !important;
+    }
+
+    .violet {
+        color: #{$violet} !important;
+    }
+
+    .blue {
+        color: #{$blue} !important;
+    }
+
+    .cyan {
+        color: #{$cyan} !important;
+    }
+
+    .green {
+        color: #{$green} !important;
+    }
+
+    .clickable {
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+
+    .debug-container {
+        bottom: 0;
+        height: 50%;
+        left: 0;
+        overflow: auto;
+        position: fixed;
+        width: 100%;
+
+        .debug-toggle-checkbox {
             display: none;
+
+            &:checked~.debug-toggle-button {
+                transition: 0.2s;
+
+                .icon-arrow-top {
+                    transform: rotate(135deg);
+                }
+            }
         }
 
         .debug-toggle-button {
-            @include dark;
-
+            bottom: 0px;
+            cursor: pointer;
             display: block;
             position: fixed;
-            bottom: 0px;
-            right: 12px;
-            cursor: pointer;
-            z-index: 2;
+            right: 15px;
+            bottom: 8px;
             transition: 0.2s;
+            z-index: 2;
 
-            .bar {
-                @include light;
+            &:hover {
+                opacity: 0.6;
+            }
 
-                display: block;
-                width: 25px;
-                height: 3px;
-                margin: 5px 0;
-                transition: 0.2s;
-
-                &:nth-child(1) {
-                    opacity: 0.8;
-                }
-
-                &:nth-child(2) {
-                    opacity: 0.6;
-                }
-
-                &:nth-child(3) {
-                    opacity: 0.4;
-                }
+            .icon-arrow-top {
+                display: inline-block;
+                box-sizing: border-box;
+                width: 1rem;
+                height: 1rem;
+                border-style: solid;
+                border-width: 4px 4px 0 0;
+                border-color: #{$base0};
+                transform: rotate(315deg);
+                transition: 0.3s;
             }
 
         }
 
         .debug-contents {
             @include light; // TODO
-
-            position: fixed;
             bottom: -100%;
-            left: 0;
-            width: 100%;
             height: 50%;
-            transition: 0.2s;
+            left: 0;
             overflow-y: hidden;
+            position: fixed;
+            transition: 0.2s;
+            width: 100%;
 
             .debug-tab-button {
                 @include light;
-                width: calc(100%/#{$menu_count});
+                display: block;
+                float: left;
                 height: 40px;
                 line-height: 40px;
                 text-align: center;
-                display: block;
-                float: left;
+                text-decoration: none;
                 transition: 0.3;
+                width: calc(100%/#{$menu_count});
 
                 &:hover {
                     @include dark;
-                    opacity: 0.8;
                 }
             }
 
@@ -185,11 +258,11 @@ BODY {
             .debug-tab-container {
                 @include dark;
                 display: none;
-                position: relative;
+                height: calc(100% - 40px);
                 left: 0;
+                position: relative;
                 right: 0;
                 width: 100%;
-                height: calc(100% - 40px);
 
                 &.scrollbar {
                     overflow-x: hidden;
@@ -210,9 +283,12 @@ BODY {
                 }
             }
 
-            #debug-tab-radio01:checked~#debug-tab-container01,
-            #debug-tab-radio02:checked~#debug-tab-container02,
-            #debug-tab-radio03:checked~#debug-tab-container03 {
+            #debug-tab-radio-variable:checked~#debug-tab-container-variable,
+            #debug-tab-radio-view:checked~#debug-tab-container-view,
+            #debug-tab-radio-route:checked~#debug-tab-container-route,
+            #debug-tab-radio-query:checked~#debug-tab-container-query,
+            #debug-tab-radio-sql:checked~#debug-tab-container-sql,
+            #debug-tab-radio-error:checked~#debug-tab-container-error {
                 display: block;
             }
         }
@@ -229,25 +305,58 @@ BODY {
         }
 
         .padding {
-            height: 40%;
+            height: 50%;
         }
+    }
 
-        .debug-toggle-button {
-            transition: 0.2s;
+    .expand-container {
+        position: relative;
 
-            .bar {
-                &:nth-child(1) {
-                    opacity: 0.4;
+        .checkbox {
+            display: none;
+
+            &:checked+.label {
+                .icon-plus:after {
+                    opacity: 0;
                 }
 
-                &:nth-child(2) {
-                    opacity: 0.6;
-                }
-
-                &:nth-child(3) {
-                    opacity: 0.8;
+                &+.expandable {
+                    display: block;
                 }
             }
+        }
+
+        .label {
+            .icon-plus {
+                color: #{$base0};
+                height: 0.1rem;
+                padding-left: 1rem;
+                position: relative;
+                width: 0.8rem;
+            }
+
+            .icon-plus:before,
+            .icon-plus:after {
+                background-color: currentColor;
+                content: "";
+                height: 0.1rem;
+                left: 0px;
+                position: absolute;
+                top: 50%;
+                width: 0.8rem;
+            }
+
+            .icon-plus:after {
+                -webkit-transform: rotate(90deg);
+                transform: rotate(90deg);
+                transition: 0.3s;
+            }
+        }
+
+        .expandable {
+            display: none;
+            margin-left: 1rem;
+            transition: 0.3s;
         }
     }
 }
