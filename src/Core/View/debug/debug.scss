@@ -174,13 +174,6 @@ BODY {
     }
 
     .debug-container {
-        bottom: 0;
-        height: 50%;
-        left: 0;
-        overflow: auto;
-        position: fixed;
-        width: 100%;
-        z-index: -1;
 
         .debug-toggle-checkbox {
             display: none;
@@ -301,10 +294,6 @@ BODY {
     }
 
     &:has(#debug-toggle:checked) {
-        .debug-container {
-            z-index: 9998;
-        }
-        
         .debug-contents {
             bottom: 0%;
         }
