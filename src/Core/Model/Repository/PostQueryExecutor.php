@@ -16,11 +16,15 @@ class PostQueryExecutor implements QueryExecutorInterface
     {
         $result = [];
 
+        debug_add_start();
+
         $ids = $this->fetch();
         foreach ($ids as $id) {
             $model = $this->bindByID($id);
             $result[] = $model;
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }
@@ -29,10 +33,14 @@ class PostQueryExecutor implements QueryExecutorInterface
     {
         $result = null;
 
+        debug_add_start();
+
         $ids = $this->fetch();
         if (!empty($ids)) {
             $result = $this->bindByID($ids[0]);
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }
@@ -41,10 +49,14 @@ class PostQueryExecutor implements QueryExecutorInterface
     {
         $result = 0;
 
+        debug_add_start();
+
         $results = $this->fetch();
         if (is_array($results)) {
             $result = count($results);
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }

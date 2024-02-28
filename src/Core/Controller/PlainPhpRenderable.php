@@ -14,12 +14,16 @@ trait PlainPhpRenderable
             $responder->header('Content-Type: text/html; charset=utf-8');
             $this->first = false;
         }
+
         $view_path = $config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
+            debug_view_start($view_path);
             include $view_path;
+            debug_view_end($view_path, $data);
         } else {
             throw new ApplicationException('view not found: ' . $view_path);
         }
+
         return $this;
     }
 }

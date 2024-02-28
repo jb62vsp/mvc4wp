@@ -1,12 +1,21 @@
 <?php declare(strict_types=1);
 
-use Mvc4Wp\Core\Library\DateTimeUtils;
+use Mvc4Wp\Core\Controller\Controller;
+use Mvc4Wp\Core\Controller\ScssRenderer;
 use Mvc4Wp\Core\Service\App;
 
 if (!function_exists('view')) {
     function view(string $view_name, array $data = []): void
     {
         App::get()->controller()->view($view_name, $data);
+    }
+}
+
+if (!function_exists('scss')) {
+    function scss(string $scss_name): void
+    {
+        $render = new ScssRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
     }
 }
 

@@ -29,12 +29,20 @@ class DefaultRouter implements RouterInterface
         });
 
         $routeInfo = $dispatcher->dispatch(strtoupper($request_method), $request_uri);
-        
+
         $result = match ($routeInfo[0]) {
             Dispatcher::NOT_FOUND => new RouteHandler(HttpStatus::NOT_FOUND),
             Dispatcher::METHOD_NOT_ALLOWED => new RouteHandler(HttpStatus::METHOD_NOT_ALLOWED),
             Dispatcher::FOUND => new RouteHandler(HttpStatus::OK, $routeInfo[1], $routeInfo[2]),
         };
+
+        debug_add('route', [
+            'routes' => $this->routes,
+            'method' => $request_method,
+            'uri' => $request_uri,
+            'info' => $routeInfo,
+            'route' => $result,
+        ]);
 
         return $result;
     }

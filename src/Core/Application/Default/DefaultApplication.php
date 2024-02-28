@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Application\Default;
 
+use Error;
+use Exception;
 use Mvc4Wp\Core\Application\ApplicationInterface;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
@@ -15,6 +17,7 @@ use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
+use Mvc4Wp\Core\Service\Helper;
 use Mvc4Wp\Core\Service\Logging;
 
 class DefaultApplication implements ApplicationInterface
@@ -89,6 +92,8 @@ class DefaultApplication implements ApplicationInterface
     public function run(): void
     {
         try {
+            $this->debug();
+
             $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
             if (isset($_POST['_method'])) {
                 $request_method = strtoupper($_POST['_method']);
@@ -127,11 +132,23 @@ class DefaultApplication implements ApplicationInterface
             Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::' . $route->method, $route->args);
             $controller->{$route->method}($route->args);
         } catch (ApplicationException $ex) {
-            Logging::get('core')->error($ex->getMessage(), [$ex]);
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->critical($ex->getMessage(), [$ex]);
             $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
             $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
             $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
-            return;
+        } catch (Exception $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->alert($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
+        } catch (Error $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->emergency($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
         }
     }
 
@@ -153,5 +170,14 @@ class DefaultApplication implements ApplicationInterface
         }
 
         return new $error_handler($this->config());
+    }
+
+    private function debug(): void
+    {
+        if ($this->config()->get('debug') === 'true') {
+            Helper::load('Debug');
+        } else {
+            Helper::load('NoDebug');
+        }
     }
 }
