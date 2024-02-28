@@ -6,10 +6,15 @@ use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Helper;
 
 if (!function_exists('debug_view')) {
-    function debug_view(string $view_name = 'body.php', array $data = []): void
+    function debug_view(string $view_name = '', array $data = []): void
     {
         $renderer = new DebugViewRenderer();
-        $renderer->render(App::get()->config(), $renderer, $view_name);
+        if (empty($view_name)) {
+            $renderer->render(App::get()->config(), $renderer, 'head.php');
+            $renderer->render(App::get()->config(), $renderer, 'body.php');
+        } else {
+            $renderer->render(App::get()->config(), $renderer, $view_name);
+        }
     }
 }
 
@@ -101,5 +106,3 @@ WordPressCustomize::enableTraceSQL(function ($q) {
     debug_add('sql', ['sql' => trim(str_replace(["\r\n", "\r", "\n", "\t"], " ", $q))]);
     return $q;
 });
-
-debug_view('head.php');
