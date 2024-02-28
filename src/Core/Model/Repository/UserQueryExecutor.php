@@ -19,11 +19,15 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = [];
 
+        debug_add_start();
+
         $users = $this->fetch();
         foreach ($users as $user) {
             $model = $this->bindByID($user->ID);
             $result[] = $model;
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }
@@ -32,10 +36,14 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = null;
 
+        debug_add_start();
+
         $users = $this->fetch();
         if (!empty($users)) {
             $result = $this->bindByID($users[0]->ID);
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }
@@ -44,8 +52,12 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = 0;
 
+        debug_add_start();
+
         $ids = $this->fetch();
         $result = count($ids);
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
 
         return $result;
     }
@@ -54,11 +66,15 @@ class UserQueryExecutor implements QueryExecutorInterface
     {
         $result = null;
 
+        debug_add_start();
+
         // get_current_user_id(): int
         $id = get_current_user_id();
         if ($id !== 0) {
             $result = $this->bindByID($id);
         }
+
+        debug_add_end('query', ['executor' => get_class($this), 'query' => 'current']);
 
         return $result;
     }

@@ -86,6 +86,7 @@ trait HttpRespondable
 
     public function done(): never
     {
+        debug_view();
         exit();
     }
 
