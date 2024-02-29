@@ -17,6 +17,7 @@ class MaxLengthRule extends Rule
     public function __construct(
         public readonly int $max,
         public readonly string $message_key = 'validation.MaxLengthRule',
+        public readonly string $message = '',
     ) {
     }
 
@@ -37,6 +38,6 @@ class MaxLengthRule extends Rule
     {
         $args['max'] = $this->max;
         $args['value'] = $this->value;
-        return $messager->message($this->message_key, $args);
+        return $messager->message($this->message_key, $args, $this->message);
     }
 }

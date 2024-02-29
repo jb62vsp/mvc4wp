@@ -17,6 +17,7 @@ class MinLengthRule extends Rule
     public function __construct(
         public readonly int $minimum,
         public readonly string $message_key = 'validation.MinLengthRule',
+        public readonly string $message = '',
     ) {
     }
 
@@ -37,6 +38,6 @@ class MinLengthRule extends Rule
     {
         $args['minimum'] = $this->minimum;
         $args['value'] = $this->value;
-        return $messager->message($this->message_key, $args);
+        return $messager->message($this->message_key, $args, $this->message);
     }
 }

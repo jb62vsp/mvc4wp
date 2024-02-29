@@ -14,12 +14,17 @@ class DefaultMessager implements MessagerInterface
     ) {
     }
 
-    public function message(string $message_key, array $args = []): string
+    public function message(string $message_key, array $args = [], string $direct_message = ''): string
     {
-        $message = $this->get_message($this->app_messages_path, $message_key);
-        if (!$message) {
-            $message = $this->get_message($this->core_messages_path, $message_key);
+        if (!empty($direct_message)) {
+            $message = $direct_message;
+        } else {
+            $message = $this->get_message($this->app_messages_path, $message_key);
+            if (!$message) {
+                $message = $this->get_message($this->core_messages_path, $message_key);
+            }
         }
+
         if (!$message) {
             return '';
         }

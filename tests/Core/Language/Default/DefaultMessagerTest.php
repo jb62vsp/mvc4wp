@@ -41,6 +41,14 @@ class DefaultMessagerTest extends TestCase
         $this->assertEquals('BuzBuz: HOGEFUGAPIYO', $actual);
     }
 
+    public function test_message_withDirectMessage(): void
+    {
+        $obj = DefaultMessagerTestMockA::create();
+
+        $actual = $obj->message('foo.bar.Buz', ['HOGE', 'FUGA', 'PIYO'], 'DirectMessage: {0}{1}');
+        $this->assertEquals('DirectMessage: HOGEFUGA', $actual);
+    }
+
     public function test_message_noFile(): void
     {
         $obj = DefaultMessagerTestMockCoreNone::create();

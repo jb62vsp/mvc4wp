@@ -17,6 +17,7 @@ class RegExpRule extends Rule
     public function __construct(
         public readonly string $pattern,
         public readonly string $message_key = 'validation.RegExpRule',
+        public readonly string $message = '',
     ) {
     }
 
@@ -37,6 +38,6 @@ class RegExpRule extends Rule
     {
         $args['pattern'] = $this->pattern;
         $args['value'] = $this->value;
-        return $messager->message($this->message_key, $args);
+        return $messager->message($this->message_key, $args, $this->message);
     }
 }

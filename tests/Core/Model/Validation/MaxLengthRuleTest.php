@@ -74,15 +74,32 @@ class MaxLengthRuleTest extends TestCase
         $this->assertEquals(1, MaxLengthRule::cast($actual[0]->rule)->max);
         $this->assertEquals('hogeは、1文字以内で入力してください。', $actual[0]->rule->getMessage(new MaxLengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
+
+    public function test_validate_invalidWithDirectMessage(): void
+    {
+        $obj = new MaxLengthRule(2, message: '{field} is HOGE');
+
+        $actual = $obj->validate('Hoge', 'hoge', 'HOGE');
+        $this->assertCount(1, $actual);
+        $this->assertEquals('Hoge', $actual[0]->class_name);
+        $this->assertEquals('hoge', $actual[0]->property_name);
+        $this->assertEquals('HOGE', $actual[0]->value);
+        $this->assertInstanceOf(MaxLengthRule::class, $actual[0]->rule);
+        $this->assertEquals(2, MaxLengthRule::cast($actual[0]->rule)->max);
+        $this->assertEquals('hoge is HOGE', $actual[0]->rule->getMessage(new MaxLengthRuleTestMessagerMock(), ['field' => 'hoge']));
+    }
 }
 
 class MaxLengthRuleTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string
+    public function message(string $message_key, array $args = [], string $direct_message = ''): string
     {
-        return match ($message_key) {
-            'validation.MaxLengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{max}文字以内で入力してください。', $args),
-            'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} must be fall short of {max} characters.', $args),
+        return match (empty ($direct_message)) {
+            true => match ($message_key) {
+                    'validation.MaxLengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{max}文字以内で入力してください。', $args),
+                    'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} must be fall short of {max} characters.', $args),
+                },
+            false => MessageFormatter::formatMessage('ja', $direct_message, $args),
         };
     }
 }
