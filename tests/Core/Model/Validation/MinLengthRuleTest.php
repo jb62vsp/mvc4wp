@@ -78,7 +78,7 @@ class MinLengthRuleTest extends TestCase
 
 class MinLengthRuleTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string|false
+    public function message(string $message_key, array $args = []): string
     {
         return match ($message_key) {
             'validation.MinLengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{minimum}文字以上で入力してください。', $args),

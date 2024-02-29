@@ -70,7 +70,7 @@ class RegExpRuleTest extends TestCase
 
 class RegExpRuleTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string|false
+    public function message(string $message_key, array $args = []): string
     {
         return match ($message_key) {
             'validation.RegExpRule' => MessageFormatter::formatMessage('ja', '{field}が、正しい形式ではありません。', $args),

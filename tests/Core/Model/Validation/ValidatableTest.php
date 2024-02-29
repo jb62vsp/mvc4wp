@@ -200,7 +200,7 @@ class ValidatableTestMockC
 
 class ValidatableTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string|false
+    public function message(string $message_key, array $args = []): string
     {
         return $message_key;
     }

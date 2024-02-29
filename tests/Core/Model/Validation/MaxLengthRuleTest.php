@@ -78,7 +78,7 @@ class MaxLengthRuleTest extends TestCase
 
 class MaxLengthRuleTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string|false
+    public function message(string $message_key, array $args = []): string
     {
         return match ($message_key) {
             'validation.MaxLengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{max}文字以内で入力してください。', $args),
