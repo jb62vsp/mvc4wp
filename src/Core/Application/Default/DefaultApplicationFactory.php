@@ -19,9 +19,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (array_key_exists('config', $args) && $args['config'] instanceof ConfiguratorInterface) {
             $config = $args['config'];
         }
-        if (is_null($config->get('debug'))) {
-            $config->add('debug', 'false'); // TODO:
-        }
         if (is_null($config->get('app_root'))) {
             $config->add('app_root', __MVC4WP_ROOT__ . '/src/App');
         }

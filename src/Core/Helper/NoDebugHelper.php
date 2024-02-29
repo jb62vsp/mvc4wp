@@ -1,5 +1,11 @@
 <?php declare(strict_types=1);
 
+if (!function_exists('is_debug')) {
+    function is_debug(): bool {
+        return false;
+    }
+}
+
 if (!function_exists('debug_view')) {
     function debug_view(string $view_name = 'body.php', array $data = []): void
     {

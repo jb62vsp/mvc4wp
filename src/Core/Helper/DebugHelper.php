@@ -5,6 +5,12 @@ use Mvc4Wp\Core\Library\WordPressCustomize;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Helper;
 
+if (!function_exists('is_debug')) {
+    function is_debug(): bool {
+        return true;
+    }
+}
+
 if (!function_exists('debug_view')) {
     function debug_view(string $view_name = '', array $data = []): void
     {

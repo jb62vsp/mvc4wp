@@ -13,7 +13,7 @@ class DebugViewRenderer implements RenderInterface, ResponderInterface
 
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
-        if ($config->get('debug') === 'true') {
+        if (is_debug()) {
             $core_root = $config->get('core_root');
             $view_path = $core_root . '/View/debug/' . $view;
             if (file_exists($view_path)) {
