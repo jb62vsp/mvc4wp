@@ -16,40 +16,40 @@ class ExampleEntity extends PostEntity
 
     #[CustomField(title: 'テキスト例', type: CustomField::TEXT)]
     #[LengthRule(minimum: 1, max: 10)]
-    public string $example_text = '';
+    public string $example_text;
 
     #[CustomField(title: 'テキストエリア例', type: CustomField::TEXTAREA)]
-    public string $example_textarea = '';
+    public string $example_textarea;
 
     #[CustomField(title: '整数例', type: CustomField::INTEGER)]
-    #[RegExpRule(pattern: CommonPattern::INTEGER->value)]
-    public int $example_int = -1;
+    #[RegExpRule(pattern: CommonPattern::INTEGER)]
+    public int $example_int;
 
     #[CustomField(title: '正の整数例', type: CustomField::UINTEGER)]
-    #[RegExpRule(pattern: CommonPattern::UINTEGER->value)]
-    public int $example_uint = 1;
+    #[RegExpRule(pattern: CommonPattern::UINTEGER)]
+    public int $example_uint;
 
     #[CustomField(title: '浮動小数点数例', type: CustomField::FLOAT)]
-    #[RegExpRule(pattern: CommonPattern::FLOAT->value)]
-    public float $example_float = -1.0;
+    #[RegExpRule(pattern: CommonPattern::FLOAT)]
+    public float $example_float;
 
     #[CustomField(title: '正の浮動小数点数例', type: CustomField::UFLOAT)]
-    #[RegExpRule(pattern: CommonPattern::UFLOAT->value)]
-    public float $example_ufloat = 1.23;
+    #[RegExpRule(pattern: CommonPattern::UFLOAT)]
+    public float $example_ufloat;
 
     #[CustomField(title: '真偽値例', type: CustomField::BOOL)]
-    #[RegExpRule(pattern: CommonPattern::BOOL->value)]
-    public bool $example_bool = false;
+    #[RegExpRule(pattern: CommonPattern::BOOL)]
+    public bool $example_bool;
 
     #[CustomField(title: '日付型例', type: CustomField::DATE)]
-    #[RegExpRule(pattern: CommonPattern::DATE->value)]
+    #[RegExpRule(pattern: CommonPattern::DATE)]
     public string $example_date;
 
     #[CustomField(title: '時刻型例', type: CustomField::TIME)]
-    #[RegExpRule(pattern: CommonPattern::TIME->value)]
+    #[RegExpRule(pattern: CommonPattern::TIME)]
     public string $example_time;
 
     #[CustomField(title: '日時型例', type: CustomField::DATETIME)]
-    #[RegExpRule(pattern: CommonPattern::DATETIME->value)]
+    #[RegExpRule(pattern: CommonPattern::DATETIME)]
     public string $example_datetime;
 }
