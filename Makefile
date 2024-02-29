@@ -66,7 +66,7 @@ unlock_vendor: composer.lock #: unlock vendor
 
 .PHONY: test
 test: vendor_dev tests/Core #: execute Core unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
+	@XDEBUG_MODE=coverage php -d "memory_limit=512M" ./vendor/bin/phpunit --colors  --testsuite 'Core'
 
 .PHONY: app_test
 app_test: vendor_dev tests/App #: execute App unittest

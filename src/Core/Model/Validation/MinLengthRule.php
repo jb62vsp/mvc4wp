@@ -12,12 +12,16 @@ class MinLengthRule extends Rule
 {
     use Castable, AttributeTrait;
 
+    private const DEFAULT_MESSAGE_KEY = 'validation.MinLengthRule';
+
+    private const DEFAULT_MESSAGE = '';
+
     public readonly string $value;
 
     public function __construct(
         public readonly int $minimum,
-        public readonly string $message_key = 'validation.MinLengthRule',
-        public readonly string $message = '',
+        public readonly string $message_key = self::DEFAULT_MESSAGE_KEY,
+        public readonly string $message = self::DEFAULT_MESSAGE,
     ) {
     }
 

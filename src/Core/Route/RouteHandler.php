@@ -11,14 +11,18 @@ final class RouteHandler
 
     private const DELIMITER = '::';
 
+    private const DEFAULT_SIGNATURE = '';
+
+    private const DEFAULT_ARGS = [];
+
     public string $class = '';
 
     public string $method = '';
 
     public function __construct(
         public HttpStatus $status,
-        public string $signature = '',
-        public array $args = [],
+        public string $signature = self::DEFAULT_SIGNATURE,
+        public array $args = self::DEFAULT_ARGS,
     ) {
         if (!empty($signature)) {
             $signatures = explode(self::DELIMITER, $signature);

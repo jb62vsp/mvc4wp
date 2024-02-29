@@ -1,6 +1,6 @@
 FROM composer:latest as co
 
-FROM wordpress:6.4.3-php8.3-apache
+FROM wordpress:5.9-php8.1-apache
 
 # apt
 RUN apt update \
