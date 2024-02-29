@@ -12,12 +12,16 @@ class MaxLengthRule extends Rule
 {
     use Castable, AttributeTrait;
 
+    private const DEFAULT_MESSAGE_KEY = 'validation.MaxLengthRule';
+
+    private const DEFAULT_MESSAGE = '';
+
     public readonly string $value;
 
     public function __construct(
         public readonly int $max,
-        public readonly string $message_key = 'validation.MaxLengthRule',
-        public readonly string $message = '',
+        public readonly string $message_key = self::DEFAULT_MESSAGE_KEY,
+        public readonly string $message = self::DEFAULT_MESSAGE,
     ) {
     }
 

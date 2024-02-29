@@ -12,12 +12,16 @@ class RegExpRule extends Rule
 {
     use Castable, AttributeTrait;
 
+    private const DEFAULT_MESSAGE_KEY = 'validation.RegExpRule';
+
+    private const DEFAULT_MESSAGE = '';
+
     public readonly string $value;
 
     public function __construct(
         public readonly string $pattern,
-        public readonly string $message_key = 'validation.RegExpRule',
-        public readonly string $message = '',
+        public readonly string $message_key = self::DEFAULT_MESSAGE_KEY,
+        public readonly string $message = self::DEFAULT_MESSAGE,
     ) {
     }
 

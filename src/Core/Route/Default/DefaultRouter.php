@@ -6,6 +6,7 @@ use FastRoute\RouteCollector;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Library\HttpStatus;
+use Mvc4Wp\Core\Route\Delimiter;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
 use Mvc4Wp\Core\Route\Routerable;
@@ -19,9 +20,9 @@ class DefaultRouter implements RouterInterface
         $routes = $this->routes;
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) use ($config, $routes) {
             foreach ($routes as $key => $value) {
-                $keys = explode(self::STATUS_DELIMITER, $key);
+                $keys = explode(Delimiter::STATUS_DELIMITER, $key);
                 $httpMethod = $keys[0];
-                $uris = explode(self::ROUTE_DELIMITER, $keys[1]);
+                $uris = explode(Delimiter::ROUTE_DELIMITER, $keys[1]);
                 foreach ($uris as $uri) {
                     $r->addRoute($httpMethod, $uri, $config->get('controller_namespace') . '\\' . $value);
                 }

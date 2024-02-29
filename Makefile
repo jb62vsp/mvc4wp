@@ -37,15 +37,12 @@ vendor: composer.json #: install vendor
 	@composer install --no-dev
 
 .PHONY: vendor_dev
-vendor_dev: vendor/bin/phpunit vendor/bin/phpstan vendor/bin/phpmetrics #: install vendor with dev
+vendor_dev: vendor/bin/phpunit vendor/bin/phpstan #: install vendor with dev
 
 vendor/bin/phpunit: composer.json
 	@composer install
 
 vendor/bin/phpstan: composer.json
-	@composer install
-
-vendor/bin/phpmetrics: composer.json
 	@composer install
 
 .PHONY: reload_vendor
@@ -59,33 +56,6 @@ clean_vendor: composer.json composer.lock vendor #: clean vendor
 .PHONY: unlock_vendor
 unlock_vendor: composer.lock #: unlock vendor
 	@rm -rf composer.lock
-
-#
-# unit test
-#
-
-.PHONY: test
-test: vendor_dev tests/Core #: execute Core unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'Core'
-
-.PHONY: app_test
-app_test: vendor_dev tests/App #: execute App unittest
-	@XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors --testsuite 'App'
-
-
-.PHONY: clean_test
-clean_test: .phpunit.cache coverage #: clean test
-	@rm -rf .phpunit.cache coverage
-
-#
-# metrics
-#
-metrics: vendor_dev #: generate metrics reports with PhpMetrics
-	@./vendor/bin/phpmetrics --report-html=metrics_report ./src/Core
-
-.PHONY: clean_metrics
-clean_metrics: ./metrics_report #: clean metrics
-	@rm -rf metrics_report
 
 #
 # static analysis

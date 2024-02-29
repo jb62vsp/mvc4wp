@@ -8,11 +8,11 @@ use ReflectionProperty;
 
 trait Bindable
 {
-    private bool $is_binded = false;
+    private bool $is_binded;
 
     public function isBinded(): bool
     {
-        return $this->is_binded;
+        return isset($this->is_binded) && $this->is_binded;
     }
 
     public function bind(object|array $values): void
