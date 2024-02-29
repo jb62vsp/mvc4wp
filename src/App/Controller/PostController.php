@@ -34,8 +34,8 @@ class PostController extends AdminController
             $order = OrderInQuery::from(strtoupper($args['order']));
         }
         $posts = PostEntity::find()
+            ->withAny()
             ->withAutoDraft()
-            ->withDraft()
             ->withTrash()
             ->orderBy($sort, $order)
             ->build()

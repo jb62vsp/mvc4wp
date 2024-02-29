@@ -11,7 +11,7 @@ use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
-// \Mvc4Wp\Core\Service\Helper::load('Debug');
+\Mvc4Wp\Core\Service\Helper::load('Debug');
 \Mvc4Wp\Core\Service\Helper::load('NoDebug');
 
 App::get()->config()->set('debug', 'true');
