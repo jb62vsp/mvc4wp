@@ -16,13 +16,22 @@ class RegExpRule extends Rule
 
     private const DEFAULT_MESSAGE = '';
 
+    public readonly string $pattern;
+
+    public readonly string $message_key;
+
+    public readonly string $message;
+
     public readonly string $value;
 
     public function __construct(
-        public readonly string $pattern,
-        public readonly string $message_key = self::DEFAULT_MESSAGE_KEY,
-        public readonly string $message = self::DEFAULT_MESSAGE,
+        CommonPattern|string $pattern,
+        string $message_key = self::DEFAULT_MESSAGE_KEY,
+        string $message = self::DEFAULT_MESSAGE,
     ) {
+        $this->pattern = is_string($pattern) ? $pattern : $pattern->value;
+        $this->message_key = $message_key;
+        $this->message = $message;
     }
 
     public function validate(string $class_name, string $property_name, mixed $value): array
