@@ -9,31 +9,9 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(RegExpRule::class)]
 class RegExpRuleTest extends TestCase
 {
-    public const INTEGER = '/^(-{0,1})([0-9]*)$/';
-
-    public const UINTEGER = '/^([0-9]*)$/';
-
-    public const FLOAT = '/^(-{0,1})([0-9\.]*)$/';
-
-    public const UFLOAT = '/^([0-9\.]*)$/';
-
-    public const ALPHABET = '/^([a-zA-Z]*)$/';
-
-    public const ALPHANUM = '/^([a-zA-Z0-9\.]*)$/';
-
-    public const SYMBOL = '/^([ -/:-@[-`{-~]*)$/';
-
-    public const HALFCHAR = '/^([ -~]*)$/';
-
-    public const DATE = '/^(19[0-9]{2}|2[0-9]{3}|[3-9]{4})-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[12][0-9]|3[01])$/';
-
-    public const TIME = '/^()|([0-9]|0[0-9]|1[0-9]|2[0-4]):([0-9]|0[0-9]|[1-5][0-9]|60):([0-9]|0[0-9]|[1-5][0-9])$/';
-
-    public const DATETIME = '/^()|(19[0-9]{2}|2[0-9]{3}|[3-9]{4})-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[12][0-9]|3[01]) ([0-9]|0[0-9]|1[0-9]|2[0-4]):([0-9]|0[0-9]|[1-5][0-9]):([0-9]|0[0-9]|[1-5][0-9])$/';
-
     public function test_validate_valid(): void
     {
-        $obj = new RegExpRule(self::INTEGER);
+        $obj = new RegExpRule(CommonPattern::INTEGER);
 
         $actual = $obj->validate('Hoge', 'hoge', '-123');
         $this->assertCount(0, $actual);
@@ -41,7 +19,7 @@ class RegExpRuleTest extends TestCase
 
     public function test_validate_invalidIncorrectInt(): void
     {
-        $obj = new RegExpRule(self::INTEGER);
+        $obj = new RegExpRule(CommonPattern::INTEGER);
 
         $actual = $obj->validate('Hoge', 'hoge', '-123a');
         $this->assertCount(1, $actual);
@@ -49,13 +27,13 @@ class RegExpRuleTest extends TestCase
         $this->assertEquals('hoge', $actual[0]->property_name);
         $this->assertEquals('-123a', $actual[0]->value);
         $this->assertInstanceOf(RegExpRule::class, $actual[0]->rule);
-        $this->assertEquals(self::INTEGER, RegExpRule::cast($actual[0]->rule)->pattern);
+        $this->assertEquals(CommonPattern::INTEGER->value, RegExpRule::cast($actual[0]->rule)->pattern);
         $this->assertEquals('hogeが、正しい形式ではありません。', $actual[0]->rule->getMessage(new RegExpRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 
     public function test_validate_invalidIncorrectChangeMessage(): void
     {
-        $obj = new RegExpRule(self::DATE, 'foo.bar.buz');
+        $obj = new RegExpRule(CommonPattern::DATE, 'foo.bar.buz');
 
         $actual = $obj->validate('Hoge', 'hoge', '2024-01-01a');
         $this->assertCount(1, $actual);
@@ -63,13 +41,13 @@ class RegExpRuleTest extends TestCase
         $this->assertEquals('hoge', $actual[0]->property_name);
         $this->assertEquals('2024-01-01a', $actual[0]->value);
         $this->assertInstanceOf(RegExpRule::class, $actual[0]->rule);
-        $this->assertEquals(self::DATE, RegExpRule::cast($actual[0]->rule)->pattern);
+        $this->assertEquals(CommonPattern::DATE->value, RegExpRule::cast($actual[0]->rule)->pattern);
         $this->assertEquals('The hoge is not in the correct format.', $actual[0]->rule->getMessage(new RegExpRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 
     public function test_validate_invalidWithDirectMessage(): void
     {
-        $obj = new RegExpRule(self::INTEGER, message: '{field} is HOGE');
+        $obj = new RegExpRule(CommonPattern::INTEGER, message: '{field} is HOGE');
 
         $actual = $obj->validate('Hoge', 'hoge', '-123a');
         $this->assertCount(1, $actual);
@@ -77,7 +55,21 @@ class RegExpRuleTest extends TestCase
         $this->assertEquals('hoge', $actual[0]->property_name);
         $this->assertEquals('-123a', $actual[0]->value);
         $this->assertInstanceOf(RegExpRule::class, $actual[0]->rule);
-        $this->assertEquals(self::INTEGER, RegExpRule::cast($actual[0]->rule)->pattern);
+        $this->assertEquals(CommonPattern::INTEGER->value, RegExpRule::cast($actual[0]->rule)->pattern);
+        $this->assertEquals('hoge is HOGE', $actual[0]->rule->getMessage(new RegExpRuleTestMessagerMock(), ['field' => 'hoge']));
+    }
+
+    public function test_validate_invalidWithStringPattern(): void
+    {
+        $obj = new RegExpRule('/^(-{0,1})([0-9]*)$/', message: '{field} is HOGE');
+
+        $actual = $obj->validate('Hoge', 'hoge', '-123a');
+        $this->assertCount(1, $actual);
+        $this->assertEquals('Hoge', $actual[0]->class_name);
+        $this->assertEquals('hoge', $actual[0]->property_name);
+        $this->assertEquals('-123a', $actual[0]->value);
+        $this->assertInstanceOf(RegExpRule::class, $actual[0]->rule);
+        $this->assertEquals(CommonPattern::INTEGER->value, RegExpRule::cast($actual[0]->rule)->pattern);
         $this->assertEquals('hoge is HOGE', $actual[0]->rule->getMessage(new RegExpRuleTestMessagerMock(), ['field' => 'hoge']));
     }
 }
