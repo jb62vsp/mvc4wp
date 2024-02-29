@@ -29,7 +29,7 @@ trait ScssRenderable
         }
 
         $scss = new Compiler();
-        if ($config->get('debug') === 'true') {
+        if (is_debug()) {
             $scss->setOutputStyle(OutputStyle::EXPANDED);
         } else {
             $scss->setOutputStyle(OutputStyle::COMPRESSED);

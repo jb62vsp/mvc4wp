@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
 
+define('__MVC4WP_ROOT__', __DIR__);
+require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
+
 use App\Logger\LogEntityLoggerFactory;
 use App\Model\ExampleEntity;
 use App\Model\LogEntity;
@@ -8,8 +11,8 @@ use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
-define('__MVC4WP_ROOT__', __DIR__);
-require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
+// \Mvc4Wp\Core\Service\Helper::load('Debug');
+\Mvc4Wp\Core\Service\Helper::load('NoDebug');
 
 App::get()->config()->set('debug', 'true');
 App::get()->config()->set('logger.loggers.app.log_level', 'debug');
