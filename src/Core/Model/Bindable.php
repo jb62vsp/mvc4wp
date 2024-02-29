@@ -41,7 +41,7 @@ trait Bindable
     {
         $prop_name = $prop->getName();
         if (TypeUtils::hasKey($obj, $prop_name)) {
-            $value = static::getValue($obj, $prop_name);
+            $value = TypeUtils::getValue($obj, $prop_name);
             return TypeUtils::untypedValue($prop->getType()->getName(), $value);
         }
 

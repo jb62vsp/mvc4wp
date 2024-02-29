@@ -7,8 +7,23 @@ parameters:
 
 		-
 			message: "#^Function esc_html not found\\.$#"
-			count: 1
+			count: 2
 			path: src/Core/Helper/ViewHelper.php
+
+		-
+			message: "#^Function esc_url not found\\.$#"
+			count: 2
+			path: src/Core/Helper/ViewHelper.php
+
+		-
+			message: "#^Function get_locale not found\\.$#"
+			count: 1
+			path: src/Core/Language/LanguageUtils.php
+
+		-
+			message: "#^Function get_option not found\\.$#"
+			count: 4
+			path: src/Core/Library/DateTimeUtils.php
 
 		-
 			message: "#^Function add_action not found\\.$#"
@@ -71,6 +86,11 @@ parameters:
 			path: src/Core/Library/WordPressCustomize.php
 
 		-
+			message: "#^Function remove_filter not found\\.$#"
+			count: 1
+			path: src/Core/Library/WordPressCustomize.php
+
+		-
 			message: "#^Function update_post_meta not found\\.$#"
 			count: 1
 			path: src/Core/Library/WordPressCustomize.php
@@ -81,126 +101,111 @@ parameters:
 			path: src/Core/Library/WordPressCustomize.php
 
 		-
-			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Model has an uninitialized readonly property \\$ID\\. Assign it in the constructor\\.$#"
+			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Entity has an uninitialized readonly property \\$ID\\. Assign it in the constructor\\.$#"
 			count: 1
-			path: src/Core/Model/Model.php
-
-		-
-			message: "#^Static method Mvc4Wp\\\\Core\\\\Service\\\\DateTimeService\\:\\:strval\\(\\) invoked with 1 parameter, 2 required\\.$#"
-			count: 1
-			path: src/Core/Model/Model.php
+			path: src/Core/Model/Entity.php
 
 		-
 			message: "#^Function update_post_meta not found\\.$#"
 			count: 2
-			path: src/Core/Model/PostModel.php
+			path: src/Core/Model/PostEntity.php
 
 		-
 			message: "#^Function wp_delete_post not found\\.$#"
 			count: 1
-			path: src/Core/Model/PostModel.php
+			path: src/Core/Model/PostEntity.php
 
 		-
 			message: "#^Function wp_insert_post not found\\.$#"
 			count: 1
-			path: src/Core/Model/PostModel.php
+			path: src/Core/Model/PostEntity.php
 
 		-
 			message: "#^Function wp_trash_post not found\\.$#"
 			count: 1
-			path: src/Core/Model/PostModel.php
+			path: src/Core/Model/PostEntity.php
 
 		-
 			message: "#^Function wp_update_post not found\\.$#"
 			count: 1
-			path: src/Core/Model/PostModel.php
+			path: src/Core/Model/PostEntity.php
 
 		-
 			message: "#^Function get_post not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
+			path: src/Core/Model/Repository/PostQueryExecutor.php
 
 		-
 			message: "#^Function get_post_custom not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
-
-		-
-			message: "#^Function get_the_ID not found\\.$#"
-			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
-
-		-
-			message: "#^Function wp_reset_postdata not found\\.$#"
-			count: 3
-			path: src/Core/Model/Repository/PostQuery.php
+			path: src/Core/Model/Repository/PostQueryExecutor.php
 
 		-
 			message: "#^Instantiated class WP_Query not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
-
-		-
-			message: "#^Method Mvc4Wp\\\\Core\\\\Model\\\\Repository\\\\PostQuery\\:\\:build\\(\\) has invalid return type WP_Query\\.$#"
-			count: 1
-			path: src/Core/Model/Repository/PostQuery.php
+			path: src/Core/Model/Repository/PostQueryExecutor.php
 
 		-
 			message: "#^Function get_current_user_id not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
+			path: src/Core/Model/Repository/UserQueryExecutor.php
 
 		-
 			message: "#^Function get_user_by not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
+			path: src/Core/Model/Repository/UserQueryExecutor.php
 
 		-
 			message: "#^Function get_user_meta not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
+			path: src/Core/Model/Repository/UserQueryExecutor.php
 
 		-
 			message: "#^Instantiated class WP_User_Query not found\\.$#"
 			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
-
-		-
-			message: "#^Method Mvc4Wp\\\\Core\\\\Model\\\\Repository\\\\UserQuery\\:\\:build\\(\\) has invalid return type WP_User_Query\\.$#"
-			count: 1
-			path: src/Core/Model/Repository/UserQuery.php
+			path: src/Core/Model/Repository/UserQueryExecutor.php
 
 		-
 			message: "#^Function get_user_by not found\\.$#"
 			count: 1
-			path: src/Core/Model/UserModel.php
+			path: src/Core/Model/UserEntity.php
 
 		-
 			message: "#^Function update_user_meta not found\\.$#"
 			count: 1
-			path: src/Core/Model/UserModel.php
+			path: src/Core/Model/UserEntity.php
 
 		-
 			message: "#^Function wp_delete_user not found\\.$#"
 			count: 1
-			path: src/Core/Model/UserModel.php
+			path: src/Core/Model/UserEntity.php
 
 		-
 			message: "#^Function wp_insert_user not found\\.$#"
 			count: 1
-			path: src/Core/Model/UserModel.php
+			path: src/Core/Model/UserEntity.php
 
 		-
 			message: "#^Function wp_update_user not found\\.$#"
 			count: 1
-			path: src/Core/Model/UserModel.php
+			path: src/Core/Model/UserEntity.php
 
 		-
-			message: "#^Abstract class Mvc4Wp\\\\Core\\\\Model\\\\Validator\\\\Rule cannot be an Attribute class\\.$#"
+			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Validation\\\\LengthRule has an uninitialized readonly property \\$value\\. Assign it in the constructor\\.$#"
 			count: 1
-			path: src/Core/Model/Validator/Rule.php
+			path: src/Core/Model/Validation/LengthRule.php
 
 		-
-			message: "#^Function get_option not found\\.$#"
-			count: 4
-			path: src/Core/Service/DateTimeService.php
+			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Validation\\\\MaxLengthRule has an uninitialized readonly property \\$value\\. Assign it in the constructor\\.$#"
+			count: 1
+			path: src/Core/Model/Validation/MaxLengthRule.php
+
+		-
+			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Validation\\\\MinLengthRule has an uninitialized readonly property \\$value\\. Assign it in the constructor\\.$#"
+			count: 1
+			path: src/Core/Model/Validation/MinLengthRule.php
+
+		-
+			message: "#^Class Mvc4Wp\\\\Core\\\\Model\\\\Validation\\\\RegExpRule has an uninitialized readonly property \\$value\\. Assign it in the constructor\\.$#"
+			count: 1
+			path: src/Core/Model/Validation/RegExpRule.php

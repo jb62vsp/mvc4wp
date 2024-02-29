@@ -1,8 +1,4 @@
 RewriteEngine On
 RewriteBase /
 RewriteRule ^coverage/(.+)$ - [L]
-RewriteRule ^metrics_report/(.+)$ - [L]
-RewriteRule ^(.*).css$ - [L]
-RewriteRule ^(.*).js$ - [L]
-RewriteRule ^(.*).png$ - [L]
 RewriteRule ^(.*)$ - [R=404,L]
