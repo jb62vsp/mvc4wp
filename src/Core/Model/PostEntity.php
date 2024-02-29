@@ -52,13 +52,9 @@ class PostEntity extends Entity
             $q = $q->withPublish();
         } else {
             $q = $q
-                ->withPending()
-                ->withDraft()
-                ->withFuture()
-                ->withPrivate()
-                ->withInherit()
-                ->withTrash()
                 ->withAny()
+                ->withAutoDraft()
+                ->withTrash()
             ;
         }
 
