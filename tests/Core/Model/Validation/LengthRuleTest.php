@@ -92,15 +92,34 @@ class LengthRuleTest extends TestCase
         $this->assertEquals(4, LengthRule::cast($actual[0]->rule)->max);
         $this->assertEquals('hogeは、3文字以上、4文字以内で入力してください。', $actual[0]->rule->getMessage(new LengthRuleTestMessagerMock(), ['field' => 'hoge']));
     }
+
+    public function test_validate_invalidWithDirectMessage(): void
+    {
+        $obj = new LengthRule(10, 15, message: '{field} is HOGE');
+
+        $actual = $obj->validate('Hoge', 'hoge', 'HOGE');
+        $this->assertCount(1, $actual);
+        $this->assertEquals('Hoge', $actual[0]->class_name);
+        $this->assertEquals('hoge', $actual[0]->property_name);
+        $this->assertEquals('HOGE', $actual[0]->value);
+        $this->assertInstanceOf(LengthRule::class, $actual[0]->rule);
+        $this->assertEquals(10, LengthRule::cast($actual[0]->rule)->minimum);
+        $this->assertEquals(15, LengthRule::cast($actual[0]->rule)->max);
+        $this->assertEquals('hoge is HOGE', $actual[0]->rule->getMessage(new LengthRuleTestMessagerMock(), ['field' => 'hoge']));
+    }
+
 }
 
 class LengthRuleTestMessagerMock implements MessagerInterface
 {
-    public function message(string $message_key, array $args = []): string|false
+    public function message(string $message_key, array $args = [], string $direct_message = ''): string
     {
-        return match ($message_key) {
-            'validation.LengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{minimum}文字以上、{max}文字以内で入力してください。', $args),
-            'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} must be within {minimum} to {max} characters.', $args),
+        return match (empty ($direct_message)) {
+            true => match ($message_key) {
+                    'validation.LengthRule' => MessageFormatter::formatMessage('ja', '{field}は、{minimum}文字以上、{max}文字以内で入力してください。', $args),
+                    'foo.bar.buz' => MessageFormatter::formatMessage('ja', 'The {field} must be within {minimum} to {max} characters.', $args),
+                },
+            false => MessageFormatter::formatMessage('ja', $direct_message, $args),
         };
     }
 }

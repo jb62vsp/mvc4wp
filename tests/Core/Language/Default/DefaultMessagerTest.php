@@ -41,12 +41,20 @@ class DefaultMessagerTest extends TestCase
         $this->assertEquals('BuzBuz: HOGEFUGAPIYO', $actual);
     }
 
+    public function test_message_withDirectMessage(): void
+    {
+        $obj = DefaultMessagerTestMockA::create();
+
+        $actual = $obj->message('foo.bar.Buz', ['HOGE', 'FUGA', 'PIYO'], 'DirectMessage: {0}{1}');
+        $this->assertEquals('DirectMessage: HOGEFUGA', $actual);
+    }
+
     public function test_message_noFile(): void
     {
         $obj = DefaultMessagerTestMockCoreNone::create();
 
         $actual = $obj->message('hoge');
-        $this->assertFalse($actual);
+        $this->assertEquals('', $actual);
     }
 
     public function test_message_noApp(): void
@@ -62,7 +70,7 @@ class DefaultMessagerTest extends TestCase
         $obj = DefaultMessagerTestMockCoreNone::create();
 
         $actual = $obj->message('hoge');
-        $this->assertFalse($actual);
+        $this->assertEquals('', $actual);
     }
 
     public function test_message_messagesNone(): void
@@ -70,7 +78,7 @@ class DefaultMessagerTest extends TestCase
         $obj = DefaultMessagerTestMockMessagesNone::create();
 
         $actual = $obj->message('hoge');
-        $this->assertFalse($actual);
+        $this->assertEquals('', $actual);
     }
 
     public function test_message_keyEmpty(): void
@@ -78,7 +86,7 @@ class DefaultMessagerTest extends TestCase
         $obj = DefaultMessagerTestMockA::create();
 
         $actual = $obj->message('');
-        $this->assertFalse($actual);
+        $this->assertEquals('', $actual);
     }
 
     public function test_message_keyNotFound(): void
@@ -86,7 +94,7 @@ class DefaultMessagerTest extends TestCase
         $obj = DefaultMessagerTestMockA::create();
 
         $actual = $obj->message('numeri');
-        $this->assertFalse($actual);
+        $this->assertEquals('', $actual);
     }
 }
 

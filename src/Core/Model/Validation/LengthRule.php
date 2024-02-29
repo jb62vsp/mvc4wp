@@ -18,6 +18,7 @@ class LengthRule extends Rule
         public readonly int $minimum,
         public readonly int $max,
         public readonly string $message_key = 'validation.LengthRule',
+        public readonly string $message = '',
     ) {
     }
 
@@ -39,6 +40,6 @@ class LengthRule extends Rule
         $args['minimum'] = $this->minimum;
         $args['max'] = $this->max;
         $args['value'] = $this->value;
-        return $messager->message($this->message_key, $args);
+        return $messager->message($this->message_key, $args, $this->message);
     }
 }

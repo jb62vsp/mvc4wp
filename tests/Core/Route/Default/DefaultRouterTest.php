@@ -6,11 +6,17 @@ use PHPUnit\Framework\TestCase;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
+use Mvc4Wp\Core\Service\Helper;
 
 #[CoversClass(RouteHandler::class)]
 #[CoversClass(DefaultRouter::class)]
 class DefaultRouterTest extends TestCase
 {
+    public function setUp(): void
+    {
+        require_once __DIR__ .'/../../../../src/Core/Helper/NoDebugHelper.php';
+    }
+
     private function getRouter(): RouterInterface
     {
         return new DefaultRouter();
