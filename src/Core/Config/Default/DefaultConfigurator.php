@@ -28,6 +28,11 @@ class DefaultConfigurator implements ConfiguratorInterface
         return RetrieveArray::get($this->configs, $keys);
     }
 
+    public function getAll(): array
+    {
+        return $this->configs;
+    }
+
     public function set(string $key, string|array $value): void
     {
         $keys = explode(self::KEY_SEPARATOR, $key);

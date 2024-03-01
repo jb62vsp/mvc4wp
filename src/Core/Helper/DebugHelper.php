@@ -62,7 +62,7 @@ if (!function_exists('debug_add_start')) {
                 $dbg[] = $s;
             }
         }
-        $hash = md5(var_export($dbg, true));
+        $hash = md5(print_r($dbg, true));
 
         $stopwatch[$hash] = microtime(true);
     }
@@ -81,7 +81,7 @@ if (!function_exists('debug_add_end')) {
                 $dbg[] = $s;
             }
         }
-        $hash = md5(var_export($dbg, true));
+        $hash = md5(print_r($dbg, true));
 
         $info['start'] = $stopwatch[$hash];
         $info['end'] = $end;

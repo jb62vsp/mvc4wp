@@ -7,5 +7,7 @@ interface ConfiguratorInterface
 
     public function get(string $key): string|array|null;
 
+    public function getAll(): array;
+
     public function set(string $key, string|array $value): void;
 }

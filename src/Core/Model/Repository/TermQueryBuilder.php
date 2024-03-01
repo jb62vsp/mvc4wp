@@ -4,13 +4,13 @@ namespace Mvc4Wp\Core\Model\Repository;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\Order\TermOrderQuerable;
 use Mvc4Wp\Core\Model\Repository\Raw\RawQuerable;
-use Mvc4Wp\Core\Model\Repository\Taxonomy\TaxonomyQuerable;
+use Mvc4Wp\Core\Model\Repository\Term\TermQuerable;
 
 class TermQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
     use Castable,
         RawQuerable,
-        TaxonomyQuerable,
+        TermQuerable,
         TermOrderQuerable;
 
     public function __construct(
@@ -28,7 +28,6 @@ class TermQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
             $expr = new $expr_class();
             $query = $expr->toQuery($contexts, $query);
         }
-        debug_add_var('query', $query);
         return new TermQueryExecutor($this->entity_class, $query);
     }
 }

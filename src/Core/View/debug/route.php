@@ -10,7 +10,7 @@
             <?php eh(sprintf("=> %s", $route['route']->signature)); ?>
         </h5>
         <div class='green'>
-            <pre class='green'><?php eh(var_export($route['route']->args, true)); ?></pre>
+            <pre class='green'><?php eh(print_r($route['route']->args, true)); ?></pre>
         </div>
         <div class='expand-container'>
             <input type='checkbox' id='debug-route-routes-toggle' class='checkbox'>

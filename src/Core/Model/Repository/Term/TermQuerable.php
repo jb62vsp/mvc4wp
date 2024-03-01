@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model\Repository\Taxonomy;
+namespace Mvc4Wp\Core\Model\Repository\Term;
 
 use Mvc4Wp\Core\Model\Attribute\Entry;
 
 /**
  * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
  */
-trait TaxonomyQuerable
+trait TermQuerable
 {
     /**
      * as Entity classes
@@ -44,6 +44,18 @@ trait TaxonomyQuerable
         $new = clone $this;
 
         $new->addExpression(TaxonomyExpr::class, 'post_tag');
+
+        return $new;
+    }
+
+    /**
+     * @param int $ID post ID.
+     */
+    public function byPostID(int $ID)
+    {
+        $new = clone $this;
+
+        $new->setExpression(ObjectIDExpr::class, strval($ID));
 
         return $new;
     }

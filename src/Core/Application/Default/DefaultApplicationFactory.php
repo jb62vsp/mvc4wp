@@ -73,8 +73,7 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (is_null($config->get('language'))) {
             $config->add('language', [
                 'fallback_locale' => 'en_US',
-                'message_directory' => '/Language',
-                'message_filename' => 'Messages.php',
+                'message_directory' => '/Language/Messages',
             ]);
         }
 
