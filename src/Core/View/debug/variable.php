@@ -15,7 +15,7 @@
         <h4><i class="icon-plus"></i>Named variables</h4>
     </label>
     <div class='expandable'>
-        <?php if (!empty($mvc4wp_debug['var'])): ?>
+        <?php if (array_key_exists('var', $mvc4wp_debug) && !empty($mvc4wp_debug['var'])): ?>
             <?php foreach ($mvc4wp_debug['var'] as $var): ?>
                 <?php foreach ($var as $k => $v): ?>
                     <p>
@@ -23,12 +23,12 @@
                             <?php eh($k); ?>
                         </span> =&gt;
                         <?php if (is_array($v) || is_object($v)): ?>
-                            <pre class='green'><?php eh(var_export($v, true)); ?></pre>
-                        <?php else: ?>
-                            <span class='green'>
-                                <?php eh(var_export($v, true)); ?>
-                            </span>
-                        <?php endif; ?>
+                        <pre class='green'><?php eh(var_export($v, true)); ?></pre>
+                    <?php else: ?>
+                        <span class='green'>
+                            <?php eh(var_export($v, true)); ?>
+                        </span>
+                    <?php endif; ?>
                     </p>
                 <?php endforeach; ?>
             <?php endforeach; ?>

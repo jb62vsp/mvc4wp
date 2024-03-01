@@ -7,7 +7,7 @@
             <i class="icon-arrow-top"></i>
         </label>
         <div class='debug-contents'>
-            <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio" <?php eh(!array_key_exists('error', $mvc4wp_debug) || empty($mvc4wp_debug['error']) ? 'checked' : ''); ?>>
+            <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio" <?php eh(array_key_exists('error', $mvc4wp_debug) && !empty($mvc4wp_debug['error']) ? '' : 'checked'); ?>>
             <label class="debug-tab-button clickable" for="debug-tab-radio-route">Route</label>
 
             <input id="debug-tab-radio-view" type="radio" name="debug-tab-radio">
