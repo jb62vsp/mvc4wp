@@ -5,13 +5,18 @@ use Attribute;
 use Mvc4Wp\Core\Library\Castable;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class PostType extends Entry
+class Entry
 {
     use Castable, AttributeTrait;
 
     public function __construct(
         public string $name,
     ) {
-        parent::__construct($name);
+    }
+
+    public static function getName(string $class_name): string
+    {
+        $attr = static::getClassAttribute($class_name);
+        return $attr->name;
     }
 }

@@ -24,6 +24,12 @@ if (!function_exists('debug_view')) {
     }
 }
 
+if (!function_exists('debug_do')) {
+    function debug_do(callable $func): void {
+        $func();
+    }
+}
+
 if (!function_exists('debug_add')) {
     function debug_add(string $category, mixed $info): void
     {

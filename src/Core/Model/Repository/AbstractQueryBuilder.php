@@ -9,7 +9,6 @@ abstract class AbstractQueryBuilder
 {
     use
         Castable,
-        OrderQuerable,
         Querable,
         RawQuerable;
 }

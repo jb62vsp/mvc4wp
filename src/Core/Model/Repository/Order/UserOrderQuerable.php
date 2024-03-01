@@ -2,10 +2,11 @@
 namespace Mvc4Wp\Core\Model\Repository\Order;
 
 use Mvc4Wp\Core\Model\Repository\OrderInQuery;
-use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 
 trait UserOrderQuerable
 {
+    use OrderQuerable;
+
     /**
      * @param OrderInQuery $order Order.
      * Default value is 'ASC'.

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository;
 
-use Mvc4Wp\Core\Model\PostEntity;
+use Mvc4Wp\Core\Model\TermEntity;
 use Mvc4Wp\Core\Service\Logging;
 
-class PostQueryExecutor implements QueryExecutorInterface
+class TermQueryExecutor implements QueryExecutorInterface
 {
     public function __construct(
         protected string $entity_class,
@@ -18,9 +18,9 @@ class PostQueryExecutor implements QueryExecutorInterface
 
         debug_add_start();
 
-        $ids = $this->fetch();
-        foreach ($ids as $id) {
-            $model = $this->bindByID($id);
+        $terms = $this->fetch();
+        foreach ($terms as $term) {
+            $model = $this->bindByTerm($term);
             $result[] = $model;
         }
 
@@ -29,7 +29,7 @@ class PostQueryExecutor implements QueryExecutorInterface
         return $result;
     }
 
-    public function single(): PostEntity|null
+    public function single(): TermEntity|null
     {
         $result = null;
 
@@ -37,7 +37,7 @@ class PostQueryExecutor implements QueryExecutorInterface
 
         $ids = $this->fetch();
         if (!empty($ids)) {
-            $result = $this->bindByID($ids[0]);
+            $result = $this->bindByTerm($ids[0]);
         }
 
         debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
@@ -64,18 +64,17 @@ class PostQueryExecutor implements QueryExecutorInterface
     protected function fetch(): array
     {
         Logging::get('core')->debug('execute query', $this->query);
-        $wp_query = new \WP_Query($this->query);
-        return $wp_query->get_posts();
+        $result = get_terms($this->query);
+        return $result;
     }
 
-    protected function bindByID(int $id): PostEntity
+    protected function bindByTerm(object $term): TermEntity
     {
         $result = new $this->entity_class();
 
-        $data = get_post($id);
+        $result->bind($term);
+        $data = get_term_meta($result->term_id);
         $result->bind($data);
-        $meta = get_post_custom($id);
-        $result->bind($meta);
 
         return $result;
     }

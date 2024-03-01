@@ -96,10 +96,10 @@ class UserQueryExecutor implements QueryExecutorInterface
             $user = get_user_by('id', $id);
             if ($user) {
                 $result = new $this->entity_class();
-                $result->bind($user->data, false);
+                $result->bind($user->data);
                 // get_user_meta( int $user_id, string $key = ”, bool $single = false ): mixed
                 $user_meta = get_user_meta($id);
-                $result->bind($user_meta, false);
+                $result->bind($user_meta);
             }
         }
 

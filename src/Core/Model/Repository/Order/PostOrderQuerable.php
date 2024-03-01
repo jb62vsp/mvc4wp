@@ -5,6 +5,8 @@ use Mvc4Wp\Core\Model\Repository\OrderInQuery;
 
 trait PostOrderQuerable
 {
+    use OrderQuerable;
+
     public function noOrder(): static
     {
         $new = clone $this;
