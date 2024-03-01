@@ -18,7 +18,7 @@
                     </p>
                     <p>
                         <span class='cyan'>query</span> =&gt; <span class='green'>
-                            <pre><?php eh(var_export($query['query'], true)); ?></pre>
+                            <pre><?php eh(print_r($query['query'], true)); ?></pre>
                         </span>
                     </p>
                 </div>

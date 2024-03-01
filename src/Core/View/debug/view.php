@@ -18,7 +18,7 @@
                     </p>
                     <p>
                         <span class='cyan'>data</span> =&gt; <span>
-                            <pre class='green'><?php eh(var_export($view['data'], true)); ?></pre>
+                            <pre class='green'><?php eh(print_r($view['data'], true)); ?></pre>
                         </span>
                     </p>
                 </div>
