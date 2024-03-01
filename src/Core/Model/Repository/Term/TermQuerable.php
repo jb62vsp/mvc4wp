@@ -49,13 +49,61 @@ trait TermQuerable
     }
 
     /**
+     * @param string $name term name.
+     */
+    public function byName(string $name): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(NameExpr::class, $name);
+
+        return $new;
+    }
+
+    /**
+     * @param string $slug term slug.
+     */
+    public function bySlug(string $slug): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(SlugExpr::class, $slug);
+
+        return $new;
+    }
+
+    /**
      * @param int $ID post ID.
      */
-    public function byPostID(int $ID)
+    public function byPostID(int $ID) : static
     {
         $new = clone $this;
 
         $new->setExpression(ObjectIDExpr::class, strval($ID));
+
+        return $new;
+    }
+
+    /**
+     * show empty.
+     */
+    public function showEmpty()
+    {
+        $new = clone $this;
+
+        $new->setExpression(HideEmptyExpr::class, intval(false));
+
+        return $new;
+    }
+
+    /**
+     * hide empty.
+     */
+    public function hideEmpty()
+    {
+        $new = clone $this;
+
+        $new->setExpression(HideEmptyExpr::class, intval(true));
 
         return $new;
     }

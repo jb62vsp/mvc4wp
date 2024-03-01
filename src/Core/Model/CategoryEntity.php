@@ -20,6 +20,19 @@ class CategoryEntity extends TermEntity
         return $result;
     }
 
+    /**
+     * @return CategoryEntity
+     */
+    public static function findBySlug(string $slug): CategoryEntity
+    {
+        return static::find()
+            ->bySlug($slug)
+            ->showEmpty()
+            ->build()
+            ->single()
+        ;
+    }
+
     public function register(bool $publish = true): int
     {
         return $this->term_id;
