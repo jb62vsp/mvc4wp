@@ -5,6 +5,8 @@ use Mvc4Wp\Core\Model\Repository\OrderInQuery;
 
 trait UserOrderQuerable
 {
+    use OrderQuerable;
+
     /**
      * @param OrderInQuery $order Order.
      * Default value is 'ASC'.
