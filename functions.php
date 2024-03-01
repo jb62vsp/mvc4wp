@@ -36,6 +36,7 @@ Logging::configure(App::get()->config());
 //     Logging::get('sql')->debug($q);
 //     return $q;
 // });
+WordPressCustomize::disableRedirectCanonical();
 WordPressCustomize::addCustomPostType(ExampleEntity::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
 WordPressCustomize::addCustomTaxonomy(NewTagEntity::class);
