@@ -9,11 +9,21 @@ use Mvc4Wp\Core\Model\Repository\TermQueryBuilder;
 class TagEntity extends TermEntity
 {
     use Castable;
-    
+
     public static function find(): TermQueryBuilder
     {
         $result = new TermQueryBuilder(static::class);
         return $result;
+    }
+
+    public static function findBySlug(string $slug): TagEntity
+    {
+        return static::find()
+            ->bySlug($slug)
+            ->showEmpty()
+            ->build()
+            ->single()
+        ;
     }
 
     public function register(bool $publish = true): int
