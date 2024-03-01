@@ -2,9 +2,16 @@
 
 use Mvc4Wp\Core\Service\App;
 
-if (!function_exists('message_format')) {
-    function message_format(string $message, array $args = []): void
+if (!function_exists('message_key')) {
+    function message_key(string $message_key, array $args = []): string
     {
-        App::get()->messager()->format($message, $args);
+        return App::get()->messager()->message($message_key, $args);
+    }
+}
+
+if (!function_exists('message')) {
+    function message(string $message, array $args = []): string
+    {
+        return App::get()->messager()->message('', $args, $message);
     }
 }
