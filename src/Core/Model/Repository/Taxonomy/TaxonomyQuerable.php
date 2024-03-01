@@ -4,7 +4,7 @@ namespace Mvc4Wp\Core\Model\Repository\Taxonomy;
 use Mvc4Wp\Core\Model\Attribute\Entry;
 
 /**
- * @see 
+ * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
  */
 trait TaxonomyQuerable
 {
@@ -25,7 +25,7 @@ trait TaxonomyQuerable
     }
 
     /**
-     * a post.
+     * a category.
      */
     public function asCategory(): static
     {
@@ -37,7 +37,7 @@ trait TaxonomyQuerable
     }
 
     /**
-     * a page.
+     * a tag.
      */
     public function asTag(): static
     {

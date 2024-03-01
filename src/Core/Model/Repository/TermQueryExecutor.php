@@ -73,8 +73,8 @@ class TermQueryExecutor implements QueryExecutorInterface
         $result = new $this->entity_class();
 
         $result->bind($term);
-        $data = get_term_meta($result->term_id);
-        $result->bind($data);
+        $meta = get_term_meta($result->term_id);
+        $result->bind($meta);
 
         return $result;
     }
