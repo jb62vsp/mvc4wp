@@ -18,8 +18,7 @@ class DefaultMessagerFactory implements MessagerFactoryInterface
         /** @var ConfiguratorInterface $config */
         $config = $args['config'];
         $fallback_locale = $config->get('language.fallback_locale') ?: 'en_US';
-        $message_directory = $config->get('language.message_directory') ?: '/Language';
-        $message_filename = $config->get('language.message_filename') ?: 'Messages.php';
+        $message_directory = $config->get('language.message_directory') ?: '/Language/Messages';
 
         $app_root = $config->get('app_root');
         $core_root = $config->get('core_root');
@@ -29,8 +28,8 @@ class DefaultMessagerFactory implements MessagerFactoryInterface
             $locale_string = $fallback_locale;
         }
 
-        $app_messages_path = $app_root . $message_directory . DIRECTORY_SEPARATOR . $locale_string . DIRECTORY_SEPARATOR . $message_filename;
-        $core_messages_path = $core_root . $message_directory . DIRECTORY_SEPARATOR . $locale_string . DIRECTORY_SEPARATOR . $message_filename;
+        $app_messages_path = $app_root . $message_directory . DIRECTORY_SEPARATOR . $locale_string . '.php';
+        $core_messages_path = $core_root . $message_directory . DIRECTORY_SEPARATOR . $locale_string . '.php';
 
         return new DefaultMessager($locale_string, $app_messages_path, $core_messages_path);
     }
