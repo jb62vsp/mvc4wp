@@ -3,6 +3,7 @@
 .phpunit.cache/
 /.tmp/
 /css/**/*.css
+/js/**/*.min.js
 /log/
 /vendor/
 coverage/

@@ -12,9 +12,7 @@ use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
 \Mvc4Wp\Core\Service\Helper::load('Debug');
-\Mvc4Wp\Core\Service\Helper::load('NoDebug');
 
-App::get()->config()->set('debug', 'true');
 App::get()->config()->set('logger.loggers.app.log_level', 'debug');
 App::get()->config()->set('logger.loggers.core.log_level', 'debug');
 App::get()->config()->set('logger.loggers.log_model', [

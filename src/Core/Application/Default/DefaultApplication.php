@@ -17,6 +17,7 @@ use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
+use Mvc4Wp\Core\Service\Helper;
 use Mvc4Wp\Core\Service\Logging;
 
 class DefaultApplication implements ApplicationInterface
@@ -91,6 +92,8 @@ class DefaultApplication implements ApplicationInterface
     public function run(): void
     {
         try {
+            Helper::load('NoDebug');
+            
             $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
             if (isset($_POST['_method'])) {
                 $request_method = strtoupper($_POST['_method']);

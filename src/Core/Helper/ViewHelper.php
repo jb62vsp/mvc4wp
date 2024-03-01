@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use Mvc4Wp\Core\Controller\Controller;
+use Mvc4Wp\Core\Controller\JsRenderer;
 use Mvc4Wp\Core\Controller\ScssRenderer;
 use Mvc4Wp\Core\Service\App;
 
@@ -16,6 +17,14 @@ if (!function_exists('scss')) {
     {
         $render = new ScssRenderer();
         $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
+    }
+}
+
+if (!function_exists('js')) {
+    function js(string $js_name): void
+    {
+        $render = new JsRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $js_name);
     }
 }
 
