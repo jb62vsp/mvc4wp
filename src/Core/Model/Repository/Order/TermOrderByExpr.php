@@ -56,52 +56,16 @@ class TermOrderByExpr implements Expr
             return $query;
         }
 
-        foreach ($contexts as $orderby => $context) {
-            [$order, $type] = $this->tuplize($context);
+        foreach ($contexts as $orderby => $order) {
             if (in_array($orderby, self::EMBEDDED_FIELDS)) {
-                $query['order'] = $order;
                 $query['orderby'] = $orderby;
             } else {
-                $query = $this->setCustomField($orderby, $type, $query);
+                $query['orderby'] = self::META_VALUE;
+                $query['meta_key'] = $orderby;
             }
+            $query['order'] = $order;
         }
 
         return $query;
-    }
-
-    private function setCustomField(string $orderby, $type, array $query): array
-    {
-        if (!array_key_exists('meta_query', $query)) {
-            $query['meta_query'] = [];
-        }
-
-        if (!array_key_exists('relation', $query['meta_query']) && (count($query['meta_query']) > 0)) {
-            $query['meta_query']['relation'] = 'AND';
-        }
-
-        $query['meta_query'][$orderby] = [
-            'key' => $orderby,
-            'compare' => 'EXISTS',
-            'type' => $type,
-        ];
-
-        return $query;
-    }
-
-    /**
-     * @return list<string, string, string>
-     */
-    protected function tuplize(array $context): array
-    {
-        [$order, $type] = $context;
-
-        if (is_null($order)) {
-            throw new QueryBuildViolationException("order"); // TODO:
-        }
-        if (is_null($type)) {
-            throw new QueryBuildViolationException("type"); // TODO:
-        }
-
-        return $context;
     }
 }

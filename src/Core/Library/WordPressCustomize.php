@@ -4,12 +4,15 @@ namespace Mvc4Wp\Core\Library;
 use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
+use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 
 final class WordPressCustomize
 {
     private static array $registered_posts = [];
 
     private static array $registered_fields = [];
+
+    private static array $registered_taxonomies = [];
 
     private static array $added_callback = [];
 
@@ -58,7 +61,7 @@ final class WordPressCustomize
         $post_slug = self::addPostType($class_name);
         self::addCustomFields($class_name, $post_slug);
     }
-    
+
     public static function addPostType(string $class_name): string
     {
         $attr = CustomPostType::getClassAttribute($class_name);
@@ -82,7 +85,7 @@ final class WordPressCustomize
         return $slug;
     }
 
-    public static function addCustomFields(string $class_name, string|array $post_slug): void
+    public static function addCustomFields(string $class_name, string $post_slug): void
     {
         $property_names = CustomField::getAttributedPropertyNames($class_name);
         foreach ($property_names as $property_name) {
@@ -92,14 +95,58 @@ final class WordPressCustomize
             $type = $attr->type;
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
-                $callback = self::createAdminField($type, $field_slug);
+                $callback = self::createCustomPostAdminField($type, $field_slug);
                 self::addCustomField($slug, $post_slug, $field_slug, $title, $callback);
                 self::$registered_fields[$slug] = true;
             }
         }
     }
 
-    private static function createAdminField(string $type, string $field_slug)
+    public static function addCustomTaxonomy(string $class_name): void
+    {
+        $tax_slug = self::addTaxonomy($class_name);
+        self::addTaxonomyFields($class_name, $tax_slug);
+    }
+
+    public static function addTaxonomy(string $class_name): string
+    {
+        $attr = CustomTaxonomy::getClassAttribute($class_name);
+        $slug = $attr->name;
+        $targets = $attr->targets;
+        if (!array_key_exists($slug, self::$registered_taxonomies)) {
+            $default = [
+                'label' => $attr->title,
+                'show_in_rest' => true, // wordpress default: true
+                'hierarchical' => $attr->hierarhical,
+            ];
+            $args = array_merge($default, $attr->args);
+            add_action('init', function () use ($slug, $targets, $args) {
+                register_taxonomy($slug, $targets, $args);
+            });
+            self::$registered_taxonomies[$slug] = true;
+        }
+
+        return $slug;
+    }
+
+    public static function addTaxonomyFields(string $class_name, string $tax_slug): void
+    {
+        $property_names = CustomField::getAttributedPropertyNames($class_name);
+        foreach ($property_names as $property_name) {
+            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
+            $field_slug = $property_name;
+            $title = $attr->title;
+            $type = $attr->type;
+            $slug = $tax_slug . '_' . $field_slug;
+            if (!array_key_exists($slug, self::$registered_fields)) {
+                $callback = self::createCustomTaxonomyAdminField($type, $field_slug, $title);
+                self::addTaxonomyCustomField($slug, $tax_slug, $field_slug, $title, $callback);
+                self::$registered_fields[$slug] = true;
+            }
+        }
+    }
+
+    private static function createCustomPostAdminField(string $type, string $field_slug): callable
     {
         if (is_user_logged_in() && is_admin()) {
             $id = $field_slug . '_id';
@@ -124,7 +171,25 @@ final class WordPressCustomize
         }
     }
 
-    private static function addCustomField(string $slug, string $post_slug, string $field_slug, string $title, $callback): void
+    /**
+     * @return array{0: callable, 1: callable}
+     */
+    private static function createCustomTaxonomyAdminField(string $type, string $field_slug, $title): array
+    {
+        if (is_user_logged_in() && is_admin()) {
+            $id = $field_slug . '_id';
+            $name = $field_slug . '_name';
+            $nonce = '_wp_nonce_' . $field_slug;
+            $result = match ($type) {
+                default => self::createTaxTextField($field_slug, $title, $id, $name, $nonce),
+            };
+            return $result;
+        } else {
+            return [function () { /* noop */}, function () { /* noop */}];
+        }
+    }
+
+    private static function addCustomField(string $slug, string $post_slug, string $field_slug, string $title, callable $callback): void
     {
         $name = $field_slug . '_name';
         $nonce = '_wp_nonce_' . $field_slug;
@@ -141,23 +206,61 @@ final class WordPressCustomize
         });
 
         add_action('save_post', function ($post_id) use ($nonce, $name, $field_slug) {
-            if (!isset($_POST[$nonce]) || !$_POST[$nonce]) {
+            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
                 return;
             }
             if (!check_admin_referer('wp-nonce-key', $nonce)) {
                 return;
             }
-            if (!isset($_POST[$name])) {
+            if (!isset ($_POST[$name])) {
                 return;
             }
 
-            $value = $_POST[$name];
+            $value = esc_attr($_POST[$name]);
             add_post_meta($post_id, $field_slug, $value, true);
             update_post_meta($post_id, $field_slug, $value);
         });
     }
 
-    private static function createTextField(string $field_slug, string $id, string $name, string $nonce)
+    private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
+    {
+        $name = $field_slug . '_name';
+        $nonce = '_wp_nonce_' . $field_slug;
+
+        add_action("{$tax_slug}_add_form_fields", $callback[0]);
+        add_action("{$tax_slug}_edit_form_fields", $callback[1]);
+        add_action('create_term', function ($term_id) use ($nonce, $name, $field_slug) {
+            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
+                return;
+            }
+            if (!check_admin_referer('wp-nonce-key', $nonce)) {
+                return;
+            }
+            if (!isset ($_POST[$name])) {
+                return;
+            }
+
+            $value = esc_attr($_POST[$name]);
+            update_term_meta($term_id, $field_slug, $value);
+        });
+
+        add_action('edit_terms', function ($term_id) use ($nonce, $name, $field_slug) {
+            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
+                return;
+            }
+            if (!check_admin_referer('wp-nonce-key', $nonce)) {
+                return;
+            }
+            if (!isset ($_POST[$name])) {
+                return;
+            }
+
+            $value = esc_attr($_POST[$name]);
+            update_term_meta($term_id, $field_slug, $value);
+        });
+    }
+
+    private static function createTextField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -168,7 +271,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createTextAreaField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createTextAreaField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -179,7 +282,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createIntegerField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createIntegerField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -191,7 +294,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createUnsignedIntegerField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createUnsignedIntegerField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -203,7 +306,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createFloatField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createFloatField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -215,7 +318,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createUnsignedFloatField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createUnsignedFloatField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -227,7 +330,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createBoolField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createBoolField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
@@ -241,7 +344,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createDateField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createDateField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
@@ -253,7 +356,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createTimeField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createTimeField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
@@ -265,7 +368,7 @@ final class WordPressCustomize
         };
     }
 
-    private static function createDateTimeField(string $field_slug, string $id, string $name, string $nonce)
+    private static function createDateTimeField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
@@ -281,5 +384,29 @@ final class WordPressCustomize
             <?php
             echo "</div>";
         };
+    }
+
+    /**
+     * @return array{0: callable, 1: callable}
+     */
+    private static function createTaxTextField(string $field_slug, string $title, string $id, string $name, string $nonce): array
+    {
+        return [
+            function ($term) use ($field_slug, $title, $id, $name, $nonce) {
+                wp_nonce_field('wp-nonce-key', $nonce);
+                echo "<div class='form-field {$field_slug}'>";
+                echo "<label for='{$id}'>{$title}</label>";
+                echo "<input type='text' id='{$id}' name='{$name}' size='40'>";
+                echo "</div>";
+            },
+            function ($term) use ($field_slug, $title, $id, $name, $nonce) {
+                $value = esc_attr(get_term_meta($term->term_id, $field_slug, true));
+                wp_nonce_field('wp-nonce-key', $nonce);
+                echo "<tr class='form-field'>";
+                echo "<th><label for='{$id}'>{$title}</label></th>";
+                echo "<td><input type='text' id='{$id}'  name='{$name}' value='{$value}' size='40'></td>";
+                echo "</tr>";
+            },
+        ];
     }
 }

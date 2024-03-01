@@ -31,7 +31,7 @@ class CustomField extends Field
 
     public function __construct(
         public string $title,
-        public string $type = self::TEXT,
+        public string $type = CustomField::TEXT,
     ) {
     }
 

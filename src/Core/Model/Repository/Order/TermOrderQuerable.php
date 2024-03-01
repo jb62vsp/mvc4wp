@@ -6,6 +6,21 @@ use Mvc4Wp\Core\Model\Repository\OrderInQuery;
 trait TermOrderQuerable
 {
     /**
+     * CAUTION - custom field only
+     * @param string $field Custom field key.
+     * @param OrderInQuery $order Order.
+     * Default value is 'ASC'.
+     */
+    public function orderBy(string $field, OrderInQuery $order = OrderInQuery::ASC): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(TermOrderByExpr::class, [$field => $order->value]);
+
+        return $new;
+    }
+
+    /**
      * @param OrderInQuery $order Order.
      * Default value is 'ASC'.
      */
@@ -13,7 +28,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::NAME => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::NAME => $order->value]);
 
         return $new;
     }
@@ -26,7 +41,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::SLUG => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::SLUG => $order->value]);
 
         return $new;
     }
@@ -39,7 +54,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::TERM_GROUP => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::TERM_GROUP => $order->value]);
 
         return $new;
     }
@@ -52,7 +67,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::TERM_ID => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::TERM_ID => $order->value]);
 
         return $new;
     }
@@ -65,7 +80,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::ID => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::ID => $order->value]);
 
         return $new;
     }
@@ -78,7 +93,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::DESCRIPTION => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::DESCRIPTION => $order->value]);
 
         return $new;
     }
@@ -91,7 +106,7 @@ trait TermOrderQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::COUNT => [$order->value, '']]);
+        $new->setExpression(TermOrderByExpr::class, [TermOrderByExpr::COUNT => $order->value]);
 
         return $new;
     }
