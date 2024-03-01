@@ -2,8 +2,9 @@
 .devcontainer/.env
 .phpunit.cache/
 /.tmp/
+/css/**/*.css
 /log/
 /vendor/
 coverage/
-wp-includes/
 metrics_report/
+wp-includes/
