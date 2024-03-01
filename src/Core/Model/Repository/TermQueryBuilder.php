@@ -4,13 +4,13 @@ namespace Mvc4Wp\Core\Model\Repository;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\Order\TermOrderQuerable;
 use Mvc4Wp\Core\Model\Repository\Raw\RawQuerable;
-use Mvc4Wp\Core\Model\Repository\Taxonomy\TaxonomyQuerable;
+use Mvc4Wp\Core\Model\Repository\Term\TermQuerable;
 
 class TermQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
     use Castable,
         RawQuerable,
-        TaxonomyQuerable,
+        TermQuerable,
         TermOrderQuerable;
 
     public function __construct(

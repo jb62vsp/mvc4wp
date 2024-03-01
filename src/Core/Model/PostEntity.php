@@ -5,12 +5,14 @@ use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\Field;
 use Mvc4Wp\Core\Model\Attribute\PostType;
+use Mvc4Wp\Core\Model\Repository\Categorizable;
 use Mvc4Wp\Core\Model\Repository\PostQueryBuilder;
+use Mvc4Wp\Core\Model\Repository\Taggable;
 
 #[PostType(name: 'post')]
 class PostEntity extends Entity
 {
-    use Castable;
+    use Castable, Categorizable, Taggable;
 
     #[Field]
     public readonly int $ID;
@@ -35,6 +37,11 @@ class PostEntity extends Entity
 
     #[Field]
     public string $post_content;
+
+    /**
+     * @var array<CategoryEntity>
+     */
+    protected array $categories;
 
     public function __construct()
     {
@@ -102,6 +109,15 @@ class PostEntity extends Entity
             return false;
         }
         return true;
+    }
+
+    public function getCategories(): array
+    {
+        if (!isset($this->categories)) {
+            $this->categories = CategoryEntity::find()->byPostID($this->ID)->build()->list();
+        }
+
+        return $this->categories;
     }
 
     public function isLoaded(): bool

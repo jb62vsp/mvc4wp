@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Mvc4Wp\Core\Model\Repository\Taxonomy;
+namespace Mvc4Wp\Core\Model\Repository\Term;
 
 use Mvc4Wp\Core\Model\Repository\Expr;
 
