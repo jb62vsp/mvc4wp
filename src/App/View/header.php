@@ -8,14 +8,7 @@
         <?php eh($data['title']); ?>
     </title>
     <style>
-        th,
-        td {
-            border: solid silver 1px;
-        }
-
-        .error {
-            color: #ff0000;
-        }
+        <?php scss('style'); ?>
     </style>
 </head>
 

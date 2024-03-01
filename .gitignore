@@ -7,3 +7,4 @@
 coverage/
 wp-includes/
 metrics_report/
+/css/*.css

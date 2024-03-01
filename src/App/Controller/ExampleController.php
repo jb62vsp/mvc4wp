@@ -3,7 +3,9 @@ namespace App\Controller;
 
 use App\Model\ExampleEntity;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\Repository\CompareInQuery;
 use Mvc4Wp\Core\Model\Repository\OrderInQuery;
+use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
@@ -188,12 +190,13 @@ class ExampleController extends AdminController
         $sort = $_POST['sort'];
         $order = OrderInQuery::from(strtoupper($_POST['order']));
         $examples = ExampleEntity::find()
-            ->withDraft()
+            ->withAny()
+            ->withAutoDraft()
             ->withTrash()
-            ->by($_POST['key'], $_POST['value'], $_POST['compare'], $_POST['type'])
-            // ->order($sort, $order)
+            ->by($_POST['key'], $_POST['value'], CompareInQuery::from(strtoupper($_POST['compare'])), TypeInQuery::from(strtoupper($_POST['type'])))
+            ->orderBy($sort, $order)
             ->build()
-            ->get()
+            ->list()
         ;
         $data = [
             'title' => $this->name,
