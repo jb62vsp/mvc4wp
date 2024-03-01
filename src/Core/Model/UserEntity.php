@@ -10,6 +10,9 @@ class UserEntity extends Entity
     use Castable;
 
     #[Field]
+    public readonly int $ID;
+
+    #[Field]
     public string $user_login;
 
     #[Field]
@@ -80,4 +83,21 @@ class UserEntity extends Entity
         $result = wp_delete_user($this->ID);
         return $result;
     }
+
+    public function isLoaded(): bool
+    {
+        return isset($this->ID);
+    }
+
+    private function setValue(string $property, mixed $value): void
+    {
+        if ($property === 'ID') {
+            if (!$this->isLoaded()) {
+                $this->{$property} = $value;
+            }
+        } else {
+            $this->{$property} = $value;
+        }
+    }
+
 }

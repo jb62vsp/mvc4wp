@@ -73,9 +73,9 @@ class PostQueryExecutor implements QueryExecutorInterface
         $result = new $this->entity_class();
 
         $data = get_post($id);
-        $result->bind($data, false);
+        $result->bind($data);
         $meta = get_post_custom($id);
-        $result->bind($meta, false);
+        $result->bind($meta);
 
         return $result;
     }

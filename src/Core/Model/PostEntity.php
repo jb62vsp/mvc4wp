@@ -13,6 +13,9 @@ class PostEntity extends Entity
     use Castable;
 
     #[Field]
+    public readonly int $ID;
+
+    #[Field]
     public int $post_author;
 
     #[Field]
@@ -99,5 +102,21 @@ class PostEntity extends Entity
             return false;
         }
         return true;
+    }
+
+    public function isLoaded(): bool
+    {
+        return isset($this->ID);
+    }
+
+    private function setValue(string $property, mixed $value): void
+    {
+        if ($property === 'ID') {
+            if (!$this->isLoaded()) {
+                $this->{$property} = $value;
+            }
+        } else {
+            $this->{$property} = $value;
+        }
     }
 }
