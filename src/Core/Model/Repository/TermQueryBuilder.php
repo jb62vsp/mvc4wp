@@ -28,7 +28,6 @@ class TermQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
             $expr = new $expr_class();
             $query = $expr->toQuery($contexts, $query);
         }
-        debug_add_var('query', $query);
         return new TermQueryExecutor($this->entity_class, $query);
     }
 }
