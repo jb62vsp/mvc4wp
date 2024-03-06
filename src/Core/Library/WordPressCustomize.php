@@ -5,6 +5,7 @@ use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
+use Mvc4Wp\Core\Service\App;
 
 final class WordPressCustomize
 {
@@ -16,50 +17,50 @@ final class WordPressCustomize
 
     private static array $added_callback = [];
 
-    private static function add_filter(string $key, callable $callback): void
+    public static function addCustomFields(string $class_name, string $post_slug): void
     {
-        add_filter($key, $callback);
-        if (array_key_exists($key, self::$added_callback)) {
-            self::$added_callback[$key][] = $callback;
-        } else {
-            self::$added_callback[$key] = [$callback];
-        }
-    }
-
-    private static function remove_filter(string $key): void
-    {
-        if (array_key_exists($key, self::$added_callback)) {
-            foreach (self::$added_callback[$key] as $callback) {
-                remove_filter($key, $callback);
+        $property_names = CustomField::getAttributedPropertyNames($class_name);
+        foreach ($property_names as $property_name) {
+            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
+            $field_slug = $property_name;
+            $title = $attr->title;
+            $type = $attr->type;
+            $slug = $post_slug . '_' . $field_slug;
+            if (!array_key_exists($slug, self::$registered_fields)) {
+                $callback = self::createCustomPostAdminField($type, $field_slug);
+                self::addCustomField($slug, $post_slug, $field_slug, $title, $callback);
+                self::$registered_fields[$slug] = true;
             }
-            unset(self::$added_callback[$key]);
         }
-    }
-
-    public static function enableTraceSQL(callable $callback): void
-    {
-        self::add_filter('query', $callback);
-    }
-
-    public static function disableTraceSQL(): void
-    {
-        self::remove_filter('query');
-    }
-
-    public static function enableRedirectCanonical(): void
-    {
-        self::remove_filter('redirect_canonical');
-    }
-
-    public static function disableRedirectCanonical(): void
-    {
-        self::add_filter('redirect_canonical', fn($url) => (is_404()) ? false : $url);
     }
 
     public static function addCustomPostType(string $class_name): void
     {
         $post_slug = self::addPostType($class_name);
         self::addCustomFields($class_name, $post_slug);
+    }
+
+    public static function addCustomTaxonomy(string $class_name): void
+    {
+        $tax_slug = self::addTaxonomy($class_name);
+        self::addCustomTaxonomyFields($class_name, $tax_slug);
+    }
+
+    public static function addCustomTaxonomyFields(string $class_name, string $tax_slug): void
+    {
+        $property_names = CustomField::getAttributedPropertyNames($class_name);
+        foreach ($property_names as $property_name) {
+            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
+            $field_slug = $property_name;
+            $title = $attr->title;
+            $type = $attr->type;
+            $slug = $tax_slug . '_' . $field_slug;
+            if (!array_key_exists($slug, self::$registered_fields)) {
+                $callback = self::createCustomTaxonomyAdminField($type, $field_slug, $title);
+                self::addTaxonomyCustomField($slug, $tax_slug, $field_slug, $title, $callback);
+                self::$registered_fields[$slug] = true;
+            }
+        }
     }
 
     public static function addPostType(string $class_name): string
@@ -85,29 +86,6 @@ final class WordPressCustomize
         return $slug;
     }
 
-    public static function addCustomFields(string $class_name, string $post_slug): void
-    {
-        $property_names = CustomField::getAttributedPropertyNames($class_name);
-        foreach ($property_names as $property_name) {
-            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
-            $field_slug = $property_name;
-            $title = $attr->title;
-            $type = $attr->type;
-            $slug = $post_slug . '_' . $field_slug;
-            if (!array_key_exists($slug, self::$registered_fields)) {
-                $callback = self::createCustomPostAdminField($type, $field_slug);
-                self::addCustomField($slug, $post_slug, $field_slug, $title, $callback);
-                self::$registered_fields[$slug] = true;
-            }
-        }
-    }
-
-    public static function addCustomTaxonomy(string $class_name): void
-    {
-        $tax_slug = self::addTaxonomy($class_name);
-        self::addTaxonomyFields($class_name, $tax_slug);
-    }
-
     public static function addTaxonomy(string $class_name): string
     {
         $attr = CustomTaxonomy::getClassAttribute($class_name);
@@ -129,20 +107,71 @@ final class WordPressCustomize
         return $slug;
     }
 
-    public static function addTaxonomyFields(string $class_name, string $tax_slug): void
+    public static function changeLoginUrl(string $controller_class, string $login_name = 'login', string $logout_name = 'logout', string $redirect_uri = '/'): void
     {
-        $property_names = CustomField::getAttributedPropertyNames($class_name);
-        foreach ($property_names as $property_name) {
-            $attr = CustomField::getPropertyAttribute($class_name, $property_name);
-            $field_slug = $property_name;
-            $title = $attr->title;
-            $type = $attr->type;
-            $slug = $tax_slug . '_' . $field_slug;
-            if (!array_key_exists($slug, self::$registered_fields)) {
-                $callback = self::createCustomTaxonomyAdminField($type, $field_slug, $title);
-                self::addTaxonomyCustomField($slug, $tax_slug, $field_slug, $title, $callback);
-                self::$registered_fields[$slug] = true;
+        add_filter('login_redirect', function () use ($redirect_uri) {
+            return $redirect_uri;
+        });
+        add_action('template_redirect', function () use ($controller_class, $login_name) {
+            if ($_SERVER["REQUEST_URI"] === '/' . $login_name) {
+                App::get()->router()->GET('/' . $login_name, $controller_class . '::index');
+                App::get()->router()->POST('/' . $login_name, $controller_class . '::' . $login_name);
+                App::get()->run();
             }
+        });
+        add_filter('site_url', function ($url, $path) use ($login_name, $logout_name) {
+            if (str_contains($path, 'wp-login.php?action=logout')) {
+                $url = '/' . $logout_name;
+            } elseif (str_contains($path, 'wp-login.php')) {
+                $url = '/' . $login_name;
+            }
+            return $url;
+        }, 10, 2);
+        add_filter('wp_redirect', function ($location) use ($login_name) {
+            if (str_contains($location, $login_name)) {
+                $location = '/' . $login_name;
+            }
+            return $location;
+        });
+    }
+
+    public static function disableRedirectCanonical(): void
+    {
+        self::add_filter('redirect_canonical', fn($url) => (is_404()) ? false : $url);
+    }
+
+    public static function disableTraceSQL(): void
+    {
+        self::remove_filter('query');
+    }
+
+    public static function enableRedirectCanonical(): void
+    {
+        self::remove_filter('redirect_canonical');
+    }
+
+    public static function enableTraceSQL(callable $callback): void
+    {
+        self::add_filter('query', $callback);
+    }
+
+    private static function add_filter(string $key, callable $callback): void
+    {
+        add_filter($key, $callback);
+        if (array_key_exists($key, self::$added_callback)) {
+            self::$added_callback[$key][] = $callback;
+        } else {
+            self::$added_callback[$key] = [$callback];
+        }
+    }
+
+    private static function remove_filter(string $key): void
+    {
+        if (array_key_exists($key, self::$added_callback)) {
+            foreach (self::$added_callback[$key] as $callback) {
+                remove_filter($key, $callback);
+            }
+            unset(self::$added_callback[$key]);
         }
     }
 

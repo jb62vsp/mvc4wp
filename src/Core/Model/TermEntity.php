@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model;
 
+use Mvc4Wp\Core\Model\Attribute\Entry;
 use Mvc4Wp\Core\Model\Attribute\Field;
 
 abstract class TermEntity extends Entity
@@ -15,9 +16,6 @@ abstract class TermEntity extends Entity
     public string $slug;
 
     #[Field]
-    public int $term_group;
-
-    #[Field]
     public int $term_taxonomy_id;
 
     #[Field]
@@ -29,6 +27,11 @@ abstract class TermEntity extends Entity
     #[Field]
     public int $count;
 
+    public function __construct()
+    {
+        $this->taxonomy = Entry::getName(static::class);
+    }
+    
     public function isLoaded(): bool
     {
         return isset($this->term_id);
