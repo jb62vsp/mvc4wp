@@ -5,6 +5,7 @@ use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
+use Mvc4Wp\Core\Service\App;
 
 final class WordPressCustomize
 {
@@ -104,6 +105,34 @@ final class WordPressCustomize
         }
 
         return $slug;
+    }
+
+    public static function changeLoginUrl(string $controller_class, string $login_name = 'login', string $logout_name = 'logout', string $redirect_uri = '/'): void
+    {
+        add_filter('login_redirect', function () use ($redirect_uri) {
+            return $redirect_uri;
+        });
+        add_action('template_redirect', function () use ($controller_class, $login_name) {
+            if ($_SERVER["REQUEST_URI"] === '/' . $login_name) {
+                App::get()->router()->GET('/' . $login_name, $controller_class . '::index');
+                App::get()->router()->POST('/' . $login_name, $controller_class . '::' . $login_name);
+                App::get()->run();
+            }
+        });
+        add_filter('site_url', function ($url, $path) use ($login_name, $logout_name) {
+            if (str_contains($path, 'wp-login.php?action=logout')) {
+                $url = '/' . $logout_name;
+            } elseif (str_contains($path, 'wp-login.php')) {
+                $url = '/' . $login_name;
+            }
+            return $url;
+        }, 10, 2);
+        add_filter('wp_redirect', function ($location) use ($login_name) {
+            if (str_contains($location, $login_name)) {
+                $location = '/' . $login_name;
+            }
+            return $location;
+        });
     }
 
     public static function disableRedirectCanonical(): void
