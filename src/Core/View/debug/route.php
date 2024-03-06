@@ -3,15 +3,15 @@
 <div class='expand-containers'>
     <?php if (array_key_exists('route', $mvc4wp_debug) && !empty($mvc4wp_debug['route'])): ?>
         <?php $route = $mvc4wp_debug['route'][0]; ?>
-        <h5 class='cyan'>
+        <h3 class='name cyan'>
             <?php eh(sprintf("%s: %s", $route['method'], $route['uri'])); ?>
-        </h5>
-        <h5 class='green'>
-            <?php eh(sprintf("=> %s", $route['route']->signature)); ?>
-        </h5>
-        <div class='green'>
-            <pre class='green'><?php eh(print_r($route['route']->args, true)); ?></pre>
-        </div>
+        </h3>
+        <p class='value'>
+            <span class='green'>
+                <?php eh($route['route']->signature); ?>
+            </span>
+        <pre class='green'><?php eh(print_r($route['route']->args, true)); ?></pre>
+        </p>
         <div class='expand-container'>
             <input type='checkbox' id='debug-route-routes-toggle' class='checkbox'>
             <label for='debug-route-routes-toggle' class='label clickable'>
@@ -19,8 +19,13 @@
             </label>
             <div class='expandable'>
                 <?php foreach ($route['routes'] as $k => $v): ?>
-                    <p class='green'>
-                        <?php eh(implode(': ', explode('`', $k)) . ' => ' . $v); ?>
+                    <p>
+                        <span class='name cyan'>
+                            <?php eh(implode(':&nbsp;', explode('`', $k))); ?>
+                        </span>
+                        <span class='value green'>
+                            <?php eh($v); ?>
+                        </span>
                     </p>
                 <?php endforeach; ?>
             </div>

@@ -5,10 +5,9 @@
         <div class='expand-container'>
             <input type='checkbox' id='debug-config-<?php echo $i; ?>-toggle' class='checkbox'>
             <label for='debug-config-<?php echo $i; ?>-toggle' class='label clickable'>
-                <h4><i class="icon-plus"></i>
-                    <span class='cyan'>
-                        <?php eh($i); ?>
-                    </span>
+                <h4>
+                    <i class="icon-plus"></i>
+                    <?php eh($i); ?>
                 </h4>
             </label>
             <div class='expandable'>

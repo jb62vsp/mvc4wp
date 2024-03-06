@@ -216,7 +216,7 @@ BODY {
         }
 
         .debug-contents {
-            @include light; // TODO
+            @include light;
             bottom: -100%;
             height: 50%;
             left: 0;
@@ -246,6 +246,7 @@ BODY {
 
                 &:checked+.debug-tab-button {
                     @include dark;
+                    color: #{$base2};
                 }
             }
 
@@ -352,6 +353,19 @@ BODY {
             display: none;
             margin-left: 1rem;
             transition: 0.3s;
+        }
+    }
+
+    .name {
+        &:before {
+            content: "";
+        }
+    }
+
+    .value {
+        &:before {
+            color: #{$base0};
+            content: "=>";
         }
     }
 }

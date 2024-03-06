@@ -114,14 +114,14 @@ class DefaultApplication implements ApplicationInterface
             }
 
             if (!class_exists($route->class)) {
-                throw new ApplicationException(); // TODO:
+                throw new ApplicationException(sprintf('The class "%s" not exist.', $route->class));
             }
 
             /** @var ControllerInterface $controller */
             $controller = new $route->class($this->config());
             $this->_controller = $controller;
             if (!method_exists($controller, $route->method)) {
-                throw new ApplicationException(); // TODO:
+                throw new ApplicationException(sprintf('The method "%s::%s" not exist.', $route->class, $route->method));
             }
 
             if (method_exists($controller, 'init')) {

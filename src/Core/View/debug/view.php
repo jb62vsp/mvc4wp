@@ -12,12 +12,14 @@
                 </label>
                 <div class='expandable'>
                     <p>
-                        <span class='cyan'>duration</span> =&gt; <span class='green'>
+                        <span class='name cyan'>duration</span>
+                        <span class='value green'>
                             <?php eh(sprintf("%.4f", $view['duration'])); ?>ms
                         </span>
                     </p>
                     <p>
-                        <span class='cyan'>data</span> =&gt; <span>
+                        <span class='name cyan'>data</span>
+                        <span class='value'>
                             <pre class='green'><?php eh(print_r($view['data'], true)); ?></pre>
                         </span>
                     </p>

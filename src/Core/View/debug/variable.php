@@ -19,16 +19,18 @@
             <?php foreach ($mvc4wp_debug['var'] as $var): ?>
                 <?php foreach ($var as $k => $v): ?>
                     <p>
-                        <span class='cyan'>
+                        <span class='name cyan'>
                             <?php eh($k); ?>
-                        </span> =&gt;
-                        <?php if (is_array($v) || is_object($v)): ?>
-                        <pre class='green'><?php eh(print_r($v, true)); ?></pre>
-                    <?php else: ?>
-                        <span class='green'>
-                            <?php eh(print_r($v, true)); ?>
                         </span>
-                    <?php endif; ?>
+                        <?php if (is_array($v) || is_object($v)): ?>
+                            <span class='value'>
+                                <pre class='green'><?php eh(print_r($v, true)); ?></pre>
+                            </span>
+                        <?php else: ?>
+                            <span class='green'>
+                                <?php eh(print_r($v, true)); ?>
+                            </span>
+                        <?php endif; ?>
                     </p>
                 <?php endforeach; ?>
             <?php endforeach; ?>
@@ -52,11 +54,12 @@
                 <div class='expandable'>
                     <?php foreach ($v as $kk => $vv): ?>
                         <p>
-                            <span class='cyan'>
+                            <span class='name cyan'>
                                 <?php eh($kk); ?>
-                            </span> =&gt; <span class='green'>
+                            </span>
+                            <span class='value green'>
                                 <?php if (is_array($vv) || is_object($vv)): ?>
-                                    <pre><?php eh(print_r($vv, true)); ?></pre>
+                                    <pre class='green'><?php eh(print_r($vv, true)); ?></pre>
                                 <?php else: ?>
                                     <?php eh(print_r($vv, true)); ?>
                                 <?php endif; ?>
@@ -77,11 +80,12 @@
             <?php foreach ($GLOBALS as $k => $v): ?>
                 <?php if (!in_array($k, ['_GET', '_POST', '_COOKIE', '_FILES', '_ENV', '_REQUEST', '_SERVER'])): ?>
                     <p>
-                        <span class='cyan'>
+                        <span class='name cyan'>
                             <?php eh($k); ?>
-                        </span> =&gt; <span class='green'>
+                        </span>
+                        <span class='value green'>
                             <?php if (is_array($v) || is_object($v)): ?>
-                                <pre><?php eh(print_r($v, true)); ?></pre>
+                                <pre class='green'><?php eh(print_r($v, true)); ?></pre>
                             <?php else: ?>
                                 <?php eh(print_r($v, true)); ?>
                             <?php endif; ?>
