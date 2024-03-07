@@ -3,6 +3,7 @@
 define('__MVC4WP_ROOT__', __DIR__);
 require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
+use App\Controller\LoginController;
 use App\Logger\LogEntityLoggerFactory;
 use App\Model\ExampleEntity;
 use App\Model\LogEntity;
@@ -40,4 +41,4 @@ WordPressCustomize::addCustomPostType(ExampleEntity::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
 WordPressCustomize::addCustomTaxonomy(NewTagEntity::class);
 WordPressCustomize::disableRedirectCanonical();
-WordPressCustomize::changeLoginUrl('LoginController');
+WordPressCustomize::changeLoginUrl(LoginController::class);

@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Mvc4Wp\Core\Controller\PlainPhpController;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\UserEntity;
 
 class LoginController extends PlainPhpController
 {
@@ -14,8 +15,12 @@ class LoginController extends PlainPhpController
 
     public function index(array $args = []): void
     {
-        $this->ok();
-        $this->view('login')->done();
+        if (UserEntity::current()) {
+            $this->seeOther('/')->done();
+        } else {
+            $this->ok();
+            $this->view('login')->done();
+        }
     }
 
     public function login(array $args = []): void
