@@ -93,7 +93,7 @@ class DefaultApplication implements ApplicationInterface
     {
         try {
             Helper::load('NoDebug');
-            
+
             $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
             if (isset($_POST['_method'])) {
                 $request_method = strtoupper($_POST['_method']);
@@ -131,7 +131,6 @@ class DefaultApplication implements ApplicationInterface
 
             Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $route->class . '::' . $route->method, $route->args);
             $controller->{$route->method}($route->args);
-            debug_view();
         } catch (ApplicationException $ex) {
             debug_add('error', ['exception' => $ex]);
             Logging::get('core')->critical($ex->getMessage(), [$ex]);
@@ -150,6 +149,8 @@ class DefaultApplication implements ApplicationInterface
             $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
             $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
             $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
+        } finally {
+            debug_view();
         }
     }
 
