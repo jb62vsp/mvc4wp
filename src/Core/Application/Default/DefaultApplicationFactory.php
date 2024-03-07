@@ -22,7 +22,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         $config = self::setLanguage($config);
         $config = self::setLogger($config);
         $config = self::setJs($config);
-        $config = self::setNamespace($config);
         $config = self::setRoot($config);
         $config = self::setScss($config);
 
@@ -119,15 +118,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
                 'min_directory' => __MVC4WP_ROOT__ . '/js',
                 'use_minify' => 'true',
             ]);
-        }
-
-        return $config;
-    }
-
-    private static function setNamespace(ConfiguratorInterface $config): ConfiguratorInterface
-    {
-        if (is_null($config->get('controller_namespace'))) {
-            $config->add('controller_namespace', 'App\Controller');
         }
 
         return $config;

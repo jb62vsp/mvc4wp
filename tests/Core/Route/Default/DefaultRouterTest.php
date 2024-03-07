@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
-use Mvc4Wp\Core\Service\Helper;
 
 #[CoversClass(RouteHandler::class)]
 #[CoversClass(DefaultRouter::class)]
@@ -30,52 +29,52 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->GET('/', 'HomeController::index');
+        $router->GET('/', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_getOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->GET('/', 'HomeController::index');
+        $router->GET('/', ['HomeController']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'get', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_getOkCase03(): void
     {
         $router = $this->getRouter();
-        $router->GET('/home/index', 'HomeController::index');
+        $router->GET('/home/index', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/index');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_getOkCase04(): void
     {
         $router = $this->getRouter();
-        $router->GET('/home/{id:\d+}', 'HomeController::index');
+        $router->GET('/home/{id:\d+}', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/123');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(1, count($handler->args));
         $this->assertArrayHasKey('id', $handler->args);
         $this->assertEquals(123, $handler->args['id']);
@@ -84,13 +83,13 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase05(): void
     {
         $router = $this->getRouter();
-        $router->GET('/home/{name}', 'HomeController::index');
+        $router->GET('/home/{name}', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/abc');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(1, count($handler->args));
         $this->assertArrayHasKey('name', $handler->args);
         $this->assertEquals('abc', $handler->args['name']);
@@ -99,13 +98,13 @@ class DefaultRouterTest extends TestCase
     public function test_getOkCase06(): void
     {
         $router = $this->getRouter();
-        $router->GET('/home/{name}/{id:\d+}', 'HomeController::index');
+        $router->GET('/home/{name}/{id:\d+}', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/home/abc/123');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::index', $handler->signature);
+        $this->assertEquals('HomeController::index', $handler->signature);
         $this->assertEquals(2, count($handler->args));
         $this->assertArrayHasKey('name', $handler->args);
         $this->assertEquals('abc', $handler->args['name']);
@@ -116,7 +115,7 @@ class DefaultRouterTest extends TestCase
     public function test_getNgCase01(): void
     {
         $router = $this->getRouter();
-        $router->GET('/', 'HomeController::index');
+        $router->GET('/', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'GET', '/nothing');
 
@@ -129,7 +128,7 @@ class DefaultRouterTest extends TestCase
     public function test_getNgCase02(): void
     {
         $router = $this->getRouter();
-        $router->GET('/', 'HomeController::index');
+        $router->GET('/', ['HomeController', 'index']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'HOGE', '/');
 
@@ -142,78 +141,78 @@ class DefaultRouterTest extends TestCase
     public function test_postOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->POST('/', 'HomeController::register');
+        $router->POST('/', ['HomeController', 'register']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'POST', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::register', $handler->signature);
+        $this->assertEquals('HomeController::register', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_postOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->POST('/', 'HomeController::register');
+        $router->POST('/', ['HomeController', 'register']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'post', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::register', $handler->signature);
+        $this->assertEquals('HomeController::register', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_putOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->PUT('/', 'HomeController::update');
+        $router->PUT('/', ['HomeController', 'update']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'PUT', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::update', $handler->signature);
+        $this->assertEquals('HomeController::update', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_putOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->PUT('/', 'HomeController::update');
+        $router->PUT('/', ['HomeController', 'update']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'put', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::update', $handler->signature);
+        $this->assertEquals('HomeController::update', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_deleteOkCase01(): void
     {
         $router = $this->getRouter();
-        $router->DELETE('/', 'HomeController::delete');
+        $router->DELETE('/', ['HomeController', 'delete']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'DELETE', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::delete', $handler->signature);
+        $this->assertEquals('HomeController::delete', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 
     public function test_deleteOkCase02(): void
     {
         $router = $this->getRouter();
-        $router->DELETE('/', 'HomeController::delete');
+        $router->DELETE('/', ['HomeController', 'delete']);
         $config = $this->getConfig();
         $handler = $router->dispatch($config, 'delete', '/');
 
         $this->assertNotNull($handler);
         $this->assertEquals(200, $handler->status->value);
-        $this->assertEquals('Mock\OK\HomeController::delete', $handler->signature);
+        $this->assertEquals('HomeController::delete', $handler->signature);
         $this->assertEquals(0, count($handler->args));
     }
 }
@@ -227,7 +226,7 @@ class ConfigMock implements ConfiguratorInterface
 
     public function get(string $key): string|array
     {
-        return 'Mock\OK';
+        return '';
     }
 
     public function getAll(): array
