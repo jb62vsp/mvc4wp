@@ -5,13 +5,29 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 
 interface RouterInterface
 {
-    public function GET(string $route, string $handler): void;
+    /**
+     * @param string $route route rule.
+     * @param list<class-string, string> $handler classname, methodname.
+     */
+    public function GET(string $route, array $handler): void;
 
-    public function POST(string $route, string $handler): void;
+    /**
+     * @param string $route route rule.
+     * @param list<class-string, string> $handler classname, methodname.
+     */
+    public function POST(string $route, array $handler): void;
 
-    public function PUT(string $route, string $handler): void;
+    /**
+     * @param string $route route rule.
+     * @param list<class-string, string> $handler classname, methodname.
+     */
+    public function PUT(string $route, array $handler): void;
 
-    public function DELETE(string $route, string $handler): void;
+    /**
+     * @param string $route route rule.
+     * @param list<class-string, string> $handler classname, methodname.
+     */
+    public function DELETE(string $route, array $handler): void;
 
     public function dispatch(ConfiguratorInterface $config, string $request_method, string $request_uri): RouteHandler;
 }
