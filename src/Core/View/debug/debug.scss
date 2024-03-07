@@ -1,79 +1,6 @@
-// solarized color pallet
-$base03: #002b36;
-$base02: #073642;
-$base01: #586e75;
-$base00: #657b83;
-$base0: #839496;
-$base1: #93a1a1;
-$base2: #eee8d5;
-$base3: #fdf6e3;
-$yellow: #b58900;
-$orange: #cb4b16;
-$red: #dc322f;
-$magenta: #d33682;
-$violet: #6c71c4;
-$blue: #268bd2;
-$cyan: #2aa198;
-$green: #859900;
-
-// font
-$fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-
-// menu count
-$menu_count: 7;
-
-@mixin rebase($rebase03, $rebase02, $rebase01, $rebase00, $rebase0, $rebase1, $rebase2, $rebase3) {
-    background-color: $rebase03;
-    color: $rebase0;
-    font-family: #{$fonts};
-
-    * {
-        color: $rebase0;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: $rebase1;
-        border-color: $rebase0;
-    }
-
-    a,
-    a:active,
-    a:visited {
-        color: $rebase1;
-    }
-}
-
-@mixin light {
-    @include rebase($base3, $base2, $base1, $base0, $base00, $base01, $base02, $base03);
-}
-
-@mixin dark {
-    @include rebase($base03, $base02, $base01, $base00, $base0, $base1, $base2, $base3);
-}
-
-@mixin accentize($accent) {
-
-    a,
-    a:active,
-    a:visited,
-    code.url {
-        color: $accent;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: $accent
-    }
-}
+@import 'reset';
+@import 'variables';
+@import 'mixin';
 
 BODY {
     .debug {
@@ -100,6 +27,26 @@ BODY {
 }
 
 #debug {
+
+    * {
+        font-family: #{$fonts};
+    }
+
+    H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
+    P {
+        margin-block-start: 1rem;
+        margin-block-end: 1rem;
+    }
+
+    PRE {
+        font-size: 0.8rem;
+    }
+
     .base03 {
         color: #{$base03} !important;
     }
@@ -262,19 +209,6 @@ BODY {
                 &.scrollbar {
                     overflow-x: hidden;
                     overflow-y: scroll;
-
-                    &::-webkit-scrollbar {
-                        @include light;
-                        width: 12px;
-                    }
-
-                    &::-webkit-scrollbar-track {
-                        @include dark;
-                    }
-
-                    &::-webkit-scrollbar-thumb {
-                        background-color: #{$base00};
-                    }
                 }
             }
 
