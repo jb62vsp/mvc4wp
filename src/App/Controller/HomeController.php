@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Mvc4Wp\Core\Controller\PlainPhpController;
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\UserEntity;
 
 class HomeController extends PlainPhpController
 {
@@ -19,7 +20,8 @@ class HomeController extends PlainPhpController
     {
         $this->ok();
         $this->view('header', $data);
-        if (is_user_logged_in()) {
+        if (UserEntity::current()) {
+            $data['login'] = 'true';
             $this->view('link', $data);
         }
         $this->view($view, $data)

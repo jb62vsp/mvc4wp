@@ -10,6 +10,10 @@ use Mvc4Wp\Core\Service\Helper;
  * number => {parameter_name:\d+}
  * --------------------------------------------------------------------
  */
+// login controller sample
+App::get()->router()->GET('/login|/login/', 'LoginController::index');
+App::get()->router()->POST('/login|/login/', 'LoginController::login');
+App::get()->router()->GET('/logout|/logout/', 'LoginController::logout');
 // controller sample
 App::get()->router()->GET('/', 'HomeController::index');
 App::get()->router()->GET('/index|/home|/home/|/home/index', 'HomeController::index');
