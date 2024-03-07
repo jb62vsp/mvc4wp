@@ -6,7 +6,8 @@ use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Helper;
 
 if (!function_exists('is_debug')) {
-    function is_debug(): bool {
+    function is_debug(): bool
+    {
         return true;
     }
 }
@@ -25,7 +26,8 @@ if (!function_exists('debug_view')) {
 }
 
 if (!function_exists('debug_do')) {
-    function debug_do(callable $func): void {
+    function debug_do(callable $func): void
+    {
         $func();
     }
 }
@@ -56,13 +58,13 @@ if (!function_exists('debug_add_start')) {
     {
         global $stopwatch;
 
-        $dbg = [];
+        $dbg = '';
         foreach (debug_backtrace() as $s) {
             if (!str_starts_with($s['function'], 'debug_')) {
-                $dbg[] = $s;
+                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
             }
         }
-        $hash = md5(print_r($dbg, true));
+        $hash = md5($dbg);
 
         $stopwatch[$hash] = microtime(true);
     }
@@ -75,13 +77,13 @@ if (!function_exists('debug_add_end')) {
 
         $end = microtime(true);
 
-        $dbg = [];
+        $dbg = '';
         foreach (debug_backtrace() as $s) {
             if (!str_starts_with($s['function'], 'debug_')) {
-                $dbg[] = $s;
+                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
             }
         }
-        $hash = md5(print_r($dbg, true));
+        $hash = md5($dbg);
 
         $info['start'] = $stopwatch[$hash];
         $info['end'] = $end;
