@@ -8,7 +8,11 @@
         </h3>
         <p class='value'>
             <span class='green'>
-                <?php eh($route['route']->signature); ?>
+                <?php if (empty($route['route']->signature)): ?>
+                    <?php eh(sprintf('%d: %s', $route['route']->status->value, $route['route']->status->name)); ?>
+                <?php else: ?>
+                    <?php eh($route['route']->signature); ?>
+                <?php endif; ?>
             </span>
         <pre class='green'><?php eh(print_r($route['route']->args, true)); ?></pre>
         </p>
