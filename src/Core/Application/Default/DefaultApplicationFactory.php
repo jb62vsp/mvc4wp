@@ -47,8 +47,9 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
                 'sass_directory' => __MVC4WP_ROOT__ . '/sass',
                 'scss_directory' => __MVC4WP_ROOT__ . '/scss',
                 'sass_path' => '/usr/local/bin/sass',
-                'sass_args' => '--style=compressed',
+                'sass_args' => '',
                 'use_cache' => 'true',
+                'use_minify' => 'true',
             ]);
         }
 
@@ -129,7 +130,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (is_null($config->get('js'))) {
             $config->add('js', [
                 'js_directory' => __MVC4WP_ROOT__ . '/js',
-                'min_directory' => __MVC4WP_ROOT__ . '/js',
                 'use_minify' => 'true',
             ]);
         }

@@ -4,13 +4,14 @@ namespace Mvc4Wp\Core\Controller;
 use Exception;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
+use Mvc4Wp\Core\Service\Logging;
 
 trait ScssRenderable
 {
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
         debug_view_start($view . '.scss');
-        
+
         if ($config->get('css.use_cache') === 'true') {
             $this->renderCss($config, $view);
         } else {
@@ -22,7 +23,7 @@ trait ScssRenderable
         return $this;
     }
 
-    protected function renderScss(ConfiguratorInterface $config, string $view)
+    protected function renderScss(ConfiguratorInterface $config, string $view): void
     {
         $scss_path = $config->get('css.scss_directory') . DIRECTORY_SEPARATOR . $view . '.scss';
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
@@ -36,6 +37,9 @@ trait ScssRenderable
 
         $cmd = [];
         $cmd[] = $exec_path;
+        if ($config->get('css.use_minify') === 'true') {
+            $cmd[] = '--style=compressed';
+        }
         $cmd[] = $exec_args;
         $cmd[] = $scss_path;
         if ($config->get('css.use_cache') === 'true') {
@@ -55,13 +59,15 @@ trait ScssRenderable
         } catch (Exception $ex) {
             throw new ApplicationException('SCSS compile error', $ex->getCode(), $ex);
         }
-        if ($config->get('css.use_cache') !== 'true') {
+        if ($config->get('css.use_cache') === 'true') {
+            Logging::get('core')->info("scss cached: {$scss_path} -> {$css_path}");
+        } else {
             $css = implode("\n", $output);
             echo $css;
         }
     }
 
-    protected function renderCss(ConfiguratorInterface $config, string $view)
+    protected function renderCss(ConfiguratorInterface $config, string $view): void
     {
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
 

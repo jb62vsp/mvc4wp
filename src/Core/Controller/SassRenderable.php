@@ -4,6 +4,7 @@ namespace Mvc4Wp\Core\Controller;
 use Exception;
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
+use Mvc4Wp\Core\Service\Logging;
 
 trait SassRenderable
 {
@@ -22,7 +23,7 @@ trait SassRenderable
         return $this;
     }
 
-    protected function renderSass(ConfiguratorInterface $config, string $view)
+    protected function renderSass(ConfiguratorInterface $config, string $view): void
     {
         $sass_path = $config->get('css.sass_directory') . DIRECTORY_SEPARATOR . $view . '.sass';
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
@@ -36,6 +37,9 @@ trait SassRenderable
 
         $cmd = [];
         $cmd[] = $exec_path;
+        if ($config->get('css.use_minify') === 'true') {
+            $cmd[] = '--style=compressed';
+        }
         $cmd[] = $sass_args;
         $cmd[] = $sass_path;
         if ($config->get('css.use_cache') === 'true') {
@@ -55,13 +59,15 @@ trait SassRenderable
         } catch (Exception $ex) {
             throw new ApplicationException('SASS compile error', $ex->getCode(), $ex);
         }
-        if ($config->get('css.use_cache') !== 'true') {
+        if ($config->get('css.use_cache') === 'true') {
+            Logging::get('core')->info("sass cached: {$sass_path} -> {$css_path}");
+        } else {
             $css = implode("\n", $output);
             echo $css;
         }
     }
 
-    protected function renderCss(ConfiguratorInterface $config, string $view)
+    protected function renderCss(ConfiguratorInterface $config, string $view): void
     {
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
 
