@@ -8,7 +8,7 @@ BODY {
 
         &.view {
             display: none;
-            font-size: 12px;
+            font-size: #{$font_size_1};
             height: 18px;
             margin: 0px;
             opacity: 0.6;
@@ -30,6 +30,8 @@ BODY {
 
     * {
         font-family: #{$fonts};
+        font-size: #{$font_size_1};
+        text-align: left;
     }
 
     H1,
@@ -39,12 +41,12 @@ BODY {
     H5,
     H6,
     P {
-        margin-block-start: 1rem;
-        margin-block-end: 1rem;
+        margin-block-start: #{$font_size_1};
+        margin-block-end: #{$font_size_1};
     }
 
     PRE {
-        font-size: 0.8rem;
+        font-size: #{$font_size_2};
     }
 
     .base03 {
@@ -151,8 +153,8 @@ BODY {
             .icon-arrow-top {
                 display: inline-block;
                 box-sizing: border-box;
-                width: 1rem;
-                height: 1rem;
+                width: #{$font_size_1};
+                height: #{$font_size_1};
                 border-style: solid;
                 border-width: 4px 4px 0 0;
                 border-color: #{$base0};
@@ -259,21 +261,21 @@ BODY {
         .label {
             .icon-plus {
                 color: #{$base0};
-                height: 0.1rem;
-                padding-left: 1rem;
+                height: 1.6px;
+                padding-left: #{$font_size_1};
                 position: relative;
-                width: 0.8rem;
+                width: #{$font_size_2};
             }
 
             .icon-plus:before,
             .icon-plus:after {
                 background-color: currentColor;
                 content: "";
-                height: 0.1rem;
+                height: 1.6px;
                 left: 0px;
                 position: absolute;
                 top: 50%;
-                width: 0.8rem;
+                width: #{$font_size_2};
             }
 
             .icon-plus:after {
@@ -285,7 +287,7 @@ BODY {
 
         .expandable {
             display: none;
-            margin-left: 1rem;
+            margin-left: #{$font_size_1};
             transition: 0.3s;
         }
     }

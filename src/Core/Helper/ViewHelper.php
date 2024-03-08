@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
 use Mvc4Wp\Core\Controller\Controller;
+use Mvc4Wp\Core\Controller\CssRenderer;
 use Mvc4Wp\Core\Controller\JsRenderer;
+use Mvc4Wp\Core\Controller\SassRenderer;
 use Mvc4Wp\Core\Controller\ScssRenderer;
 use Mvc4Wp\Core\Service\App;
 
@@ -9,6 +11,22 @@ if (!function_exists('view')) {
     function view(string $view_name, array $data = []): void
     {
         App::get()->controller()->view($view_name, $data);
+    }
+}
+
+if (!function_exists('css')) {
+    function css(string $scss_name): void
+    {
+        $render = new CssRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
+    }
+}
+
+if (!function_exists('sass')) {
+    function sass(string $sass_name): void
+    {
+        $render = new SassRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $sass_name);
     }
 }
 

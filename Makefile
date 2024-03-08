@@ -4,7 +4,7 @@
 .DEFAULT: init
 
 .PHONY: init
-init: vendor reload_vendor #: initialize
+init: vendor reload_vendor /usr/local/bin/sass #: initialize
 	@mkdir -p log
 	@chmod 777 log
 
@@ -28,6 +28,12 @@ clean: clean_vendor #: clean project
 # 			echo done.; \
 # 		fi \
 # 	fi
+
+#
+# sass
+#
+/usr/local/bin/sass:
+	@npm install -g sass
 
 #
 # vendor

@@ -7,7 +7,6 @@ use Mvc4Wp\Core\Controller\HttpRespondable;
 use Mvc4Wp\Core\Controller\RenderInterface;
 use Mvc4Wp\Core\Controller\ResponderInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
-use ScssPhp\ScssPhp\Compiler;
 
 class DebugScssRenderer implements RenderInterface, ResponderInterface
 {
@@ -23,13 +22,21 @@ class DebugScssRenderer implements RenderInterface, ResponderInterface
                 throw new ApplicationException('view not found: ' . $scss_path);
             }
 
-            $scss = new Compiler();
+            $sass_path = $config->get('css.sass_path');
+            $cmd = $sass_path . ' ' . $scss_path . ' 2>&1';
+            $output = [];
+            $result_code = 0;
+
             try {
-                $compiled = $scss->compileFile($scss_path);
+                exec($cmd, $output, $result_code);
+                if ($result_code !== 0) {
+                    throw new ApplicationException(implode(' ', $output), $result_code);
+                }
             } catch (Exception $ex) {
-                throw new ApplicationException('SCSS compile error', 0, $ex);
+                throw new ApplicationException('SCSS compile error', $ex->getCode(), $ex);
             }
-            echo $compiled->getCss();
+            $css = implode("\n", $output);
+            echo $css;
         }
         return $this;
     }
