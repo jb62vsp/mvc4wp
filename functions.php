@@ -16,7 +16,8 @@ use Mvc4Wp\Core\Service\Logging;
 \Mvc4Wp\Core\Service\Helper::load('Debug');
 
 App::get()->config()->set('js.use_minify', 'false');
-App::get()->config()->set('scss.use_cache', 'false');
+App::get()->config()->set('css.use_cache', 'false');
+App::get()->config()->set('css.use_minify', 'false');
 App::get()->config()->set('logger.loggers.app.log_level', 'debug');
 App::get()->config()->set('logger.loggers.core.log_level', 'debug');
 App::get()->config()->set('logger.loggers.log_model', [
