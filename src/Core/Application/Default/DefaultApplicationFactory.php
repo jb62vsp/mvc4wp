@@ -17,14 +17,13 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
     {
         $config = self::initConfig($args);
 
+        $config = self::setCss($config);
         $config = self::setErrorHandler($config);
         $config = self::setFactory($config);
         $config = self::setLanguage($config);
         $config = self::setLogger($config);
         $config = self::setJs($config);
         $config = self::setRoot($config);
-        $config = self::setScss($config);
-
 
         return new DefaultApplication($config);
     }
@@ -40,6 +39,22 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         return $config;
     }
 
+    private static function setCss(ConfiguratorInterface $config): ConfiguratorInterface
+    {
+        if (is_null($config->get('css'))) {
+            $config->add('css', [
+                'css_directory' => __MVC4WP_ROOT__ . '/css',
+                'sass_directory' => __MVC4WP_ROOT__ . '/sass',
+                'scss_directory' => __MVC4WP_ROOT__ . '/scss',
+                'sass_path' => '/usr/local/bin/sass',
+                'sass_args' => '',
+                'use_cache' => 'true',
+                'use_minify' => 'true',
+            ]);
+        }
+
+        return $config;
+    }
     private static function setErrorHandler(ConfiguratorInterface $config): ConfiguratorInterface
     {
         if (is_null($config->get('error_handler'))) {
@@ -115,7 +130,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         if (is_null($config->get('js'))) {
             $config->add('js', [
                 'js_directory' => __MVC4WP_ROOT__ . '/js',
-                'min_directory' => __MVC4WP_ROOT__ . '/js',
                 'use_minify' => 'true',
             ]);
         }
@@ -135,19 +149,6 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
 
         if (is_null($config->get('view_directory'))) {
             $config->add('view_directory', __MVC4WP_ROOT__ . '/src/App/View');
-        }
-
-        return $config;
-    }
-
-    private static function setScss(ConfiguratorInterface $config): ConfiguratorInterface
-    {
-        if (is_null($config->get('scss'))) {
-            $config->add('scss', [
-                'scss_directory' => __MVC4WP_ROOT__ . '/css',
-                'css_directory' => __MVC4WP_ROOT__ . '/css',
-                'use_cache' => 'true',
-            ]);
         }
 
         return $config;

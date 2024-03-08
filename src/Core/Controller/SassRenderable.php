@@ -6,42 +6,42 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Service\Logging;
 
-trait ScssRenderable
+trait SassRenderable
 {
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
     {
-        debug_view_start($view . '.scss');
+        debug_view_start($view . '.sass');
 
         if ($config->get('css.use_cache') === 'true') {
             $this->renderCss($config, $view);
         } else {
-            $this->renderScss($config, $view);
+            $this->renderSass($config, $view);
         }
 
-        debug_view_end($view . '.scss', $data);
+        debug_view_end($view . '.sass', $data);
 
         return $this;
     }
 
-    protected function renderScss(ConfiguratorInterface $config, string $view): void
+    protected function renderSass(ConfiguratorInterface $config, string $view): void
     {
-        $scss_path = $config->get('css.scss_directory') . DIRECTORY_SEPARATOR . $view . '.scss';
+        $sass_path = $config->get('css.sass_directory') . DIRECTORY_SEPARATOR . $view . '.sass';
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
 
-        if (!file_exists($scss_path)) {
-            throw new ApplicationException('view not found: ' . $scss_path);
+        if (!file_exists($sass_path)) {
+            throw new ApplicationException('view not found: ' . $sass_path);
         }
 
         $exec_path = $config->get('css.sass_path');
-        $exec_args = $config->get('css.sass_args');
+        $sass_args = $config->get('css.sass_args');
 
         $cmd = [];
         $cmd[] = $exec_path;
         if ($config->get('css.use_minify') === 'true') {
             $cmd[] = '--style=compressed';
         }
-        $cmd[] = $exec_args;
-        $cmd[] = $scss_path;
+        $cmd[] = $sass_args;
+        $cmd[] = $sass_path;
         if ($config->get('css.use_cache') === 'true') {
             $cmd[] = $css_path;
         }
@@ -57,10 +57,10 @@ trait ScssRenderable
                 throw new ApplicationException(implode(' ', $output), $result_code);
             }
         } catch (Exception $ex) {
-            throw new ApplicationException('SCSS compile error', $ex->getCode(), $ex);
+            throw new ApplicationException('SASS compile error', $ex->getCode(), $ex);
         }
         if ($config->get('css.use_cache') === 'true') {
-            Logging::get('core')->info("scss cached: {$scss_path} -> {$css_path}");
+            Logging::get('core')->info("sass cached: {$sass_path} -> {$css_path}");
         } else {
             $css = implode("\n", $output);
             echo $css;
@@ -72,7 +72,7 @@ trait ScssRenderable
         $css_path = $config->get('css.css_directory') . DIRECTORY_SEPARATOR . $view . '.css';
 
         if (!file_exists($css_path)) {
-            $this->renderScss($config, $view);
+            $this->renderSass($config, $view);
         }
 
         if (!file_exists($css_path)) {

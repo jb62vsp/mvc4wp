@@ -1,4 +1,5 @@
-FROM composer:latest as co
+FROM composer:latest as composer
+FROM node:latest as node
 
 FROM wordpress:5.9-php8.1-apache
 
@@ -25,4 +26,12 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 
-COPY --from=co /usr/bin/composer /usr/bin/composer
+# copy composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# copy node
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY --from=node /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+COPY --from=node /opt/yarn-* /opt/yarn
+RUN rm -f /opt/yarn/bin/yarn && ln -fs /opt/yarn/bin/yarn /usr/local/bin/yarn \
+ && rm -f /opt/yarn/bin/yarnpkg && ln -fs /opt/yarn/bin/yarnpkg /usr/local/bin/yarnpkg

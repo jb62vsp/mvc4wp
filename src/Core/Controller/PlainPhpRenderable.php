@@ -17,9 +17,9 @@ trait PlainPhpRenderable
 
         $view_path = $config->get('view_directory') . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($view_path)) {
-            debug_view_start($view_path);
+            debug_view_start($view . '.php');
             include $view_path;
-            debug_view_end($view_path, $data);
+            debug_view_end($view . '.php', $data);
         } else {
             throw new ApplicationException('view not found: ' . $view_path);
         }
