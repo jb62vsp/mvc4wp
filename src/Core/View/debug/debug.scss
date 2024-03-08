@@ -184,10 +184,6 @@ BODY {
                 text-decoration: none;
                 transition: 0.3;
                 width: calc(100%/#{$menu_count});
-
-                &:hover {
-                    @include dark;
-                }
             }
 
             INPUT[name="debug-tab-radio"] {
@@ -196,6 +192,10 @@ BODY {
                 &:checked+.debug-tab-button {
                     @include dark;
                     color: #{$base2};
+                }
+
+                &:hover:enabled+.debug-tab-button {
+                    @include dark;
                 }
             }
 
