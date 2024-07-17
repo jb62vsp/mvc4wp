@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+use App\Model\CustomTaxEntity;
 
 define('__MVC4WP_ROOT__', __DIR__);
 require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
@@ -34,12 +35,13 @@ App::get()->config()->set('logger.loggers.sql', [
     'log_level' => 'debug',
 ]);
 Logging::configure(App::get()->config());
-// WordPressCustomize::enableTraceSQL(function ($q) {
-//     Logging::get('sql')->debug($q);
-//     return $q;
-// });
+WordPressCustomize::enableTraceSQL(function ($q) {
+    Logging::get('sql')->debug($q);
+    return $q;
+});
 WordPressCustomize::addCustomPostType(ExampleEntity::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
 WordPressCustomize::addCustomTaxonomy(NewTagEntity::class);
+WordPressCustomize::addCustomTaxonomy(CustomTaxEntity::class);
 WordPressCustomize::disableRedirectCanonical();
 WordPressCustomize::changeLoginUrl(LoginController::class);

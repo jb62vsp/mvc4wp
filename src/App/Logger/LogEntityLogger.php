@@ -2,8 +2,8 @@
 namespace App\Logger;
 
 use App\Model\LogEntity;
+use Mvc4Wp\Core\Library\DateTimeUtils;
 use Psr\Log\AbstractLogger;
-use Mvc4Wp\Core\Service\DateTimeService;
 
 class LogEntityLogger extends AbstractLogger
 {
@@ -39,7 +39,7 @@ class LogEntityLogger extends AbstractLogger
 
         if (self::$thresholds[$level] <= $threshold) {
             $entry = new LogEntity();
-            $date = DateTimeService::datetime();
+            $date = DateTimeUtils::datetime();
             $entry->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
             $entry->post_content = var_export($context, true);
             $entry->register(true);
