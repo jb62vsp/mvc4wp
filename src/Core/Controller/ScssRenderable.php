@@ -12,10 +12,15 @@ trait ScssRenderable
     {
         debug_view_start($view . '.scss');
 
-        if ($config->get('css.use_cache') === 'true') {
-            $this->renderCss($config, $view);
-        } else {
-            $this->renderScss($config, $view);
+        try {
+            echo '<style>';
+            if ($config->get('css.use_cache') === 'true') {
+                $this->renderCss($config, $view);
+            } else {
+                $this->renderScss($config, $view);
+            }
+        } finally {
+            echo '</style>';
         }
 
         debug_view_end($view . '.scss', $data);

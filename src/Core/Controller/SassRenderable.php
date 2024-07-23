@@ -12,10 +12,15 @@ trait SassRenderable
     {
         debug_view_start($view . '.sass');
 
-        if ($config->get('css.use_cache') === 'true') {
-            $this->renderCss($config, $view);
-        } else {
-            $this->renderSass($config, $view);
+        try {
+            echo '<style>';
+            if ($config->get('css.use_cache') === 'true') {
+                $this->renderCss($config, $view);
+            } else {
+                $this->renderSass($config, $view);
+            }
+        } finally {
+            echo '</style>';
         }
 
         debug_view_end($view . '.sass', $data);
