@@ -7,9 +7,7 @@
     <title>
         <?php eh($data['title']); ?>
     </title>
-    <style>
-        <?php scss('style'); ?>
-    </style>
+    <?php scss('style'); ?>
 </head>
 
 <body>

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1); ?>
-<script><?php js('submit'); ?></script>
+<?php js('submit'); ?>
 </body>
 
 </html>
