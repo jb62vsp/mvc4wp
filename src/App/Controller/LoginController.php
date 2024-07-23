@@ -17,10 +17,14 @@ class LoginController extends PlainPhpController
     public function index(array $args = []): void
     {
         if (UserEntity::current()) {
-            $this->seeOther('/')->done();
+            $this
+                ->seeOther('/')
+                ->done();
         } else {
-            $this->ok();
-            $this->view('login')->done();
+            $this
+                ->ok()
+                ->view('login')
+                ->done();
         }
     }
 

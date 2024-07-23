@@ -18,14 +18,13 @@ class HomeController extends PlainPhpController
 
     private function page(string $view, array $data): self
     {
-        $this->ok();
         $this->view('header', $data);
+        $data['login'] = 'false';
         if (UserEntity::current()) {
             $data['login'] = 'true';
             $this->view('link', $data);
         }
-        $this->view($view, $data)
-            ->view('footer', $data);
+        $this->view($view, $data)->view('footer', $data);
         return $this;
     }
 
@@ -35,15 +34,19 @@ class HomeController extends PlainPhpController
             'title' => $this->name,
         ];
 
-        $this->ok();
-        $this->page('home/body', $data)->done();
+        $this
+            ->ok()
+            ->page('home/body', $data)
+            ->done();
     }
 
     public function other(array $args): void
     {
         $id = intval($args['id']);
         if ($id === 0) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         $data = [
@@ -51,12 +54,16 @@ class HomeController extends PlainPhpController
             'id' => strval($id),
         ];
 
-        $this->ok();
-        $this->page('home/body', $data)->done();
+        $this
+            ->ok()
+            ->page('home/body', $data)
+            ->done();
     }
 
     public function redirect(array $args = []): void
     {
-        $this->seeOther('/home/other/321')->done();
+        $this
+            ->seeOther('/home/other/321')
+            ->done();
     }
 }

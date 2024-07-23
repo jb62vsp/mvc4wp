@@ -24,13 +24,17 @@ class ApiController extends JsonController
             'value' => 123,
         ];
 
-        $this->ok();
-        $this->view(json_encode($data))->done();
+        $this
+            ->ok()
+            ->view(json_encode($data))
+            ->done();
     }
 
     public function post(array $args = []): void
     {
-        $this->ok();
-        $this->view(json_encode($_POST))->done();
+        $this
+            ->ok()
+            ->view(json_encode($_POST))
+            ->done();
     }
 }

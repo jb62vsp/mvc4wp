@@ -1,5 +1,5 @@
 <?php declare(strict_types=1); ?>
-<?php view('header'); ?>
+<?php view('header', ['title' => 'Login']); ?>
 <form method='post' action='/login'>
     <label for='user_login'>ユーザ名</label>
     <input type="text" name="log" id="user_login" class="input" value="" size="20" autocapitalize="off"

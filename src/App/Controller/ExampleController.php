@@ -154,10 +154,10 @@ class ExampleController extends AdminController
             ->orderBy($sort, $order)
             ->limitOf($per_page, $page)
             ->all()
-        ;
-        ;
-        $count = $query->build()->count();
-        $examples = $query->build()->list();
+            ->build();
+
+        $count = $query->count();
+        $examples = $query->list();
 
         $data = [
             'title' => $this->name,
@@ -176,8 +176,8 @@ class ExampleController extends AdminController
             'messager' => App::get()->messager(),
         ];
 
-        $this->ok();
         $this
+            ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('example/list', $data)
@@ -196,8 +196,8 @@ class ExampleController extends AdminController
             ->by($_POST['key'], $_POST['value'], CompareInQuery::from(strtoupper($_POST['compare'])), TypeInQuery::from(strtoupper($_POST['type'])))
             ->orderBy($sort, $order)
             ->build()
-            ->list()
-        ;
+            ->list();
+
         $data = [
             'title' => $this->name,
             'count' => count($examples),
@@ -212,8 +212,8 @@ class ExampleController extends AdminController
             'type' => $_POST['type'],
         ];
 
-        $this->ok();
         $this
+            ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('example/list', $data)
@@ -226,7 +226,9 @@ class ExampleController extends AdminController
         $id = intval($args['id']);
         $example = ExampleEntity::findByID($id, false);
         if (is_null($example)) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         $data = [
@@ -243,8 +245,8 @@ class ExampleController extends AdminController
             'messager' => App::get()->messager(),
         ];
 
-        $this->ok();
         $this
+            ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('example/single', $data)
@@ -258,7 +260,7 @@ class ExampleController extends AdminController
         $errors = $example->validate($_POST);
         if (empty($errors)) {
             $example->bind($_POST);
-            Logging::get('log_post')->info(static::class . '->' . 'register', get_object_vars($example));
+            Logging::get('log_model')->info(static::class . '->' . 'register', get_object_vars($example));
             $id = $example->register();
             $this->seeOther("/example/{$id}")->done();
         } else {
@@ -271,15 +273,19 @@ class ExampleController extends AdminController
         $id = intval($args['id']);
         $example = ExampleEntity::findByID($id, false);
         if (is_null($example)) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         $errors = $example->validate($_POST);
         if (empty($errors)) {
             $example->bind($_POST);
-            Logging::get('log_post')->info(static::class . '->' . 'update', get_object_vars($example));
+            Logging::get('log_model')->info(static::class . '->' . 'update', get_object_vars($example));
             $example->update();
-            $this->seeOther("/example/{$id}")->done();
+            $this
+                ->seeOther("/example/{$id}")
+                ->done();
         } else {
             $this->single($args, $errors);
         }
@@ -290,16 +296,22 @@ class ExampleController extends AdminController
         $id = intval($args['id']);
         $example = ExampleEntity::findByID($id, false);
         if (is_null($example)) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         if ($_POST['to_trush'] === 'true') {
-            Logging::get('log_post')->info(static::class . '->' . 'delete', get_object_vars($example));
             $example->delete();
-            $this->seeOther("/example/{$id}")->done();
+            $this
+                ->seeOther("/example/{$id}")
+                ->done();
         } else {
+            Logging::get('log_model')->info(static::class . '->' . 'delete', get_object_vars($example));
             $example->delete(true);
-            $this->seeOther("/example/list")->done();
+            $this
+                ->seeOther("/example/list")
+                ->done();
         }
     }
 }

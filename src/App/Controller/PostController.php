@@ -42,20 +42,17 @@ class PostController extends AdminController
             ->orderBy($sort, $order)
             ->all()
             ->build()
-            ->list()
-        ;
+            ->list();
         $categories = CategoryEntity::find()
             ->showEmpty()
             ->orderByID()
             ->build()
-            ->list()
-        ;
+            ->list();
         $tags = TagEntity::find()
             ->showEmpty()
             ->orderByID()
             ->build()
-            ->list()
-        ;
+            ->list();
 
         $data = [
             'title' => $this->name,
@@ -67,8 +64,8 @@ class PostController extends AdminController
             'order' => strtolower($order->value),
         ];
 
-        $this->ok();
         $this
+            ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('post/list', $data)
@@ -84,16 +81,17 @@ class PostController extends AdminController
             ->showEmpty()
             ->orderByID()
             ->build()
-            ->list()
-        ;
+            ->list();
         $tags = TagEntity::find()
             ->showEmpty()
             ->orderByID()
             ->build()
-            ->list()
-        ;
+            ->list();
+
         if (is_null($post)) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         $data = [
@@ -108,8 +106,8 @@ class PostController extends AdminController
             'single' => 'true',
         ];
 
-        $this->ok();
         $this
+            ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('post/single', $data)
@@ -130,7 +128,9 @@ class PostController extends AdminController
             $tags = array_map(fn($slug) => TagEntity::findBySlug($slug), array_keys($_POST['tags']));
             $post->addTags($tags);
         }
-        $this->seeOther("/post/{$id}")->done();
+        $this
+            ->seeOther("/post/{$id}")
+            ->done();
     }
 
     public function update(array $args): void
@@ -138,7 +138,9 @@ class PostController extends AdminController
         $id = intval($args['id']);
         $post = PostEntity::findByID($id, false);
         if (is_null($post)) {
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
 
         $post->bind($_POST);
@@ -155,18 +157,31 @@ class PostController extends AdminController
         } else {
             $post->removeTags();
         }
-        $this->seeOther("/post/{$id}")->done();
+        $this
+            ->seeOther("/post/{$id}")
+            ->done();
     }
 
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $post = PostEntity::findByID($id, false);
-        if (is_null($post)) {
-            $this->notFound()->done();
+        $example = PostEntity::findByID($id, false);
+        if (is_null($example)) {
+            $this
+                ->notFound()
+                ->done();
         }
 
-        $post->delete();
-        $this->seeOther("/post/list")->done();
+        if ($_POST['to_trush'] === 'true') {
+            $example->delete();
+            $this
+                ->seeOther("/post/{$id}")
+                ->done();
+        } else {
+            $example->delete(true);
+            $this
+                ->seeOther("/post/list")
+                ->done();
+        }
     }
 }

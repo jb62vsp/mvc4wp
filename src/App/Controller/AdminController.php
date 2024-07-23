@@ -10,14 +10,16 @@ abstract class AdminController extends PlainPhpController
 {
     use Castable;
 
-    protected UserEntity $login_user;
+    protected ?UserEntity $login_user;
 
     public function init(array $args = []): void
     {
         $this->login_user = UserEntity::current();
         if (is_null($this->login_user)) {
             Logging::get()->notice('Not logged in user access to ' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . ' => ' . static::class . ', from: ' . $_SERVER['REMOTE_ADDR']);
-            $this->notFound()->done();
+            $this
+                ->notFound()
+                ->done();
         }
     }
 }
