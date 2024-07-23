@@ -12,10 +12,15 @@ trait JsRenderable
     {
         debug_view_start($view . '.js');
 
-        if ($config->get('js.use_minify') === 'true') {
-            $this->renderMinJs($config, $view);
-        } else {
-            $this->renderJs($config, $view);
+        try {
+            echo '<script>';
+            if ($config->get('js.use_minify') === 'true') {
+                $this->renderMinJs($config, $view);
+            } else {
+                $this->renderJs($config, $view);
+            }
+        } finally {
+            echo '</script>';
         }
 
         debug_view_end($view . '.js', $data);

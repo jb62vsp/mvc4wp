@@ -12,10 +12,15 @@ trait CssRenderable
     {
         debug_view_start($view . '.css');
 
-        if ($config->get('css.use_minify') === 'true') {
-            $this->renderMinCss($config, $view);
-        } else {
-            $this->renderCss($config, $view);
+        try {
+            echo '<style>';
+            if ($config->get('css.use_minify') === 'true') {
+                $this->renderMinCss($config, $view);
+            } else {
+                $this->renderCss($config, $view);
+            }
+        } finally {
+            echo '</style>';
         }
 
         debug_view_end($view . '.css', $data);
