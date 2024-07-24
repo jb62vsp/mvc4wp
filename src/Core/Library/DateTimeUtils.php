@@ -29,7 +29,7 @@ final class DateTimeUtils
 
     public static function now(string $format): string
     {
-        $datetime = App::get()->clock()->get();
+        $datetime = App::get()->clock()->get('now', self::getTimeZone());
         return $datetime->format($format);
     }
 
@@ -50,7 +50,7 @@ final class DateTimeUtils
 
     public static function datetimeval(DateTime|string $value): DateTime
     {
-        return ($value instanceof DateTime) ? $value : new DateTime($value);
+        return ($value instanceof DateTime) ? $value : App::get()->clock()->get($value, self::getTimeZone());
     }
 
     public static function strval(DateTime|null $value, string $format): string
