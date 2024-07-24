@@ -9,7 +9,7 @@ final class DateTimeUtils
 {
     public static function getTimeZone(): DateTimeZone
     {
-        return get_option('timezone_string');
+        return new DateTimeZone(get_option('timezone_string'));
     }
 
     public static function getDateFormat(): string
