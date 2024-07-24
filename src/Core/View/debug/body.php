@@ -57,8 +57,8 @@
     <script>
         document.querySelector('head').appendChild(document.querySelector('#debug_style'));
         document.querySelector('body').appendChild(document.querySelector('#debug'));
-        document.querySelector('#debug #debug-toggle').addEventListener('change', ev => document.cookie = 'debug-toggle=' + (ev.target.checked ? 'true' : 'false'));
-        document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug-tab=' + ev.target.id));
+        document.querySelector('#debug #debug-toggle').addEventListener('change', ev => document.cookie = 'debug-toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
+        document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug-tab=' + ev.target.id + '; Path=/'));
         document.cookie.split(';').forEach(kv => {
             const context = kv.trim().split('=');
             if (context[0].trim() === 'debug-toggle') {
