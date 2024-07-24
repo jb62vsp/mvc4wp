@@ -2,6 +2,7 @@
 namespace App\Logger;
 
 use App\Model\LogEntity;
+use App\Model\LogLevelTagEntity;
 use Mvc4Wp\Core\Library\DateTimeUtils;
 use Psr\Log\AbstractLogger;
 
@@ -43,6 +44,7 @@ class LogEntityLogger extends AbstractLogger
             $entry->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
             $entry->post_content = var_export($context, true);
             $entry->register(true);
+            $entry->addTag(LogLevelTagEntity::findBySlug($level));
         }
     }
 }
