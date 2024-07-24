@@ -2,13 +2,14 @@
 use App\Model\CustomTaxEntity;
 
 define('__MVC4WP_ROOT__', __DIR__);
-require_once(__MVC4WP_ROOT__ . '/vendor/autoload.php');
+require_once (__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
 use App\Controller\LoginController;
 use App\Logger\LogEntityLoggerFactory;
+use App\Model\CustomCatEntry;
+use App\Model\CustomTagEntry;
 use App\Model\ExampleEntity;
 use App\Model\LogEntity;
-use App\Model\NewTagEntity;
 use Mvc4Wp\Core\Library\WordPressCustomize;
 use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
@@ -40,8 +41,8 @@ WordPressCustomize::enableTraceSQL(function ($q) {
     return $q;
 });
 WordPressCustomize::addCustomPostType(ExampleEntity::class);
+WordPressCustomize::addCustomTaxonomy(CustomCatEntry::class);
+WordPressCustomize::addCustomTaxonomy(CustomTagEntry::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
-WordPressCustomize::addCustomTaxonomy(NewTagEntity::class);
-WordPressCustomize::addCustomTaxonomy(CustomTaxEntity::class);
 WordPressCustomize::disableRedirectCanonical();
 WordPressCustomize::changeLoginUrl(LoginController::class);
