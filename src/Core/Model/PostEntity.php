@@ -38,11 +38,6 @@ class PostEntity extends Entity
     #[Field]
     public string $post_content;
 
-    /**
-     * @var array<CategoryEntity>
-     */
-    protected array $categories;
-
     public function __construct()
     {
         $this->post_type = PostType::getName(static::class);
@@ -109,15 +104,6 @@ class PostEntity extends Entity
             return false;
         }
         return true;
-    }
-
-    public function getCategories(): array
-    {
-        if (!isset($this->categories)) {
-            $this->categories = CategoryEntity::find()->byPostID($this->ID)->build()->list();
-        }
-
-        return $this->categories;
     }
 
     public function isLoaded(): bool
