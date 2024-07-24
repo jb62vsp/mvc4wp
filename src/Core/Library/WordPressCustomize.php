@@ -90,6 +90,7 @@ final class WordPressCustomize
     {
         $attr = CustomTaxonomy::getClassAttribute($class_name);
         $slug = $attr->name;
+        $title = $attr->title;
         $targets = $attr->targets;
         if (!array_key_exists($slug, self::$registered_taxonomies)) {
             $default = [
@@ -101,6 +102,40 @@ final class WordPressCustomize
             add_action('init', function () use ($slug, $targets, $args) {
                 register_taxonomy($slug, $targets, $args);
             });
+
+            foreach ($targets as $target) {
+                $custom_column = function ($columns) use ($slug, $title) {
+                    $columns[$slug] = $title;
+                    return $columns;
+                };
+                add_filter('manage_' . $target . '_posts_columns', $custom_column);
+
+                add_action('manage_' . $target . '_posts_custom_column', function ($column, $id) use ($slug) {
+                    if ($column === $slug) {
+                        $terms = get_the_terms($id, $column);
+                        if ($terms && !is_wp_error($terms)) {
+                            echo join(", ", array_map(fn($v) => $v->name, get_the_terms($id, $column))); // TODO: 絞り込みリンクの作成
+                        } else {
+                            echo '—';
+                        }
+                    }
+                }, 10, 2);
+
+                $my_add_filter = function () use ($target, $slug, $title) {
+                    global $post_type;
+                    if ($target === $post_type) {
+                        echo "<select name='{$slug}'>";
+                        echo "<option value=''>すべての{$title}</option>";
+                        foreach (get_terms($slug) as $term) {
+                            $selected = (isset($_GET[$slug]) && $_GET[$slug] === $term->slug) ? 'selected' : '';
+                            echo "<option value='{$term->slug}' {$selected}>{$term->name}</option>";
+                        }
+                        echo "</select>";
+                    }
+                };
+                add_action('restrict_manage_posts', $my_add_filter);
+            }
+
             self::$registered_taxonomies[$slug] = true;
         }
 
@@ -109,7 +144,7 @@ final class WordPressCustomize
 
     public static function changeLoginUrl(string $controller_class, string $login_name = 'login', string $logout_name = 'logout', string $redirect_uri = '/'): void
     {
-        add_action('login_init', function () use ($login_name){
+        add_action('login_init', function () use ($login_name) {
             $uri = $_SERVER['REQUEST_URI'];
             if (str_contains($uri, 'wp-login.php')) {
                 wp_safe_redirect('/' . $login_name);
@@ -241,13 +276,13 @@ final class WordPressCustomize
         });
 
         add_action('save_post', function ($post_id) use ($nonce, $name, $field_slug) {
-            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
+            if (!isset($_POST[$nonce]) || !$_POST[$nonce]) {
                 return;
             }
             if (!check_admin_referer('wp-nonce-key', $nonce)) {
                 return;
             }
-            if (!isset ($_POST[$name])) {
+            if (!isset($_POST[$name])) {
                 return;
             }
 
@@ -255,6 +290,19 @@ final class WordPressCustomize
             add_post_meta($post_id, $field_slug, $value, true);
             update_post_meta($post_id, $field_slug, $value);
         });
+
+        add_action('manage_' . $post_slug . '_posts_columns', function ($columns) use ($field_slug, $title) {
+            $columns[$field_slug] = $title;
+            return $columns;
+        });
+
+        add_action('manage_' . $post_slug . '_posts_custom_column', function ($column, $post_id) use ($field_slug) {
+            if ($column === $field_slug) {
+                echo get_post_meta($post_id, $column, true);
+            }
+        }, 10, 2);
+
+        // TODO: ソート機能
     }
 
     private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
@@ -265,13 +313,13 @@ final class WordPressCustomize
         add_action("{$tax_slug}_add_form_fields", $callback[0]);
         add_action("{$tax_slug}_edit_form_fields", $callback[1]);
         add_action('create_term', function ($term_id) use ($nonce, $name, $field_slug) {
-            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
+            if (!isset($_POST[$nonce]) || !$_POST[$nonce]) {
                 return;
             }
             if (!check_admin_referer('wp-nonce-key', $nonce)) {
                 return;
             }
-            if (!isset ($_POST[$name])) {
+            if (!isset($_POST[$name])) {
                 return;
             }
 
@@ -280,13 +328,13 @@ final class WordPressCustomize
         });
 
         add_action('edit_terms', function ($term_id) use ($nonce, $name, $field_slug) {
-            if (!isset ($_POST[$nonce]) || !$_POST[$nonce]) {
+            if (!isset($_POST[$nonce]) || !$_POST[$nonce]) {
                 return;
             }
             if (!check_admin_referer('wp-nonce-key', $nonce)) {
                 return;
             }
-            if (!isset ($_POST[$name])) {
+            if (!isset($_POST[$name])) {
                 return;
             }
 
