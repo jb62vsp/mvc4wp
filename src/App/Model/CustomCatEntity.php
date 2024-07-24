@@ -7,7 +7,7 @@ use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 use Mvc4Wp\Core\Model\CategoryEntity;
 
 #[CustomTaxonomy(name: 'custom_cat', targets: ['example'], title: 'カスタムカテゴリー', hierarhical: true)]
-class CustomCatEntry extends CategoryEntity
+class CustomCatEntity extends CategoryEntity
 {
     use Castable;
 

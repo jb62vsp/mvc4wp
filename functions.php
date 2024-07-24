@@ -6,8 +6,8 @@ require_once (__MVC4WP_ROOT__ . '/vendor/autoload.php');
 
 use App\Controller\LoginController;
 use App\Logger\LogEntityLoggerFactory;
-use App\Model\CustomCatEntry;
-use App\Model\CustomTagEntry;
+use App\Model\CustomCatEntity;
+use App\Model\CustomTagEntity;
 use App\Model\ExampleEntity;
 use App\Model\LogEntity;
 use Mvc4Wp\Core\Library\WordPressCustomize;
@@ -41,8 +41,8 @@ WordPressCustomize::enableTraceSQL(function ($q) {
     return $q;
 });
 WordPressCustomize::addCustomPostType(ExampleEntity::class);
-WordPressCustomize::addCustomTaxonomy(CustomCatEntry::class);
-WordPressCustomize::addCustomTaxonomy(CustomTagEntry::class);
+WordPressCustomize::addCustomTaxonomy(CustomCatEntity::class);
+WordPressCustomize::addCustomTaxonomy(CustomTagEntity::class);
 WordPressCustomize::addCustomPostType(LogEntity::class);
 WordPressCustomize::disableRedirectCanonical();
 WordPressCustomize::changeLoginUrl(LoginController::class);

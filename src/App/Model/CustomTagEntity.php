@@ -7,7 +7,7 @@ use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 use Mvc4Wp\Core\Model\TagEntity;
 
 #[CustomTaxonomy(name: 'custom_tag', title: 'カスタムタグ', targets: ['post', 'example'])]
-class CustomTagEntry extends TagEntity
+class CustomTagEntity extends TagEntity
 {
     use Castable;
 
