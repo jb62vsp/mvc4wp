@@ -27,11 +27,12 @@ trait TermQuerable
     /**
      * a category.
      */
-    public function asCategory(): static
+    public function asCategory(string $taxonomy = ''): static
     {
         $new = clone $this;
 
-        $new->addExpression(TaxonomyExpr::class, 'category');
+        $category = ($taxonomy === '' ? 'category' : $taxonomy);
+        $new->addExpression(TaxonomyExpr::class, $category);
 
         return $new;
     }
@@ -39,11 +40,12 @@ trait TermQuerable
     /**
      * a tag.
      */
-    public function asTag(): static
+    public function asTag(string $taxonomy = ''): static
     {
         $new = clone $this;
 
-        $new->addExpression(TaxonomyExpr::class, 'post_tag');
+        $tag = ($taxonomy === '' ? 'post_tag' : $taxonomy);
+        $new->addExpression(TaxonomyExpr::class, $tag);
 
         return $new;
     }

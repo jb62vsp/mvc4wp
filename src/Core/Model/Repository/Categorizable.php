@@ -7,28 +7,21 @@ use Mvc4Wp\Core\Model\CategoryEntity;
 trait Categorizable
 {
     /**
-     * @var array<CategoryEntity>
-     */
-    protected array $categories;
-
-    /**
+     * @param string<class-string> $class
      * @return array<CategoryEntity>
      */
-    public function getCategories(): array
+    public function getCategories(string $class = CategoryEntity::class): array
     {
-        if (!isset($this->categories)) {
-            $this->categories = CategoryEntity::find()->byPostID($this->ID)->build()->list();
-        }
-
-        return $this->categories;
+        return $this->categories = $class::find()->byPostID($this->ID)->build()->list();
     }
 
     /**
      * @param string $slug category slug.
+     * @param string<class-string> $class
      */
-    public function hasCategoryBySlug(string $slug): bool
+    public function hasCategoryBySlug(string $slug, string $class = CategoryEntity::class): bool
     {
-        $categories = CategoryEntity::find()->byPostID($this->ID)->bySlug($slug)->build()->list();
+        $categories = $class::find()->byPostID($this->ID)->bySlug($slug)->build()->list();
         return !empty($categories);
     }
 
