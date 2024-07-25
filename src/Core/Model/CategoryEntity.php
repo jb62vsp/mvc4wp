@@ -27,7 +27,7 @@ class CategoryEntity extends TermEntity
     /**
      * @return self
      */
-    public static function findBySlug(string $slug): self
+    public static function findBySlug(string $slug): static
     {
         return static::find()
             ->bySlug($slug)
