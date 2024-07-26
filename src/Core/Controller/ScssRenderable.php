@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Service\Logging;
 
 trait ScssRenderable
 {
-    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
+    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
         debug_view_start($view . '.scss');
 

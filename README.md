@@ -10,9 +10,9 @@ Model-View-Controller framework for WordPress theme
 ### requirements
 
 * GNU Make: 4.3
-* PHP: 8.3
+* PHP: 8.1
 * Composer 2.7
-* WordPress: 6.4
+* WordPress: 6.3
 
 ### project configuration
 

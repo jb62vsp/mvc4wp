@@ -5,5 +5,5 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 
 interface RenderInterface
 {
-    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self;
+    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static;
 }

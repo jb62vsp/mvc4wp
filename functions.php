@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
-use App\Model\CustomTaxEntity;
 
 define('__MVC4WP_ROOT__', __DIR__);
-require_once (__MVC4WP_ROOT__ . '/vendor/autoload.php');
+require_once __MVC4WP_ROOT__ . '/vendor/autoload.php';
 
 use App\Controller\LoginController;
 use App\Logger\LogEntityLoggerFactory;
@@ -15,8 +14,6 @@ use Mvc4Wp\Core\Library\WordPressCustomize;
 use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
-
-\Mvc4Wp\Core\Service\Helper::load('Debug');
 
 App::get()->config()->set('js.use_minify', 'false');
 App::get()->config()->set('css.use_cache', 'false');
