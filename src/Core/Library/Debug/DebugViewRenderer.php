@@ -11,7 +11,7 @@ class DebugViewRenderer implements RenderInterface, ResponderInterface
 {
     use HttpRespondable;
 
-    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
+    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
         if (is_debug()) {
             $core_root = $config->get('core_root');

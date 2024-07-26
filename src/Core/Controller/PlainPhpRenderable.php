@@ -8,7 +8,7 @@ trait PlainPhpRenderable
 {
     private bool $first = true;
 
-    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): self
+    public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
         if ($this->first) {
             $responder->header('Content-Type: text/html; charset=utf-8');
