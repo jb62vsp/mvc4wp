@@ -1,7 +1,7 @@
-FROM composer:latest as composer
-FROM node:latest as node
+FROM composer:2.7 as composer
+FROM node:22-bookworm as node
 
-FROM wordpress:5.9-php8.1-apache
+FROM wordpress:6.3-php8.1-apache
 
 # apt
 RUN apt update \
@@ -26,10 +26,10 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 
-# copy composer
+# copy from composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# copy node
+# copy from node
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
 COPY --from=node /opt/yarn-* /opt/yarn

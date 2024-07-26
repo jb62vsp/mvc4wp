@@ -1,7 +1,8 @@
+.DEFAULT_GOAL := help
+
 #
 # general
 #
-.DEFAULT: init
 
 .PHONY: init
 init: vendor reload_vendor /usr/local/bin/sass #: initialize
@@ -12,22 +13,25 @@ init: vendor reload_vendor /usr/local/bin/sass #: initialize
 clean: clean_vendor #: clean project
 	@rm -rf ./log/*
 
-# .PHONY: default
-# default: #: default settings to App
-# 	@echo
-# 	@read -p 'Delete "ALL FILES" in ./log ./src/App/Controller/*, ./src/App/Model/*, ./src/App/View/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
-# 	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
-# 		read -p 'Are you sure? [y/N]: ' ANS2; \
-# 		if [ "$$ANS2" = "y" -o "$$ANS2" = "Y" ]; then \
-# 			rm -rf ./log ./src/App/Controller/* ./src/App/Model/* ./src/App/View/* ./functions.php ./index.php; \
-# 			cp .default/functions.php ./; \
-# 			cp .default/index.php ./; \
-# 			cp .default/_index.php ./src/App/Controller/index.php; \
-# 			cp .default/_index.php ./src/App/Model/index.php; \
-# 			cp .default/_index.php ./src/App/View/index.php; \
-# 			echo done.; \
-# 		fi \
-# 	fi
+.PHONY: default
+default: #: default settings to App
+	@echo
+	@read -p 'Delete "ALL FILES" in ./src/App/Controller/*, ./src/App/Language/*, ./src/App/Language/Messages/*, ./src/App/Model/*, ./src/App/View/*, and clear ./functions.php ./index.php. [y/N]: ' ANS1; \
+	if [ "$$ANS1" = "y" -o "$$ANS1" = "Y" ]; then \
+		read -p 'Are you sure? [y/N]: ' ANS2; \
+		if [ "$$ANS2" = "y" -o "$$ANS2" = "Y" ]; then \
+			rm -rf ./src/App/Controller/* ./src/App/Language/* ./src/App/Model/* ./src/App/View/* ./functions.php ./index.php; \
+			cp .default/functions.php ./; \
+			cp .default/index.php ./; \
+			cp .default/_index.php ./src/App/Controller/index.php; \
+			cp .default/_index.php ./src/App/Language/index.php; \
+			mkdir ./src/App/Language/Messages; \
+			cp .default/_index.php ./src/App/Language/Messages/index.php; \
+			cp .default/_index.php ./src/App/Model/index.php; \
+			cp .default/_index.php ./src/App/View/index.php; \
+			echo done.; \
+		fi \
+	fi
 
 #
 # sass
