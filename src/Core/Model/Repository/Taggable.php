@@ -7,28 +7,21 @@ use Mvc4Wp\Core\Model\TagEntity;
 trait Taggable
 {
     /**
-     * @var array<TagEntity>
-     */
-    protected array $tags;
-
-    /**
+     * @param string<class-string> $class
      * @return array<TagEntity>
      */
-    public function getTags(): array
+    public function getTags(string $class = TagEntity::class): array
     {
-        if (!isset($this->tags)) {
-            $this->tags = TagEntity::find()->byPostID($this->ID)->build()->list();
-        }
-
-        return $this->tags;
+        return $this->tags = $class::find()->byPostID($this->ID)->build()->list();
     }
 
     /**
      * @param string $slug tag slug.
+     * @param string<class-string> $class
      */
-    public function hasTagBySlug(string $slug): bool
+    public function hasTagBySlug(string $slug, string $class = TagEntity::class): bool
     {
-        $tags = TagEntity::find()->byPostID($this->ID)->bySlug($slug)->build()->list();
+        $tags = $class::find()->byPostID($this->ID)->bySlug($slug)->build()->list();
         return !empty($tags);
     }
 

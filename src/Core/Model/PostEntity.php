@@ -49,7 +49,7 @@ class PostEntity extends Entity
         return $result;
     }
 
-    public static function findByID(int $id, bool $publish_only = true): PostEntity|null
+    public static function findByID(int $id, bool $publish_only = true): static|null
     {
         $q = static::find()->byID($id);
 
