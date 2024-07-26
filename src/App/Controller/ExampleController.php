@@ -1,10 +1,13 @@
 <?php declare(strict_types=1);
 namespace App\Controller;
 
+use App\Model\CustomCatEntity;
+use App\Model\CustomTagEntity;
 use App\Model\ExampleEntity;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\CompareInQuery;
 use Mvc4Wp\Core\Model\Repository\OrderInQuery;
+use Mvc4Wp\Core\Model\Repository\TaxQueryFieldInQuery;
 use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
@@ -12,8 +15,6 @@ use Mvc4Wp\Core\Service\Logging;
 class ExampleController extends AdminController
 {
     use Castable;
-
-    private string $name;
 
     private const META_COLUMNS = [
         'example_text',
@@ -117,10 +118,26 @@ class ExampleController extends AdminController
 
     ];
 
+    private string $name;
+
+    private array $categories;
+
+    private array $tags;
+
     public function init(array $args = []): void
     {
         parent::init($args);
         $this->name = 'Example';
+        $this->categories = CustomCatEntity::find()
+            ->showEmpty()
+            ->orderByID()
+            ->build()
+            ->list();
+        $this->tags = CustomTagEntity::find()
+            ->showEmpty()
+            ->orderByID()
+            ->build()
+            ->list();
     }
 
     public function index(array $args = []): void
@@ -130,6 +147,8 @@ class ExampleController extends AdminController
 
     public function list(array $args = [], array $errors = [], $post = []): void
     {
+        debug_add_start();
+
         $sort = 'ID';
         $order = OrderInQuery::ASC;
         $page = 1;
@@ -146,7 +165,7 @@ class ExampleController extends AdminController
         if (array_key_exists('per_page', $args)) {
             $per_page = intval($args['per_page']);
         }
-        $query = ExampleEntity::find()
+        $examples = ExampleEntity::find()
             ->withAutoDraft()
             ->withDraft()
             ->withPublish()
@@ -154,15 +173,15 @@ class ExampleController extends AdminController
             ->orderBy($sort, $order)
             ->limitOf($per_page, $page)
             ->all()
-            ->build();
-
-        $count = $query->count();
-        $examples = $query->list();
+            ->build()
+            ->list();
 
         $data = [
             'title' => $this->name,
-            'count' => $count,
+            'count' => count($examples),
             'examples' => $examples,
+            'categories' => $this->categories,
+            'tags' => $this->tags,
             'columns' => self::COLUMNS,
             'sortable_columns' => self::SORTABLE_COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
@@ -176,24 +195,34 @@ class ExampleController extends AdminController
             'messager' => App::get()->messager(),
         ];
 
+        debug_add_end('timer', ['name' => 'list']);
+
         $this
             ->ok()
             ->view('header', $data)
             ->view('link', $data)
             ->view('example/list', $data)
-            ->view('footer')
-            ->done();
+            ->view('footer');
+
+        $this->done();
     }
 
     public function search(): void
     {
         $sort = $_POST['sort'];
         $order = OrderInQuery::from(strtoupper($_POST['order']));
-        $examples = ExampleEntity::find()
+        $query = ExampleEntity::find()
             ->withAny()
             ->withAutoDraft()
             ->withTrash()
-            ->by($_POST['key'], $_POST['value'], CompareInQuery::from(strtoupper($_POST['compare'])), TypeInQuery::from(strtoupper($_POST['type'])))
+            ->by($_POST['key'], $_POST['value'], CompareInQuery::from(strtoupper($_POST['compare'])), TypeInQuery::from(strtoupper($_POST['type'])));
+        if (array_key_exists('categories', $_POST)) {
+            $query = $query->byTaxonomy('custom_cat', array_keys($_POST['categories']), TaxQueryFieldInQuery::SLUG);
+        }
+        if (array_key_exists('tags', $_POST)) {
+            $query = $query->byTaxonomy('custom_tag', array_keys($_POST['tags']), TaxQueryFieldInQuery::SLUG);
+        }
+        $examples = $query
             ->orderBy($sort, $order)
             ->build()
             ->list();
@@ -202,6 +231,8 @@ class ExampleController extends AdminController
             'title' => $this->name,
             'count' => count($examples),
             'examples' => $examples,
+            'categories' => $this->categories,
+            'tags' => $this->tags,
             'columns' => self::COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
             'registerable_columns' => self::REGISTERABLE_COLUMNS,
@@ -223,8 +254,12 @@ class ExampleController extends AdminController
 
     public function single(array $args, array $errors = [], array $post = []): void
     {
-        $id = intval($args['id']);
-        $example = ExampleEntity::findByID($id, false);
+        $example = null;
+
+        if (array_key_exists('id', $args)) {
+            $id = intval($args['id']);
+            $example = ExampleEntity::findByID($id, false);
+        }
         if (is_null($example)) {
             $this
                 ->notFound()
@@ -236,6 +271,8 @@ class ExampleController extends AdminController
             'id' => $id,
             'count' => 1,
             'examples' => [$example],
+            'categories' => $this->categories,
+            'tags' => $this->tags,
             'columns' => self::COLUMNS,
             'searchable_columns' => self::SEARCHABLE_COLUMNS,
             'registerable_columns' => self::REGISTERABLE_COLUMNS,
@@ -262,6 +299,14 @@ class ExampleController extends AdminController
             $example->bind($_POST);
             Logging::get('log_model')->info(static::class . '->' . 'register', get_object_vars($example));
             $id = $example->register();
+            if (array_key_exists('categories', $_POST)) {
+                $categories = array_map(fn($slug) => CustomCatEntity::findBySlug($slug), array_keys($_POST['categories']));
+                $example->setCategories($categories);
+            }
+            if (array_key_exists('tags', $_POST)) {
+                $tags = array_map(fn($slug) => CustomTagEntity::findBySlug($slug), array_keys($_POST['tags']));
+                $example->setTags($tags);
+            }
             $this->seeOther("/example/{$id}")->done();
         } else {
             $this->list([], $errors, $_POST);
@@ -283,6 +328,18 @@ class ExampleController extends AdminController
             $example->bind($_POST);
             Logging::get('log_model')->info(static::class . '->' . 'update', get_object_vars($example));
             $example->update();
+            if (array_key_exists('categories', $_POST)) {
+                $categories = array_map(fn($slug) => CustomCatEntity::findBySlug($slug), array_keys($_POST['categories']));
+                $example->setCategories($categories);
+            } else {
+                $example->removeCategories(CustomCatEntity::class);
+            }
+            if (array_key_exists('tags', $_POST)) {
+                $tags = array_map(fn($slug) => CustomTagEntity::findBySlug($slug), array_keys($_POST['tags']));
+                $example->setTags($tags);
+            } else {
+                $example->removeTags(CustomTagEntity::class);
+            }
             $this
                 ->seeOther("/example/{$id}")
                 ->done();
@@ -301,7 +358,13 @@ class ExampleController extends AdminController
                 ->done();
         }
 
-        if ($_POST['to_trush'] === 'true') {
+        if ($_POST['delete'] === 'untrash') {
+            $example->post_status = 'publish';
+            $example->update();
+            $this
+                ->seeOther("/example/{$id}")
+                ->done();
+        } elseif ($_POST['delete'] === 'trash') {
             $example->delete();
             $this
                 ->seeOther("/example/{$id}")

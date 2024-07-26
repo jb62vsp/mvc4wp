@@ -63,6 +63,30 @@
                 <?php endforeach; ?>
             </select>
         </p>
+        <dl>
+            <dt>Categories</dt>
+            <?php foreach ($data['categories'] as $category): ?>
+                <dd>
+                    <input type='checkbox' id='<?php eh("search_category_{$category->term_id}"); ?>'
+                        name='categories[<?php echo eh("{$category->slug}"); ?>]' <?php eh(array_key_exists('categories', $_POST) && array_key_exists($category->slug, $_POST['categories']) ? 'checked' : ''); ?>>
+                    <label for='<?php eh("search_category_{$category->term_id}"); ?>'>
+                        <?php eh($category->name); ?>
+                    </label>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+        <dl>
+            <dt>Tags</dt>
+            <?php foreach ($data['tags'] as $tag): ?>
+                <dd>
+                    <input type='checkbox' id='<?php eh("search_tag_{$tag->term_id}"); ?>'
+                        name='tags[<?php echo eh($tag->slug); ?>]' <?php eh(array_key_exists('tags', $_POST) && array_key_exists($tag->slug, $_POST['tags']) ? 'checked' : ''); ?>>
+                    <label for='<?php eh("search_tag_{$tag->term_id}"); ?>'>
+                        <?php eh($tag->name); ?>
+                    </label>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
         <p>
             <input type='submit' value='search'>
         </p>

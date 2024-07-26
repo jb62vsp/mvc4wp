@@ -25,6 +25,30 @@
                 <?php endif; ?>
             </p>
         <?php endforeach; ?>
+        <dl>
+            <dt>Categories</dt>
+            <?php foreach ($data['categories'] as $category): ?>
+                <dd>
+                    <input type='checkbox' id='<?php eh("register_category_{$category->term_id}"); ?>'
+                        name='categories[<?php echo eh("{$category->slug}"); ?>]'>
+                    <label for='<?php eh("register_category_{$category->term_id}"); ?>'>
+                        <?php eh($category->name); ?>
+                    </label>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+        <dl>
+            <dt>Tags</dt>
+            <?php foreach ($data['tags'] as $tag): ?>
+                <dd>
+                    <input type='checkbox' id='<?php eh("register_tag_{$tag->term_id}"); ?>'
+                        name='tags[<?php echo eh($tag->slug); ?>]'>
+                    <label for='<?php eh("register_tag_{$tag->term_id}"); ?>'>
+                        <?php eh($tag->name); ?>
+                    </label>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
         <p>
             <input type='submit' value='register'>
         </p>
