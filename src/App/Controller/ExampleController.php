@@ -259,12 +259,22 @@ class ExampleController extends AdminController
         if (array_key_exists('id', $args)) {
             $id = intval($args['id']);
             $example = ExampleEntity::findByID($id, false);
+        } elseif (array_key_exists('slug', $args)) {
+            $slug = strval($args['slug']);
+            $example = ExampleEntity::find()
+                ->withAny()
+                ->withAutoDraft()
+                ->withTrash()
+                ->bySlug($slug)
+                ->build()
+                ->single();
         }
         if (is_null($example)) {
             $this
                 ->notFound()
                 ->done();
         }
+        $id = $example->ID;
 
         $data = [
             'title' => $this->name,

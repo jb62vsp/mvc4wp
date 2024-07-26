@@ -46,6 +46,7 @@ App::get()->router()->GET('/example/list/{sort}/{order}/{page:\d+}/{per_page:\d+
 App::get()->router()->GET('/example/search', [ExampleController::class, 'list']);
 App::get()->router()->POST('/example/search', [ExampleController::class, 'search']);
 App::get()->router()->GET('/example/{id:\d+}', [ExampleController::class, 'single']);
+App::get()->router()->GET('/example/{slug}/', [ExampleController::class, 'single']);
 App::get()->router()->POST('/example/', [ExampleController::class, 'register']);
 App::get()->router()->PUT('/example/{id:\d+}', [ExampleController::class, 'update']);
 App::get()->router()->DELETE('/example/{id:\d+}', [ExampleController::class, 'delete']);
