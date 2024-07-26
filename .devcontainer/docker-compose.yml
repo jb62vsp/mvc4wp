@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   wordpress:
     env_file:
@@ -40,7 +38,7 @@ services:
   phpmyadmin:
     env_file:
       - .env
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
     links:
     - mysql
     networks:
