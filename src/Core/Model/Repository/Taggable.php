@@ -62,8 +62,12 @@ trait Taggable
         }
     }
 
-    public function removeTags(): void
+    /**
+     * 
+     * @param string<class-string> $class
+     */
+    public function removeTags(string $class = TagEntity::class): void
     {
-        wp_delete_object_term_relationships($this->ID, Entry::getClassAttribute(TagEntity::class)->name);
+        wp_delete_object_term_relationships($this->ID, Entry::getClassAttribute($class)->name);
     }
 }
