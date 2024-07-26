@@ -15,7 +15,7 @@ class PostQuerableTest extends TestCase
         $actual = $obj
             ->byID(1)
             ->getExpressions();
-        $this->assertEquals([PostPageIDExpr::class => [1]], $actual);
+        $this->assertEquals([PostIDExpr::class => [1]], $actual);
     }
 
     public function test_byID_chain(): void
@@ -28,7 +28,30 @@ class PostQuerableTest extends TestCase
             ->byID(3)
             ->getExpressions();
         $this->assertCount(1, $actual);
-        $this->assertEquals([PostPageIDExpr::class => [3]], $actual);
+        $this->assertEquals([PostIDExpr::class => [3]], $actual);
+    }
+
+    public function test_bySlug_single(): void
+    {
+        $obj = new PostQuerableTestMockImpl();
+
+        $actual = $obj
+            ->bySlug('hoge')
+            ->getExpressions();
+        $this->assertEquals([PostNameExpr::class => ['hoge']], $actual);
+    }
+
+    public function test_bySlug_chain(): void
+    {
+        $obj = new PostQuerableTestMockImpl();
+
+        $actual = $obj
+            ->bySlug('hoge')
+            ->bySlug('fuga')
+            ->bySlug('piyo')
+            ->getExpressions();
+        $this->assertCount(1, $actual);
+        $this->assertEquals([PostNameExpr::class => ['piyo']], $actual);
     }
 }
 
