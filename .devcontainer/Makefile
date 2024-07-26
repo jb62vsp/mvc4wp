@@ -15,7 +15,7 @@ create:
 
 .PHONY: clean
 clean: .created
-	@docker volume remove $(DB)
-	@docker network remove $(NW)
+	@docker volume remove $(DB); \
+	 docker network remove $(NW)
 	@rm -f .env
 	@rm -f .created
