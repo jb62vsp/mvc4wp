@@ -13,8 +13,44 @@ trait PostQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(PostPageIDExpr::class, $id);
+        $new->setExpression(PostIDExpr::class, $id);
 
         return $new;
+    }
+
+    /**
+     * @param string $slug Post slug.
+     */
+    public function bySlug(string $slug): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(PostNameExpr::class, $slug);
+
+        return $new;       
+    }
+
+    /**
+     * @param int $page_id Post page id.
+     */
+    public function byPageID(int $page_id): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(PostPageIDExpr::class, $page_id);
+
+        return $new;       
+    }
+
+    /**
+     * @param string $page_slug Post page slug.
+     */
+    public function byPageSlug(string $page_slug): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(PostPageNameExpr::class, $page_slug);
+
+        return $new;       
     }
 }
