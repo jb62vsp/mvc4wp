@@ -10,6 +10,7 @@ use Mvc4Wp\Core\Model\Repository\PostPaginate\PostPaginateQuerable;
 use Mvc4Wp\Core\Model\Repository\PostReturnFields\PostReturnFieldsQuerable;
 use Mvc4Wp\Core\Model\Repository\PostSearch\PostSearchQuerable;
 use Mvc4Wp\Core\Model\Repository\PostStatus\PostStatusQuerable;
+use Mvc4Wp\Core\Model\Repository\PostTaxonomy\PostTaxonomyQuerable;
 use Mvc4Wp\Core\Model\Repository\PostType\PostTypeQuerable;
 
 class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
@@ -24,6 +25,7 @@ class PostQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInter
         PostReturnFieldsQuerable,
         PostSearchQuerable,
         PostStatusQuerable,
+        PostTaxonomyQuerable,
         PostTypeQuerable;
 
     public function __construct(
