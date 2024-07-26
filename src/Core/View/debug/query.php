@@ -12,9 +12,15 @@
                 </label>
                 <div class='expandable'>
                     <p>
+                        <span class='name cyan'>caller</span>
+                        <span class='value green'>
+                            <?php eh($query['caller']); ?>
+                        </span>
+                    </p>
+                    <p>
                         <span class='name cyan'>duration</span>
                         <span class='value green'>
-                            <?php eh(sprintf("%.4f", $query['duration'])); ?>ms
+                            <?php eh(sprintf("%.4fms", $query['duration'])); ?>
                         </span>
                     </p>
                     <p>

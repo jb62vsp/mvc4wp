@@ -60,7 +60,7 @@ if (!function_exists('debug_add_start')) {
 
         $dbg = '';
         foreach (debug_backtrace() as $s) {
-            if (!str_starts_with($s['function'], 'debug_')) {
+            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
                 $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
             }
         }
@@ -78,13 +78,15 @@ if (!function_exists('debug_add_end')) {
         $end = microtime(true);
 
         $dbg = '';
-        foreach (debug_backtrace() as $s) {
-            if (!str_starts_with($s['function'], 'debug_')) {
+        $bt = debug_backtrace();
+        foreach ($bt as $s) {
+            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
                 $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
             }
         }
         $hash = md5($dbg);
 
+        $info['caller'] = explode('!', $dbg)[0];
         $info['start'] = $stopwatch[$hash];
         $info['end'] = $end;
         $info['duration'] = $end - $info['start'];

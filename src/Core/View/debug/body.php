@@ -20,6 +20,9 @@
             <input id="debug-tab-radio-query" type="radio" name="debug-tab-radio">
             <label class="debug-tab-button clickable" for="debug-tab-radio-query">Query</label>
 
+            <input id="debug-tab-radio-timer" type="radio" name="debug-tab-radio">
+            <label class="debug-tab-button clickable" for="debug-tab-radio-timer">Timer</label>
+
             <input id="debug-tab-radio-config" type="radio" name="debug-tab-radio">
             <label class="debug-tab-button clickable" for="debug-tab-radio-config">Config</label>
 
@@ -41,6 +44,9 @@
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-query">
                 <?php debug_view('query.php'); ?>
+            </div>
+            <div class="debug-tab-container scrollbar" id="debug-tab-container-timer">
+                <?php debug_view('timer.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-config">
                 <?php debug_view('config.php'); ?>

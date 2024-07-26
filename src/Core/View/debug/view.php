@@ -14,7 +14,7 @@
                     <p>
                         <span class='name cyan'>duration</span>
                         <span class='value green'>
-                            <?php eh(sprintf("%.4f", $view['duration'])); ?>ms
+                            <?php eh(sprintf("%.4fms", $view['duration'])); ?>
                         </span>
                     </p>
                     <p>
