@@ -27,7 +27,7 @@ class UserQueryExecutor implements QueryExecutorInterface
             $result[] = $model;
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::list', 'query' => $this->query]);
 
         return $result;
     }
@@ -43,7 +43,7 @@ class UserQueryExecutor implements QueryExecutorInterface
             $result = $this->bindByID($users[0]->ID);
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::single', 'query' => $this->query]);
 
         return $result;
     }
@@ -57,7 +57,7 @@ class UserQueryExecutor implements QueryExecutorInterface
         $ids = $this->fetch();
         $result = count($ids);
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::count', 'query' => $this->query]);
 
         return $result;
     }
@@ -74,7 +74,7 @@ class UserQueryExecutor implements QueryExecutorInterface
             $result = $this->bindByID($id);
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => 'current']);
+        debug_add_end('query', ['executor' => get_class($this) . '::current', 'query' => 'current']);
 
         return $result;
     }

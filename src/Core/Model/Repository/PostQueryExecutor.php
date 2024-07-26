@@ -24,7 +24,7 @@ class PostQueryExecutor implements QueryExecutorInterface
             $result[] = $model;
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::list', 'query' => $this->query]);
 
         return $result;
     }
@@ -40,7 +40,7 @@ class PostQueryExecutor implements QueryExecutorInterface
             $result = $this->bindByID($ids[0]);
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::single', 'query' => $this->query]);
 
         return $result;
     }
@@ -56,7 +56,7 @@ class PostQueryExecutor implements QueryExecutorInterface
             $result = count($results);
         }
 
-        debug_add_end('query', ['executor' => get_class($this), 'query' => $this->query]);
+        debug_add_end('query', ['executor' => get_class($this) . '::count', 'query' => $this->query]);
 
         return $result;
     }
