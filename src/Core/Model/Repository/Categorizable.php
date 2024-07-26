@@ -62,8 +62,11 @@ trait Categorizable
         }
     }
 
-    public function removeCategories(): void
+    /**
+     * @param string<class-string> $class
+     */
+    public function removeCategories(string $class = CategoryEntity::class): void
     {
-        wp_delete_object_term_relationships($this->ID, Entry::getClassAttribute(CategoryEntity::class)->name);
+        wp_delete_object_term_relationships($this->ID, Entry::getClassAttribute($class)->name);
     }
 }
