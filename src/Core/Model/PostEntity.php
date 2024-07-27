@@ -38,17 +38,27 @@ class PostEntity extends Entity
     #[Field]
     public string $post_content;
 
+    /**
+     */
     public function __construct()
     {
         $this->post_type = PostType::getName(static::class);
     }
 
+    /**
+     * @return PostQueryBuilder
+     */
     public static function find(): PostQueryBuilder
     {
         $result = new PostQueryBuilder(static::class);
         return $result;
     }
 
+    /**
+     * @param int $id
+     * @param bool $publish_only
+     * @return static|null
+     */
     public static function findByID(int $id, bool $publish_only = true): static|null
     {
         $q = static::find()->byID($id);
@@ -66,6 +76,10 @@ class PostEntity extends Entity
         return $q->build()->single();
     }
 
+    /**
+     * @param bool $publish
+     * @return int
+     */
     public function register(bool $publish = true): int
     {
         if ($publish) {
@@ -82,6 +96,9 @@ class PostEntity extends Entity
         return $this->ID;
     }
 
+    /**
+     * @return void
+     */
     public function update(): void
     {
         wp_update_post($this);
@@ -93,6 +110,10 @@ class PostEntity extends Entity
         }
     }
 
+    /**
+     * @param bool $force_delete
+     * @return bool
+     */
     public function delete(bool $force_delete = false): bool
     {
         if ($force_delete) {
@@ -106,6 +127,9 @@ class PostEntity extends Entity
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isLoaded(): bool
     {
         return isset($this->ID);

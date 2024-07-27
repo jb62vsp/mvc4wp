@@ -27,13 +27,20 @@ class UserEntity extends Entity
     #[Field]
     public string $first_name;
 
+    /**
+     * @return UserQueryBuilder
+     */
     public static function find(): UserQueryBuilder
     {
         $result = new UserQueryBuilder(static::class);
         return $result;
     }
 
-    public static function findByID(int $id): UserEntity|null
+    /**
+     * @param int $id
+     * @return static|null
+     */
+    public static function findByID(int $id): static|null
     {
         $result = static::find()
             ->byID($id)
@@ -43,7 +50,10 @@ class UserEntity extends Entity
         return $result;
     }
 
-    public static function current(): UserEntity|null
+    /**
+     * @return static|null
+     */
+    public static function current(): static|null
     {
         $result = static::find()
             ->build()
@@ -52,6 +62,9 @@ class UserEntity extends Entity
         return $result;
     }
 
+    /**
+     * @return int
+     */
     public function register(): int
     {
         $data = static::toArrayOnlyField($this);
@@ -64,6 +77,9 @@ class UserEntity extends Entity
         return $id;
     }
 
+    /**
+     * @return void
+     */
     public function update(): void
     {
         $data = static::toArrayOnlyField($this);
@@ -76,6 +92,10 @@ class UserEntity extends Entity
 
     }
 
+    /**
+     * @param bool $force_delete
+     * @return bool
+     */
     public function delete(bool $force_delete = false): bool
     {
         require_once(ABSPATH . 'wp-admin/includes/user.php');
@@ -84,6 +104,9 @@ class UserEntity extends Entity
         return $result;
     }
 
+    /**
+     * @return bool
+     */
     public function isLoaded(): bool
     {
         return isset($this->ID);

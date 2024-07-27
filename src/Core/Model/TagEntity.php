@@ -18,7 +18,11 @@ class TagEntity extends TermEntity
         return $result;
     }
 
-    public static function findBySlug(string $slug): static
+    /**
+     * @param string $slug
+     * @return static|null
+     */
+    public static function findBySlug(string $slug): static|null
     {
         return static::find()
             ->bySlug($slug)
