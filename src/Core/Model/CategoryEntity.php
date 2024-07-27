@@ -18,6 +18,9 @@ class CategoryEntity extends TermEntity
     #[Field]
     public int $parent;
 
+    /**
+     * @return \Mvc4Wp\Core\Model\Repository\TermQueryBuilder
+     */
     public static function find(): TermQueryBuilder
     {
         $result = new TermQueryBuilder(static::class);
@@ -25,9 +28,10 @@ class CategoryEntity extends TermEntity
     }
 
     /**
-     * @return static
+     * @param string $slug 
+     * @return static|null
      */
-    public static function findBySlug(string $slug): static
+    public static function findBySlug(string $slug): static|null
     {
         return static::find()
             ->bySlug($slug)
@@ -37,6 +41,10 @@ class CategoryEntity extends TermEntity
         ;
     }
 
+    /**
+     * @param bool $publish
+     * @return int
+     */
     public function register(bool $publish = true): int
     {
         $term_ids = wp_insert_term($this->name, $this->taxonomy, [
@@ -54,6 +62,9 @@ class CategoryEntity extends TermEntity
         return $this->term_id;
     }
 
+    /**
+     * @return void
+     */
     public function update(): void
     {
         wp_update_term($this->term_id, $this->taxonomy, [
@@ -69,6 +80,10 @@ class CategoryEntity extends TermEntity
         }
     }
 
+    /**
+     * @param bool $force_delete
+     * @return bool
+     */
     public function delete(bool $force_delete = false): bool
     {
         $result = wp_delete_term($this->term_id, $this->taxonomy);

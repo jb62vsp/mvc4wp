@@ -10,11 +10,18 @@ trait Bindable
 {
     private bool $is_binded;
 
+    /**
+     * @return bool
+     */
     public function isBinded(): bool
     {
         return isset($this->is_binded) && $this->is_binded;
     }
 
+    /**
+     * @param object|array $values
+     * @return void
+     */
     public function bind(object|array $values): void
     {
         $props = Field::getAttributedProperties(static::class);
