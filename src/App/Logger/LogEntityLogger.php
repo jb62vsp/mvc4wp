@@ -44,7 +44,15 @@ class LogEntityLogger extends AbstractLogger
             $entry->post_title = $date . ' - ' . strtoupper($level) . ' --> ' . $message;
             $entry->post_content = var_export($context, true);
             $entry->register(true);
-            $entry->addTag(LogLevelTagEntity::findBySlug($level));
+            $tag = LogLevelTagEntity::findBySlug($level);
+            if (is_null($tag)) {
+                $tag = new LogLevelTagEntity();
+                $tag->name = strtoupper($level);
+                $tag->slug = $level;
+                $tag->description = '';
+                $tag->register();
+            }
+            $entry->addTag($tag);
         }
     }
 }
