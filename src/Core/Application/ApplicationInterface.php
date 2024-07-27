@@ -5,6 +5,7 @@ use Mvc4Wp\Core\Config\ConfiguratorInterface;
 use Mvc4Wp\Core\Controller\ControllerInterface;
 use Mvc4Wp\Core\Language\MessagerInterface;
 use Mvc4Wp\Core\Library\ClockInterface;
+use Mvc4Wp\Core\Library\HttpStatus;
 use Mvc4Wp\Core\Route\RouterInterface;
 
 interface ApplicationInterface
@@ -14,6 +15,8 @@ interface ApplicationInterface
     public function config(): ConfiguratorInterface;
 
     public function controller(): ControllerInterface;
+
+    public function errorHandler(HttpStatus $httpStatus): ControllerInterface;
 
     public function messager(): MessagerInterface;
 
