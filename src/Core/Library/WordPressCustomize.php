@@ -5,6 +5,7 @@ use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
+use Mvc4Wp\Core\Model\Attribute\UserCustomField;
 use Mvc4Wp\Core\Service\App;
 
 final class WordPressCustomize
@@ -140,6 +141,20 @@ final class WordPressCustomize
         }
 
         return $slug;
+    }
+
+    public static function addCustomUserField(string $class_name): void
+    {
+        $property_names = UserCustomField::getAttributedPropertyNames($class_name);
+        foreach ($property_names as $property_name) {
+            $attr = UserCustomField::getPropertyAttribute($class_name, $property_name);
+            $field_slug = $property_name;
+            $title = $attr->title;
+            add_filter('user_contactmethods', function (array $methods) use ($field_slug, $title): array {
+                $methods[$field_slug] = $title;
+                return $methods;
+            });
+        }
     }
 
     public static function changeLoginUrl(string $controller_class, string $login_name = 'login', string $logout_name = 'logout', string $redirect_uri = '/'): void

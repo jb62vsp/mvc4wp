@@ -2,6 +2,7 @@
 namespace Mvc4Wp\Core\Model\Repository;
 
 use Mvc4Wp\Core\Library\Castable;
+use Mvc4Wp\Core\Model\RoleEntity;
 use Mvc4Wp\Core\Model\UserEntity;
 use Mvc4Wp\Core\Service\Logging;
 
@@ -97,6 +98,12 @@ class UserQueryExecutor implements QueryExecutorInterface
             if ($user) {
                 $result = new $this->entity_class();
                 $result->bind($user->data);
+                foreach ($user->roles as $role) {
+                    $role_entity = RoleEntity::findByRole($role);
+                    if (!is_null($role_entity)) {
+                        $result->role = $role_entity;
+                    }
+                }
                 // get_user_meta( int $user_id, string $key = ”, bool $single = false ): mixed
                 $user_meta = get_user_meta($id);
                 $result->bind($user_meta);
