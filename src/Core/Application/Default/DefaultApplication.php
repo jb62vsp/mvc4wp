@@ -61,6 +61,26 @@ class DefaultApplication implements ApplicationInterface
         return $this->_controller;
     }
 
+    public function errorHandler(HttpStatus $httpStatus): ControllerInterface
+    {
+        $error_handler = DefaultErrorController::class;
+
+        $custom_error_handler = $this->config()->get('error_handler.handlers.' . strval($httpStatus->value));
+        if (!is_null($custom_error_handler) && class_exists($custom_error_handler)) {
+            $error_handler = $custom_error_handler;
+        } else {
+            $default_handler_name = $this->config()->get('error_handler.default_handler_name');
+            if (!is_null($default_handler_name)) {
+                $default_error_handler = $this->config()->get('error_handler.handlers.' . $default_handler_name);
+                if (!is_null($default_error_handler) && class_exists($default_error_handler)) {
+                    $error_handler = $default_error_handler;
+                }
+            }
+        }
+
+        return new $error_handler($this->config());
+    }
+
     public function messager(): MessagerInterface
     {
         if (!isset($this->_messager)) {
@@ -152,25 +172,5 @@ class DefaultApplication implements ApplicationInterface
         } finally {
             debug_view();
         }
-    }
-
-    protected function errorHandler(HttpStatus $httpStatus): ControllerInterface
-    {
-        $error_handler = DefaultErrorController::class;
-
-        $custom_error_handler = $this->config()->get('error_handler.handlers.' . strval($httpStatus->value));
-        if (!is_null($custom_error_handler) && class_exists($custom_error_handler)) {
-            $error_handler = $custom_error_handler;
-        } else {
-            $default_handler_name = $this->config()->get('error_handler.default_handler_name');
-            if (!is_null($default_handler_name)) {
-                $default_error_handler = $this->config()->get('error_handler.handlers.' . $default_handler_name);
-                if (!is_null($default_error_handler) && class_exists($default_error_handler)) {
-                    $error_handler = $default_error_handler;
-                }
-            }
-        }
-
-        return new $error_handler($this->config());
     }
 }

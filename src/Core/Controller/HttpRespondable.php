@@ -2,6 +2,7 @@
 namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Library\HttpStatus;
+use Mvc4Wp\Core\Service\App;
 
 trait HttpRespondable
 {
@@ -28,12 +29,12 @@ trait HttpRespondable
 
     public function forbidden(): static
     {
-        return $this->Response(HttpStatus::FORBIDDEN);
+        return $this->errorResponse(HttpStatus::FORBIDDEN);
     }
 
     public function notFound(): static
     {
-        return $this->Response(HttpStatus::NOT_FOUND);
+        return $this->errorResponse(HttpStatus::NOT_FOUND);
     }
 
     public function header(string $message): static
@@ -48,6 +49,14 @@ trait HttpRespondable
         if (!empty($addition)) {
             $this->header($addition);
         }
+        return $this;
+    }
+
+    public function errorResponse(HttpStatus $status_code, bool $replace = true, string $addition = ""): static
+    {
+        $this->Response($status_code);
+        App::get()->errorHandler($status_code)->init([$status_code]);
+        App::get()->errorHandler($status_code)->index([$status_code]);
         return $this;
     }
 
