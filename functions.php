@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
-      use Mvc4Wp\Core\Service\Helper;
+
+use App\Controller\ErrorController;
+use Mvc4Wp\Core\Service\Helper;
 
 define('__MVC4WP_ROOT__', __DIR__);
 require_once __MVC4WP_ROOT__ . '/vendor/autoload.php';
@@ -21,6 +23,8 @@ use Mvc4Wp\Core\Service\Logging;
  * General configuration
  * --------------------------------------------------------------------
  */
+App::get()->config()->set('error_handler.handlers.403', ErrorController::class);
+App::get()->config()->set('error_handler.handlers.404', ErrorController::class);
 App::get()->config()->set('js.use_minify', 'false');
 App::get()->config()->set('css.use_cache', 'false');
 App::get()->config()->set('css.use_minify', 'false');
