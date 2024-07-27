@@ -6,7 +6,6 @@ use App\Controller\HomeController;
 use App\Controller\LoginController;
 use App\Controller\PostController;
 use Mvc4Wp\Core\Service\App;
-use Mvc4Wp\Core\Service\Helper;
 
 /*
  * --------------------------------------------------------------------
@@ -50,14 +49,6 @@ App::get()->router()->GET('/example/{slug}/', [ExampleController::class, 'single
 App::get()->router()->POST('/example/', [ExampleController::class, 'register']);
 App::get()->router()->PUT('/example/{id:\d+}', [ExampleController::class, 'update']);
 App::get()->router()->DELETE('/example/{id:\d+}', [ExampleController::class, 'delete']);
-
-/*
- * --------------------------------------------------------------------
- * Initialize application
- * --------------------------------------------------------------------
- */
-Helper::load('Debug');
-Helper::load('View');
 
 /*
  * --------------------------------------------------------------------

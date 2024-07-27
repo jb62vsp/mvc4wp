@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+      use Mvc4Wp\Core\Service\Helper;
 
 define('__MVC4WP_ROOT__', __DIR__);
 require_once __MVC4WP_ROOT__ . '/vendor/autoload.php';
@@ -15,6 +16,11 @@ use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Logging;
 
+/*
+ * --------------------------------------------------------------------
+ * General configuration
+ * --------------------------------------------------------------------
+ */
 App::get()->config()->set('js.use_minify', 'false');
 App::get()->config()->set('css.use_cache', 'false');
 App::get()->config()->set('css.use_minify', 'false');
@@ -34,6 +40,12 @@ App::get()->config()->set('logger.loggers.sql', [
     'log_level' => 'debug',
 ]);
 Logging::configure(App::get()->config());
+
+/*
+ * --------------------------------------------------------------------
+ * Wordpress customization
+ * --------------------------------------------------------------------
+ */
 WordPressCustomize::enableTraceSQL(function ($q) {
     Logging::get('sql')->debug($q);
     return $q;
@@ -45,3 +57,11 @@ WordPressCustomize::addCustomPostType(LogEntity::class);
 WordPressCustomize::addCustomTaxonomy(LogLevelTagEntity::class);
 WordPressCustomize::disableRedirectCanonical();
 WordPressCustomize::changeLoginUrl(LoginController::class);
+
+/*
+ * --------------------------------------------------------------------
+ * Initialize application
+ * --------------------------------------------------------------------
+ */
+Helper::load('Debug');
+Helper::load('View');
