@@ -16,7 +16,16 @@ class UserEntity extends Entity
     public string $user_login;
 
     #[Field]
+    public string $user_nicename;
+
+    #[Field]
     public string $user_email;
+
+    #[Field]
+    public string $user_url;
+
+    #[Field]
+    public string $user_registered;
 
     #[Field]
     public string $display_name;
@@ -26,6 +35,11 @@ class UserEntity extends Entity
 
     #[Field]
     public string $first_name;
+
+    /**
+     * @var RoleEntity
+     */
+    public RoleEntity $role;
 
     /**
      * @return UserQueryBuilder
@@ -98,7 +112,7 @@ class UserEntity extends Entity
      */
     public function delete(bool $force_delete = false): bool
     {
-        require_once(ABSPATH . 'wp-admin/includes/user.php');
+        require_once (ABSPATH . 'wp-admin/includes/user.php');
         // wp_delete_user( int $id, int $reassign = null ): bool
         $result = wp_delete_user($this->ID);
         return $result;
@@ -110,6 +124,19 @@ class UserEntity extends Entity
     public function isLoaded(): bool
     {
         return isset($this->ID);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCapability(Capability $capability): bool
+    {
+        foreach ($this->role->capabilities as $target) {
+            if ($target === $capability) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function setValue(string $property, mixed $value): void
