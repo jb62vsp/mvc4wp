@@ -7,36 +7,41 @@ Model-View-Controller framework for WordPress theme
 
 ## Prerequisites
 
-### requirements
+### Requirements
 
 * GNU Make: 4.3
 * PHP: 8.1
 * Composer 2.7
 * WordPress: 6.3
+* Node.js: 22
 
-### project configuration
+### Project configuration
 
-1. copy to theme directory.
-    * copy to `.../wordpress/wp-content/themes/`
-2. change directory name.
+1. Copy to theme directoy.
+    * Copy to `.../wordpress/wp-content/themes/`
+2. Change directory name.
     ```
     $ cd wordpress/wp-content/themes/
     $ mv mvc4wp PROJECT_NAME
     ```
-3. setting project
+3. Setting project
     ```
     $ cd PROJECT_NAME
     $ make
     ```
 4. WordPress setting
-    * open WP Admin.
+    * Login as administrator.
         - `https://HOSTNAME/wp-admin/`
-    * open Appearance.
-    * Activate MVC4WP
-5. edit style.css(RECOMMENDED)
-    * edit Theme Name, Author, Description, and all that.
+    * Change theme.
+        1. Open Appearance.
+        2. Activate theme the MVC4WP.
+    * Change Permalinks setting.
+        1. `Settings` -> `Permalinks`
+        2. `Permalink structure` select `Numeric`, and `Save Changes`.
+5. Edit style.css(RECOMMENDED)
+    * Edit Theme Name, Author, Description, and all that.
 
-# development Application
+# Eevelopment Application
 
 ## Model
 
@@ -50,26 +55,26 @@ Model-View-Controller framework for WordPress theme
 
 ## URI-Routing
 
-# development Core (for INNER)
+# Development Core (for INNER)
 
-## implementation
+## Implementation
 
-## test
+## Test
 
-### unit test
+### Unit Test
 
-## git
+## Git
 
-### branch
+### Branch
 
 see below:
 
 https://docs.github.com/ja/get-started/using-github/github-flow
 
-### commit comment
+### Commit comment
 
-#### prefix
+#### Prefix
 
-see below:
+See below:
 
 https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#type
