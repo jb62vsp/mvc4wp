@@ -8,6 +8,7 @@ use Mvc4Wp\Core\Model\PostEntity;
 use Mvc4Wp\Core\Model\Validation\CommonPattern;
 use Mvc4Wp\Core\Model\Validation\LengthRule;
 use Mvc4Wp\Core\Model\Validation\RegExpRule;
+use Mvc4Wp\Core\Model\Validation\RequiredRule;
 
 #[CustomPostType(name: 'example', title: 'カスタム投稿例')]
 class ExampleEntity extends PostEntity
@@ -15,10 +16,11 @@ class ExampleEntity extends PostEntity
     use Castable;
 
     #[CustomField(title: 'テキスト例', type: CustomField::TEXT)]
-    #[LengthRule(minimum: 1, max: 10)]
+    #[LengthRule(minimum: 0, max: 10), RequiredRule]
     public string $example_text = '';
 
     #[CustomField(title: 'テキストエリア例', type: CustomField::TEXTAREA)]
+    #[RequiredRule]
     public string $example_textarea = '';
 
     #[CustomField(title: '整数例', type: CustomField::INTEGER)]
