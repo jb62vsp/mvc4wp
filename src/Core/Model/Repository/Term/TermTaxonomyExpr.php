@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Repository\Term;
 
 use Mvc4Wp\Core\Model\Repository\Expr;
 
-class TaxonomyExpr implements Expr
+class TermTaxonomyExpr implements Expr
 {
     public function toQuery(array $contexts, array $query): array
     {

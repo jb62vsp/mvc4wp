@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\Order;
 
-use Mvc4Wp\Core\Exception\QueryBuildViolationException;
 use Mvc4Wp\Core\Model\Repository\Expr;
 
 class TermOrderByExpr implements Expr

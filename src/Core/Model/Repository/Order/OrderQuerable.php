@@ -6,7 +6,6 @@ use Mvc4Wp\Core\Model\Repository\TypeInQuery;
 
 /**
  * @see https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters
- * @see https://developer.wordpress.org/reference/classes/wp_user_query/#order-orderby-parameters
  */
 trait OrderQuerable
 {

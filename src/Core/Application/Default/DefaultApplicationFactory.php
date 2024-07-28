@@ -8,7 +8,7 @@ use Mvc4Wp\Core\Config\Default\DefaultConfiguratorFactory;
 use Mvc4Wp\Core\Controller\Default\DefaultErrorController;
 use Mvc4Wp\Core\Language\Default\DefaultMessagerFactory;
 use Mvc4Wp\Core\Library\Default\DefaultClockFactory;
-use Mvc4Wp\Core\Logger\Default\DefaultFileLoggerFactory;
+use Mvc4Wp\Core\Logger\NullLoggerFactory;
 use Mvc4Wp\Core\Route\Default\DefaultRouterFactory;
 
 class DefaultApplicationFactory implements ApplicationFactoryInterface
@@ -23,7 +23,9 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         $config = self::setLanguage($config);
         $config = self::setLogger($config);
         $config = self::setJs($config);
-        $config = self::setRoot($config);
+        $config = self::setAppRoot($config);
+        $config = self::setCoreRoot($config);
+        $config = self::setViewDirectory($config);
 
         return new DefaultApplication($config);
     }
@@ -101,7 +103,7 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
                 'default_logger_name' => 'app',
                 'loggers' => [
                     'app' => [
-                        'logger_factory' => DefaultFileLoggerFactory::class,
+                        'logger_factory' => NullLoggerFactory::class,
                         'directory' => __MVC4WP_ROOT__ . '/log/',
                         'basefilename' => 'app',
                         'file_date_format' => 'Ymd',
@@ -110,7 +112,7 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
                         'log_level' => 'info',
                     ],
                     'core' => [
-                        'logger_factory' => DefaultFileLoggerFactory::class,
+                        'logger_factory' => NullLoggerFactory::class,
                         'directory' => __MVC4WP_ROOT__ . '/log/',
                         'basefilename' => 'core',
                         'file_date_format' => 'Ymd',
@@ -137,16 +139,26 @@ class DefaultApplicationFactory implements ApplicationFactoryInterface
         return $config;
     }
 
-    private static function setRoot(ConfiguratorInterface $config): ConfiguratorInterface
+    private static function setAppRoot(ConfiguratorInterface $config): ConfiguratorInterface
     {
         if (is_null($config->get('app_root'))) {
             $config->add('app_root', __MVC4WP_ROOT__ . '/src/App');
         }
 
+        return $config;
+    }
+
+    private static function setCoreRoot(ConfiguratorInterface $config): ConfiguratorInterface
+    {
         if (is_null($config->get('core_root'))) {
             $config->add('core_root', __MVC4WP_ROOT__ . '/src/Core');
         }
 
+        return $config;
+    }
+
+    private static function setViewDirectory(ConfiguratorInterface $config): ConfiguratorInterface
+    {
         if (is_null($config->get('view_directory'))) {
             $config->add('view_directory', __MVC4WP_ROOT__ . '/src/App/View');
         }

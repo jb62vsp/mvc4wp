@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\Term;
 
+use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Model\Attribute\Entry;
+use Mvc4Wp\Core\Model\TermEntity;
 
 /**
  * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
@@ -17,9 +19,11 @@ trait TermQuerable
 
         $post_types = [];
         foreach ($classes as $class) {
-            $post_types[] = Entry::getName($class);
+            if (TermEntity::extended($class)) {
+                $post_types[] = Entry::getName($class);
+            }
         }
-        $new->addExpression(TaxonomyExpr::class, $post_types);
+        $new->addExpression(TermTaxonomyExpr::class, $post_types);
 
         return $new;
     }
@@ -32,7 +36,7 @@ trait TermQuerable
         $new = clone $this;
 
         $category = ($taxonomy === '' ? 'category' : $taxonomy);
-        $new->addExpression(TaxonomyExpr::class, $category);
+        $new->addExpression(TermTaxonomyExpr::class, $category);
 
         return $new;
     }
@@ -45,7 +49,7 @@ trait TermQuerable
         $new = clone $this;
 
         $tag = ($taxonomy === '' ? 'post_tag' : $taxonomy);
-        $new->addExpression(TaxonomyExpr::class, $tag);
+        $new->addExpression(TermTaxonomyExpr::class, $tag);
 
         return $new;
     }
@@ -57,7 +61,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(NameExpr::class, $name);
+        $new->setExpression(TermNameExpr::class, $name);
 
         return $new;
     }
@@ -69,7 +73,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(SlugExpr::class, $slug);
+        $new->setExpression(TermSlugExpr::class, $slug);
 
         return $new;
     }
@@ -77,11 +81,11 @@ trait TermQuerable
     /**
      * @param int $ID post ID.
      */
-    public function byPostID(int $ID) : static
+    public function byPostID(int $ID): static
     {
         $new = clone $this;
 
-        $new->setExpression(ObjectIDExpr::class, strval($ID));
+        $new->setExpression(TermObjectIDExpr::class, strval($ID));
 
         return $new;
     }
@@ -93,7 +97,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(HideEmptyExpr::class, intval(false));
+        $new->setExpression(TermHideEmptyExpr::class, intval(false));
 
         return $new;
     }
@@ -105,7 +109,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(HideEmptyExpr::class, intval(true));
+        $new->setExpression(TermHideEmptyExpr::class, intval(true));
 
         return $new;
     }
