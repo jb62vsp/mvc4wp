@@ -4,6 +4,7 @@ namespace Mvc4Wp\Core\Model;
 use Mvc4Wp\Core\Model\Attribute\Field;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use stdClass;
 
 #[CoversClass(Bindable::class)]
@@ -63,6 +64,32 @@ class BindableTest extends TestCase
         $actual = new BindableTestTestMockA();
         $this->assertFalse($actual->isBinded());
     }
+
+    public function test_toString(): void
+    {
+        $actual = new BindableTestTestMockA();
+        $props = Field::getAttributedProperties(BindableTestTestMockA::class);
+        $this->assertCount(2, $props);
+        $this->assertEquals('abc', BindableTestTestMockA::toStringPublic($actual, $props[0]));
+        $this->assertEquals('0', BindableTestTestMockA::toStringPublic($actual, $props[1]));
+    }
+
+    public function test_toString_noResult(): void
+    {
+        $actual = new BindableTestTestMockA();
+        $props = Field::getAttributedProperties(BindableTestTestMockB::class);
+        $this->assertCount(1, $props);
+        $this->assertEquals('', BindableTestTestMockA::toStringPublic($actual, $props[0]));
+    }
+
+    public function test_toArrayOnlyField(): void
+    {
+        $mock = new BindableTestTestMockA();
+        $actual = BindableTestTestMockA::toArrayOnlyFieldPublic($mock);
+        $this->assertCount(2, $actual);
+        $this->assertEquals('abc', $actual['field_a']);
+        $this->assertEquals('0', $actual['field_b']);
+    }
 }
 
 class BindableTestTestMockA
@@ -81,4 +108,20 @@ class BindableTestTestMockA
     {
         $this->{$property_name} = $mixed;
     }
+
+    public static function toStringPublic(object $obj, ReflectionProperty $prop): string
+    {
+        return self::toString($obj, $prop);
+    }
+
+    public static function toArrayOnlyFieldPublic(object $obj): array
+    {
+        return self::toArrayOnlyField($obj);
+    }
+}
+
+class BindableTestTestMockB
+{
+    #[Field]
+    public string $field_d;
 }
