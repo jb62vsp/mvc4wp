@@ -57,7 +57,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(NameExpr::class, $name);
+        $new->setExpression(TermNameExpr::class, $name);
 
         return $new;
     }
