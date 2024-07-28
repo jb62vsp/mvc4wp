@@ -93,7 +93,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(HideEmptyExpr::class, intval(false));
+        $new->setExpression(TermHideEmptyExpr::class, intval(false));
 
         return $new;
     }
@@ -105,7 +105,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(HideEmptyExpr::class, intval(true));
+        $new->setExpression(TermHideEmptyExpr::class, intval(true));
 
         return $new;
     }
