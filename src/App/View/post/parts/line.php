@@ -2,8 +2,12 @@
 <?php foreach ($data['columns'] as $column): ?>
     <td>
         <?php if ($column === 'ID'): ?>
-            <a href="<?php eh('/post/' . $data['post']->ID); ?>">
-                <?php eh($data['post']->ID); ?>
+            <a href="<?php eh('/post/' . $data['post']->{$column}); ?>">
+                <?php eh($data['post']->{$column}); ?>
+            </a>
+        <?php elseif ($column === 'post_name'): ?>
+            <a href="<?php eh('/post/' . $data['post']->{$column} . '/'); ?>">
+                <?php eh($data['post']->{$column}); ?>
             </a>
         <?php else: ?>
             <?php eh(strval($data['post']->{$column})); ?>

@@ -6,7 +6,7 @@ use App\Model\CustomTagEntity;
 ?>
 <section>
     <h2>update</h2>
-    <form action="<?php eh($data['id']); ?>" method='POST'>
+    <form action="/example/<?php eh($data['id']); ?>" method='POST'>
         <?php foreach ($data['editable_columns'] as $column): ?>
             <p>
                 <label for='<?php eh($column); ?>'>

@@ -83,6 +83,7 @@ class ExampleController extends AdminController
     ];
 
     private const REGISTERABLE_COLUMNS = [
+        'post_name',
         'post_title',
         'post_content',
         'example_text',

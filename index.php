@@ -32,6 +32,7 @@ App::get()->router()->GET('/post/list', [PostController::class, 'list']);
 App::get()->router()->GET('/post/list/{sort}', [PostController::class, 'list']);
 App::get()->router()->GET('/post/list/{sort}/{order}', [PostController::class, 'list']);
 App::get()->router()->GET('/post/{id:\d+}', [PostController::class, 'single']);
+App::get()->router()->GET('/post/{slug}/', [PostController::class, 'single']);
 App::get()->router()->POST('/post/', [PostController::class, 'register']);
 App::get()->router()->PUT('/post/{id:\d+}', [PostController::class, 'update']);
 App::get()->router()->DELETE('/post/{id:\d+}', [PostController::class, 'delete']);

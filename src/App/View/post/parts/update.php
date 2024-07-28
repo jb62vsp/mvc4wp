@@ -3,6 +3,9 @@
     <h2>update</h2>
     <form action="<?php eh('/post/' . $data['id']); ?>" method='POST'>
         <p>
+            <input type='text' name='post_name' value='<?php eh($data['posts'][0]->post_name); ?>'>
+        </p>
+        <p>
             <input type='text' name='post_title' value='<?php eh($data['posts'][0]->post_title); ?>'>
         </p>
         <p>

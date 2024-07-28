@@ -75,8 +75,28 @@ class PostController extends AdminController
 
     public function single(array $args): void
     {
-        $id = intval($args['id']);
-        $post = PostEntity::findByID($id, false);
+        $post = null;
+
+        if (array_key_exists('id', $args)) {
+            $id = intval($args['id']);
+            $post = PostEntity::findByID($id, false);
+        } elseif (array_key_exists('slug', $args)) {
+            $slug = strval($args['slug']);
+            $post = PostEntity::find()
+                ->withAny()
+                ->withAutoDraft()
+                ->withTrash()
+                ->bySlug($slug)
+                ->build()
+                ->single();
+        }
+        if (is_null($post)) {
+            $this
+                ->notFound()
+                ->done();
+        }
+        $id = $post->ID;
+
         $categories = CategoryEntity::find()
             ->showEmpty()
             ->orderByID()
@@ -165,20 +185,26 @@ class PostController extends AdminController
     public function delete(array $args): void
     {
         $id = intval($args['id']);
-        $example = PostEntity::findByID($id, false);
-        if (is_null($example)) {
+        $post = PostEntity::findByID($id, false);
+        if (is_null($post)) {
             $this
                 ->notFound()
                 ->done();
         }
 
-        if ($_POST['to_trush'] === 'true') {
-            $example->delete();
+        if ($_POST['to_trush'] === 'untrash') {
+            $post->post_status = 'publish';
+            $post->update();
+            $this
+                ->seeOther("/post/{$id}")
+                ->done();
+        } elseif ($_POST['to_trush'] === 'trash') {
+            $post->delete();
             $this
                 ->seeOther("/post/{$id}")
                 ->done();
         } else {
-            $example->delete(true);
+            $post->delete(true);
             $this
                 ->seeOther("/post/list")
                 ->done();
