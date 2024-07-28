@@ -3,6 +3,9 @@ namespace Mvc4Wp\Core\Model\Repository\Order;
 
 use Mvc4Wp\Core\Model\Repository\OrderInQuery;
 
+/**
+ * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
+ */
 trait TermOrderQuerable
 {
     /**
