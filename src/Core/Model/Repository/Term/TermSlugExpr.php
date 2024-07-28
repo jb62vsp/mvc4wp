@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Repository\Term;
 
 use Mvc4Wp\Core\Model\Repository\Expr;
 
-class SlugExpr implements Expr
+class TermSlugExpr implements Expr
 {
     public function toQuery(array $contexts, array $query): array
     {

@@ -69,7 +69,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(SlugExpr::class, $slug);
+        $new->setExpression(TermSlugExpr::class, $slug);
 
         return $new;
     }
