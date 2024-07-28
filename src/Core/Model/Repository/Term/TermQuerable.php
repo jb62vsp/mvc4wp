@@ -81,7 +81,7 @@ trait TermQuerable
     {
         $new = clone $this;
 
-        $new->setExpression(ObjectIDExpr::class, strval($ID));
+        $new->setExpression(TermObjectIDExpr::class, strval($ID));
 
         return $new;
     }

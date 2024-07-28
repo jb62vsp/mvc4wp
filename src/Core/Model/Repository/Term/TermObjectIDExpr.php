@@ -3,7 +3,7 @@ namespace Mvc4Wp\Core\Model\Repository\Term;
 
 use Mvc4Wp\Core\Model\Repository\Expr;
 
-class ObjectIDExpr implements Expr
+class TermObjectIDExpr implements Expr
 {
     public function toQuery(array $contexts, array $query): array
     {
