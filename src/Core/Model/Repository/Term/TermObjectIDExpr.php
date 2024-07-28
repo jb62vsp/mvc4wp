@@ -11,7 +11,11 @@ class TermObjectIDExpr implements Expr
             return $query;
         }
 
-        $query['object_ids'] = $contexts[0];
+        if (count($contexts) === 1) {
+            $query['object_ids'] = $contexts[0];
+        } else {
+            $query['object_ids'] = $contexts;
+        }
 
         return $query;
     }
