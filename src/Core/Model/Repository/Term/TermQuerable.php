@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Repository\Term;
 
+use Mvc4Wp\Core\Exception\ApplicationException;
 use Mvc4Wp\Core\Model\Attribute\Entry;
+use Mvc4Wp\Core\Model\TermEntity;
 
 /**
  * @see https://developer.wordpress.org/reference/classes/wp_term_query/__construct/#parameters
@@ -17,7 +19,9 @@ trait TermQuerable
 
         $post_types = [];
         foreach ($classes as $class) {
-            $post_types[] = Entry::getName($class);
+            if (TermEntity::extended($class)) {
+                $post_types[] = Entry::getName($class);
+            }
         }
         $new->addExpression(TermTaxonomyExpr::class, $post_types);
 
@@ -77,7 +81,7 @@ trait TermQuerable
     /**
      * @param int $ID post ID.
      */
-    public function byPostID(int $ID) : static
+    public function byPostID(int $ID): static
     {
         $new = clone $this;
 
