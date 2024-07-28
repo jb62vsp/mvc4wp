@@ -19,7 +19,7 @@ trait TermQuerable
         foreach ($classes as $class) {
             $post_types[] = Entry::getName($class);
         }
-        $new->addExpression(TaxonomyExpr::class, $post_types);
+        $new->addExpression(TermTaxonomyExpr::class, $post_types);
 
         return $new;
     }
@@ -32,7 +32,7 @@ trait TermQuerable
         $new = clone $this;
 
         $category = ($taxonomy === '' ? 'category' : $taxonomy);
-        $new->addExpression(TaxonomyExpr::class, $category);
+        $new->addExpression(TermTaxonomyExpr::class, $category);
 
         return $new;
     }
@@ -45,7 +45,7 @@ trait TermQuerable
         $new = clone $this;
 
         $tag = ($taxonomy === '' ? 'post_tag' : $taxonomy);
-        $new->addExpression(TaxonomyExpr::class, $tag);
+        $new->addExpression(TermTaxonomyExpr::class, $tag);
 
         return $new;
     }
