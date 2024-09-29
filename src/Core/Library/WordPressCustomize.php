@@ -25,7 +25,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = CustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             $type = $attr->type;
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
@@ -54,7 +54,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = CustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             $type = $attr->type;
             $slug = $tax_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
