@@ -35,23 +35,29 @@ class CustomPostTypeTest extends TestCase
 
     public function test_getTitle01(): void
     {
-        $obj = new CustomPostType('name', ['en_US' => 'title', 'ja' => 'タイトル']);
-        $this->assertEquals('title', $obj->getTitle('en_US'));
+        $obj = new CustomPostType('name', 'title');
+        $this->assertEquals('title', $obj->getTitle());
     }
 
     public function test_getTitle02(): void
     {
         $obj = new CustomPostType('name', ['en_US' => 'title', 'ja' => 'タイトル']);
-        $this->assertEquals('タイトル', $obj->getTitle('ja'));
+        $this->assertEquals('title', $obj->getTitle('en_US'));
     }
 
     public function test_getTitle03(): void
     {
         $obj = new CustomPostType('name', ['en_US' => 'title', 'ja' => 'タイトル']);
-        $this->assertEquals('title', $obj->getTitle('en_GB'));
+        $this->assertEquals('タイトル', $obj->getTitle('ja'));
     }
 
     public function test_getTitle04(): void
+    {
+        $obj = new CustomPostType('name', ['en_US' => 'title', 'ja' => 'タイトル']);
+        $this->assertEquals('title', $obj->getTitle('en_GB'));
+    }
+
+    public function test_getTitle05(): void
     {
         $obj = new CustomPostType('name', []);
         $this->assertEquals('', $obj->getTitle('en_GB'));
