@@ -150,7 +150,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = UserCustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             add_filter('user_contactmethods', function (array $methods) use ($field_slug, $title): array {
                 $methods[$field_slug] = $title;
                 return $methods;
