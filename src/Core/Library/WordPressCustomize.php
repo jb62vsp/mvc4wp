@@ -92,11 +92,11 @@ final class WordPressCustomize
     {
         $attr = CustomTaxonomy::getClassAttribute($class_name);
         $slug = $attr->name;
-        $title = $attr->title;
+        $title = $attr->getTitle(LanguageUtils::getLocale());
         $targets = $attr->targets;
         if (!array_key_exists($slug, self::$registered_taxonomies)) {
             $default = [
-                'label' => $attr->title,
+                'label' => $title,
                 'show_in_rest' => true, // wordpress default: true
                 'hierarchical' => $attr->hierarhical,
             ];
