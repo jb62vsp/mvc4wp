@@ -6,11 +6,11 @@ use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 use Mvc4Wp\Core\Model\TagEntity;
 
-#[CustomTaxonomy(name: 'custom_tag', title: 'カスタムタグ', targets: ['post', 'example'])]
+#[CustomTaxonomy(name: 'custom_tag', title: ['en_US' => 'Custom Tags', 'ja' => 'カスタムタグ',], targets: ['post', 'example',])]
 class CustomTagEntity extends TagEntity
 {
     use Castable;
 
-    #[CustomField(title: 'テキスト例', type: CustomField::TEXT)]
+    #[CustomField(title: ['en_US' => 'Text', 'ja' => 'テキスト例',], type: CustomField::TEXT)]
     public string $tag_text = '';
 }
