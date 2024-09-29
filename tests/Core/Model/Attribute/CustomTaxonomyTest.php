@@ -20,6 +20,51 @@ class CustomTaxonomyTest extends TestCase
         $this->assertEquals(1, count($obj->targets));
     }
 
+    public function test_construct02(): void
+    {
+        $obj = new CustomTaxonomy('name', ['en_US' => 'title', 'ja' => 'タイトル'], ['target1']);
+        $this->assertNotNull($obj);
+        $this->assertEquals('name', $obj->name);
+        $this->assertIsArray($obj->title);
+        $this->assertCount(2, $obj->title);
+        $this->assertArrayHasKey('en_US', $obj->title);
+        $this->assertEquals('title', $obj->title['en_US']);
+        $this->assertEquals('title', current(array_slice($obj->title, 0, 1, true)));
+        $this->assertArrayHasKey('ja', $obj->title);
+        $this->assertEquals('target1', $obj->targets[0]);
+        $this->assertEquals(1, count($obj->targets));
+    }
+
+    public function test_getTitle01(): void
+    {
+        $obj = new CustomTaxonomy('name', 'title', []);
+        $this->assertEquals('title', $obj->getTitle());
+    }
+
+    public function test_getTitle02(): void
+    {
+        $obj = new CustomTaxonomy('name', ['en_US' => 'title', 'ja' => 'タイトル'], []);
+        $this->assertEquals('title', $obj->getTitle('en_US'));
+    }
+
+    public function test_getTitle03(): void
+    {
+        $obj = new CustomTaxonomy('name', ['en_US' => 'title', 'ja' => 'タイトル'], []);
+        $this->assertEquals('タイトル', $obj->getTitle('ja'));
+    }
+
+    public function test_getTitle04(): void
+    {
+        $obj = new CustomTaxonomy('name', ['en_US' => 'title', 'ja' => 'タイトル'], []);
+        $this->assertEquals('title', $obj->getTitle('en_GB'));
+    }
+
+    public function test_getTitle05(): void
+    {
+        $obj = new CustomTaxonomy('name', [], []);
+        $this->assertEquals('', $obj->getTitle('en_US'));
+    }
+
     public function test_accessible(): void
     {
         $attr = CustomTaxonomy::getClassAttribute(CustomTaxonomyTestMockA::class);

@@ -1,12 +1,8 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Model\Attribute;
 
-use ArgumentCountError;
-use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
-use Mvc4Wp\Core\Exception\ApplicationException;
 
 #[CoversClass(CustomField::class)]
 #[CoversClass(AttributeTrait::class)]
@@ -20,96 +16,47 @@ class CustomFieldTest extends TestCase
         $this->assertEquals('int', $obj->type);
     }
 
-    public function test_getTitle(): void
+    public function test_construct02(): void
     {
-        $val = CustomField::getTitle(CustomFieldTestMockA::class, 'field_a');
-        $this->assertEquals('タイトルテスト', $val);
+        $obj = new CustomField(['en_US' => 'title', 'ja' => 'タイトル']);
+        $this->assertNotNull($obj);
+        $this->assertIsArray($obj->title);
+        $this->assertCount(2, $obj->title);
+        $this->assertArrayHasKey('en_US', $obj->title);
+        $this->assertEquals('title', $obj->title['en_US']);
+        $this->assertEquals('title', current(array_slice($obj->title, 0, 1, true)));
+        $this->assertArrayHasKey('ja', $obj->title);
+        $this->assertEquals('タイトル', $obj->title['ja']);
+        $this->assertEquals('タイトル', current(array_slice($obj->title, 1, 1, true)));
     }
 
-    public function test_getTitle_tooFewArguments(): void
+    public function test_getTitle01(): void
     {
-        $this->expectException(ArgumentCountError::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Too few arguments to function Mvc4Wp\Core\Model\Attribute\CustomField::__construct(),');
-        CustomField::getTitle(CustomFieldTestMockA::class, 'field_b');
+        $obj = new CustomField('title');
+        $this->assertEquals('title', $obj->getTitle());
     }
 
-    public function test_getTitle_notSet(): void
+    public function test_getTitle02(): void
     {
-        $this->expectException(ApplicationException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" is not set to "Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockA::field_c"');
-        CustomField::getTitle(CustomFieldTestMockA::class, 'field_c');
-    }
-    
-    public function test_getTitle_repeated(): void
-    {
-        $this->expectException(Error::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" must not be repeated');
-        CustomField::getTitle(CustomFieldTestMockB::class, 'field_a');
+        $obj = new CustomField(['en_US' => 'title', 'ja' => 'タイトル']);
+        $this->assertEquals('title', $obj->getTitle('en_US'));
     }
 
-    public function test_getType(): void
+    public function test_getTitle03(): void
     {
-        $val = CustomField::getType(CustomFieldTestMockA::class, 'field_a');
-        $this->assertEquals('int', $val);
+        $obj = new CustomField(['en_US' => 'title', 'ja' => 'タイトル']);
+        $this->assertEquals('タイトル', $obj->getTitle('ja'));
     }
 
-    public function test_getTitle_unknown(): void
+    public function test_getTitle04(): void
     {
-        $this->expectException(Error::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Unknown named parameter $hoge');
-        CustomField::getTitle(CustomFieldTestMockC::class, 'field_a');
+        $obj = new CustomField(['en_US' => 'title', 'ja' => 'タイトル']);
+        $this->assertEquals('title', $obj->getTitle('en_GB'));
     }
 
-    public function test_getTitle_notExist(): void
+    public function test_getTitle05(): void
     {
-        $this->expectException(ReflectionException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Property Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockC::$hoge does not exist');
-        CustomField::getTitle(CustomFieldTestMockC::class, 'hoge');
+        $obj = new CustomField([]);
+        $this->assertEquals('', $obj->getTitle('en_US'));
     }
-
-    public function test_getTitle_(): void
-    {
-        $this->expectException(ApplicationException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Attribute "Mvc4Wp\Core\Model\Attribute\CustomField" is not set to "Mvc4Wp\Core\Model\Attribute\CustomFieldTestMockD::field_a"');
-        CustomField::getTitle(CustomFieldTestMockD::class, 'field_a');
-    }
-}
-
-class CustomFieldTestMockA
-{
-    #[CustomField(title: 'タイトルテスト', type: 'int')]
-    public string $field_a;
-
-    #[CustomField]
-    public string $field_b;
-
-    public string $field_c;
-
-    #[CustomField(title: 'title')]
-    public string $field_d;
-}
-
-class CustomFieldTestMockB
-{
-    #[CustomField(title: 'title1')]
-    #[CustomField(title: 'title2')]
-    public string $field_a;
-}
-
-class CustomFieldTestMockC
-{
-    #[CustomField(hoge: 'hoge', fuga: 'fuga')]
-    public string $field_a;
-}
-
-class CustomFieldTestMockD
-{
-    #[Field]
-    public string $field_a;
 }

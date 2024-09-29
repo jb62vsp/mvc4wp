@@ -11,10 +11,27 @@ class CustomTaxonomy extends Entry
 
     public function __construct(
         public string $name,
-        public string $title,
+        public string|array $title,
         public array $targets,
         public bool $hierarhical = false,
         public array $args = [],
     ) {
+    }
+
+    public function getTitle(string $locale = ''): string
+    {
+        $result = $this->title;
+        if (is_array($this->title)) {
+            if (count($this->title) > 0) {
+                if (key_exists($locale, $this->title)) {
+                    $result = $this->title[$locale];
+                } else {
+                    $result = current(array_slice($this->title, 0, 1, true));
+                }
+            } else {
+                $result = '';
+            }
+        }
+        return $result;
     }
 }

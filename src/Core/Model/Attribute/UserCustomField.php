@@ -10,13 +10,24 @@ class UserCustomField extends Field
     use Castable, AttributeTrait;
 
     public function __construct(
-        public string $title,
+        public string|array $title,
     ) {
     }
 
-    public static function getTitle(string $class_name, string $property_name): string
+    public function getTitle(string $locale = ''): string
     {
-        $attr = static::getPropertyAttribute($class_name, $property_name);
-        return $attr->title;
+        $result = $this->title;
+        if (is_array($this->title)) {
+            if (count($this->title) > 0) {
+                if (key_exists($locale, $this->title)) {
+                    $result = $this->title[$locale];
+                } else {
+                    $result = current(array_slice($this->title, 0, 1, true));
+                }
+            } else {
+                $result = '';
+            }
+        }
+        return $result;
     }
 }

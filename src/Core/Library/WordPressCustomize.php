@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace Mvc4Wp\Core\Library;
 
+use Mvc4Wp\Core\Language\LanguageUtils;
 use Mvc4Wp\Core\Library\DateTimeUtils;
 use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
@@ -24,7 +25,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = CustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             $type = $attr->type;
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
@@ -53,7 +54,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = CustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             $type = $attr->type;
             $slug = $tax_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
@@ -70,7 +71,7 @@ final class WordPressCustomize
         $slug = $attr->name;
         if (!array_key_exists($slug, self::$registered_posts)) {
             $default = [
-                'label' => $attr->title,
+                'label' => $attr->getTitle(LanguageUtils::getLocale()),
                 'public' => true, // wordpress default: false
                 'show_in_rest' => false, // wordpress default: true
                 'menu_position' => 5, // wordpress default: null
@@ -91,11 +92,11 @@ final class WordPressCustomize
     {
         $attr = CustomTaxonomy::getClassAttribute($class_name);
         $slug = $attr->name;
-        $title = $attr->title;
+        $title = $attr->getTitle(LanguageUtils::getLocale());
         $targets = $attr->targets;
         if (!array_key_exists($slug, self::$registered_taxonomies)) {
             $default = [
-                'label' => $attr->title,
+                'label' => $title,
                 'show_in_rest' => true, // wordpress default: true
                 'hierarchical' => $attr->hierarhical,
             ];
@@ -149,7 +150,7 @@ final class WordPressCustomize
         foreach ($property_names as $property_name) {
             $attr = UserCustomField::getPropertyAttribute($class_name, $property_name);
             $field_slug = $property_name;
-            $title = $attr->title;
+            $title = $attr->getTitle(LanguageUtils::getLocale());
             add_filter('user_contactmethods', function (array $methods) use ($field_slug, $title): array {
                 $methods[$field_slug] = $title;
                 return $methods;
