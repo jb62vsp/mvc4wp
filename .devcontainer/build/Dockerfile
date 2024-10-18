@@ -1,7 +1,7 @@
-FROM composer:2.7 as composer
-FROM node:22-bookworm as node
+FROM composer:2.2 as composer
+FROM node:20 as node
 
-FROM wordpress:6.3-php8.1-apache
+FROM wordpress:6.6-php8.1-apache
 
 # apt
 RUN apt update \
