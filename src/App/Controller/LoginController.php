@@ -31,6 +31,8 @@ class LoginController extends PlainPhpController
     public function login(array $args = []): void
     {
         Logging::get('log_model')->info('login', $_POST);
+        $_POST['log'] = $_POST['id'];
+        $_POST['pwd'] = $_POST['password'];
         require ABSPATH . '/wp-login.php';
     }
 
@@ -39,5 +41,15 @@ class LoginController extends PlainPhpController
         Logging::get('log_model')->info('logout', $args);
         wp_logout();
         $this->seeOther('/');
+    }
+
+    public function error(array $args = []): void
+    {
+        debug_add_var('login_error', $args[0]);
+        $error_code = $args[0]->get_error_code(); // 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password', 'retrieve_password_email_failure'
+        $this
+            ->ok()
+            ->view('login', ['error' => $error_code])
+            ->done();
     }
 }
