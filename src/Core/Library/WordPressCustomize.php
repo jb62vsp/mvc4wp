@@ -161,10 +161,11 @@ final class WordPressCustomize
 
     public static function changeLoginUrl(string $controller_class, string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $redirect_uri = '/'): void
     {
-        add_action('login_init', function () use ($login_action) {
+        add_action('login_init', function () use ($controller_class) {
             $uri = $_SERVER['REQUEST_URI'];
             if (str_contains($uri, 'wp-login.php')) {
-                wp_safe_redirect('/' . $login_action);
+                $controller = new $controller_class(App::get()->config());
+                $controller->notFound()->done();
             }
         });
         add_action('template_redirect', function () use ($controller_class, $login_action) {
@@ -185,16 +186,16 @@ final class WordPressCustomize
             }
             return $url;
         }, 10, 2);
-        add_filter('wp_redirect', function ($location) use ($login_action) {
-            if (str_contains($location, $login_action)) {
-                $location = '/' . $login_action;
+        add_filter('wp_redirect', function ($location) use ($controller_class) {
+            if (str_contains($location, 'wp-admin')) {
+                $controller = new $controller_class(App::get()->config());
+                $controller->notFound()->done();
             }
             return $location;
         });
         add_filter('wp_login_errors', function ($errors) use ($error_action) {
             App::get()->controller()->{$error_action}([$errors]);
         });
-
     }
 
     public static function disableRedirectCanonical(): void
