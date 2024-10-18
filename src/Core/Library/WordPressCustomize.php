@@ -8,6 +8,7 @@ use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 use Mvc4Wp\Core\Model\Attribute\UserCustomField;
 use Mvc4Wp\Core\Service\App;
+use Mvc4Wp\Core\Service\Helper;
 
 final class WordPressCustomize
 {
@@ -127,7 +128,7 @@ final class WordPressCustomize
                     global $post_type;
                     if ($target === $post_type) {
                         echo "<select name='{$slug}'>";
-                        echo "<option value=''>すべての{$title}</option>";
+                        echo "<option value=''>{$title}</option>";
                         foreach (get_terms($slug) as $term) {
                             $selected = (isset($_GET[$slug]) && $_GET[$slug] === $term->slug) ? 'selected' : '';
                             echo "<option value='{$term->slug}' {$selected}>{$term->name}</option>";
@@ -384,11 +385,12 @@ final class WordPressCustomize
     private static function createIntegerField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
+            Helper::load('message');
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}'>";
-            echo "<span>※正負の整数のみ入力できます。</span>";
+            echo "<span>" . message_key('wordpress_customize.message.integer') . "</span>";
             echo "</div>";
         };
     }
@@ -396,11 +398,12 @@ final class WordPressCustomize
     private static function createUnsignedIntegerField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
+            Helper::load('message');
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}' min='0'>";
-            echo "<span>※正の整数のみ入力できます。</span>";
+            echo "<span>" . message_key('wordpress_customize.message.unsigned_integer') . "</span>";
             echo "</div>";
         };
     }
@@ -408,11 +411,12 @@ final class WordPressCustomize
     private static function createFloatField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
+            Helper::load('message');
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}'>";
-            echo "<span>※正負の整数、小数のみ入力できます。</span>";
+            echo "<span>" . message_key('wordpress_customize.message.float') . "</span>";
             echo "</div>";
         };
     }
@@ -420,11 +424,12 @@ final class WordPressCustomize
     private static function createUnsignedFloatField(string $field_slug, string $id, string $name, string $nonce): callable
     {
         return function () use ($nonce, $id, $name, $field_slug) {
+            Helper::load('message');
             $value = esc_attr(get_post_meta(get_the_ID(), $field_slug, true));
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}' min='0'>";
-            echo "<span>※正の整数、小数のみ入力できます。</span>";
+            echo "<span>" . message_key('wordpress_customize.message.unsigned_float') . "</span>";
             echo "</div>";
         };
     }
