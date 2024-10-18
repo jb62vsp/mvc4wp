@@ -1,4 +1,5 @@
 NAME = mvc4wp
+WP = $(NAME)_wordpress
 DB = $(NAME)_db
 NW = $(NAME)_internal
 
@@ -12,9 +13,18 @@ NW = $(NAME)_internal
 create: #: create resources
 	@cp _env .env
 	@docker compose build
+	@docker volume create $(WP)
 	@docker volume create $(DB)
 	@docker network create $(NW)
 	@touch .created
+
+#
+# cli
+#
+
+.PHONY: cli
+cli: .env .created #: login wp-cli shell
+	@docker compose -p mvc4wp_devcontainer run --rm -w /var/www/html/wordpress cli bash
 
 #
 # clean
@@ -22,10 +32,19 @@ create: #: create resources
 
 .PHONY: clean
 clean: .created #: clean resources
-	@docker volume remove $(DB); \
+	@docker volume remove $(WP); \
+	 docker volume remove $(DB); \
 	 docker network remove $(NW)
 	@rm -f .env
 	@rm -f .created
+
+#
+# build
+#
+
+.PHONY: build
+build: #: force build
+	@docker compose build --no-cache
 
 #
 # help

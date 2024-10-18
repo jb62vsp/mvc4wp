@@ -12,9 +12,26 @@ services:
     - ./utc.ini:/usr/local/etc/php/conf.d/utc.ini
     - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+    - mvc4wp_wordpress:/var/www/html/wordpress
     - ../:/var/www/html/wordpress/wp-content/themes/mvc4wp
     depends_on:
     - mysql
+    environment:
+    - WP_SUBDIR=wordpress
+    - WORDPRESS_DB_HOST=mysql
+    - WORDPRESS_DB_USER=wp
+    - WORDPRESS_DB_PASSWORD=wp
+    - WORDPRESS_DB_NAME=wp
+
+  cli:
+    image: wordpress:cli-php8.1
+    networks:
+    - mvc4wp_internal
+    volumes_from:
+    - wordpress
+    depends_on:
+    - mysql
+    - wordpress
     environment:
     - WP_SUBDIR=wordpress
     - WORDPRESS_DB_HOST=mysql
@@ -66,5 +83,7 @@ networks:
   mvc4wp_internal:
     external: true
 volumes:
+  mvc4wp_wordpress:
+    external: true
   mvc4wp_db:
     external: true
