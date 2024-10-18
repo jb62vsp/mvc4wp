@@ -7,6 +7,7 @@ use Mvc4Wp\Core\Model\Attribute\CustomField;
 use Mvc4Wp\Core\Model\Attribute\CustomPostType;
 use Mvc4Wp\Core\Model\Attribute\CustomTaxonomy;
 use Mvc4Wp\Core\Model\Attribute\UserCustomField;
+use Mvc4Wp\Core\Model\UserEntity;
 use Mvc4Wp\Core\Service\App;
 use Mvc4Wp\Core\Service\Helper;
 
@@ -187,7 +188,7 @@ final class WordPressCustomize
             return $url;
         }, 10, 2);
         add_filter('wp_redirect', function ($location) use ($controller_class) {
-            if (str_contains($location, 'wp-admin')) {
+            if (str_contains($location, 'wp-admin') && is_null(UserEntity::current())) {
                 $controller = new $controller_class(App::get()->config());
                 $controller->notFound()->done();
             }
