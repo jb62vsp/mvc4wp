@@ -159,38 +159,42 @@ final class WordPressCustomize
         }
     }
 
-    public static function changeLoginUrl(string $controller_class, string $login_name = 'login', string $logout_name = 'logout', string $redirect_uri = '/'): void
+    public static function changeLoginUrl(string $controller_class, string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $redirect_uri = '/'): void
     {
-        add_action('login_init', function () use ($login_name) {
+        add_action('login_init', function () use ($login_action) {
             $uri = $_SERVER['REQUEST_URI'];
             if (str_contains($uri, 'wp-login.php')) {
-                wp_safe_redirect('/' . $login_name);
+                wp_safe_redirect('/' . $login_action);
             }
         });
-        add_action('template_redirect', function () use ($controller_class, $login_name) {
-            if ($_SERVER["REQUEST_URI"] === '/' . $login_name) {
-                App::get()->router()->GET('/' . $login_name, [$controller_class]);
-                App::get()->router()->POST('/' . $login_name, [$controller_class, $login_name]);
+        add_action('template_redirect', function () use ($controller_class, $login_action) {
+            if ($_SERVER["REQUEST_URI"] === '/' . $login_action) {
+                App::get()->router()->GET('/' . $login_action, [$controller_class]);
+                App::get()->router()->POST('/' . $login_action, [$controller_class, $login_action]);
                 App::get()->run();
             }
         });
         add_filter('login_redirect', function () use ($redirect_uri) {
             return $redirect_uri;
         });
-        add_filter('site_url', function ($url, $path) use ($login_name, $logout_name) {
+        add_filter('site_url', function ($url, $path) use ($login_action, $logout_action) {
             if (str_contains($path, 'wp-login.php?action=logout')) {
-                $url = '/' . $logout_name;
+                $url = '/' . $logout_action;
             } elseif (str_contains($path, 'wp-login.php')) {
-                $url = '/' . $login_name;
+                $url = '/' . $login_action;
             }
             return $url;
         }, 10, 2);
-        add_filter('wp_redirect', function ($location) use ($login_name) {
-            if (str_contains($location, $login_name)) {
-                $location = '/' . $login_name;
+        add_filter('wp_redirect', function ($location) use ($login_action) {
+            if (str_contains($location, $login_action)) {
+                $location = '/' . $login_action;
             }
             return $location;
         });
+        add_filter('wp_login_errors', function ($errors) use ($error_action) {
+            App::get()->controller()->{$error_action}([$errors]);
+        });
+
     }
 
     public static function disableRedirectCanonical(): void
