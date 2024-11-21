@@ -11,6 +11,38 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(PostTypeQuerable::class)]
 class PostTypeQuerableTest extends TestCase
 {
+    public function test_asPostType_single(): void
+    {
+        $obj = new PostTypeQuerableTestMockImpl();
+
+        $actual = $obj
+            ->asPostType('hoge')
+            ->getExpressions();
+        $this->assertEquals([PostTypeExpr::class => ['hoge']], $actual);
+    }
+
+    public function test_asPostType_double(): void
+    {
+        $obj = new PostTypeQuerableTestMockImpl();
+
+        $actual = $obj
+            ->asPostType('hoge', 'fuga')
+            ->getExpressions();
+        $this->assertEquals([PostTypeExpr::class => ['hoge', 'fuga']], $actual);
+    }
+
+    public function test_asPostType_chain(): void
+    {
+        $obj = new PostTypeQuerableTestMockImpl();
+
+        $actual = $obj
+            ->asPostType('hoge', 'fuga')
+            ->asPostType('piyo')
+            ->getExpressions();
+        $this->assertCount(1, $actual);
+        $this->assertEquals([PostTypeExpr::class => ['hoge', 'fuga', 'piyo']], $actual);
+    }
+
     public function test_asEntity_single(): void
     {
         $obj = new PostTypeQuerableTestMockImpl();
