@@ -9,6 +9,18 @@ use Mvc4Wp\Core\Model\Attribute\PostType;
 trait PostTypeQuerable
 {
     /**
+     * as Post Types
+     */
+    public function asPostType(string ...$post_types): static
+    {
+        $new = clone $this;
+
+        $new->addExpression(PostTypeExpr::class, $post_types);
+
+        return $new;
+    }
+
+    /**
      * as Entity classes
      */
     public function asEntity(string ...$classes): static
