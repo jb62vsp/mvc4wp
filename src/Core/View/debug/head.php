@@ -6,6 +6,6 @@ use Mvc4Wp\Core\Service\App;
 <style id='debug_style'>
     <?php
     $renderer = new DebugScssRenderer();
-    $renderer->render(App::get()->config(), $renderer, 'debug.scss');
+    $renderer->render(App::get()->config(), $renderer, 'debug');
     ?>
 </style>
