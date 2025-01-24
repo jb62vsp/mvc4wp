@@ -1,9 +1,9 @@
-@import 'variables';
+@use 'variables';
 
 @mixin rebase($rebase03, $rebase02, $rebase01, $rebase00, $rebase0, $rebase1, $rebase2, $rebase3) {
     background-color: $rebase03;
     color: $rebase0;
-    font-family: #{$fonts};
+    font-family: #{variables.$fonts};
 
     * {
         color: $rebase0;
@@ -27,11 +27,11 @@
 }
 
 @mixin light {
-    @include rebase($base3, $base2, $base1, $base0, $base00, $base01, $base02, $base03);
+    @include rebase(variables.$base3, variables.$base2, variables.$base1, variables.$base0, variables.$base00, variables.$base01, variables.$base02, variables.$base03);
 }
 
 @mixin dark {
-    @include rebase($base03, $base02, $base01, $base00, $base0, $base1, $base2, $base3);
+    @include rebase(variables.$base03, variables.$base02, variables.$base01, variables.$base00, variables.$base0, variables.$base1, variables.$base2, variables.$base3);
 }
 
 @mixin accentize($accent) {

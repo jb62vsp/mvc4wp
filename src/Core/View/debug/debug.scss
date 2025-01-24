@@ -1,14 +1,14 @@
-@import 'reset';
-@import 'variables';
-@import 'mixin';
+@use 'reset';
+@use 'variables';
+@use 'mixin';
 
 BODY {
     .debug {
-        @include dark;
+        @include mixin.dark;
 
         &.view {
             display: none;
-            font-size: #{$font_size_1};
+            font-size: #{variables.$font_size_1};
             height: 18px;
             margin: 0px;
             opacity: 0.6;
@@ -29,8 +29,8 @@ BODY {
 #debug {
 
     * {
-        font-family: #{$fonts};
-        font-size: #{$font_size_1};
+        font-family: #{variables.$fonts};
+        font-size: #{variables.$font_size_1};
         text-align: left;
     }
 
@@ -41,76 +41,76 @@ BODY {
     H5,
     H6,
     P {
-        margin-block-start: #{$font_size_1};
-        margin-block-end: #{$font_size_1};
+        margin-block-start: #{variables.$font_size_1};
+        margin-block-end: #{variables.$font_size_1};
     }
 
     PRE {
-        font-size: #{$font_size_2};
+        font-size: #{variables.$font_size_2};
     }
 
     .base03 {
-        color: #{$base03} !important;
+        color: #{variables.$base03} !important;
     }
 
     .base02 {
-        color: #{$base02} !important;
+        color: #{variables.$base02} !important;
     }
 
     .base01 {
-        color: #{$base01} !important;
+        color: #{variables.$base01} !important;
     }
 
     .base00 {
-        color: #{$base00} !important;
+        color: #{variables.$base00} !important;
     }
 
     .base0 {
-        color: #{$base0} !important;
+        color: #{variables.$base0} !important;
     }
 
     .base1 {
-        color: #{$base1} !important;
+        color: #{variables.$base1} !important;
     }
 
     .base2 {
-        color: #{$base2} !important;
+        color: #{variables.$base2} !important;
     }
 
     .base3 {
-        color: #{$base3} !important;
+        color: #{variables.$base3} !important;
     }
 
     .yellow {
-        color: #{$yellow} !important;
+        color: #{variables.$yellow} !important;
     }
 
     .orange {
-        color: #{$orange} !important;
+        color: #{variables.$orange} !important;
     }
 
     .red {
-        color: #{$red} !important;
+        color: #{variables.$red} !important;
     }
 
     .magenta {
-        color: #{$magenta} !important;
+        color: #{variables.$magenta} !important;
     }
 
     .violet {
-        color: #{$violet} !important;
+        color: #{variables.$violet} !important;
     }
 
     .blue {
-        color: #{$blue} !important;
+        color: #{variables.$blue} !important;
     }
 
     .cyan {
-        color: #{$cyan} !important;
+        color: #{variables.$cyan} !important;
     }
 
     .green {
-        color: #{$green} !important;
+        color: #{variables.$green} !important;
     }
 
     .clickable {
@@ -153,11 +153,11 @@ BODY {
             .icon-arrow-top {
                 display: inline-block;
                 box-sizing: border-box;
-                width: #{$font_size_1};
-                height: #{$font_size_1};
+                width: #{variables.$font_size_1};
+                height: #{variables.$font_size_1};
                 border-style: solid;
                 border-width: 4px 4px 0 0;
-                border-color: #{$base0};
+                border-color: #{variables.$base0};
                 transform: rotate(315deg);
                 transition: 0.3s;
             }
@@ -165,64 +165,76 @@ BODY {
         }
 
         .debug-contents {
-            @include light;
-            bottom: -100%;
-            height: 50%;
-            left: 0;
-            overflow-y: hidden;
-            position: fixed;
-            transition: 0.2s;
-            width: 100%;
+            @include mixin.light;
 
-            .debug-tab-button {
-                @include light;
-                display: block;
-                float: left;
-                height: 40px;
-                line-height: 40px;
-                text-align: center;
-                text-decoration: none;
-                transition: 0.3;
-                width: calc(100%/#{$menu_count});
-            }
-
-            INPUT[name="debug-tab-radio"] {
-                display: none;
-
-                &:checked+.debug-tab-button {
-                    @include dark;
-                    color: #{$base2};
-                }
-
-                &:hover:enabled+.debug-tab-button {
-                    @include dark;
-                }
-            }
-
-            .debug-tab-container {
-                @include dark;
-                display: none;
-                height: calc(100% - 40px);
+            & {
+                bottom: -100%;
+                height: 50%;
                 left: 0;
-                position: relative;
-                right: 0;
+                overflow-y: hidden;
+                position: fixed;
+                transition: 0.2s;
                 width: 100%;
 
-                &.scrollbar {
-                    overflow-x: hidden;
-                    overflow-y: scroll;
-                }
-            }
+                .debug-tab-button {
+                    @include mixin.light;
 
-            #debug-tab-radio-variable:checked~#debug-tab-container-variable,
-            #debug-tab-radio-view:checked~#debug-tab-container-view,
-            #debug-tab-radio-route:checked~#debug-tab-container-route,
-            #debug-tab-radio-query:checked~#debug-tab-container-query,
-            #debug-tab-radio-timer:checked~#debug-tab-container-timer,
-            #debug-tab-radio-config:checked~#debug-tab-container-config,
-            #debug-tab-radio-sql:checked~#debug-tab-container-sql,
-            #debug-tab-radio-error:checked~#debug-tab-container-error {
-                display: block;
+                    & {
+                        display: block;
+                        float: left;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        text-decoration: none;
+                        transition: 0.3;
+                        width: calc(100%/#{variables.$menu_count});
+                    }
+                }
+
+                INPUT[name="debug-tab-radio"] {
+                    display: none;
+
+                    &:checked+.debug-tab-button {
+                        @include mixin.dark;
+
+                        & {
+                            color: #{variables.$base2};
+                        }
+                    }
+
+                    &:hover:enabled+.debug-tab-button {
+                        @include mixin.dark;
+                    }
+                }
+
+                .debug-tab-container {
+                    @include mixin.dark;
+
+                    & {
+                        display: none;
+                        height: calc(100% - 40px);
+                        left: 0;
+                        position: relative;
+                        right: 0;
+                        width: 100%;
+
+                        &.scrollbar {
+                            overflow-x: hidden;
+                            overflow-y: scroll;
+                        }
+                    }
+                }
+
+                #debug-tab-radio-variable:checked~#debug-tab-container-variable,
+                #debug-tab-radio-view:checked~#debug-tab-container-view,
+                #debug-tab-radio-route:checked~#debug-tab-container-route,
+                #debug-tab-radio-query:checked~#debug-tab-container-query,
+                #debug-tab-radio-timer:checked~#debug-tab-container-timer,
+                #debug-tab-radio-config:checked~#debug-tab-container-config,
+                #debug-tab-radio-sql:checked~#debug-tab-container-sql,
+                #debug-tab-radio-error:checked~#debug-tab-container-error {
+                    display: block;
+                }
             }
         }
     }
@@ -261,11 +273,11 @@ BODY {
 
         .label {
             .icon-plus {
-                color: #{$base0};
+                color: #{variables.$base0};
                 height: 1.6px;
-                padding-left: #{$font_size_1};
+                padding-left: #{variables.$font_size_1};
                 position: relative;
-                width: #{$font_size_2};
+                width: #{variables.$font_size_2};
             }
 
             .icon-plus:before,
@@ -276,7 +288,7 @@ BODY {
                 left: 0px;
                 position: absolute;
                 top: 50%;
-                width: #{$font_size_2};
+                width: #{variables.$font_size_2};
             }
 
             .icon-plus:after {
@@ -288,7 +300,7 @@ BODY {
 
         .expandable {
             display: none;
-            margin-left: #{$font_size_1};
+            margin-left: #{variables.$font_size_1};
             transition: 0.3s;
         }
     }
@@ -301,7 +313,7 @@ BODY {
 
     .value {
         &:before {
-            color: #{$base0};
+            color: #{variables.$base0};
             content: "=>";
         }
     }
