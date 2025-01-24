@@ -1,4 +1,10 @@
-<?php declare(strict_types=1); ?>
+<?php
+
+declare(strict_types=1);
+
+use Mvc4Wp\Core\Service\App;
+
+?>
 <?php global $mvc4wp_debug; ?>
 <?php $has_error = array_key_exists('error', $mvc4wp_debug) && !empty($mvc4wp_debug['error']); ?>
 <section id='debug' class='dark'>
@@ -8,51 +14,51 @@
             <i class="icon-arrow-top"></i>
         </label>
         <div class='debug-contents'>
-            <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-route">Route</label>
+            <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-route">Route</label>
 
-            <input id="debug-tab-radio-view" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-view">View</label>
+            <input id="debug-tab-radio-view" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.view.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.view.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-view">View</label>
 
-            <input id="debug-tab-radio-variable" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-variable">Variable</label>
+            <input id="debug-tab-radio-variable" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.variable.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.variable.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-variable">Variable</label>
 
-            <input id="debug-tab-radio-query" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-query">Query</label>
+            <input id="debug-tab-radio-query" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.query.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.query.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-query">Query</label>
 
-            <input id="debug-tab-radio-timer" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-timer">Timer</label>
+            <input id="debug-tab-radio-timer" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.timer.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.timer.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-timer">Timer</label>
 
-            <input id="debug-tab-radio-config" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-config">Config</label>
+            <input id="debug-tab-radio-config" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.config.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.config.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-config">Config</label>
 
-            <input id="debug-tab-radio-sql" type="radio" name="debug-tab-radio">
-            <label class="debug-tab-button clickable" for="debug-tab-radio-sql">SQL</label>
+            <input id="debug-tab-radio-sql" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.sql.off') === 'true' ? 'disabled' : ''); ?>>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.sql.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-sql">SQL</label>
 
             <input id="debug-tab-radio-error" type="radio" name="debug-tab-radio" <?php eh($has_error ? '' : 'disabled'); ?>>
             <label class="debug-tab-button <?php eh($has_error ? 'red clickable' : 'base2'); ?>"
                 for="debug-tab-radio-error">Error</label>
 
             <div class="debug-tab-container scrollbar" id="debug-tab-container-route">
-                <?php debug_view('route.php'); ?>
+                <?php if (App::get()->config()->get('debug.route.off') !== 'true') debug_view('route.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-view">
-                <?php debug_view('view.php'); ?>
+                <?php if (App::get()->config()->get('debug.view.off') !== 'true') debug_view('view.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-variable">
-                <?php debug_view('variable.php'); ?>
+                <?php if (App::get()->config()->get('debug.variable.off') !== 'true') debug_view('variable.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-query">
-                <?php debug_view('query.php'); ?>
+                <?php if (App::get()->config()->get('debug.query.off') !== 'true') debug_view('query.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-timer">
-                <?php debug_view('timer.php'); ?>
+                <?php if (App::get()->config()->get('debug.timer.off') !== 'true') debug_view('timer.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-config">
-                <?php debug_view('config.php'); ?>
+                <?php if (App::get()->config()->get('debug.config.off') !== 'true') debug_view('config.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-sql">
-                <?php debug_view('sql.php'); ?>
+                <?php if (App::get()->config()->get('debug.sql.off') !== 'true') debug_view('sql.php'); ?>
             </div>
             <div class="debug-tab-container scrollbar" id="debug-tab-container-error">
                 <?php debug_view('error.php'); ?>
