@@ -99,7 +99,7 @@ if (!function_exists('debug_view_start')) {
     function debug_view_start(string $view_path): void
     {
         echo "\n<!-- INCLUDE_VIEW_START: {$view_path} -->\n";
-        echo "\n<div class='debug view'>START: {$view_path}</div>\n";
+        echo "\n<div class='debug debug-view'>START: {$view_path}</div>\n";
         debug_add_start();
     }
 }
@@ -108,7 +108,7 @@ if (!function_exists('debug_view_end')) {
     function debug_view_end(string $view_path, array $data): void
     {
         debug_add_end('view', ['name' => $view_path, 'data' => $data]);
-        echo "\n<div class='debug view'>END: {$view_path}</div>\n";
+        echo "\n<div class='debug debug-view'>END: {$view_path}</div>\n";
         echo "\n<!-- INCLUDE_VIEW_END: {$view_path} -->\n";
     }
 }

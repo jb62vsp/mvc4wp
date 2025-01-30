@@ -17,7 +17,7 @@ $g = [
 <?php if (!App::get()->config()->get('debug.variable.disable') || !in_array('named', App::get()->config()->get('debug.variable.disable'))): ?>
     <div class='expand-container'>
         <input type='checkbox' id='debug-variable-named-toggle' class='checkbox'>
-        <label for='debug-variable-named-toggle' class='label clickable'>
+        <label for='debug-variable-named-toggle' class='label debug-clickable'>
             <h4><i class="icon-plus"></i>Named variables</h4>
         </label>
         <div class='expandable'>
@@ -25,15 +25,15 @@ $g = [
                 <?php foreach ($mvc4wp_debug['var'] as $var): ?>
                     <?php foreach ($var as $k => $v): ?>
                         <p>
-                            <span class='name cyan'>
+                            <span class='name debug-cyan'>
                                 <?php eh($k); ?>
                             </span>
                             <?php if (is_array($v) || is_object($v)): ?>
                                 <span class='value'>
-                                    <pre class='green'><?php eh(print_r($v, true)); ?></pre>
+                                    <pre class='debug-green'><?php eh(print_r($v, true)); ?></pre>
                                 </span>
                             <?php else: ?>
-                                <span class='green'>
+                                <span class='debug-green'>
                                     <?php eh(print_r($v, true)); ?>
                                 </span>
                             <?php endif; ?>
@@ -48,14 +48,14 @@ $g = [
 <?php if (!App::get()->config()->get('debug.variable.disable') || !in_array('global', App::get()->config()->get('debug.variable.disable'))): ?>
     <div class='expand-container'>
         <input type='checkbox' id='debug-variable-globals-toggle' class='checkbox'>
-        <label for='debug-variable-globals-toggle' class='label clickable'>
+        <label for='debug-variable-globals-toggle' class='label debug-clickable'>
             <h4><i class="icon-plus"></i>Global variables</h4>
         </label>
         <div class='expand-containers expandable'>
             <?php foreach ($g as $k => $v): ?>
                 <div class='expand-container'>
                     <input type='checkbox' id='debug-variable-<?php echo $k; ?>-toggle' class='checkbox'>
-                    <label for='debug-variable-<?php echo $k; ?>-toggle' class='label clickable'>
+                    <label for='debug-variable-<?php echo $k; ?>-toggle' class='label debug-clickable'>
                         <h4><i class="icon-plus"></i>$_
                             <?php echo strtoupper($k); ?>
                         </h4>
@@ -63,12 +63,12 @@ $g = [
                     <div class='expandable'>
                         <?php foreach ($v as $kk => $vv): ?>
                             <p>
-                                <span class='name cyan'>
+                                <span class='name debug-cyan'>
                                     <?php eh($kk); ?>
                                 </span>
-                                <span class='value green'>
+                                <span class='value debug-green'>
                                     <?php if (is_array($vv) || is_object($vv)): ?>
-                                        <pre class='green'><?php eh(print_r($vv, true)); ?></pre>
+                                        <pre class='debug-green'><?php eh(print_r($vv, true)); ?></pre>
                                     <?php else: ?>
                                         <?php eh(print_r($vv, true)); ?>
                                     <?php endif; ?>
@@ -85,19 +85,19 @@ $g = [
 <?php if (!App::get()->config()->get('debug.variable.disable') || !in_array('globals', App::get()->config()->get('debug.variable.disable'))): ?>
     <div class='expand-container'>
         <input type='checkbox' id='debug-variable-super-toggle' class='checkbox'>
-        <label for='debug-variable-super-toggle' class='label clickable'>
+        <label for='debug-variable-super-toggle' class='label debug-clickable'>
             <h4><i class="icon-plus"></i>$GLOBALS</h4>
         </label>
         <div class='expandable'>
             <?php foreach ($GLOBALS as $k => $v): ?>
                 <?php if (!in_array($k, ['_GET', '_POST', '_COOKIE', '_FILES', '_ENV', '_REQUEST', '_SERVER'])): ?>
                     <p>
-                        <span class='name cyan'>
+                        <span class='name debug-cyan'>
                             <?php eh($k); ?>
                         </span>
-                        <span class='value green'>
+                        <span class='value debug-green'>
                             <?php if (is_array($v) || is_object($v)): ?>
-                                <pre class='green'><?php eh(print_r($v, true)); ?></pre>
+                                <pre class='debug-green'><?php eh(print_r($v, true)); ?></pre>
                             <?php else: ?>
                                 <?php eh(print_r($v, true)); ?>
                             <?php endif; ?>

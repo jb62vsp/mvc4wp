@@ -5,22 +5,22 @@
         <?php foreach ($mvc4wp_debug['view'] as $i => $view): ?>
             <div class='expand-container'>
                 <input type='checkbox' id='debug-view-<?php echo $i; ?>-toggle' class='checkbox'>
-                <label for='debug-view-<?php echo $i; ?>-toggle' class='label clickable'>
+                <label for='debug-view-<?php echo $i; ?>-toggle' class='label debug-clickable'>
                     <h4><i class="icon-plus"></i>
                         <?php eh($view[('name')]); ?>
                     </h4>
                 </label>
                 <div class='expandable'>
                     <p>
-                        <span class='name cyan'>duration</span>
-                        <span class='value green'>
+                        <span class='name debug-cyan'>duration</span>
+                        <span class='value debug-green'>
                             <?php eh(sprintf("%.4fms", $view['duration'])); ?>
                         </span>
                     </p>
                     <p>
-                        <span class='name cyan'>data</span>
+                        <span class='name debug-cyan'>data</span>
                         <span class='value'>
-                            <pre class='green'><?php eh(print_r($view['data'], true)); ?></pre>
+                            <pre class='debug-green'><?php eh(print_r($view['data'], true)); ?></pre>
                         </span>
                     </p>
                 </div>

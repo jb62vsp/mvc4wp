@@ -6,7 +6,7 @@ BODY {
     .debug {
         @include mixin.dark;
 
-        &.view {
+        &.debug-view {
             display: none;
             font-size: #{variables.$font_size_1};
             height: 18px;
@@ -19,7 +19,7 @@ BODY {
 
     &:has(#debug-toggle:checked) {
         .debug {
-            &.view {
+            &.debug-view {
                 display: block;
             }
         }
@@ -49,71 +49,71 @@ BODY {
         font-size: #{variables.$font_size_2};
     }
 
-    .base03 {
+    .debug-base03 {
         color: #{variables.$base03} !important;
     }
 
-    .base02 {
+    .debug-base02 {
         color: #{variables.$base02} !important;
     }
 
-    .base01 {
+    .debug-base01 {
         color: #{variables.$base01} !important;
     }
 
-    .base00 {
+    .debug-base00 {
         color: #{variables.$base00} !important;
     }
 
-    .base0 {
+    .debug-base0 {
         color: #{variables.$base0} !important;
     }
 
-    .base1 {
+    .debug-base1 {
         color: #{variables.$base1} !important;
     }
 
-    .base2 {
+    .debug-base2 {
         color: #{variables.$base2} !important;
     }
 
-    .base3 {
+    .debug-base3 {
         color: #{variables.$base3} !important;
     }
 
-    .yellow {
+    .debug-yellow {
         color: #{variables.$yellow} !important;
     }
 
-    .orange {
+    .debug-orange {
         color: #{variables.$orange} !important;
     }
 
-    .red {
+    .debug-red {
         color: #{variables.$red} !important;
     }
 
-    .magenta {
+    .debug-magenta {
         color: #{variables.$magenta} !important;
     }
 
-    .violet {
+    .debug-violet {
         color: #{variables.$violet} !important;
     }
 
-    .blue {
+    .debug-blue {
         color: #{variables.$blue} !important;
     }
 
-    .cyan {
+    .debug-cyan {
         color: #{variables.$cyan} !important;
     }
 
-    .green {
+    .debug-green {
         color: #{variables.$green} !important;
     }
 
-    .clickable {
+    .debug-clickable {
         cursor: pointer;
         text-decoration: underline;
 
@@ -130,7 +130,7 @@ BODY {
             &:checked~.debug-toggle-button {
                 transition: 0.2s;
 
-                .icon-arrow-top {
+                .debug-icon-arrow-top {
                     transform: rotate(135deg);
                 }
             }
@@ -150,7 +150,7 @@ BODY {
                 opacity: 0.6;
             }
 
-            .icon-arrow-top {
+            .debug-icon-arrow-top {
                 display: inline-block;
                 box-sizing: border-box;
                 width: #{variables.$font_size_1};
@@ -239,7 +239,7 @@ BODY {
         }
     }
 
-    .padding {
+    .debug-padding {
         height: 0%;
         transition: 0.2s;
     }
@@ -249,7 +249,7 @@ BODY {
             bottom: 0%;
         }
 
-        .padding {
+        .debug-padding {
             height: 50%;
         }
     }
