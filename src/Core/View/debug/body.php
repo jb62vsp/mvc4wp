@@ -10,33 +10,33 @@ use Mvc4Wp\Core\Service\App;
 <section id='debug' class='dark'>
     <div class='debug-container'>
         <input type='checkbox' id='debug-toggle' class='debug-toggle-checkbox'>
-        <label for='debug-toggle' class='debug-toggle-button clickable'>
-            <i class="icon-arrow-top"></i>
+        <label for='debug-toggle' class='debug-toggle-button debug_clickable'>
+            <i class="debug-icon-arrow-top"></i>
         </label>
         <div class='debug-contents'>
             <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-route">Route</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-route">Route</label>
 
             <input id="debug-tab-radio-view" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.view.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.view.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-view">View</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.view.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-view">View</label>
 
             <input id="debug-tab-radio-variable" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.variable.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.variable.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-variable">Variable</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.variable.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-variable">Variable</label>
 
             <input id="debug-tab-radio-query" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.query.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.query.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-query">Query</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.query.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-query">Query</label>
 
             <input id="debug-tab-radio-timer" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.timer.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.timer.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-timer">Timer</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.timer.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-timer">Timer</label>
 
             <input id="debug-tab-radio-config" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.config.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.config.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-config">Config</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.config.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-config">Config</label>
 
             <input id="debug-tab-radio-sql" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.sql.off') === 'true' ? 'disabled' : ''); ?>>
-            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.sql.off') === 'true' ? 'base2' : 'clickable'); ?>" for="debug-tab-radio-sql">SQL</label>
+            <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.sql.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-sql">SQL</label>
 
             <input id="debug-tab-radio-error" type="radio" name="debug-tab-radio" <?php eh($has_error ? '' : 'disabled'); ?>>
-            <label class="debug-tab-button <?php eh($has_error ? 'red clickable' : 'base2'); ?>"
+            <label class="debug-tab-button <?php eh($has_error ? 'debug_red debug_clickable' : 'debug-base2'); ?>"
                 for="debug-tab-radio-error">Error</label>
 
             <div class="debug-tab-container scrollbar" id="debug-tab-container-route">
@@ -69,29 +69,29 @@ use Mvc4Wp\Core\Service\App;
     <script>
         document.querySelector('head').appendChild(document.querySelector('#debug_style'));
         document.querySelector('body').appendChild(document.querySelector('#debug'));
-        document.querySelector('#debug #debug-toggle').addEventListener('change', ev => document.cookie = 'debug-toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
-        document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug-tab=' + ev.target.id + '; Path=/'));
+        document.querySelector('#debug #debug-toggle').addEventListener('change', ev => document.cookie = 'debug_toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
+        document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug_tab=' + ev.target.id + '; Path=/'));
         document.cookie.split(';').forEach(kv => {
             const context = kv.trim().split('=');
-            if (context[0].trim() === 'debug-toggle') {
+            if (context[0].trim() === 'debug_toggle') {
                 if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
                     document.querySelector('#debug #debug-toggle').checked = context[1].trim() === 'true';
                 } else {
                     document.querySelector('#debug #debug-toggle').checked = true;
-                    document.cookie = 'debug-toggle=true';
+                    document.cookie = 'debug_toggle=true';
                 }
             }
-            if (context[0].trim() === 'debug-tab') {
+            if (context[0].trim() === 'debug_tab') {
                 if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
                     if (context[1].trim() === 'debug-tab-radio-error') {
                         document.querySelector('#debug #debug-tab-radio-route').checked = 'true';
-                        document.cookie = 'debug-tab=debug-tab-radio-route';
+                        document.cookie = 'debug_tab=debug-tab-radio-route';
                     } else {
                         document.querySelector('#debug #' + context[1].trim()).checked = 'true';
                     }
                 } else {
                     document.querySelector('#debug #debug-tab-radio-error').checked = 'true';
-                    document.cookie = 'debug-tab=debug-tab-radio-error';
+                    document.cookie = 'debug_tab=debug-tab-radio-error';
                 }
             }
         });

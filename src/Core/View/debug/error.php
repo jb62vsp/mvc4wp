@@ -5,42 +5,42 @@
         <?php $ex = $mvc4wp_debug['error'][0]['exception']; ?>
         <h3>Exception</h3>
         <p>
-            <span class='name cyan'>Exception</span>
-            <span class='value red'>
+            <span class='name debug-cyan'>Exception</span>
+            <span class='value debug-red'>
                 <?php eh(get_class($ex)); ?>
             </span>
         </p>
         <p>
-            <span class='name cyan'>Message</span>
-            <span class='value red'>
+            <span class='name debug-cyan'>Message</span>
+            <span class='value debug-red'>
                 <?php eh($ex->getMessage()); ?>
             </span>
         </p>
         <p>
-            <span class='name cyan'>Code</span>
-            <span class='value red'>
+            <span class='name debug-cyan'>Code</span>
+            <span class='value debug-red'>
                 <?php eh($ex->getCode()); ?>
             </span>
         </p>
         <p>
-            <span class='name cyan'>File</span>
-            <span class='value red'>
+            <span class='name debug-cyan'>File</span>
+            <span class='value debug-red'>
                 <?php eh($ex->getFile()); ?>
             </span>
         </p>
         <p>
-            <span class='name cyan'>Line</span>
-            <span class='value red'>
+            <span class='name debug-cyan'>Line</span>
+            <span class='value debug-red'>
                 <?php eh($ex->getLine()); ?>
             </span>
         </p>
         <input type='checkbox' id='debug-error-trace-toggle' class='checkbox'>
-        <label for='debug-error-trace-toggle' class='label clickable'>
+        <label for='debug-error-trace-toggle' class='label debug-clickable'>
             <h4><i class="icon-plus"></i>Stack Trace</h4>
         </label>
         <div class='expandable'>
             <?php foreach ($mvc4wp_debug['error'][0]['exception']->getTrace() as $ex): ?>
-                <pre class='green'><?php eh(print_r($ex, true)); ?></pre>
+                <pre class='debug-green'><?php eh(print_r($ex, true)); ?></pre>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>

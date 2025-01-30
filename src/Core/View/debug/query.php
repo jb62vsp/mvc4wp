@@ -5,28 +5,28 @@
         <?php foreach ($mvc4wp_debug['query'] as $i => $query): ?>
             <div class='expand-container'>
                 <input type='checkbox' id='debug-query-<?php echo $i; ?>-toggle' class='checkbox'>
-                <label for='debug-query-<?php echo $i; ?>-toggle' class='label clickable'>
+                <label for='debug-query-<?php echo $i; ?>-toggle' class='label debug-clickable'>
                     <h4><i class="icon-plus"></i>
                         <?php eh($query['executor']); ?>
                     </h4>
                 </label>
                 <div class='expandable'>
                     <p>
-                        <span class='name cyan'>caller</span>
-                        <span class='value green'>
+                        <span class='name debug-cyan'>caller</span>
+                        <span class='value debug-green'>
                             <?php eh($query['caller']); ?>
                         </span>
                     </p>
                     <p>
-                        <span class='name cyan'>duration</span>
-                        <span class='value green'>
+                        <span class='name debug-cyan'>duration</span>
+                        <span class='value debug-green'>
                             <?php eh(sprintf("%.4fms", $query['duration'])); ?>
                         </span>
                     </p>
                     <p>
-                        <span class='name cyan'>query</span>
+                        <span class='name debug-cyan'>query</span>
                         <span class='value'>
-                            <pre class='block green'><?php eh(print_r($query['query'], true)); ?></pre>
+                            <pre class='block debug-green'><?php eh(print_r($query['query'], true)); ?></pre>
                         </span>
                     </p>
                 </div>
