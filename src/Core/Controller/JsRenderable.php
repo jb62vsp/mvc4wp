@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Controller;
 
 use MatthiasMullie\Minify\JS;
@@ -13,7 +16,14 @@ trait JsRenderable
         debug_view_start($view . '.js');
 
         try {
-            echo '<script>';
+            $attrs = [];
+            if (count($data) > 0) {
+                $attrs[] = '';
+                foreach ($data as $k => $v) {
+                    $attrs[] = "{$k}='{$v}'";
+                }
+            }
+            echo '<script' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
             if ($config->get('js.use_minify') === 'true') {
                 $this->renderMinJs($config, $view);
             } else {

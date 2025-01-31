@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Controller;
 
 use Exception;
@@ -13,7 +16,14 @@ trait SassRenderable
         debug_view_start($view . '.sass');
 
         try {
-            echo '<style>';
+            $attrs = [];
+            if (count($data) > 0) {
+                $attrs[] = '';
+                foreach ($data as $k => $v) {
+                    $attrs[] = "{$k}='{$v}'";
+                }
+            }
+            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
             if ($config->get('css.use_cache') === 'true') {
                 $this->renderCss($config, $view);
             } else {
