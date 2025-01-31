@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Controller;
 
 use MatthiasMullie\Minify\CSS;
@@ -13,7 +16,14 @@ trait CssRenderable
         debug_view_start($view . '.css');
 
         try {
-            echo '<style>';
+            $attrs = [];
+            if (count($data) > 0) {
+                $attrs[] = '';
+                foreach ($data as $k => $v) {
+                    $attrs[] = "{$k}='{$v}'";
+                }
+            }
+            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
             if ($config->get('css.use_minify') === 'true') {
                 $this->renderMinCss($config, $view);
             } else {

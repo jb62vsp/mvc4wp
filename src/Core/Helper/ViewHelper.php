@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Mvc4Wp\Core\Controller\Controller;
 use Mvc4Wp\Core\Controller\CssRenderer;
@@ -15,46 +17,34 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('css')) {
-    function css(string $scss_name): void
+    function css(string $scss_name, array $attrs = []): void
     {
         $render = new CssRenderer();
-        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name, $attrs);
     }
 }
 
 if (!function_exists('sass')) {
-    function sass(string $sass_name): void
+    function sass(string $sass_name, array $attrs = []): void
     {
         $render = new SassRenderer();
-        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $sass_name);
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $sass_name, $attrs);
     }
 }
 
 if (!function_exists('scss')) {
-    function scss(string $scss_name): void
+    function scss(string $scss_name, array $attrs = []): void
     {
         $render = new ScssRenderer();
-        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name);
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name, $attrs);
     }
 }
 
 if (!function_exists('js')) {
-    function js(string $js_name): void
+    function js(string $js_name, array $attrs = []): void
     {
         $render = new JsRenderer();
-        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $js_name);
-    }
-}
-
-if (!function_exists('eh')) {
-    function eh(mixed $value, bool $return = false): string|null
-    {
-        if ($return) {
-            return esc_html($value);
-        } else {
-            echo esc_html($value);
-            return null;
-        }
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $js_name, $attrs);
     }
 }
 
@@ -70,6 +60,18 @@ if (!function_exists('ea')) {
     }
 }
 
+if (!function_exists('eh')) {
+    function eh(mixed $value, bool $return = false): string|null
+    {
+        if ($return) {
+            return esc_html($value);
+        } else {
+            echo esc_html($value);
+            return null;
+        }
+    }
+}
+
 if (!function_exists('eu')) {
     function eu(mixed $value, bool $return = false): string|null
     {
@@ -78,6 +80,50 @@ if (!function_exists('eu')) {
         } else {
             echo esc_url($value);
             return null;
+        }
+    }
+}
+
+if (!function_exists('ne')) {
+    function ne(string|Stringable|null $value, string $if_null): void
+    {
+        if (is_null($value)) {
+            echo $if_null;
+        } else {
+            echo $value;
+        }
+    }
+}
+
+if (!function_exists('nea')) {
+    function nea(string|Stringable|null $value, string $if_null): void
+    {
+        if (is_null($value)) {
+            ea($if_null);
+        } else {
+            ea($value);
+        }
+    }
+}
+
+if (!function_exists('neh')) {
+    function neh(string|Stringable|null $value, string $if_null): void
+    {
+        if (is_null($value)) {
+            eh($if_null);
+        } else {
+            eh($value);
+        }
+    }
+}
+
+if (!function_exists('neu')) {
+    function neu(string|Stringable|null $value, string $if_null): void
+    {
+        if (is_null($value)) {
+            eu($if_null);
+        } else {
+            eu($value);
         }
     }
 }

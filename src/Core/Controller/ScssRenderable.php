@@ -13,7 +13,14 @@ trait ScssRenderable
         debug_view_start($view . '.scss');
 
         try {
-            echo '<style>';
+            $attrs = [];
+            if (count($data) > 0) {
+                $attrs[] = '';
+                foreach ($data as $k => $v) {
+                    $attrs[] = "{$k}='{$v}'";
+                }
+            }
+            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
             if ($config->get('css.use_cache') === 'true') {
                 $this->renderCss($config, $view);
             } else {
