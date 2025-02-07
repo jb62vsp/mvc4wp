@@ -26,7 +26,7 @@ class DefaultErrorController extends ErrorController
         }
 
         if (is_int($args[0]) && HttpStatus::tryFrom($args[0])) {
-            $this->response($args[0], true)->done();
+            $this->response(HttpStatus::tryFrom($args[0]), true)->done();
         }
 
         $this->response(HttpStatus::INTERNAL_SERVER_ERROR, true)->done();
