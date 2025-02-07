@@ -84,6 +84,16 @@ if (!function_exists('eu')) {
     }
 }
 
+if (!function_exists('etdir')) {
+    function etdir(string $filename): void
+    {
+        if ($filename !== '') {
+            $path = ($filename[0] === '/' ? $filename : '/' . $filename);
+            eu(get_template_directory_uri() . $path);
+        }
+    }
+}
+
 if (!function_exists('ne')) {
     function ne(string|Stringable|null $value, string $if_null): void
     {
