@@ -8,6 +8,7 @@
 init: vendor reload_vendor /usr/local/bin/sass #: initialize
 	@mkdir -p log
 	@chmod 777 log
+	@chown -R www-data:www-data ./
 
 .PHONY: clean
 clean: clean_vendor #: clean project

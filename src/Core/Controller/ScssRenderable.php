@@ -69,7 +69,7 @@ trait ScssRenderable
                 throw new ApplicationException(implode(' ', $output), $result_code);
             }
         } catch (Exception $ex) {
-            throw new ApplicationException('SCSS compile error', $ex->getCode(), $ex);
+            throw new ApplicationException(join(' ', $output), $ex->getCode(), $ex);
         }
         if ($config->get('css.use_cache') === 'true') {
             Logging::get('core')->info("scss cached: {$scss_path} -> {$css_path}");

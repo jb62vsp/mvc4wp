@@ -28,4 +28,15 @@ final class App
             return self::$application;
         }
     }
+
+    public static function do(string $class, string $action = '', array $args = []): void
+    {
+        $controller = new $class(self::get()->config());
+        $controller->init($args);
+        if ($action === '') {
+            $controller->index($args);
+        } else {
+            $controller->$action($args);
+        }
+    }
 }

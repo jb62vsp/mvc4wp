@@ -396,7 +396,7 @@ final class WordPressCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}'>";
-            echo "<span>" . message_key('wordpress_customize.message.integer') . "</span>";
+            echo "<span>" . msg('wordpress_customize.message.integer') . "</span>";
             echo "</div>";
         };
     }
@@ -409,7 +409,7 @@ final class WordPressCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='1' id='{$id}' name='{$name}' value='{$value}' min='0'>";
-            echo "<span>" . message_key('wordpress_customize.message.unsigned_integer') . "</span>";
+            echo "<span>" . msg('wordpress_customize.message.unsigned_integer') . "</span>";
             echo "</div>";
         };
     }
@@ -422,7 +422,7 @@ final class WordPressCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}'>";
-            echo "<span>" . message_key('wordpress_customize.message.float') . "</span>";
+            echo "<span>" . msg('wordpress_customize.message.float') . "</span>";
             echo "</div>";
         };
     }
@@ -435,7 +435,7 @@ final class WordPressCustomize
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='number' step='any' id='{$id}' name='{$name}' value='{$value}' min='0'>";
-            echo "<span>" . message_key('wordpress_customize.message.unsigned_float') . "</span>";
+            echo "<span>" . msg('wordpress_customize.message.unsigned_float') . "</span>";
             echo "</div>";
         };
     }
@@ -458,7 +458,7 @@ final class WordPressCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeUtils::strval($value, 'Y-m-d');
+            $formed_value = DateTimeUtils::strval($value, DateTimeUtils::getDateFormat());
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='date' id='{$id}' name='{$name}' value='{$formed_value}' min='1900-01-01' max='9999-12-31'>";
@@ -470,7 +470,7 @@ final class WordPressCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeUtils::strval($value, 'H:i:s');
+            $formed_value = DateTimeUtils::strval($value, DateTimeUtils::getTimeFormat());
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
             echo "<input type='time' id='{$id}' name='{$name}' value='{$formed_value}' step='1'>";
@@ -482,7 +482,7 @@ final class WordPressCustomize
     {
         return function () use ($field_slug, $id, $name, $nonce) {
             $value = DateTimeUtils::datetimeval(get_post_meta(get_the_ID(), $field_slug, true));
-            $formed_value = DateTimeUtils::strval($value, 'Y-m-d H:i:s');
+            $formed_value = DateTimeUtils::strval($value, DateTimeUtils::getDateTimeFormat());
             $values = explode(' ', $formed_value);
             wp_nonce_field('wp-nonce-key', $nonce);
             echo "<div class='{$field_slug}'>";
