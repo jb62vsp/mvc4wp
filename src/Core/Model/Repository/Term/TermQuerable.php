@@ -228,6 +228,18 @@ trait TermQuerable
     }
 
     /**
+     * Top of hierarchy.
+     */
+    public function top(): static
+    {
+        $new = clone $this;
+
+        $new->setExpression(TermParentExpr::class, 0);
+
+        return $new;
+    }
+
+    /**
      * True to limit results to terms that have no children.
      */
     public function childless(): static
