@@ -35,7 +35,7 @@ final class WordPressCustomize
             $slug = $post_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
                 $callback = self::createCustomPostAdminField($type, $field_slug);
-                self::addCustomField($slug, $post_slug, $field_slug, $title, $callback);
+                self::addCustomField($slug, $post_slug, $field_slug, $title, $type, $callback);
                 self::$registered_fields[$slug] = true;
             }
         }
@@ -288,7 +288,7 @@ final class WordPressCustomize
         }
     }
 
-    private static function addCustomField(string $slug, string $post_slug, string $field_slug, string $title, callable $callback): void
+    private static function addCustomField(string $slug, string $post_slug, string $field_slug, string $title, string $type, callable $callback): void
     {
         $name = $field_slug . '_name';
         $nonce = '_wp_nonce_' . $field_slug;
@@ -331,7 +331,46 @@ final class WordPressCustomize
             }
         }, 10, 2);
 
-        // TODO: ソート機能
+        add_action('manage_edit-' . $post_slug . '_sortable_columns', function ($columns) use ($field_slug) {
+            $columns[$field_slug] = $field_slug;
+            return $columns;
+        });
+
+        add_filter('request', function ($request) use ($field_slug, $type) {
+            if (isset($request['orderby']) && $request['orderby'] === $field_slug) {
+                $request = array_merge($request, array(
+                    'meta_key' => $field_slug,
+                    'meta_type' => match ($type) {
+                        CustomField::TEXT => 'CHAR',
+                        CustomField::TEXTAREA => 'CHAR',
+                        CustomField::INTEGER => 'SIGNED',
+                        CustomField::UINTEGER => 'UNSIGNED',
+                        CustomField::FLOAT => 'SIGNED',
+                        CustomField::UFLOAT => 'UNSIGNED',
+                        CustomField::BOOL => 'DECIMAL',
+                        CustomField::DATE => 'DATE',
+                        CustomField::TIME => 'TIME',
+                        CustomField::DATETIME => 'DATE',
+                        default => 'CHAR',
+                    },
+                    'orderby' => match ($type) {
+                        CustomField::TEXT => 'meta_value',
+                        CustomField::TEXTAREA => 'meta_value',
+                        CustomField::INTEGER => 'meta_value_num',
+                        CustomField::UINTEGER => 'meta_value_num',
+                        CustomField::FLOAT => 'meta_value_num',
+                        CustomField::UFLOAT => 'meta_value_num',
+                        CustomField::BOOL => 'meta_value',
+                        CustomField::DATE => 'meta_value',
+                        CustomField::TIME => 'meta_value',
+                        CustomField::DATETIME => 'meta_value',
+                        default => 'meta_value',
+                    },
+                ));
+            }
+
+            return $request;
+        });
     }
 
     private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
