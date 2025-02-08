@@ -21,4 +21,7 @@
         "editor.defaultFormatter": "vscode.css-language-features"
     },
     "intelephense.environment.phpVersion": "8.1",
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    },
 }
