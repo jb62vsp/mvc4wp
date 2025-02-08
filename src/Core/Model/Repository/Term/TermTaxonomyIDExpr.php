@@ -1,0 +1,21 @@
+<?php declare(strict_types=1);
+namespace Mvc4Wp\Core\Model\Repository\Term;
+
+use Mvc4Wp\Core\Model\Repository\Expr;
+
+class TermTaxonomyIDExpr implements Expr
+{
+    public function toQuery(array $contexts, array $query): array
+    {
+        if (empty($contexts)) {
+            return $query;
+        }
+
+        if (count($contexts) === 1) {
+            $query['term_taxonomy_id'] = $contexts[0];
+        } else {
+            $query['term_taxonomy_id'] = $contexts;
+        }
+        return $query;
+    }
+}
