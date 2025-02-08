@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Library;
 
 use Mvc4Wp\Core\Language\LanguageUtils;
@@ -260,7 +263,8 @@ final class WordPressCustomize
             };
             return $result;
         } else {
-            return function () { /* noop */};
+            return function () { /* noop */
+            };
         }
     }
 
@@ -278,7 +282,9 @@ final class WordPressCustomize
             };
             return $result;
         } else {
-            return [function () { /* noop */}, function () { /* noop */}];
+            return [function () { /* noop */
+            }, function () { /* noop */
+            }];
         }
     }
 
@@ -489,9 +495,23 @@ final class WordPressCustomize
             echo "<input type='date' id='{$id}_date' name='{$name}_date' value='{$values[0]}' min='1900-01-01' max='9999-12-31'>";
             echo "<input type='time' id='{$id}_time' name='{$name}_time' value='{$values[1]}' step='1'>";
             echo "<input type='hidden' id='{$id}' name='{$name}' value'{$formed_value}'>";
-            ?>
-            <script>{ const id = '<?php echo $id; ?>'; const date_id = id + '_date'; const time_id = id + '_time'; const input = document.querySelector('#' + id); const input_date = document.querySelector('#' + date_id); const input_time = document.querySelector('#' + time_id); const onchange = (ev) => { input.value = input_date.value + ' ' + input_time.value; }; input_date.addEventListener('change', onchange); input_time.addEventListener('change', onchange); }</script>
-            <?php
+?>
+            <script>
+                {
+                    const id = '<?php echo $id; ?>';
+                    const date_id = id + '_date';
+                    const time_id = id + '_time';
+                    const input = document.querySelector('#' + id);
+                    const input_date = document.querySelector('#' + date_id);
+                    const input_time = document.querySelector('#' + time_id);
+                    const onchange = (ev) => {
+                        input.value = input_date.value + ' ' + input_time.value;
+                    };
+                    input_date.addEventListener('change', onchange);
+                    input_time.addEventListener('change', onchange);
+                }
+            </script>
+<?php
             echo "</div>";
         };
     }
