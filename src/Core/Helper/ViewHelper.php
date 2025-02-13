@@ -24,10 +24,26 @@ if (!function_exists('css')) {
     }
 }
 
+if (!function_exists('cssd')) {
+    function cssd(string $scss_name, array $attrs = []): void
+    {
+        $render = new CssRenderer(false);
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name, $attrs);
+    }
+}
+
 if (!function_exists('sass')) {
     function sass(string $sass_name, array $attrs = []): void
     {
         $render = new SassRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $sass_name, $attrs);
+    }
+}
+
+if (!function_exists('sassd')) {
+    function sassd(string $sass_name, array $attrs = []): void
+    {
+        $render = new SassRenderer(false);
         $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $sass_name, $attrs);
     }
 }
@@ -40,10 +56,26 @@ if (!function_exists('scss')) {
     }
 }
 
+if (!function_exists('scssd')) {
+    function scssd(string $scss_name, array $attrs = []): void
+    {
+        $render = new ScssRenderer(false);
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $scss_name, $attrs);
+    }
+}
+
 if (!function_exists('js')) {
     function js(string $js_name, array $attrs = []): void
     {
         $render = new JsRenderer();
+        $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $js_name, $attrs);
+    }
+}
+
+if (!function_exists('jsd')) {
+    function jsd(string $js_name, array $attrs = []): void
+    {
+        $render = new JsRenderer(false);
         $render->render(App::get()->config(), Controller::cast(App::get()->controller()), $js_name, $attrs);
     }
 }

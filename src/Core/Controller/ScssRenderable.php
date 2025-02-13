@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Controller;
 
 use Exception;
@@ -8,9 +11,11 @@ use Mvc4Wp\Core\Service\Logging;
 
 trait ScssRenderable
 {
+    protected bool $with_tag = true;
+
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
-        debug_view_start($view . '.scss');
+        debug_view_start($view . '.scss', $this->with_tag);
 
         try {
             $attrs = [];
@@ -20,17 +25,21 @@ trait ScssRenderable
                     $attrs[] = "{$k}='{$v}'";
                 }
             }
-            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            if ($this->with_tag) {
+                echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            }
             if ($config->get('css.use_cache') === 'true') {
                 $this->renderCss($config, $view);
             } else {
                 $this->renderScss($config, $view);
             }
         } finally {
-            echo '</style>';
+            if ($this->with_tag) {
+                echo '</style>';
+            }
         }
 
-        debug_view_end($view . '.scss', $data);
+        debug_view_end($view . '.scss', $data, $this->with_tag);
 
         return $this;
     }

@@ -11,9 +11,11 @@ use Mvc4Wp\Core\Service\Logging;
 
 trait CssRenderable
 {
+    protected bool $with_tag = true;
+
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
-        debug_view_start($view . '.css');
+        debug_view_start($view . '.css', $this->with_tag);
 
         try {
             $attrs = [];
@@ -23,17 +25,21 @@ trait CssRenderable
                     $attrs[] = "{$k}='{$v}'";
                 }
             }
-            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            if ($this->with_tag) {
+                echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            }
             if ($config->get('css.use_minify') === 'true') {
                 $this->renderMinCss($config, $view);
             } else {
                 $this->renderCss($config, $view);
             }
         } finally {
-            echo '</style>';
+            if ($this->with_tag) {
+                echo '</style>';
+            }
         }
 
-        debug_view_end($view . '.css', $data);
+        debug_view_end($view . '.css', $data, $this->with_tag);
 
         return $this;
     }
