@@ -11,9 +11,11 @@ use Mvc4Wp\Core\Service\Logging;
 
 trait JsRenderable
 {
+    protected bool $with_tag = true;
+
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
-        debug_view_start($view . '.js');
+        debug_view_start($view . '.js', $this->with_tag);
 
         try {
             $attrs = [];
@@ -23,17 +25,21 @@ trait JsRenderable
                     $attrs[] = "{$k}='{$v}'";
                 }
             }
-            echo '<script' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            if ($this->with_tag) {
+                echo '<script' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            }
             if ($config->get('js.use_minify') === 'true') {
                 $this->renderMinJs($config, $view);
             } else {
                 $this->renderJs($config, $view);
             }
         } finally {
-            echo '</script>';
+            if ($this->with_tag) {
+                echo '</script>';
+            }
         }
 
-        debug_view_end($view . '.js', $data);
+        debug_view_end($view . '.js', $data, $this->with_tag);
 
         return $this;
     }

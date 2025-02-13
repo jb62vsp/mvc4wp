@@ -11,9 +11,11 @@ use Mvc4Wp\Core\Service\Logging;
 
 trait SassRenderable
 {
+    protected bool $with_tag = true;
+
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
-        debug_view_start($view . '.sass');
+        debug_view_start($view . '.sass', $this->with_tag);
 
         try {
             $attrs = [];
@@ -23,17 +25,21 @@ trait SassRenderable
                     $attrs[] = "{$k}='{$v}'";
                 }
             }
-            echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            if ($this->with_tag) {
+                echo '<style' . (count($attrs) > 0 ? implode(" ", $attrs) : '') . '>';
+            }
             if ($config->get('css.use_cache') === 'true') {
                 $this->renderCss($config, $view);
             } else {
                 $this->renderSass($config, $view);
             }
         } finally {
-            echo '</style>';
+            if ($this->with_tag) {
+                echo '</style>';
+            }
         }
 
-        debug_view_end($view . '.sass', $data);
+        debug_view_end($view . '.sass', $data, $this->with_tag);
 
         return $this;
     }
