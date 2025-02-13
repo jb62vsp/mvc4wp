@@ -96,26 +96,40 @@ if (!function_exists('debug_add_end')) {
 }
 
 if (!function_exists('debug_view_start')) {
-    function debug_view_start(string $view_path): void
+    function debug_view_start(string $view_path, bool $is_html = true): void
     {
-        echo "\n<!-- INCLUDE_VIEW_START: {$view_path} -->\n";
-        echo "\n<div class='debug debug-view'>START: {$view_path}</div>\n";
+        if ($is_html) {
+            global $view_count;
+            echo "\n<!-- INCLUDE_VIEW_START: {$view_path} -->\n";
+            echo "\n<div class='debug debug-view' style='text-indent: {$view_count}rem;'><span class='start'>{$view_path}</span> <span class='nest'>{$view_count}</span></div>\n";
+            $view_count += 1;
+        } else {
+            echo "\n// INCLUDE_VIEW_START: {$view_path}\n";
+        }
         debug_add_start();
     }
 }
 
 if (!function_exists('debug_view_end')) {
-    function debug_view_end(string $view_path, array $data): void
+    function debug_view_end(string $view_path, array $data, bool $is_html = true): void
     {
         debug_add_end('view', ['name' => $view_path, 'data' => $data]);
-        echo "\n<div class='debug debug-view'>END: {$view_path}</div>\n";
-        echo "\n<!-- INCLUDE_VIEW_END: {$view_path} -->\n";
+        if ($is_html) {
+            global $view_count;
+            $view_count -= 1;
+            echo "\n<div class='debug debug-view' style='text-indent: {$view_count}rem;'><span class='end'>{$view_path}</span> <span class='nest'>{$view_count}</span></div>\n";
+            echo "\n<!-- INCLUDE_VIEW_END: {$view_path} -->\n";
+        } else {
+            echo "\n// INCLUDE_VIEW_END: {$view_path}\n";
+        }
     }
 }
 
-global $mvc4wp_debug, $stopwatch;
+global $mvc4wp_debug, $stopwatch, $output_debug, $view_count;
 $mvc4wp_debug = [];
 $stopwatch = [];
+$output_debug = false;
+$view_count = 0;
 
 Helper::load('View');
 WordPressCustomize::enableTraceSQL(function ($q) {

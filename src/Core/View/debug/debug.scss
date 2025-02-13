@@ -9,11 +9,29 @@ BODY {
         &.debug-view {
             display: none;
             font-size: #{variables.$font_size_1};
-            height: 18px;
+            height: 20px;
             margin: 0px;
             opacity: 0.6;
             padding: 0px;
             width: 100%;
+
+            .start:before {
+                content: '|-START-: ';
+            }
+
+            .end:before {
+                content: '|--END--: ';
+            }
+
+            .nest {
+                &:before {
+                    content: '{';
+                }
+
+                &:after {
+                    content: '}';
+                }
+            }
         }
     }
 
