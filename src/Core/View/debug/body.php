@@ -94,6 +94,10 @@ use Mvc4Wp\Core\Service\App;
                 if (context[0].trim() === 'debug_view_toggle') {
                     document.querySelector('#debug #debug-view-toggle').checked = context[1].trim() === 'true';
                 }
+                if (context[0].trim() === 'debug_contents_height') {
+                    document.querySelector('#debug .debug-contents').style = 'height: ' + context[1].trim() + 'px';
+                    console.log(document.querySelector('#debug .debug-contents').clientHeight);
+                }
                 if (context[0].trim() === 'debug_tab') {
                     if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
                         if (context[1].trim() === 'debug-tab-radio-error') {
@@ -108,6 +112,21 @@ use Mvc4Wp\Core\Service\App;
                     }
                 }
             });
+            new class {
+                constructor(target) {
+                    this.target = target;
+                    this.height = this.target.clientHeight;
+                    this.target.addEventListener('pointermove', this.resizeEvent);
+                }
+
+                resizeEvent = (ev) => {
+                    const currentHeight = this.target.clientHeight;
+                    if (this.height !== currentHeight) {
+                        document.cookie = 'debug_contents_height=' + String(currentHeight) + '; Path=/';
+                        this.height = currentHeight;
+                    }
+                }
+            }(document.querySelector('#debug .debug-contents'));
         });
     </script>
 </section>
