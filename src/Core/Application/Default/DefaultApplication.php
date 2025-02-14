@@ -19,6 +19,7 @@ use Mvc4Wp\Core\Route\RouteHandler;
 use Mvc4Wp\Core\Route\RouterInterface;
 use Mvc4Wp\Core\Service\Helper;
 use Mvc4Wp\Core\Service\Logging;
+use Throwable;
 
 class DefaultApplication implements ApplicationInterface
 {
@@ -155,20 +156,26 @@ class DefaultApplication implements ApplicationInterface
             debug_add('error', ['exception' => $ex]);
             Logging::get('core')->critical($ex->getMessage(), [$ex]);
             $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
-            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
-            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
         } catch (Exception $ex) {
             debug_add('error', ['exception' => $ex]);
             Logging::get('core')->alert($ex->getMessage(), [$ex]);
             $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
-            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
-            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
         } catch (Error $ex) {
             debug_add('error', ['exception' => $ex]);
             Logging::get('core')->emergency($ex->getMessage(), [$ex]);
             $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
-            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR]);
-            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR]);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+        } catch (Throwable $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->emergency($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
         } finally {
             debug_view();
         }
