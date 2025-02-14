@@ -60,8 +60,10 @@ if (!function_exists('debug_add_start')) {
 
         $dbg = '';
         foreach (debug_backtrace() as $s) {
-            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
-                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            if (array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                if (!strpos($s['file'], 'Core' . DIRECTORY_SEPARATOR . 'Model')) {
+                    $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+                }
             }
         }
         $hash = md5($dbg);
@@ -80,8 +82,10 @@ if (!function_exists('debug_add_end')) {
         $dbg = '';
         $bt = debug_backtrace();
         foreach ($bt as $s) {
-            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
-                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            if (array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                if (!strpos($s['file'], 'Core' . DIRECTORY_SEPARATOR . 'Model')) {
+                    $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+                }
             }
         }
         $hash = md5($dbg);
