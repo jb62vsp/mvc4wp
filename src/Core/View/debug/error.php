@@ -1,9 +1,10 @@
-<?php declare(strict_types=1); ?>
+<?php
+
+declare(strict_types=1); ?>
 <?php global $mvc4wp_debug; ?>
 <div class='expand-container'>
     <?php if (array_key_exists('error', $mvc4wp_debug) && !empty($mvc4wp_debug['error'])): ?>
         <?php $ex = $mvc4wp_debug['error'][0]['exception']; ?>
-        <h3>Exception</h3>
         <p>
             <span class='name debug-cyan'>Exception</span>
             <span class='value debug-red'>
@@ -23,25 +24,20 @@
             </span>
         </p>
         <p>
-            <span class='name debug-cyan'>File</span>
-            <span class='value debug-red'>
-                <?php eh($ex->getFile()); ?>
-            </span>
-        </p>
-        <p>
             <span class='name debug-cyan'>Line</span>
             <span class='value debug-red'>
-                <?php eh($ex->getLine()); ?>
+                <?php eh($ex->getFile() . ':' . $ex->getLine()); ?>
             </span>
         </p>
-        <input type='checkbox' id='debug-error-trace-toggle' class='checkbox'>
-        <label for='debug-error-trace-toggle' class='label debug-clickable'>
-            <h4><i class="icon-plus"></i>Stack Trace</h4>
-        </label>
-        <div class='expandable'>
-            <?php foreach ($mvc4wp_debug['error'][0]['exception']->getTrace() as $ex): ?>
-                <pre class='debug-green'><?php eh(print_r($ex, true)); ?></pre>
-            <?php endforeach; ?>
-        </div>
+        <?php $traces = $mvc4wp_debug['error'][0]['exception']->getTrace(); ?>
+        <?php for ($i = 0, $il = count($traces); $i < $il; $i++): ?>
+            <input type='checkbox' id='debug-error-trace-toggle-<?php eh($i); ?>' class='checkbox'>
+            <label for='debug-error-trace-toggle-<?php eh($i); ?>' class='label debug-clickable'>
+                <h4><i class="icon-plus"></i><?php eh("{$traces[$i]['file']}:{$traces[$i]['line']}"); ?></h4>
+            </label>
+            <div class='expandable'>
+                <pre class='debug-green'><?php eh(print_r($traces[$i], true)); ?></pre>
+            </div>
+        <?php endfor; ?>
     <?php endif; ?>
 </div>
