@@ -9,10 +9,18 @@ use Mvc4Wp\Core\Service\App;
 <?php $has_error = array_key_exists('error', $mvc4wp_debug) && !empty($mvc4wp_debug['error']); ?>
 <section id='debug' class='dark'>
     <div class='debug-container'>
-        <input type='checkbox' id='debug-toggle' class='debug-toggle-checkbox'>
-        <label for='debug-toggle' class='debug-toggle-button debug_clickable'>
-            <i class="debug-icon-arrow-top"></i>
-        </label>
+        <span class="debug-toggle-area debug-show-toggle-area">
+            <input type='checkbox' id='debug-show-toggle' class='debug-toggle-checkbox' checked>
+            <label for='debug-show-toggle' class='debug-toggle-button debug_clickable'>
+                <i title="Debug console toggle" class="debug-icon"></i>
+            </label>
+        </span>
+        <span class="debug-toggle-area debug-view-toggle-area">
+            <input type='checkbox' id='debug-view-toggle' class='debug-toggle-checkbox' checked>
+            <label for='debug-view-toggle' class='debug-toggle-button'>
+                <i title="Debug view toggle" class="debug-icon"></i>
+            </label>
+        </span>
         <div class='debug-contents'>
             <input id="debug-tab-radio-route" type="radio" name="debug-tab-radio" <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'disabled' : ''); ?>>
             <label class="debug-tab-button <?php eh(App::get()->config()->get('debug.route.off') === 'true' ? 'debug-base2' : 'debug_clickable'); ?>" for="debug-tab-radio-route">Route</label>
@@ -67,33 +75,39 @@ use Mvc4Wp\Core\Service\App;
     </div>
     <div class='padding'></div>
     <script>
-        document.querySelector('head').appendChild(document.querySelector('#debug_style'));
-        document.querySelector('body').appendChild(document.querySelector('#debug'));
-        document.querySelector('#debug #debug-toggle').addEventListener('change', ev => document.cookie = 'debug_toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
-        document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug_tab=' + ev.target.id + '; Path=/'));
-        document.cookie.split(';').forEach(kv => {
-            const context = kv.trim().split('=');
-            if (context[0].trim() === 'debug_toggle') {
-                if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
-                    document.querySelector('#debug #debug-toggle').checked = context[1].trim() === 'true';
-                } else {
-                    document.querySelector('#debug #debug-toggle').checked = true;
-                    document.cookie = 'debug_toggle=true';
-                }
-            }
-            if (context[0].trim() === 'debug_tab') {
-                if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
-                    if (context[1].trim() === 'debug-tab-radio-error') {
-                        document.querySelector('#debug #debug-tab-radio-route').checked = 'true';
-                        document.cookie = 'debug_tab=debug-tab-radio-route';
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('head').appendChild(document.querySelector('#debug_style'));
+            document.querySelector('body').appendChild(document.querySelector('#debug'));
+            document.querySelector('#debug #debug-show-toggle').addEventListener('change', ev => document.cookie = 'debug_show_toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
+            document.querySelector('#debug #debug-view-toggle').addEventListener('change', ev => document.cookie = 'debug_view_toggle=' + (ev.target.checked ? 'true' : 'false') + '; Path=/');
+            document.querySelectorAll('#debug [name="debug-tab-radio"]').forEach(elm => elm.addEventListener('change', ev => document.cookie = 'debug_tab=' + ev.target.id + '; Path=/'));
+            document.cookie.split(';').forEach(kv => {
+                const context = kv.trim().split('=');
+                if (context[0].trim() === 'debug_show_toggle') {
+                    if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
+                        document.querySelector('#debug #debug-show-toggle').checked = context[1].trim() === 'true';
                     } else {
-                        document.querySelector('#debug #' + context[1].trim()).checked = 'true';
+                        document.querySelector('#debug #debug-show-toggle').checked = true;
+                        document.cookie = 'debug_show_toggle=true';
                     }
-                } else {
-                    document.querySelector('#debug #debug-tab-radio-error').checked = 'true';
-                    document.cookie = 'debug_tab=debug-tab-radio-error';
                 }
-            }
+                if (context[0].trim() === 'debug_view_toggle') {
+                    document.querySelector('#debug #debug-view-toggle').checked = context[1].trim() === 'true';
+                }
+                if (context[0].trim() === 'debug_tab') {
+                    if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
+                        if (context[1].trim() === 'debug-tab-radio-error') {
+                            document.querySelector('#debug #debug-tab-radio-route').checked = 'true';
+                            document.cookie = 'debug_tab=debug-tab-radio-route';
+                        } else {
+                            document.querySelector('#debug #' + context[1].trim()).checked = 'true';
+                        }
+                    } else {
+                        document.querySelector('#debug #debug-tab-radio-error').checked = 'true';
+                        document.cookie = 'debug_tab=debug-tab-radio-error';
+                    }
+                }
+            });
         });
     </script>
 </section>
