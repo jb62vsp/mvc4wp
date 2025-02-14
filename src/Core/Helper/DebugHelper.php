@@ -128,7 +128,7 @@ if (!function_exists('debug_view_end')) {
 global $mvc4wp_debug, $stopwatch, $output_debug, $view_count;
 $mvc4wp_debug = [];
 $stopwatch = [];
-$output_debug = false;
+$output_debug = true;
 $view_count = 0;
 
 Helper::load('View');
