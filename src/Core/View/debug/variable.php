@@ -24,20 +24,22 @@ $g = [
             <?php if (array_key_exists('var', $mvc4wp_debug) && !empty($mvc4wp_debug['var'])): ?>
                 <?php foreach ($mvc4wp_debug['var'] as $var): ?>
                     <?php foreach ($var as $k => $v): ?>
-                        <p>
-                            <span class='name debug-cyan'>
-                                <?php eh($k); ?>
-                            </span>
-                            <?php if (is_array($v) || is_object($v)): ?>
-                                <span class='value'>
+                        <?php if (is_array($v) || is_object($v)): ?>
+                            <div>
+                                <input type='checkbox' id='debug-variable-named-<?php eh($k); ?>-toggle' class='checkbox'>
+                                <label for='debug-variable-named-<?php eh($k); ?>-toggle' class='label debug-clickable'>
+                                    <h4><i class="icon-plus"></i><?php eh($k); ?></h4>
+                                </label>
+                                <div class='expandable'>
                                     <pre class='debug-green'><?php eh(print_r($v, true)); ?></pre>
-                                </span>
-                            <?php else: ?>
-                                <span class='debug-green'>
-                                    <?php eh(print_r($v, true)); ?>
-                                </span>
-                            <?php endif; ?>
-                        </p>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <p>
+                                <span class='name debug-cyan'><?php eh($k); ?></span>
+                                <span class='value debug-green'> <?php eh(print_r($v, true)); ?></span>
+                            </p>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
             <?php endif; ?>

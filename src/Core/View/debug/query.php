@@ -1,5 +1,9 @@
-<?php declare(strict_types=1); ?>
-<?php global $mvc4wp_debug; ?>
+<?php
+
+declare(strict_types=1);
+global $mvc4wp_debug;
+
+?>
 <div class='expand-containers'>
     <?php if (array_key_exists('query', $mvc4wp_debug) && !empty($mvc4wp_debug['query'])): ?>
         <?php foreach ($mvc4wp_debug['query'] as $i => $query): ?>
@@ -7,14 +11,14 @@
                 <input type='checkbox' id='debug-query-<?php echo $i; ?>-toggle' class='checkbox'>
                 <label for='debug-query-<?php echo $i; ?>-toggle' class='label debug-clickable'>
                     <h4><i class="icon-plus"></i>
-                        <?php eh($query['executor']); ?>
+                        <?php eh($query['caller']); ?>
                     </h4>
                 </label>
                 <div class='expandable'>
                     <p>
-                        <span class='name debug-cyan'>caller</span>
+                        <span class='name debug-cyan'>executor</span>
                         <span class='value debug-green'>
-                            <?php eh($query['caller']); ?>
+                            <?php eh($query['executor']); ?>
                         </span>
                     </p>
                     <p>

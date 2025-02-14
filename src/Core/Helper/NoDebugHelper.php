@@ -42,13 +42,25 @@ if (!function_exists('debug_add_end')) {
 }
 
 if (!function_exists('debug_view_start')) {
-    function debug_view_start(string $view_path): void
+    function debug_view_start(string $view_path, bool $is_html = true): void
     {
     }
 }
 
 if (!function_exists('debug_view_end')) {
-    function debug_view_end(string $view_path, array $data): void
+    function debug_view_end(string $view_path, array $data, bool $is_html = true): void
+    {
+    }
+}
+
+if (!function_exists('debug_timer_start')) {
+    function debug_timer_start(string $name): void
+    {
+    }
+}
+
+if (!function_exists('debug_timer_end')) {
+    function debug_timer_end(string $name): void
     {
     }
 }

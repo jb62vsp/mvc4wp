@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Controller;
 
 use Mvc4Wp\Core\Config\ConfiguratorInterface;
@@ -10,6 +13,9 @@ trait PlainPhpRenderable
 
     public function render(ConfiguratorInterface $config, ResponderInterface $responder, string $view, array $data = []): static
     {
+        global $output_debug;
+        $output_debug = true;
+
         if ($this->first) {
             $responder->header('Content-Type: text/html; charset=utf-8');
             $this->first = false;

@@ -60,8 +60,10 @@ if (!function_exists('debug_add_start')) {
 
         $dbg = '';
         foreach (debug_backtrace() as $s) {
-            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
-                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            if (array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                if (!strpos($s['file'], 'Core' . DIRECTORY_SEPARATOR . 'Model')) {
+                    $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+                }
             }
         }
         $hash = md5($dbg);
@@ -80,8 +82,10 @@ if (!function_exists('debug_add_end')) {
         $dbg = '';
         $bt = debug_backtrace();
         foreach ($bt as $s) {
-            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
-                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            if (array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                if (!strpos($s['file'], 'Core' . DIRECTORY_SEPARATOR . 'Model')) {
+                    $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+                }
             }
         }
         $hash = md5($dbg);
@@ -106,14 +110,45 @@ if (!function_exists('debug_view_start')) {
         } else {
             echo "\n// INCLUDE_VIEW_START: {$view_path}\n";
         }
-        debug_add_start();
+
+        global $stopwatch;
+
+        $dbg = '';
+        foreach (debug_backtrace() as $s) {
+            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            }
+        }
+        $hash = md5($dbg);
+
+        $stopwatch[$hash] = microtime(true);
     }
 }
 
 if (!function_exists('debug_view_end')) {
     function debug_view_end(string $view_path, array $data, bool $is_html = true): void
     {
-        debug_add_end('view', ['name' => $view_path, 'data' => $data]);
+        global $stopwatch;
+
+        $end = microtime(true);
+
+        $dbg = '';
+        $bt = debug_backtrace();
+        foreach ($bt as $s) {
+            if (!str_starts_with($s['function'], 'debug_') && array_key_exists('file', $s) && array_key_exists('line', $s)) {
+                $dbg = $dbg . sprintf('%s:%d!', $s['file'], $s['line']);
+            }
+        }
+        $hash = md5($dbg);
+
+        $info = ['name' => $view_path, 'data' => $data];
+        $info['caller'] = explode('!', $dbg)[0];
+        $info['start'] = $stopwatch[$hash];
+        $info['end'] = $end;
+        $info['duration'] = $end - $info['start'];
+
+        debug_add('view', $info);
+
         if ($is_html) {
             global $view_count;
             $view_count -= 1;
@@ -125,10 +160,41 @@ if (!function_exists('debug_view_end')) {
     }
 }
 
+if (!function_exists('debug_timer_start')) {
+    function debug_timer_start(string ...$names): void
+    {
+        global $stopwatch;
+
+        $start = microtime(true);
+        foreach ($names as $name) {
+            $hash = md5($name);
+            $stopwatch[$hash] = $start;
+        }
+    }
+}
+
+if (!function_exists('debug_timer_end')) {
+    function debug_timer_end(string ...$names): void
+    {
+        global $stopwatch;
+
+        $end = microtime(true);
+
+        foreach ($names as $name) {
+            $hash = md5($name);
+            $info['name'] = $name;
+            $info['start'] = $stopwatch[$hash];
+            $info['end'] = $end;
+            $info['duration'] = $end - $info['start'];
+            debug_add('timer', $info);
+        }
+    }
+}
+
 global $mvc4wp_debug, $stopwatch, $output_debug, $view_count;
 $mvc4wp_debug = [];
 $stopwatch = [];
-$output_debug = false;
+$output_debug = true;
 $view_count = 0;
 
 Helper::load('View');
