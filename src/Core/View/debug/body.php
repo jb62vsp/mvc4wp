@@ -96,7 +96,6 @@ use Mvc4Wp\Core\Service\App;
                 }
                 if (context[0].trim() === 'debug_contents_height') {
                     document.querySelector('#debug .debug-contents').style = 'height: ' + context[1].trim() + 'px';
-                    console.log(document.querySelector('#debug .debug-contents').clientHeight);
                 }
                 if (context[0].trim() === 'debug_tab') {
                     if (document.querySelector('#debug #debug-tab-radio-error').disabled) {
