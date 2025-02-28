@@ -2,6 +2,8 @@
 namespace Mvc4Wp\Core\Library;
 
 use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use Mvc4Wp\Core\Service\App;
 
@@ -84,22 +86,22 @@ final class DateTimeUtils
 
     // convert
 
-    public static function datetimeval(DateTime|string $value): DateTime
+    public static function datetimeval(DateTimeInterface|string $value): DateTimeInterface
     {
-        return ($value instanceof DateTime) ? $value : App::get()->clock()->get($value, self::getTimeZone());
+        return ($value instanceof DateTimeInterface) ? $value : App::get()->clock()->get($value, self::getTimeZone());
     }
 
-    public static function dateval(int $year, int $month, int $day): DateTime
+    public static function dateval(int $year, int $month, int $day): DateTimeInterface
     {
         return self::datetimeval(sprintf('%04d-%02d-%02d', $year, $month, $day));
     }
 
-    public static function timeval(int $hour, int $minute, $second): DateTime
+    public static function timeval(int $hour, int $minute, $second): DateTimeInterface
     {
         return self::datetimeval(sprintf('%02d:%02d:%02d', $hour, $minute, $second));
     }
 
-    public static function strval(DateTime|null $value, string $format): string
+    public static function strval(DateTimeInterface|null $value, string $format): string
     {
         if (is_null($value)) {
             return '';
@@ -107,7 +109,7 @@ final class DateTimeUtils
         return $value->format($format);
     }
 
-    public static function format(DateTime|string $value, string $format): string
+    public static function format(DateTimeInterface|string $value, string $format): string
     {
         $datetime = self::datetimeval($value);
         return self::strval($datetime, $format);
@@ -115,17 +117,17 @@ final class DateTimeUtils
 
     // getter
 
-    public static function fromYMD(int $year, int $month, int $day): DateTime
+    public static function fromYMD(int $year, int $month, int $day): DateTimeInterface
     {
-        return new DateTime(sprintf('%04d-%02d-%02d', $year, $month, $day));
+        return new DateTimeImmutable(sprintf('%04d-%02d-%02d', $year, $month, $day));
     }
 
-    public static function fromHMS(int $hour, int $minute, int $second): DateTime
+    public static function fromHMS(int $hour, int $minute, int $second): DateTimeInterface
     {
-        return new DateTime(sprintf('%02d:%02d:%02d', $hour, $minute, $second));
+        return new DateTimeImmutable(sprintf('%02d:%02d:%02d', $hour, $minute, $second));
     }
 
-    private static function _getUnit(string $format, DateTime|string|null $datetime = null): int
+    private static function _getUnit(string $format, DateTimeInterface|string|null $datetime = null): int
     {
         if (is_null($datetime)) {
             return intval(self::now($format));
@@ -134,54 +136,54 @@ final class DateTimeUtils
         }
     }
 
-    public static function year(DateTime|string|null $datetime = null): int
+    public static function year(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::YEAR, $datetime);
     }
 
-    public static function month(DateTime|string|null $datetime = null): int
+    public static function month(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::MONTH, $datetime);
     }
 
-    public static function day(DateTime|string|null $datetime = null): int
+    public static function day(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::DAY, $datetime);
     }
 
-    public static function hour(DateTime|string|null $datetime = null): int
+    public static function hour(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::HOUR, $datetime);
     }
 
-    public static function minute(DateTime|string|null $datetime = null): int
+    public static function minute(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::MINUTE, $datetime);
     }
 
-    public static function second(DateTime|string|null $datetime = null): int
+    public static function second(DateTimeInterface|string|null $datetime = null): int
     {
         return self::_getUnit(self::SECOND, $datetime);
     }
 
     // utility
 
-    public static function firstDayOf(int $year, int $month): DateTime
+    public static function firstDayOf(int $year, int $month): DateTimeInterface
     {
         return self::fromYMD($year, $month, 1);
     }
 
-    public static function lastDayOf(int $year, int $month): DateTime
+    public static function lastDayOf(int $year, int $month): DateTimeInterface
     {
         return self::fromYMD($year, $month, 1)->modify('last day of');
     }
 
-    public static function firstDayOfLastMonth(int $year, int $month): DateTime
+    public static function firstDayOfLastMonth(int $year, int $month): DateTimeInterface
     {
         return self::fromYMD($year, $month, 1)->modify('first day of last month');
     }
 
-    public static function firstDayOfNextMonth(int $year, int $month): DateTime
+    public static function firstDayOfNextMonth(int $year, int $month): DateTimeInterface
     {
         return self::fromYMD($year, $month, 1)->modify('first day of next month');
     }
