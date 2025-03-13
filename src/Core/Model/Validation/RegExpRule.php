@@ -39,7 +39,7 @@ class RegExpRule extends Rule
         $result = [];
 
         $this->value = TypeUtils::untypedValue(gettype($value), $value);
-        $matched = preg_match($this->pattern, $value);
+        $matched = preg_match($this->pattern, $this->value);
         if (!$matched) {
             $result[] = new ValidationError($class_name, $property_name, $this->value, $this);
         }
