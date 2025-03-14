@@ -11,7 +11,7 @@ final class DefaultClockTest extends TestCase
     public function test_get_now(): void
     {
         $actual = DefaultClock::get();
-        $this->assertInstanceOf('DateTime', $actual);
+        $this->assertInstanceOf('DateTimeImmutable', $actual);
     }
 
     public function test_get_format(): void
