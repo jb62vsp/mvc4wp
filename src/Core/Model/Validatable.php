@@ -29,7 +29,7 @@ trait Validatable
         return $result;
     }
 
-    public function validateProperty(string $property_name, string|int|float|bool $value): array
+    public function validateProperty(string $property_name, string|int|float|bool|null $value): array
     {
         $result = [];
 
