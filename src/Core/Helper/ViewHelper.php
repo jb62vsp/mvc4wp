@@ -9,6 +9,8 @@ use Mvc4Wp\Core\Controller\SassRenderer;
 use Mvc4Wp\Core\Controller\ScssRenderer;
 use Mvc4Wp\Core\Service\App;
 
+// -- render
+
 if (!function_exists('view')) {
     function view(string $view_name, array $data = []): void
     {
@@ -80,7 +82,17 @@ if (!function_exists('jsd')) {
     }
 }
 
+// -- echo
+
 if (!function_exists('ea')) {
+    /**
+     * Syntax sugar to esc_attr.
+     * @param mixed $value
+     * @param bool $return
+     *   true: no echo and return escaped value.
+     *  false: echo escaped value and return null.
+     * @return string|null
+     */
     function ea(mixed $value, bool $return = false): string|null
     {
         if ($return) {
@@ -93,6 +105,14 @@ if (!function_exists('ea')) {
 }
 
 if (!function_exists('eh')) {
+    /**
+     * Syntax sugar to esc_html.
+     * @param mixed $value
+     * @param bool $return
+     *   true: no echo and return escaped value.
+     *  false: echo escaped value and return null.
+     * @return string|null
+     */
     function eh(mixed $value, bool $return = false): string|null
     {
         if ($return) {
@@ -105,6 +125,14 @@ if (!function_exists('eh')) {
 }
 
 if (!function_exists('eu')) {
+    /**
+     * Syntax sugar to esc_url.
+     * @param mixed $value
+     * @param bool $return
+     *   true: no echo and return escaped value.
+     *  false: echo escaped value and return null.
+     * @return string|null
+     */
     function eu(mixed $value, bool $return = false): string|null
     {
         if ($return) {
@@ -116,56 +144,35 @@ if (!function_exists('eu')) {
     }
 }
 
-if (!function_exists('etdir')) {
-    function etdir(string $filename): void
+if (!function_exists('create_path')) {
+    /**
+     * Create path.
+     * @param string $filename
+     * @param mixed $return
+     *   true: no echo and return created value.
+     *  false: echo created value and return null.
+     * @return string|null
+     */
+    function create_path(string $filename, $return = false): string|null
     {
         if ($filename !== '') {
-            $path = ($filename[0] === '/' ? $filename : '/' . $filename);
-            eu(get_template_directory_uri() . $path);
+            $t = get_template_directory_uri();
+            return eu($t . ($filename[0] === '/' ? $filename : '/' . $filename), $return);
         }
+
+        return eu('', $return);
     }
 }
 
-if (!function_exists('ne')) {
-    function ne(string|Stringable|null $value, string $if_null): void
+if (!function_exists('ifnull')) {
+    /**
+     * Syntax sugar to ternary operator.
+     * @param string|Stringable|null $value
+     * @param string $if_null
+     * @return string|Stringable|null
+     */
+    function ifnull(string|Stringable|null $value, string $if_null): string
     {
-        if (is_null($value)) {
-            echo $if_null;
-        } else {
-            echo $value;
-        }
-    }
-}
-
-if (!function_exists('nea')) {
-    function nea(string|Stringable|null $value, string $if_null): void
-    {
-        if (is_null($value)) {
-            ea($if_null);
-        } else {
-            ea($value);
-        }
-    }
-}
-
-if (!function_exists('neh')) {
-    function neh(string|Stringable|null $value, string $if_null): void
-    {
-        if (is_null($value)) {
-            eh($if_null);
-        } else {
-            eh($value);
-        }
-    }
-}
-
-if (!function_exists('neu')) {
-    function neu(string|Stringable|null $value, string $if_null): void
-    {
-        if (is_null($value)) {
-            eu($if_null);
-        } else {
-            eu($value);
-        }
+        return is_null($value) ? $if_null : $value;
     }
 }
