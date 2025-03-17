@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Mvc4Wp\Core\Service\App;
-use TypeError;
+use Throwable;
 
 final class DateTimeUtils
 {
@@ -94,7 +94,7 @@ final class DateTimeUtils
 
         try {
             self::datetimeval($value);
-        } catch (TypeError $e) {
+        } catch (Throwable $e) {
             $result = false;
         }
 
