@@ -4,13 +4,15 @@ namespace Mvc4Wp\Core\Model\Repository;
 use Mvc4Wp\Core\Library\Castable;
 use Mvc4Wp\Core\Model\Repository\Order\UserOrderQuerable;
 use Mvc4Wp\Core\Model\Repository\User\UserQuerable;
+use Mvc4Wp\Core\Model\Repository\User\UserRoleQuerable;
 
 class UserQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
 {
     use
         Castable,
         UserOrderQuerable,
-        UserQuerable;
+        UserQuerable,
+        UserRoleQuerable;
 
     public function __construct(
         protected string $entity_class,

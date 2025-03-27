@@ -65,6 +65,20 @@ class UserEntity extends Entity
     }
 
     /**
+     * @param string $role
+     * @return array<UserEntity>
+     */
+    public static function findAllByRole(string $role): array
+    {
+        $result = static::find()
+            ->byRole($role)
+            ->build()
+            ->list();
+
+        return $result;
+    }
+
+    /**
      * @return static|null
      */
     public static function current(): static|null
