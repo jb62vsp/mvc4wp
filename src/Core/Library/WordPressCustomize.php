@@ -384,6 +384,50 @@ final class WordPressCustomize
 
             return $request;
         });
+
+        add_action('quick_edit_custom_box', function ($column_name, $post_type) use ($post_slug, $field_slug, $title, $type): void {
+            if ($post_slug === $post_type && $field_slug === $column_name) {
+                echo <<<EOM
+<script>
+jQuery(document).ready(function($){
+    const editor = inlineEditPost.edit;
+    inlineEditPost.edit = function(id) {
+        editor.apply(this, arguments);
+        const post_id = typeof(id) == 'object' ? parseInt(this.getId(id)) : 0;
+        if(post_id != 0){
+            $('#edit-' + post_id).find('[name="{$column_name}_name"]').val($('#post-' + post_id).find('.column-{$column_name}').text());
+        }
+    }
+});
+</script>
+<fieldset class="inline-edit-col-left">
+    <div class="inline-edit-col">
+        <label>
+            <span class="title">{$title}</span>
+EOM;
+                $id = $field_slug;
+                $name = "{$field_slug}_name";
+                $nonce = "_wp_nonce_{$field_slug}";
+                (match ($type) {
+                    CustomField::TEXT => self::createTextField($field_slug, $id, $name, $nonce),
+                    CustomField::TEXTAREA => self::createTextAreaField($field_slug, $id, $name, $nonce),
+                    CustomField::INTEGER => self::createIntegerField($field_slug, $id, $name, $nonce),
+                    CustomField::UINTEGER => self::createUnsignedIntegerField($field_slug, $id, $name, $nonce),
+                    CustomField::FLOAT => self::createFloatField($field_slug, $id, $name, $nonce),
+                    CustomField::UFLOAT => self::createUnsignedFloatField($field_slug, $id, $name, $nonce),
+                    CustomField::BOOL => self::createBoolField($field_slug, $id, $name, $nonce),
+                    CustomField::DATE => self::createDateField($field_slug, $id, $name, $nonce),
+                    CustomField::TIME => self::createTimeField($field_slug, $id, $name, $nonce),
+                    CustomField::DATETIME => self::createDateTimeField($field_slug, $id, $name, $nonce),
+                    default => self::createTextField($field_slug, $id, $name, $nonce),
+                })();
+                echo <<<EOM
+        </label>
+    </div>
+</fieldset>
+EOM;
+            }
+        }, 10, 2);
     }
 
     private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
