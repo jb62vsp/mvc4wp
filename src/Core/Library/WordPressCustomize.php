@@ -80,12 +80,25 @@ final class WordPressCustomize
                 'public' => true, // wordpress default: false
                 'show_in_rest' => false, // wordpress default: true
                 'menu_position' => 5, // wordpress default: null
-                'supports' => ['title'], // wordpress default: title, editor
+                'supports' => false, // wordpress default: title, editor
                 'taxonomies' => ['category', 'post_tag'], // wordpress default: []
             ];
             $args = array_merge($default, $attr->args);
             add_action('init', function () use ($slug, $args) {
                 register_post_type($slug, $args);
+                add_filter('manage_posts_columns', function ($columns) use ($slug, $args) {
+                    global $post_type;
+                    if ($post_type === $slug) {
+                        $requires = array_merge(['cb', 'title', 'date'], is_array($args['supports']) ? $args['supports'] : []);
+                        $result = [];
+                        foreach ($requires as $require) {
+                            $result[$require] = $columns[$require];
+                        }
+                        return $result;
+                    } else {
+                        return $columns;
+                    }
+                });
             });
             self::$registered_posts[$slug] = true;
         }
