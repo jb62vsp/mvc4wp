@@ -80,7 +80,7 @@ final class WordPressCustomize
                 'public' => true, // wordpress default: false
                 'show_in_rest' => false, // wordpress default: true
                 'menu_position' => 5, // wordpress default: null
-                'supports' => false, // wordpress default: title, editor
+                'supports' => ['cb', 'title', 'date'], // wordpress default: title, editor
                 'taxonomies' => ['category', 'post_tag'], // wordpress default: []
             ];
             $args = array_merge($default, $attr->args);
