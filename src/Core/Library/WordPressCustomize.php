@@ -340,7 +340,8 @@ final class WordPressCustomize
 
         add_action('manage_' . $post_slug . '_posts_custom_column', function ($column, $post_id) use ($field_slug) {
             if ($column === $field_slug) {
-                echo get_post_meta($post_id, $column, true);
+                $raw_value = get_post_meta($post_id, $column, true);
+                echo "<span class='raw_value'>{$raw_value}</span>";
             }
         }, 10, 2);
 
@@ -395,7 +396,7 @@ jQuery(document).ready(function($){
         editor.apply(this, arguments);
         const post_id = typeof(id) == 'object' ? parseInt(this.getId(id)) : 0;
         if(post_id != 0){
-            $('#edit-' + post_id).find('[name="{$column_name}_name"]').val($('#post-' + post_id).find('.column-{$column_name}').text());
+            $('#edit-' + post_id).find('[name="{$column_name}_name"]').val($('#post-' + post_id).find('.column-{$column_name} .raw_value').text());
         }
     }
 });
