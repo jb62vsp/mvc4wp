@@ -10,13 +10,13 @@ use Mvc4Wp\Core\Service\App;
 <section id='debug' class='dark'>
     <div class='debug-container'>
         <span class="debug-toggle-area debug-show-toggle-area">
-            <input type='checkbox' id='debug-show-toggle' class='debug-toggle-checkbox' checked>
+            <input type='checkbox' id='debug-show-toggle' class='debug-toggle-checkbox'>
             <label for='debug-show-toggle' class='debug-toggle-button debug_clickable'>
                 <i title="Debug console toggle" class="debug-icon"></i>
             </label>
         </span>
         <span class="debug-toggle-area debug-view-toggle-area">
-            <input type='checkbox' id='debug-view-toggle' class='debug-toggle-checkbox' checked>
+            <input type='checkbox' id='debug-view-toggle' class='debug-toggle-checkbox'>
             <label for='debug-view-toggle' class='debug-toggle-button'>
                 <i title="Debug view toggle" class="debug-icon"></i>
             </label>
