@@ -180,4 +180,71 @@ class DefaultApplication implements ApplicationInterface
             debug_view();
         }
     }
+
+    public function directRun(string $controller_class, string $action = '', array $args = []): void
+    {
+        try {
+            Helper::load('NoDebug');
+
+            $request_method = strtoupper($_SERVER['REQUEST_METHOD']);
+            if (isset($_POST['_method'])) {
+                $request_method = strtoupper($_POST['_method']);
+            } elseif (isset($_POST['_METHOD'])) {
+                $request_method = strtoupper($_POST['_METHOD']);
+            }
+
+            debug_add('route', [
+                'routes' => '',
+                'method' => $request_method,
+                'uri' => $_SERVER['REQUEST_URI'],
+                'info' => [],
+                'route' => [],
+            ]);
+
+            if (!class_exists($controller_class)) {
+                throw new ApplicationException(sprintf('The class "%s" not exist.', $controller_class));
+            }
+
+            /** @var ControllerInterface $controller */
+            $controller = new $controller_class($this->config());
+            $this->_controller = $controller;
+            if (!method_exists($controller, $action)) {
+                throw new ApplicationException(sprintf('The method "%s::%s" not exist.', $controller_class, $action));
+            }
+
+            if (method_exists($controller, 'init')) {
+                Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $controller_class . '::init', $args);
+                $controller->init($args);
+            }
+
+            Logging::get('core')->debug($_SERVER['REQUEST_URI'] . ' => ' . $controller_class . '::' . $action, $args);
+            $controller->{$action}($args);
+        } catch (ApplicationException $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->critical($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+        } catch (Exception $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->alert($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+        } catch (Error $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->emergency($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+        } catch (Throwable $ex) {
+            debug_add('error', ['exception' => $ex]);
+            Logging::get('core')->emergency($ex->getMessage(), [$ex]);
+            $error_handler = $this->errorHandler(HttpStatus::INTERNAL_SERVER_ERROR);
+            $error_handler->init([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+            $error_handler->index([HttpStatus::INTERNAL_SERVER_ERROR, $ex]);
+        } finally {
+            debug_view();
+        }
+    }
 }
