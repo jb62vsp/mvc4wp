@@ -176,7 +176,7 @@ final class WordPressCustomize
         }
     }
 
-    public static function changeLoginUrl(string $controller_class, string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $redirect_uri = '/'): void
+    public static function changeLoginUrl(string $controller_class,  string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $reset_password_action = 'reset_password', string $lost_password_action = 'lost_password', string $redirect_uri = '/'): void
     {
         add_action('login_init', function () use ($controller_class) {
             $uri = $_SERVER['REQUEST_URI'];
@@ -187,31 +187,41 @@ final class WordPressCustomize
         });
         add_action('template_redirect', function () use ($controller_class, $login_action) {
             if ($_SERVER["REQUEST_URI"] === '/' . $login_action) {
-                App::get()->router()->GET('/' . $login_action, [$controller_class]);
-                App::get()->router()->POST('/' . $login_action, [$controller_class, $login_action]);
-                App::get()->run();
+                App::do($controller_class, $login_action);
             }
         });
-        add_filter('login_redirect', function () use ($redirect_uri) {
-            return $redirect_uri;
+        add_filter('wp_login_errors', function ($errors) use ($controller_class, $error_action) {
+            App::do($controller_class, $error_action, [$errors]);
         });
-        add_filter('site_url', function ($url, $path) use ($login_action, $logout_action) {
-            if (str_contains($path, 'wp-login.php?action=logout')) {
-                $url = '/' . $logout_action;
+        add_filter('site_url', function ($url, $path) use ($login_action, $logout_action, $reset_password_action) {
+            if (str_contains($path, 'action=rp')) {
+                $p = explode('?', $path);
+                if ($p[0] === 'wp-login.php') {
+                    $list = explode('&', $p[1]);
+                    $params = [];
+                    foreach ($list as $item) {
+                        $i = explode('=', $item);
+                        $params[$i[0]] = $i[1];
+                    }
+                    $url = site_url("/{$reset_password_action}/{$params['login']}/{$params['key']}");
+                }
+            } elseif (str_contains($path, 'wp-login.php?action=logout')) {
+                $url = site_url('/') . $logout_action;
             } elseif (str_contains($path, 'wp-login.php')) {
-                $url = '/' . $login_action;
+                $url = site_url('/') . $login_action;
             }
             return $url;
         }, 10, 2);
-        add_filter('wp_redirect', function ($location) use ($controller_class) {
+    }
+
+    public static function changeAdminUrl(string $controller_class, string $action): void
+    {
+        // TODO
+        add_filter('wp_redirect', function ($location) use ($controller_class, $action): mixed {
             if (str_contains($location, 'wp-admin') && is_null(UserEntity::current())) {
-                $controller = new $controller_class(App::get()->config());
-                $controller->notFound()->done();
+                App::do($controller_class, $action);
             }
             return $location;
-        });
-        add_filter('wp_login_errors', function ($errors) use ($error_action) {
-            App::get()->controller()->{$error_action}([$errors]);
         });
     }
 
