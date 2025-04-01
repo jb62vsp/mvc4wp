@@ -64,7 +64,7 @@ final class WordPressCustomize
             $slug = $tax_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
                 $callback = self::createCustomTaxonomyAdminField($type, $field_slug, $title);
-                self::addTaxonomyCustomField($slug, $tax_slug, $field_slug, $title, $callback);
+                self::addTaxonomyCustomField($type, $slug, $tax_slug, $field_slug, $title, $callback);
                 self::$registered_fields[$slug] = true;
             }
         }
@@ -431,7 +431,7 @@ EOM;
         }, 10, 2);
     }
 
-    private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
+    private static function addTaxonomyCustomField(string $type, string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
     {
         $name = $field_slug . '_name';
         $nonce = '_wp_nonce_' . $field_slug;
@@ -467,6 +467,68 @@ EOM;
             $value = esc_attr($_POST[$name]);
             update_term_meta($term_id, $field_slug, $value);
         });
+
+        add_filter("manage_edit-{$tax_slug}_columns", function ($columns) use ($field_slug, $title) {
+            $columns[$field_slug] = $title;
+            return $columns;
+        });
+        add_filter("manage_{$tax_slug}_custom_column", function ($_unuse, $column, $term_id) use ($field_slug) {
+            if ($column === $field_slug) {
+                $raw_value = get_term_meta($term_id, $column, true);
+                echo "<span class='raw_value'>{$raw_value}</span>";
+            }
+        }, 10, 3);
+
+        add_action('manage_edit-' . $tax_slug . '_sortable_columns', function ($columns) use ($field_slug) {
+            $columns[$field_slug] = $field_slug;
+            return $columns;
+        });
+
+        add_action('pre_get_terms', function ($wp_term) use ($tax_slug, $field_slug, $type): void {
+            if (is_admin() && !is_null($wp_term->query_vars['taxonomy']) && in_array($tax_slug, $wp_term->query_vars['taxonomy']) && $wp_term->query_vars['orderby'] === $field_slug) {
+                $custom = [];
+                $custom['orderby'] = match ($type) {
+                    CustomField::TEXT => 'meta_value',
+                    CustomField::TEXTAREA => 'meta_value',
+                    CustomField::INTEGER => 'meta_value_num',
+                    CustomField::UINTEGER => 'meta_value_num',
+                    CustomField::FLOAT => 'meta_value_num',
+                    CustomField::UFLOAT => 'meta_value_num',
+                    CustomField::BOOL => 'meta_value',
+                    CustomField::DATE => 'meta_value',
+                    CustomField::TIME => 'meta_value',
+                    CustomField::DATETIME => 'meta_value',
+                    default => 'meta_value',
+                };
+                $custom['meta_key'] = $field_slug;
+                $wp_term->meta_query->parse_query_vars(array_merge($wp_term->query_vars, $custom));
+            }
+        });
+
+        add_action('quick_edit_custom_box', function ($column_name, $post_type, $taxonomy) use ($tax_slug, $field_slug, $title, $type): void {
+            if ($tax_slug === $taxonomy && $field_slug === $column_name) {
+                echo <<<EOM
+<script>
+jQuery(document).ready(function($){
+    const editor = inlineEditTax.edit;
+    inlineEditTax.edit = function(id) {
+        editor.apply(this, arguments);
+        const term_id = typeof(id) == 'object' ? parseInt(this.getId(id)) : 0;
+        if(term_id != 0){
+            $('#edit-' + term_id).find('[name="{$column_name}_name"]').val($('#tag-' + term_id).find('.column-{$column_name} .raw_value').text());
+        }
+    }
+});
+</script>
+EOM;
+                $id = $field_slug;
+                $name = "{$field_slug}_name";
+                $nonce = "_wp_nonce_{$field_slug}";
+                echo '<fieldset>';
+                self::createTaxTextField($field_slug, $title, $id, $name, $nonce)[2]($tax_slug);
+                echo '</fieldset>';
+            }
+        }, 10, 3);
     }
 
     private static function createTextField(string $field_slug, string $id, string $name, string $nonce): callable
@@ -634,6 +696,17 @@ EOM;
                 echo "<td><input type='text' id='{$id}'  name='{$name}' value='{$value}' size='40'></td>";
                 echo "</tr>";
             },
+            function () use ($field_slug, $title, $id, $name, $nonce) {
+                wp_nonce_field('wp-nonce-key', $nonce);
+                echo <<<EOM
+<div class="inline-edit-col">
+    <label>
+        <span class="title">{$title}</span>
+        <span class="input-text-wrap"><input type="text" id="{$id}" name="{$name}" class=""></span>
+    </label>
+</div>
+EOM;
+            }
         ];
     }
 }
