@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Mvc4Wp\Core\Model;
 
 use Mvc4Wp\Core\Library\Castable;
@@ -69,8 +72,28 @@ class PostEntity extends Entity
             $q = $q
                 ->withAny()
                 ->withAutoDraft()
-                ->withTrash()
-            ;
+                ->withTrash();
+        }
+
+        return $q->build()->single();
+    }
+
+    /**
+     * @param string $slug
+     * @param bool $publish_only
+     * @return static|null
+     */
+    public static function findBySlug(int $slug, bool $publish_only = true): static|null
+    {
+        $q = static::find()->bySlug($slug);
+
+        if ($publish_only) {
+            $q = $q->withPublish();
+        } else {
+            $q = $q
+                ->withAny()
+                ->withAutoDraft()
+                ->withTrash();
         }
 
         return $q->build()->single();
