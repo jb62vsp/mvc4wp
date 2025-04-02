@@ -214,11 +214,10 @@ final class WordPressCustomize
         }, 10, 2);
     }
 
-    public static function changeAdminUrl(string $controller_class, string $action): void
+    public static function hideAdminUrl(string $controller_class, string $action): void
     {
-        // TODO
         add_filter('wp_redirect', function ($location) use ($controller_class, $action): mixed {
-            if (str_contains($location, 'wp-admin') && is_null(UserEntity::current())) {
+            if (str_contains($location, 'wp-admin')) {
                 App::do($controller_class, $action);
             }
             return $location;
