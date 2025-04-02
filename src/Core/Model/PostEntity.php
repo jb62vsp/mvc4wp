@@ -83,7 +83,7 @@ class PostEntity extends Entity
      * @param bool $publish_only
      * @return static|null
      */
-    public static function findBySlug(int $slug, bool $publish_only = true): static|null
+    public static function findBySlug(string $slug, bool $publish_only = true): static|null
     {
         $q = static::find()->bySlug($slug);
 
