@@ -29,14 +29,8 @@ final class App
         }
     }
 
-    public static function do(string $class, string $action = '', array $args = []): void
+    public static function do(string $controller_class, string $action = '', array $args = []): void
     {
-        $controller = new $class(self::get()->config());
-        $controller->init($args);
-        if ($action === '') {
-            $controller->index($args);
-        } else {
-            $controller->$action($args);
-        }
+        static::get()->directRun($controller_class, $action, $args);
     }
 }

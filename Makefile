@@ -81,6 +81,18 @@ baseline: vendor_dev #: generate phpstan-baseline.neon PHPStan
 	@./vendor/bin/phpstan analyze --generate-baseline --allow-empty-baseline --memory-limit=4G
 
 #
+# watch scss
+#
+
+.PHONY: watch_css
+watch_css: #: watch stylesheets and recompile when they change
+	@sass -q --watch scss:css
+
+.PHONY: watch_mincss
+watch_mincss: #: watch stylesheets and compressed recompile when they change
+	@sass -q --style=compressed --watch scss:css
+
+#
 # help
 #
 

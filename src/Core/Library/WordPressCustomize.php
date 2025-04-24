@@ -64,7 +64,7 @@ final class WordPressCustomize
             $slug = $tax_slug . '_' . $field_slug;
             if (!array_key_exists($slug, self::$registered_fields)) {
                 $callback = self::createCustomTaxonomyAdminField($type, $field_slug, $title);
-                self::addTaxonomyCustomField($slug, $tax_slug, $field_slug, $title, $callback);
+                self::addTaxonomyCustomField($type, $slug, $tax_slug, $field_slug, $title, $callback);
                 self::$registered_fields[$slug] = true;
             }
         }
@@ -80,12 +80,25 @@ final class WordPressCustomize
                 'public' => true, // wordpress default: false
                 'show_in_rest' => false, // wordpress default: true
                 'menu_position' => 5, // wordpress default: null
-                'supports' => ['title'], // wordpress default: title, editor
+                'supports' => ['cb', 'title', 'date'], // wordpress default: title, editor
                 'taxonomies' => ['category', 'post_tag'], // wordpress default: []
             ];
             $args = array_merge($default, $attr->args);
             add_action('init', function () use ($slug, $args) {
                 register_post_type($slug, $args);
+                add_filter('manage_posts_columns', function ($columns) use ($slug, $args) {
+                    global $post_type;
+                    if ($post_type === $slug) {
+                        $requires = array_merge(['cb', 'title', 'date'], is_array($args['supports']) ? $args['supports'] : []);
+                        $result = [];
+                        foreach ($requires as $require) {
+                            $result[$require] = $columns[$require];
+                        }
+                        return $result;
+                    } else {
+                        return $columns;
+                    }
+                });
             });
             self::$registered_posts[$slug] = true;
         }
@@ -163,7 +176,7 @@ final class WordPressCustomize
         }
     }
 
-    public static function changeLoginUrl(string $controller_class, string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $redirect_uri = '/'): void
+    public static function changeLoginUrl(string $controller_class,  string $login_action = 'login', string $logout_action = 'logout', string $error_action = 'error', string $reset_password_action = 'reset_password', string $lost_password_action = 'lost_password', string $redirect_uri = '/'): void
     {
         add_action('login_init', function () use ($controller_class) {
             $uri = $_SERVER['REQUEST_URI'];
@@ -174,31 +187,40 @@ final class WordPressCustomize
         });
         add_action('template_redirect', function () use ($controller_class, $login_action) {
             if ($_SERVER["REQUEST_URI"] === '/' . $login_action) {
-                App::get()->router()->GET('/' . $login_action, [$controller_class]);
-                App::get()->router()->POST('/' . $login_action, [$controller_class, $login_action]);
-                App::get()->run();
+                App::do($controller_class, $login_action);
             }
         });
-        add_filter('login_redirect', function () use ($redirect_uri) {
-            return $redirect_uri;
+        add_filter('wp_login_errors', function ($errors) use ($controller_class, $error_action) {
+            App::do($controller_class, $error_action, [$errors]);
         });
-        add_filter('site_url', function ($url, $path) use ($login_action, $logout_action) {
-            if (str_contains($path, 'wp-login.php?action=logout')) {
-                $url = '/' . $logout_action;
+        add_filter('site_url', function ($url, $path) use ($login_action, $logout_action, $reset_password_action) {
+            if (str_contains($path, 'action=rp')) {
+                $p = explode('?', $path);
+                if ($p[0] === 'wp-login.php') {
+                    $list = explode('&', $p[1]);
+                    $params = [];
+                    foreach ($list as $item) {
+                        $i = explode('=', $item);
+                        $params[$i[0]] = $i[1];
+                    }
+                    $url = site_url("/{$reset_password_action}/{$params['login']}/{$params['key']}");
+                }
+            } elseif (str_contains($path, 'wp-login.php?action=logout')) {
+                $url = site_url('/') . $logout_action;
             } elseif (str_contains($path, 'wp-login.php')) {
-                $url = '/' . $login_action;
+                $url = site_url('/') . $login_action;
             }
             return $url;
         }, 10, 2);
-        add_filter('wp_redirect', function ($location) use ($controller_class) {
-            if (str_contains($location, 'wp-admin') && is_null(UserEntity::current())) {
-                $controller = new $controller_class(App::get()->config());
-                $controller->notFound()->done();
+    }
+
+    public static function hideAdminUrl(string $controller_class, string $action): void
+    {
+        add_filter('wp_redirect', function ($location) use ($controller_class, $action): mixed {
+            if (str_contains($location, 'wp-admin')) {
+                App::do($controller_class, $action);
             }
             return $location;
-        });
-        add_filter('wp_login_errors', function ($errors) use ($error_action) {
-            App::get()->controller()->{$error_action}([$errors]);
         });
     }
 
@@ -327,7 +349,8 @@ final class WordPressCustomize
 
         add_action('manage_' . $post_slug . '_posts_custom_column', function ($column, $post_id) use ($field_slug) {
             if ($column === $field_slug) {
-                echo get_post_meta($post_id, $column, true);
+                $raw_value = get_post_meta($post_id, $column, true);
+                echo "<span class='raw_value'>{$raw_value}</span>";
             }
         }, 10, 2);
 
@@ -371,9 +394,53 @@ final class WordPressCustomize
 
             return $request;
         });
+
+        add_action('quick_edit_custom_box', function ($column_name, $post_type) use ($post_slug, $field_slug, $title, $type): void {
+            if ($post_slug === $post_type && $field_slug === $column_name) {
+                echo <<<EOM
+<script>
+jQuery(document).ready(function($){
+    const editor = inlineEditPost.edit;
+    inlineEditPost.edit = function(id) {
+        editor.apply(this, arguments);
+        const post_id = typeof(id) == 'object' ? parseInt(this.getId(id)) : 0;
+        if(post_id != 0){
+            $('#edit-' + post_id).find('[name="{$column_name}_name"]').val($('#post-' + post_id).find('.column-{$column_name} .raw_value').text());
+        }
+    }
+});
+</script>
+<fieldset class="inline-edit-col-left">
+    <div class="inline-edit-col">
+        <label>
+            <span class="title">{$title}</span>
+EOM;
+                $id = $field_slug;
+                $name = "{$field_slug}_name";
+                $nonce = "_wp_nonce_{$field_slug}";
+                (match ($type) {
+                    CustomField::TEXT => self::createTextField($field_slug, $id, $name, $nonce),
+                    CustomField::TEXTAREA => self::createTextAreaField($field_slug, $id, $name, $nonce),
+                    CustomField::INTEGER => self::createIntegerField($field_slug, $id, $name, $nonce),
+                    CustomField::UINTEGER => self::createUnsignedIntegerField($field_slug, $id, $name, $nonce),
+                    CustomField::FLOAT => self::createFloatField($field_slug, $id, $name, $nonce),
+                    CustomField::UFLOAT => self::createUnsignedFloatField($field_slug, $id, $name, $nonce),
+                    CustomField::BOOL => self::createBoolField($field_slug, $id, $name, $nonce),
+                    CustomField::DATE => self::createDateField($field_slug, $id, $name, $nonce),
+                    CustomField::TIME => self::createTimeField($field_slug, $id, $name, $nonce),
+                    CustomField::DATETIME => self::createDateTimeField($field_slug, $id, $name, $nonce),
+                    default => self::createTextField($field_slug, $id, $name, $nonce),
+                })();
+                echo <<<EOM
+        </label>
+    </div>
+</fieldset>
+EOM;
+            }
+        }, 10, 2);
     }
 
-    private static function addTaxonomyCustomField(string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
+    private static function addTaxonomyCustomField(string $type, string $slug, string $tax_slug, string $field_slug, string $title, array $callback): void
     {
         $name = $field_slug . '_name';
         $nonce = '_wp_nonce_' . $field_slug;
@@ -409,6 +476,68 @@ final class WordPressCustomize
             $value = esc_attr($_POST[$name]);
             update_term_meta($term_id, $field_slug, $value);
         });
+
+        add_filter("manage_edit-{$tax_slug}_columns", function ($columns) use ($field_slug, $title) {
+            $columns[$field_slug] = $title;
+            return $columns;
+        });
+        add_filter("manage_{$tax_slug}_custom_column", function ($_unuse, $column, $term_id) use ($field_slug) {
+            if ($column === $field_slug) {
+                $raw_value = get_term_meta($term_id, $column, true);
+                echo "<span class='raw_value'>{$raw_value}</span>";
+            }
+        }, 10, 3);
+
+        add_action('manage_edit-' . $tax_slug . '_sortable_columns', function ($columns) use ($field_slug) {
+            $columns[$field_slug] = $field_slug;
+            return $columns;
+        });
+
+        add_action('pre_get_terms', function ($wp_term) use ($tax_slug, $field_slug, $type): void {
+            if (is_admin() && !is_null($wp_term->query_vars['taxonomy']) && in_array($tax_slug, $wp_term->query_vars['taxonomy']) && $wp_term->query_vars['orderby'] === $field_slug) {
+                $custom = [];
+                $custom['orderby'] = match ($type) {
+                    CustomField::TEXT => 'meta_value',
+                    CustomField::TEXTAREA => 'meta_value',
+                    CustomField::INTEGER => 'meta_value_num',
+                    CustomField::UINTEGER => 'meta_value_num',
+                    CustomField::FLOAT => 'meta_value_num',
+                    CustomField::UFLOAT => 'meta_value_num',
+                    CustomField::BOOL => 'meta_value',
+                    CustomField::DATE => 'meta_value',
+                    CustomField::TIME => 'meta_value',
+                    CustomField::DATETIME => 'meta_value',
+                    default => 'meta_value',
+                };
+                $custom['meta_key'] = $field_slug;
+                $wp_term->meta_query->parse_query_vars(array_merge($wp_term->query_vars, $custom));
+            }
+        });
+
+        add_action('quick_edit_custom_box', function ($column_name, $post_type, $taxonomy) use ($tax_slug, $field_slug, $title, $type): void {
+            if ($tax_slug === $taxonomy && $field_slug === $column_name) {
+                echo <<<EOM
+<script>
+jQuery(document).ready(function($){
+    const editor = inlineEditTax.edit;
+    inlineEditTax.edit = function(id) {
+        editor.apply(this, arguments);
+        const term_id = typeof(id) == 'object' ? parseInt(this.getId(id)) : 0;
+        if(term_id != 0){
+            $('#edit-' + term_id).find('[name="{$column_name}_name"]').val($('#tag-' + term_id).find('.column-{$column_name} .raw_value').text());
+        }
+    }
+});
+</script>
+EOM;
+                $id = $field_slug;
+                $name = "{$field_slug}_name";
+                $nonce = "_wp_nonce_{$field_slug}";
+                echo '<fieldset>';
+                self::createTaxTextField($field_slug, $title, $id, $name, $nonce)[2]($tax_slug);
+                echo '</fieldset>';
+            }
+        }, 10, 3);
     }
 
     private static function createTextField(string $field_slug, string $id, string $name, string $nonce): callable
@@ -576,6 +705,17 @@ final class WordPressCustomize
                 echo "<td><input type='text' id='{$id}'  name='{$name}' value='{$value}' size='40'></td>";
                 echo "</tr>";
             },
+            function () use ($field_slug, $title, $id, $name, $nonce) {
+                wp_nonce_field('wp-nonce-key', $nonce);
+                echo <<<EOM
+<div class="inline-edit-col">
+    <label>
+        <span class="title">{$title}</span>
+        <span class="input-text-wrap"><input type="text" id="{$id}" name="{$name}" class=""></span>
+    </label>
+</div>
+EOM;
+            }
         ];
     }
 }

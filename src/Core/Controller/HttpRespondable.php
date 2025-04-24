@@ -22,6 +22,11 @@ trait HttpRespondable
         return $this->Response(HttpStatus::OK);
     }
 
+    public function found(string $url): static
+    {
+        return $this->Response(HttpStatus::FOUND, replace: false, addition: 'Location: ' . $url);
+    }
+
     public function seeOther(string $url): static
     {
         return $this->Response(HttpStatus::SEE_OTHER, replace: false, addition: 'Location: ' . $url);

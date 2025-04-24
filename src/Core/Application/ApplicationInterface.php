@@ -23,4 +23,6 @@ interface ApplicationInterface
     public function router(): RouterInterface;
 
     public function run(): void;
+
+    public function directRun(string $controller_class, string $action = '', array $args = []): void;
 }

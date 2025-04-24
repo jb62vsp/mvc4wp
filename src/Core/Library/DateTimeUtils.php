@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Mvc4Wp\Core\Service\App;
+use Throwable;
 
 final class DateTimeUtils
 {
@@ -86,6 +87,19 @@ final class DateTimeUtils
     }
 
     // convert
+
+    public static function try(DateTimeInterface|string $value): bool
+    {
+        $result = true;
+
+        try {
+            self::datetimeval($value);
+        } catch (Throwable $e) {
+            $result = false;
+        }
+
+        return $result;
+    }
 
     public static function datetimeval(DateTimeInterface|string $value): DateTimeInterface
     {
